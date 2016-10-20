@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.model.afk.infoboard.vo.InfoComment;
 
 @Repository
-public class InfoBoardCommentDao {
+public class InfoBoardCommentDao { 
 
 	public int insertBoardComment(InfoComment vo) {
 		// TODO Auto-generated method stub

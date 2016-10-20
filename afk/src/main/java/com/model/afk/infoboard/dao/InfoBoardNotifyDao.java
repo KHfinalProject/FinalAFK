@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.model.afk.infoboard.vo.InfoNotify;
 
 @Repository
-public class InfoBoardNotifyDao {
+public class InfoBoardNotifyDao { 
 
 	public int insertBoardNotify(InfoNotify vo) {
 		// TODO Auto-generated method stub

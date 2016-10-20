@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.model.afk.infoboard.vo.InfoBoard;
 
-public interface InfoBoardService {
+public interface InfoBoardService { 
 
 	int insertBoard(InfoBoard vo);
 

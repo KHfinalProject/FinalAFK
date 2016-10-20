@@ -4,6 +4,6 @@ import com.model.afk.infoboard.vo.InfoNotify;
 
 public interface InfoBoardNotifyService {
 
-	int insertBoardNotify(InfoNotify vo);
+	int insertBoardNotify(InfoNotify vo); 
 
 }

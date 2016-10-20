@@ -11,7 +11,7 @@ public class InfoBoardPointServiceImpl implements InfoBoardPointService{
 	@Autowired private InfoBoardPointDao dao;
 	
 	@Override
-	public int insertBoardPoint(InfoPoint vo) {
+	public int insertBoardPoint(InfoPoint vo) { 
 		// TODO Auto-generated method stub
 		return dao.insertBoardPoint(vo);
 	}

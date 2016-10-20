@@ -20,7 +20,7 @@ import com.model.afk.infoboard.vo.InfoPoint;
 import com.model.afk.infoboard.vo.InfoReport;
 
 @Controller
-public class InfoBoardController {
+public class InfoBoardController { 
 	 @Autowired private InfoBoardService bsvc;
 	 @Autowired private InfoBoardCommentService bcsvc;
 	 @Autowired private InfoBoardReportService brsvc;

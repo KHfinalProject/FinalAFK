@@ -11,7 +11,7 @@ public class InfoBoardReportServiceImpl implements InfoBoardReportService{
 	@Autowired private InfoBoardReportDao dao;
 	
 	@Override
-	public int insertBoardReport(InfoReport vo) {
+	public int insertBoardReport(InfoReport vo) { 
 		// TODO Auto-generated method stub
 		return dao.insertBoardReport(vo);
 	}

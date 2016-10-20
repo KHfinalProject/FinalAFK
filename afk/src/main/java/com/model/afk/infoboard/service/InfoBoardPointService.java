@@ -4,6 +4,6 @@ import com.model.afk.infoboard.vo.InfoPoint;
 
 public interface InfoBoardPointService {
 
-	int insertBoardPoint(InfoPoint vo);
+	int insertBoardPoint(InfoPoint vo); 
 
 }

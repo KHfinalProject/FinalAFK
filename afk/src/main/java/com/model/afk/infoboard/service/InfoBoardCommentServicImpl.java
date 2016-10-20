@@ -8,7 +8,7 @@ import com.model.afk.infoboard.vo.InfoComment;
 
 @Service
 public class InfoBoardCommentServicImpl implements InfoBoardCommentService{
-	@Autowired private InfoBoardCommentDao dao;
+	@Autowired private InfoBoardCommentDao dao; 
 	
 	@Override
 	public int insertBoardComment(InfoComment vo) {

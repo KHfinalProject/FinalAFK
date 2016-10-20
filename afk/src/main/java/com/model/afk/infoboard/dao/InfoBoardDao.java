@@ -9,7 +9,7 @@ import com.model.afk.infoboard.vo.InfoBoard;
 @Repository
 public class InfoBoardDao {
 
-	public int insertBoard(InfoBoard vo) {
+	public int insertBoard(InfoBoard vo) { 
 		// TODO Auto-generated method stub
 		return 0;
 	}

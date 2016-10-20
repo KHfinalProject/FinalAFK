@@ -12,7 +12,7 @@ public class InfoBoardNotifyServiceImpl implements InfoBoardNotifyService{
 	@Autowired private InfoBoardNotifyDao dao;
 
 	@Override
-	public int insertBoardNotify(InfoNotify vo) {
+	public int insertBoardNotify(InfoNotify vo) { 
 		// TODO Auto-generated method stub
 		return dao.insertBoardNotify(vo);
 	}
