@@ -15,25 +15,25 @@ public class MessageController {
 	@Autowired
 	private MessageService ms;
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String getMsgList(Model model, HttpSession session, int page){
 		//메세지 리스트 불러오는 & 이동 기능
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String getMsgDetail(int mesNo, Model model, HttpSession session){
 		//해당 메세지 디테일 불러오는 기능
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String deleteMsg(int mesNo, HttpSession session){
 		//해당 메세지 삭제하는 기능
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String insertMsg(MessageVO msgvo, Model model, HttpSession session){
 		//메세지 보내는 기능
 		return null;

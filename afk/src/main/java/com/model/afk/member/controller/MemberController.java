@@ -16,27 +16,27 @@ import com.model.afk.member.vo.Member;
 public class MemberController {
 	@Autowired MemberService ms;
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String loginMember(){
 		Member member = ms.loginMember();
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	
 	public String insertMember(){
 		int result = ms.insertMember();
 		return null;
 	} 
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	
 	public String updateMember(){
 		int result = ms.updateMember();
 		return null;
 	} 
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	
 	public String deleteMember(){
 		int result = ms.deleteMember();

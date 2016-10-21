@@ -18,35 +18,35 @@ public class MyPlannerController {
 
 	@Autowired MyPlannerService myplan;
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String connectMyPlanner(Model model, HttpSession session){
 		List<MyPlanner> list = myplan.connectMyPlanner();
 		//마이플래너 리스트 불러와서 마이플래너 페이지로 이동
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String selectMyPlanner(){
 		MyPlanner my = myplan.selectMyPlanner();
 		//마이플래너 객체 불러와서 마이플래너 상세보기 페이지로 이동
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String insertMyPlanner(){
 		int result = myplan.insertMyPlanner();
 		//마이 플래너 저장하기
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String deleteMyPlanner(){
 		int result = myplan.deleteMyPlanner();
 		//마이플래너 삭제하기
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String updateMyPlanner(){
 		int result = myplan.updateMyPlanner();
 		//마이플래너 수정하기

@@ -1,1 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  <configuration>
+  	<typeAliases>
+  		<typeAlias type="com.model.afk.admin.vo.Member" alias="aMember"/>
+  		<typeAlias type="com.model.afk.guide.vo.GuideComment" alias="gCmt"/>
+  		<typeAlias type="com.model.afk.guide.vo.GuideItem" alias="gItem"/>
+  		<!-- <typeAlias type="com.model.afk.infoboard.vo.InfoBoard" alias="InfoBoard"/>
+  		<typeAlias type="com.model.afk.infoboard.vo.InfoComment" alias="InfoCmt"/>
+  		<typeAlias type="com.model.afk.infoboard.vo.InfoPoint" alias="InfoPnt"/>
+  		<typeAlias type="com.model.afk.infoboard.vo.InfoReport" alias="InfoRpt"/> -->
+  		<!-- <typeAlias type="com.model.afk.matching.vo.Matching" alias="Matching"/> -->
+  		<typeAlias type="com.model.afk.member.vo.Member" alias="Member"/>
+  		<typeAlias type="com.model.afk.message.vo.MessageVO" alias="Message"/>
+  		<!-- <typeAlias type="com.model.afk.mypage.vo.MypageVO" alias="Mypage"/> -->
+  		<typeAlias type="com.model.afk.myplanner.vo.MyPlanner" alias="MyPlanner"/>
+  		<typeAlias type="com.model.afk.notice.vo.Notice" alias="Notice"/>
+  		<typeAlias type="com.model.afk.payment.vo.Payment" alias="Payment"/>
+  		<typeAlias type="com.model.afk.reviewboard.vo.Review" alias="Review"/>
+  	</typeAliases>
+  </configuration>

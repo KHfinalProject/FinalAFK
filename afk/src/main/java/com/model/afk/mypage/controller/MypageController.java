@@ -21,37 +21,37 @@ public class MypageController {
 	//@Autowired	private BoardService bs;
 	//@Autowired	private MemberService ms;
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String getMyPlannerList(Model model, HttpSession session){
 		//마이플래너 리스트 불러오는 기능
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String getMyPlannerDetail(MyPlanner mplVo){
 		//마이플래너 디테일 불러오는 기능
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String getMyWishList(Model model, HttpSession session){
 		//가이드위시리스트 불러오는 기능
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String getMyFavoriteList(Model model, HttpSession session){
 		//여행정보 즐겨찾기 불러오는 기능
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String getMyReviewList(Model model, HttpSession session){
 		//내가 쓴 후기 리스트 불러오는 기능
 		return null;
 	}
 	
-	@RequestMapping("")
+	//@RequestMapping("")
 	public String updateMyProfile(Model model, HttpSession session){
 		//내 프로필사진 변경하는 기능
 		return null;

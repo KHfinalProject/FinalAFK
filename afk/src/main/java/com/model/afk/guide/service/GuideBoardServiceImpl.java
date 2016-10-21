@@ -2,8 +2,10 @@ package com.model.afk.guide.service;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.model.afk.guide.dao.GuideBoardDao;
 import com.model.afk.guide.vo.GuideItem;
 
 @Service
@@ -14,7 +16,7 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	
 	@Override
 	public ArrayList<GuideItem> getAllGuides(int page) {
-		return ;
+		return null ;
 	}
 
 	@Override
