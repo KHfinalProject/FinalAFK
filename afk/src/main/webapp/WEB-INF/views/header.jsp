@@ -35,7 +35,7 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="#">
-        <img src="images/logo.png" width="100" height="25" border="0" alt="brand">
+        <img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand">
       </a>
     </div>
 
