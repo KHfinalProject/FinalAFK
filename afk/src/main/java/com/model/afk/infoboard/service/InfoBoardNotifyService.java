@@ -1,9 +1,9 @@
 package com.model.afk.infoboard.service;
 
-import com.model.afk.infoboard.vo.InfoNotify;
+import com.model.afk.infoboard.vo.InfoNotifyVO;
 
 public interface InfoBoardNotifyService {
 
-	int insertBoardNotify(InfoNotify vo); 
+	int insertBoardNotify(InfoNotifyVO vo); 
 
 }

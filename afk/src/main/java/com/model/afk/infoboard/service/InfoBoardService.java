@@ -2,18 +2,18 @@ package com.model.afk.infoboard.service;
 
 import java.util.List;
 
-import com.model.afk.infoboard.vo.InfoBoard;
+import com.model.afk.infoboard.vo.InfoBoardVO;
 
 public interface InfoBoardService { 
 
-	int insertBoard(InfoBoard vo);
+	int insertBoard(InfoBoardVO vo);
 
 	int deleteBoard(int bno);
 
-	List<InfoBoard> getBoardList(int bno);
+	List<InfoBoardVO> getBoardList(int bno);
 
-	int updateBoard(InfoBoard vo);
+	int updateBoard(InfoBoardVO vo);
 
-	InfoBoard getBoardDetail(int bno);
+	InfoBoardVO getBoardDetail(int bno);
 
 }
