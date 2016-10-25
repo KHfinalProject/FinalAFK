@@ -9,7 +9,7 @@ public class Member implements Serializable{
 	
 public Member(){}
 
-public Member(String mb_id, String mb_pwd, String mb_name, String mb_email, String mb_phone) {
+public Member(String mb_id, String mb_pwd, String mb_name,  String mb_email, String mb_phone) {
 	super();
 	this.mb_id = mb_id;
 	this.mb_pwd = mb_pwd;
