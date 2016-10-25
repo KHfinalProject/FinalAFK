@@ -58,7 +58,7 @@
             <label class="col-sm-3 control-label" for="inputName">아이디</label>
           <div class="col-sm-6">
             <input class="form-control" id="inputName" type="text" placeholder="아이디를 입력하세요" name="mb_id" onkeyup="idCheck()" autocomplete="off">
-            <input style="border:none; width:300px; " type="text" name="chekId" readonly id="chekId" class="a1" >
+            <input style="border:none;  width:300px; " type="text" name="chekId" readonly id="chekId" class="a1" >
           </div>
         </div>
         	
