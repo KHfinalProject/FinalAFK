@@ -13,10 +13,7 @@ public class MemberServiceImpl implements MemberService{
 public Member loginMember(){
 	return null;
 }
-@Override
-public int insertMember() {
-		return 0;
-}
+
 @Override
 public int updateMember() {
 	return 0;
@@ -25,5 +22,13 @@ public int updateMember() {
 public int deleteMember() {
 	return 0;
 }
+@Override
+public int insertMember(Member temp) {
+
+	return dao.insertMember(temp);
+}
+
+
+
 
 }
