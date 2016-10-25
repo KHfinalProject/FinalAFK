@@ -1,0 +1,108 @@
+@charset 'utf-8';
+body, div {margin:0; padding:0}
+body {font-family:"맑은 고딕", sans-serif, arial, sans; font-size:20px; color:#000; width:100%; height:100%}
+.clearfix:after {content:""; clear:both; display:block;}
+
+.boardmain {
+	padding:10px;
+
+
+	width:200px;
+}
+.boardcount {
+	float:left;
+}
+.boardreport {
+	float:right;
+}
+
+.boardphoto img {
+	width:100%;
+	height:180px;
+}
+
+.boardstar {
+    width: 80px;
+    height: 40px;
+
+    float: left;
+    position: absolute;
+    top: 170px;
+    color: red;
+}
+.boardinfo {
+    width: 60px;
+    height: 45px;
+
+    float: left;
+
+}
+.boardname {
+    width: 60px;
+    height: 22px;
+ 
+    float: left;
+    position: absolute;
+    bottom: -1px;
+}
+.boardtitle {
+    width: 128px;
+    height: 40px;
+ 
+    float: left;
+    position: absolute;
+    left: 75px;
+    text-align: center;
+
+}
+.boardpay {
+    width: 40px;
+    height: 40px;
+
+    float: left;
+    position: absolute;
+    left: 221px;
+	
+}
+.kcol-lg-12 {
+    width: 100%;
+    float: left;
+    padding-left: 195px;
+}
+.bselect {
+	position:relative;
+	float:right;
+	padding-right:220px;
+}
+
+.but {
+	text-align:center;
+}
+.but input {
+	width:500px;
+}
+
+
+@media (min-width: 1200px)
+
+.kcol-lg-12 {
+	padding-left: 195px;
+	text-align:center;
+	position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+	box-sizing: border-box;
+	width:100%;
+	float:left;
+
+}
+.kcol-lg-3 {
+	width:20%;
+	padding:1px;
+	margin:10px;
+    float:left;
+	position:relative;
+	min-height:1px;
+	padding-left:15px;
+	padding-right:15px;
+}
