@@ -3,6 +3,7 @@ package com.model.afk.member.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.model.afk.member.service.MemberService;
 import com.model.afk.member.vo.Member;
+
 
 @Controller
 public class MemberController {
@@ -58,5 +60,14 @@ public class MemberController {
 		int result = ms.deleteMember();
 		return null;
 	} 
-	
+	@RequestMapping(value="/confirmUserId", method=RequestMethod.GET)
+	public String Joine(@RequestParam("mb_id") String Id, HttpServletRequest request){
+	System.out.println(Id);
+	 
+	Member temp = new Member(Id,null,null,null,null);
+	int result = ms.confirmUserId(temp);
+	System.out.println("result ::::::::::::: " + result);
+	request.setAttribute("result", result);
+	return "result";
+	}
 }

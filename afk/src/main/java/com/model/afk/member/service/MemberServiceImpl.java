@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import com.model.afk.member.dao.MemberDao;
 import com.model.afk.member.vo.Member;
 
+
 @Service
 public class MemberServiceImpl implements MemberService{
 
@@ -27,7 +28,10 @@ public int insertMember(Member temp) {
 
 	return dao.insertMember(temp);
 }
-
+public int confirmUserId(Member temp){
+	System.out.println("SI ::::::::::: " + temp);
+	return dao.confirmUserId(temp);
+}
 
 
 

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.model.afk.member.vo.Member;
+
 @Repository
 public class MemberDao {
 	private static final String NAMESPACE = "memberMapper.";
@@ -26,5 +27,9 @@ public class MemberDao {
 	
 	public int deleteMember() {
 			return 0;
+	}
+	public int confirmUserId(Member temp){
+		System.out.println("DAO :::::::::::: " + temp);
+		return sqlSession.selectOne(NAMESPACE+"confirmUserId", temp);
 	}
 }
