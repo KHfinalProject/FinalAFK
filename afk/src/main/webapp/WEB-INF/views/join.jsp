@@ -52,7 +52,7 @@
         <div class="page-header">
     	    <h1 class="h1">회원가입 <small> <img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></small></h1>
         </div>
-        <form class="form-horizontal" action="joinInsert" method="POST" name="inputform">
+        <form class="form-horizontal" action="joinInsert" method="POST" name="inputform" onsubmit="return checking()">
 	
 		<div class="form-group">
             <label class="col-sm-3 control-label" for="inputName">아이디</label>
@@ -72,8 +72,8 @@
           <div class="form-group">
               <label class="col-sm-3 control-label" for="inputPasswordCheck">비밀번호 확인</label>
              <div class="col-sm-6">
-              <input class="form-control" id="inputPasswordCheck" type="password" placeholder="비밀번호 확인">
-                <p class="help-block"></p>
+              <input class="form-control" id="inputPasswordCheck" type="password" placeholder="비밀번호 확인" name="mb_pwd1" onkeyup="pwdCheck1()">
+              <input style="border:none; width:300px; " type="text" name="chekPwd1" id="chekPwd1" readonly id="chekPwd1"  >
              </div>
           </div>
        	<div class="form-group">
@@ -86,7 +86,7 @@
 		  <div class="form-group">
           <label class="col-sm-3 control-label" for="inputEmail">이메일</label>
         <div class="col-sm-6">
-          <input class="form-control" id="inputEmail" type="email" placeholder="이메일" name="mb_email">
+          <input class="form-control" id="inputEmail" type="email" placeholder="이메일"  name="mb_email">
 		     <p class="help-block"></p>
         </div>
         </div>
@@ -94,7 +94,7 @@
          <label class="col-sm-3 control-label" for="inputNumber">휴대폰번호</label>
             <div class="col-sm-6">
                 
-                  <input type="tel" class="form-control" id="inputNumber" placeholder="- 없이 입력해 주세요" / name="mb_phone">
+                  <input type="tel" class="form-control" id="inputNumber" placeholder="- 없이 입력해 주세요" name="mb_phone">
                     <p class="help-block"></p>
                 </div>
               </div>
