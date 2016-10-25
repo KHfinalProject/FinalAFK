@@ -3,9 +3,9 @@ package com.model.afk.infoboard.vo;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class InfoNotify implements Serializable{
+public class InfoNotifyVO implements Serializable{
 	
-	public InfoNotify(){}
+	public InfoNotifyVO(){}
 	
 	private int nbno;
 	private String nwriter;
@@ -25,7 +25,7 @@ public class InfoNotify implements Serializable{
 	public String toString() {
 		return "InfoNotify [nbno=" + nbno + ", nwriter=" + nwriter + "]";
 	}
-	public InfoNotify(int nbno, String nwriter) {
+	public InfoNotifyVO(int nbno, String nwriter) {
 		super();
 		this.nbno = nbno;
 		this.nwriter = nwriter;

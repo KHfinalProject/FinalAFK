@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model.afk.infoboard.dao.InfoBoardCommentDao;
-import com.model.afk.infoboard.vo.InfoComment;
+import com.model.afk.infoboard.vo.InfoCommentVO;
 
 @Service
 public class InfoBoardCommentServicImpl implements InfoBoardCommentService{
 	@Autowired private InfoBoardCommentDao dao; 
 	
 	@Override
-	public int insertBoardComment(InfoComment vo) {
+	public int insertBoardComment(InfoCommentVO vo) {
 		// TODO Auto-generated method stub
 		return dao.insertBoardComment(vo);
 	}
@@ -23,7 +23,7 @@ public class InfoBoardCommentServicImpl implements InfoBoardCommentService{
 	}
 
 	@Override
-	public int updateBoardComment(InfoComment vo) {
+	public int updateBoardComment(InfoCommentVO vo) {
 		// TODO Auto-generated method stub
 		return dao.updateBoardComment(vo);
 	}

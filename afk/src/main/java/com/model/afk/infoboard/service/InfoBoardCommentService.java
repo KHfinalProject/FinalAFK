@@ -1,13 +1,13 @@
 package com.model.afk.infoboard.service;
 
-import com.model.afk.infoboard.vo.InfoComment;
+import com.model.afk.infoboard.vo.InfoCommentVO;
 
 public interface InfoBoardCommentService { 
 
-	int insertBoardComment(InfoComment vo);
+	int insertBoardComment(InfoCommentVO vo);
 
 	int deleteBoardComment(int cno);
 
-	int updateBoardComment(InfoComment vo);
+	int updateBoardComment(InfoCommentVO vo);
 
 }

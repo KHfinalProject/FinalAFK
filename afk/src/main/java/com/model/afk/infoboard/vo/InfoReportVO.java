@@ -3,9 +3,9 @@ package com.model.afk.infoboard.vo;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class InfoReport implements Serializable{
+public class InfoReportVO implements Serializable{
 
-	public InfoReport(){}
+	public InfoReportVO(){}
 	
 	private int fno;
 	private String fwriter;
@@ -28,7 +28,7 @@ public class InfoReport implements Serializable{
 	public void setFbno(int fbno) {
 		this.fbno = fbno;
 	}
-	public InfoReport(int fno, String fwriter, int fbno) {
+	public InfoReportVO(int fno, String fwriter, int fbno) {
 		super();
 		this.fno = fno;
 		this.fwriter = fwriter;

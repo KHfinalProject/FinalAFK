@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.sql.Date;
 
 @SuppressWarnings("serial")
-public class InfoComment implements Serializable{
+public class InfoCommentVO implements Serializable{
 	
-	public InfoComment(){}
+	public InfoCommentVO(){}
 	
 	private int cno;
 	private int bno;
@@ -43,7 +43,7 @@ public class InfoComment implements Serializable{
 	public void setCdate(Date cdate) {
 		this.cdate = cdate;
 	}
-	public InfoComment(int cno, int bno, String content, String writeid, Date cdate) {
+	public InfoCommentVO(int cno, int bno, String content, String writeid, Date cdate) {
 		super();
 		this.cno = cno;
 		this.bno = bno;

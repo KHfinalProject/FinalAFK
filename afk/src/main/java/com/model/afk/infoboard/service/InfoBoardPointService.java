@@ -1,9 +1,9 @@
 package com.model.afk.infoboard.service;
 
-import com.model.afk.infoboard.vo.InfoPoint;
+import com.model.afk.infoboard.vo.InfoPointVO;
 
 public interface InfoBoardPointService {
 
-	int insertBoardPoint(InfoPoint vo); 
+	int insertBoardPoint(InfoPointVO vo); 
 
 }

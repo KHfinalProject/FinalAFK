@@ -3,9 +3,9 @@ package com.model.afk.infoboard.vo;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class InfoPoint implements Serializable{
+public class InfoPointVO implements Serializable{
 
-	public InfoPoint(){}
+	public InfoPointVO(){}
 	
 	private int pbno;
 	private int point;
@@ -32,7 +32,7 @@ public class InfoPoint implements Serializable{
 	public String toString() {
 		return "InfoPoint [pbno=" + pbno + ", point=" + point + ", pwriter=" + pwriter + "]";
 	}
-	public InfoPoint(int pbno, int point, String pwriter) {
+	public InfoPointVO(int pbno, int point, String pwriter) {
 		super();
 		this.pbno = pbno;
 		this.point = point;

@@ -3,9 +3,9 @@ package com.model.afk.infoboard.vo;
 import java.sql.Date;
 
 @SuppressWarnings("serial")
-public class InfoBoard implements java.io.Serializable{
+public class InfoBoardVO implements java.io.Serializable{
 	
-	public InfoBoard(){}
+	public InfoBoardVO(){}
 	
 	private int bno;
 	private String btitle;
@@ -98,7 +98,7 @@ public class InfoBoard implements java.io.Serializable{
 	public void setBmap(String bmap) {
 		this.bmap = bmap;
 	}
-	public InfoBoard(int bno, String btitle, String bcontent, String bwrite, Date bdate, String blocL, String blocM,
+	public InfoBoardVO(int bno, String btitle, String bcontent, String bwrite, Date bdate, String blocL, String blocM,
 			String blocS, int bcount, int bpoint, int bnotify, int bprice, String bmap) {
 		super();
 		this.bno = bno;
@@ -117,7 +117,7 @@ public class InfoBoard implements java.io.Serializable{
 	}
 	@Override
 	public String toString() {
-		return "InfoBoard [bno=" + bno + ", btitle=" + btitle + ", bcontent=" + bcontent + ", bwrite=" + bwrite
+		return "InfoBoardVO [bno=" + bno + ", btitle=" + btitle + ", bcontent=" + bcontent + ", bwrite=" + bwrite
 				+ ", bdate=" + bdate + ", blocL=" + blocL + ", blocM=" + blocM + ", blocS=" + blocS + ", bcount="
 				+ bcount + ", bpoint=" + bpoint + ", bnotify=" + bnotify + ", bprice=" + bprice + ", bmap=" + bmap
 				+ "]";
