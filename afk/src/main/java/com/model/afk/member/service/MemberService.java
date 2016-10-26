@@ -4,7 +4,7 @@ import com.model.afk.member.vo.Member;
 
 
 public interface MemberService {
-	public Member loginMember();
+	public Member loginMember(Member member);
  
 	public int insertMember(Member temp);
 	

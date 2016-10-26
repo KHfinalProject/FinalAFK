@@ -13,8 +13,8 @@ public class MemberDao {
 	
 	@Autowired
 	private SqlSession sqlSession;
-	public Member loginMember(){
-		return null;
+	public Member loginMember(Member umember){
+		return sqlSession.selectOne(NAMESPACE+"selectid", umember);
 	}
 	
 	public int insertMember(Member temp) {

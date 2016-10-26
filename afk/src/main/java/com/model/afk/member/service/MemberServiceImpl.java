@@ -11,8 +11,8 @@ public class MemberServiceImpl implements MemberService{
 
 @Autowired MemberDao dao;
 @Override
-public Member loginMember(){
-	return null;
+public Member loginMember(Member umember){
+	return dao.loginMember(umember);
 }
 
 @Override

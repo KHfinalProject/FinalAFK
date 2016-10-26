@@ -1,4 +1,4 @@
-package com.model.afk.member.controller;
+   package com.model.afk.member.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +21,32 @@ import com.model.afk.member.vo.Member;
 public class MemberController {
 	@Autowired MemberService ms;
 	
-	//@RequestMapping("")
-	public String loginMember(){
-		Member member = ms.loginMember();
-		return null;
+	@RequestMapping(value="/mlogin", method= RequestMethod.POST)
+	public String loginMember(@RequestParam("mb_id") String Id,
+							  @RequestParam("mb_pwd") String pwd,
+							  HttpSession session){	
+		Member member = ms.loginMember(new Member(Id,pwd,null,null,null));
+		System.out.println(member);
+		if(member != null){
+			session.setAttribute("loginUser", member);
+			return "header";
+		}else{
+			return "fail";
+		}
+}
+
+	@RequestMapping(value="/loginView",method=RequestMethod.GET)
+	public String insetView(){
+		
+		return "login";
 	}
 	@RequestMapping(value="/joinInsertView",method=RequestMethod.GET)
 	public String insertView(){
 		
 		return "join";
 	}
+	
+	
 	@RequestMapping(value="/joinInsert", method= RequestMethod.POST )
 	public String insertMember(@RequestParam("mb_id") String Id,
 							   @RequestParam("mb_pwd") String pwd,
