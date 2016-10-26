@@ -1,0 +1,146 @@
+@charset 'utf-8';
+body, div {margin:0; padding:0; display:block;}
+body {font-family:"맑은 고딕", sans-serif, arial, sans; font-size:20px; color:#000; width:100%; height:100%}
+.clearfix:after {content:""; clear:both; display:block;}
+
+.main1 {
+	position:relative;
+}
+.header-container {
+	height:510px;
+	position:relative;
+    overflow: hidden;
+	transform-style: preserve-3d;
+
+}
+.header-container .bg-img {
+	height:101%;
+}
+.header-container .bg-img img{
+	width:100%;
+}
+.header-container .bg-blur {
+	position:absolute;
+	left: -2px;
+	top: -2px;
+	right: -2px;
+	bottom: -2px;
+	background-position:center center;
+	background-size:cover;
+	background-repeat:no-repeat;
+	margin:2px;
+
+	-webkit-filter: blur(2px);
+}
+.header-container .content10 {
+	top: 160px;
+	position:absolute;
+	left:0px;
+	right:0px;
+	z-index:20px;
+	color: white;
+	text-align:center;
+	width: 100%;
+	border:1px solid black;
+	
+}
+.header-container .title-box {
+	display:inline-block;
+	text-align:center;
+	border:1px solid blue;
+	width:664px;
+}
+.title-box .text-lg {
+	margin-top:15px;
+	font-size:50px;
+	margin-bottom:70px;
+}
+.item-inline {
+	display:inline-block;
+}
+.header-container .info-box {
+	margin-top:140px;
+	text-align:center;
+	cursor:default;
+	margin:0 20px;	
+}
+.info-box .label {
+    height: 30px;
+    border-radius: 4px;
+    background-color: rgba(255,255,255,0.8);
+    color: #616161;
+    line-height: 30px;
+    padding: 0 10px;
+    font-size: 20px;
+	margin-left: 5px;
+	
+    text-align: center;
+    white-space: nowrap;
+}
+.boo-bar {
+	border: 1px solid #e0e0e0;
+    border-top: none;
+    height: 60px;
+	display:inline-block;
+	text-align:center;
+    font-size: 14px;
+    color: #757575;
+
+}
+.boo-bar .boo-center {
+	display:inline-block;
+	text-align:center;
+	width:680px;
+	border: 1px solid yellow;
+	height:100%;
+	margin-left:460px;
+}
+.boo-center .report {
+	display:inline-block;
+	float:left;
+}
+.boo-center .pay {
+	display:inline-block;
+	float:right;	
+}
+.detail-board {
+	width:100%;
+	height:100%;
+	border:1px solid red;
+	display:inline-block;
+	text-align:center;
+}
+.detail-board .detail-content {
+	width:980px;
+	margin:20 20px;
+	border:1px solid black;
+	display:inline-block;
+	text-align:left;
+}
+.detail-board .detail-view {
+	width:980px;
+	height:500px;
+	margin:0 20px;
+	border: 1px solid green;
+
+	display:inline-block;
+	text-align:center;
+}
+.detail-board .detail-star {
+	width:980px;
+	height:50px;
+	margin:0 20px;
+	border: 1px solid blue;
+	display:inline-block;
+	text-align:right;
+
+}
+.detail-board .detail-review {
+	width:980px;
+	height:50px;
+	margin:0 20px;
+	border: 1px solid yellow;
+	display:inline-block;
+	text-align:center;
+
+}

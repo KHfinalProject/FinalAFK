@@ -25,7 +25,13 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
-
+<script>
+	$(document).ready(function(){
+		$('#continent-btn').click(function(){
+			$('#continent-menu').toggle();
+		});
+	});
+</script>
   <body>
 	<!-- Start -->
 	<div>
@@ -34,6 +40,53 @@
 			<h1>header</h1>
 		</div>
 		<!-- header end -->
+		<nav class="nabar-container" style="display:block;">
+			<ul class="nav nav-pills">
+				<li class="nav-item nav-arrow" id="continent-btn">지역</li>
+				<li class="nav-item nav-arrow">나라</li>
+				<li class="nav-item nav-arrow">도시</li>
+			</ul>
+			<div class="item-container" style="position:absolute; top:106px;">
+				<div class="item-box continent">
+					<ul class="dropdown-menu" id="continent-menu" style="display:none;">
+						<li>
+							<a>
+								<span class="text">아메리카</span>
+							</a>
+						</li>
+						<li>
+							<a>
+								<sapn class="text">유럽</sapn>
+							</a>
+						</li>
+						<li>
+							<a>
+								<sapn class="text">아시아</sapn>
+							</a>
+						</li>
+						<li>
+							<a>
+								<sapn class="text">오세아니아</sapn>
+							</a>
+						</li>
+						<li>
+							<a>
+								<sapn class="text">아프리카</sapn>
+							</a>
+						</li>
+						<li>
+							<a>
+								<sapn class="text">국내</sapn>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="item-box country">
+					
+				</div>
+				<div class="item-box city solo"></div>
+			</div>		
+		</nav>	
 		<!-- img content -->
 		<div class="infolist-img">
 			<h1><img src="/afk/resources/images/infoboard/HongKong2.jpg" width="100%" height="300" border="0" alt=""></h1>

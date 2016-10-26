@@ -52,8 +52,9 @@ public class InfoBoardController {
 		 //게시물수정
 		 return null;
 	 }
-	 public String getBoardDetail(int bno) {
-		 InfoBoardVO board = bsvc.getBoardDetail(bno);
+	 @RequestMapping("detail")
+	 public String getBoardDetail(/*int bno*/) {
+		 /*InfoBoardVO board = bsvc.getBoardDetail(bno);*/
 		 //게시물디테일
 		 return null;
 	 }
