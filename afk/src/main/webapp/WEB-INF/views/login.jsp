@@ -69,7 +69,7 @@
         </div>
 	<div class="form-group">
           <div class="col-sm-12 text-center">
-			<a href= # class="forgat-password">비밀번호를 잊으셨나요?</a>
+			<a href=# class="forgat-id">아이디찾기</a>/<a href= # class="forgat-password">비밀번호 찾기</a>
           </div>
         </div>
 	</form>
