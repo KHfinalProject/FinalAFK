@@ -7,7 +7,7 @@
 
 <title>Insert title here</title>
 <script src="/afk/resources/js/request.js"></script>
-<script src="/afk/resources/js/index.js"></script>
+<script src="/afk/resources/js/join.js"></script>
 <script src="/afk/resources/js/jquery-3.1.0.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -94,7 +94,7 @@
          <label class="col-sm-3 control-label" for="inputNumber">휴대폰번호</label>
             <div class="col-sm-6">
                 
-                  <input type="tel" class="form-control" id="inputNumber" placeholder="- 없이 입력해 주세요" name="mb_phone">
+                  <input type="number" class="form-control" id="inputNumber" placeholder="- 없이 입력해 주세요" name="mb_phone">
                     <p class="help-block"></p>
                 </div>
               </div>

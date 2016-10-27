@@ -7,7 +7,7 @@
 
 <title>Insert title here</title>
 <script src="/afk/resources/js/request.js"></script>
-<script src="/afk/resources/js/index.js"></script>
+<script src="/afk/resources/js/mupdate.js"></script>
 <script src="/afk/resources/js/jquery-3.1.0.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -45,6 +45,7 @@
 </style>
 </head>
 <body>
+
  <article class="container">
 
 
@@ -52,8 +53,7 @@
         <div class="page-header">
     	    <h1 class="h1">회원정보수정 <small> <img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></small></h1>
         </div>
-        <form class="form-horizontal" action="joinInsert" method="POST" name="inputform" onsubmit="return checking()">
-	
+        <form class="form-horizontal" action="joinUpdate" method="POST" name="updateform" onsubmit="return checking()">
 		<div class="form-group">
             <label class="col-sm-3 control-label" for="inputName">아이디</label>
           <div class="col-sm-6">
@@ -94,14 +94,14 @@
          <label class="col-sm-3 control-label" for="inputNumber">휴대폰번호</label>
             <div class="col-sm-6">
                 
-                  <input type="tel" class="form-control" id="inputNumber" placeholder="- 없이 입력해 주세요" name="mb_phone" value="${temp.mb_phone}">
+                  <input type="number" class="form-control" id="inputNumber" placeholder="- 없이 입력해 주세요" name="mb_phone" value="${temp.mb_phone}">
                     <p class="help-block"></p>
                 </div>
               </div>
        
         <div class="form-group">
           <div class="col-sm-12 text-center">
-            <button class="btn btn-primary" type="submit">수정하기<i class="fa fa-check spaceLeft"></i></button>
+            <button class="btn btn-primary" type="button"  onclick="updateCheck()">수정하기<i class="fa fa-check spaceLeft"></i></button>
             <button class="btn btn-danger" type="submit">취소하기<i class="fa fa-times spaceLeft"></i></button>
           </div>
         </div>

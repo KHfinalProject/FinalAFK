@@ -57,7 +57,7 @@
 	<div class="form-group">
             <label class="col-sm-3 control-label" for="inputName">비밀번호</label>
           <div class="col-sm-6">
-            <input class="form-control" id="inputName" type="text" placeholder="비밀번호를 입력하세요" name="mb_pwd">
+            <input class="form-control" id="inputName" type="password" placeholder="비밀번호를 입력하세요" name="mb_pwd">
 			<p class="help-block"></p>
           </div>
         </div>
