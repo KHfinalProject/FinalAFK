@@ -49,40 +49,26 @@
 			<div class="item-container" style="position:absolute; top:106px;">
 				<div class="item-box continent">
 					<ul class="dropdown-menu" id="continent-menu" style="display:none;">
-						<li>
-							<a>
-								<span class="text">아메리카</span>
-							</a>
-						</li>
-						<li>
-							<a>
-								<sapn class="text">유럽</sapn>
-							</a>
-						</li>
-						<li>
-							<a>
-								<sapn class="text">아시아</sapn>
-							</a>
-						</li>
-						<li>
-							<a>
-								<sapn class="text">오세아니아</sapn>
-							</a>
-						</li>
-						<li>
-							<a>
-								<sapn class="text">아프리카</sapn>
-							</a>
-						</li>
-						<li>
-							<a>
-								<sapn class="text">국내</sapn>
-							</a>
-						</li>
+						<li><a><span class="text">아메리카</span></a></li>
+						<li><a><sapn class="text">유럽</sapn></a></li>
+						<li><a><sapn class="text">아시아</sapn></a></li>
+						<li><a><sapn class="text">오세아니아</sapn></a></li>
+						<li><a><sapn class="text">아프리카</sapn></a></li>
+						<li><a><sapn class="text">국내</sapn></a></li>
 					</ul>
 				</div>
-				<div class="item-box country">
-					
+				<div class="item-box country" style="display:block;">
+					<ul class="dropdown-menu" style="width:117px;">
+						<li><a><span class="text">미국</span></a></li>
+						<li><a><span class="text">캐나다</span></a></li>
+						<li><a><span class="text">아르헨티나</span></a></li>
+						<li><a><span class="text">멕시코</span></a></li>
+						<li><a><span class="text">페루</span></a></li>
+						<li><a><span class="text"></span></a></li>
+						<li><a><span class="text"></span></a></li>
+						<li><a><span class="text"></span></a></li>
+						<li><a><span class="text"></span></a></li>
+					</ul>
 				</div>
 				<div class="item-box city solo"></div>
 			</div>		
