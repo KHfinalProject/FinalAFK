@@ -78,15 +78,27 @@ public class MemberController {
 		Member member = ms.updateViewMember((Member)session.getAttribute("loginUser"));
 		
 		model.addAttribute("temp",member);
+		
 		return "mupdate";
 	}
 
 	
-	//@RequestMapping("")
-	
-	public String updateMember(){
-		int result = ms.updateMember();
-		return null;
+	@RequestMapping(value="/joinUpdate", method=RequestMethod.GET)
+	public String updateMember(Model model,
+							   @RequestParam("mb_id") String Id,
+							   @RequestParam("mb_pwd") String pwd,
+							   @RequestParam("mb_email") String email,
+							   @RequestParam("mb_phone") String phone
+							   ){
+		System.out.println("이은호천재");
+		Member temp = new Member(Id,pwd,null,email,phone);
+		
+		int result = ms.updateMember(temp);
+		
+		
+		model.addAttribute("result", result);
+			
+		return "result";
 	} 
 	
 	//@RequestMapping("")
@@ -105,4 +117,5 @@ public class MemberController {
 	request.setAttribute("result", result);
 	return "result";
 	}
+	
 }

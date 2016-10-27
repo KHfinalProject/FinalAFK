@@ -16,8 +16,8 @@ public Member loginMember(Member umember){
 }
 
 @Override
-public int updateMember() {
-	return 0;
+public int updateMember(Member temp) {
+	return dao.updateMember(temp);
 }
 @Override
 public int deleteMember() {

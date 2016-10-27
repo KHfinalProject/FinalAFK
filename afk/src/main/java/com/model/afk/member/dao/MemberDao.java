@@ -21,8 +21,8 @@ public class MemberDao {
 	 return sqlSession.insert(NAMESPACE+"insertMember", temp);
 	}
 	
-	public int updateMember() {
-		return 0;
+	public int updateMember(Member temp) {
+		return sqlSession.update(NAMESPACE+"updateMember", temp);
 	}
 	
 	public int deleteMember() {

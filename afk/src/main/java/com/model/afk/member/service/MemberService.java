@@ -8,7 +8,7 @@ public interface MemberService {
  
 	public int insertMember(Member temp);
 	
-	public int updateMember();
+	public int updateMember(Member temp);
 	
 	public int deleteMember();
 	

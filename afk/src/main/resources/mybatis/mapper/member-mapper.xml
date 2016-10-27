@@ -17,4 +17,9 @@
 		SELECT * FROM MEMBER
 		WHERE MB_ID = #{mb_id}
 	</select>
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER
+		SET  MB_PWD = #{mb_pwd}, MB_EMAIL = #{mb_email}, MB_PHONE = #{mb_phone}
+		WHERE MB_ID = #{mb_id}
+	</update>
 </mapper>
