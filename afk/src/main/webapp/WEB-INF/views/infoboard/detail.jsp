@@ -25,6 +25,11 @@
 
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+<!-- starpoint -->
+<script src="/afk/resources/flag/raty-2.7.0/vendor/jquery.js"></script>
+<script src="/afk/resources/flag/raty-2.7.0/lib/jquery.raty.js"></script>
+<script src="/afk/resources/flag/raty-2.7.0/demo/javascripts/labs.js" type="text/javascript"></script>
  </head>
 
  <body>
@@ -33,6 +38,7 @@
 		header
 	</div>
 	<!-- header end -->
+
 	<div class="main1">
 	<div class="header-container">
 		<div class="bg-blur bg-img">
@@ -41,12 +47,12 @@
 		<div class="content10">
 			<div class="title-box">
 				<div class="text-xs">
-					<div class="rating-box">
+					<div class="score1 rating-box">
+						<!-- <span class="icon">별</span>
 						<span class="icon">별</span>
 						<span class="icon">별</span>
 						<span class="icon">별</span>
-						<span class="icon">별</span>
-						<span class="icon">별</span>
+						<span class="icon">별</span> -->
 					</div>
 					<span>후기 한 개</span>
 				</div>
@@ -105,5 +111,10 @@
 	<div class="ff">
 	<h1>foot</h1>
 	</div>
+	<div class="score1"></div>
+	<script>
+		$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
+		$('.score1').raty({readOnly:true, score:5 });
+	</script>
  </body>
 </html>
