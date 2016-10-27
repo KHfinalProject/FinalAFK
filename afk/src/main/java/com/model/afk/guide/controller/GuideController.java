@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.model.afk.guide.service.GuideBoardService;
@@ -15,12 +16,18 @@ import com.model.afk.guide.service.GuideCommentService;
 import com.model.afk.guide.vo.GuideComment;
 import com.model.afk.guide.vo.GuideItem;
 
+
 @Controller
+@RequestMapping("/guide")
 public class GuideController {
 	
-	@Autowired
-	private GuideBoardService gbs;
-	private GuideCommentService gcs;
+	@Autowired private GuideBoardService gbs;
+	@Autowired private GuideCommentService gcs;
+	
+	@RequestMapping("")
+	public String test(){
+		return "guide/sub";
+	}
 	
 	public String getAllGuides(Model model, int page){
 				
