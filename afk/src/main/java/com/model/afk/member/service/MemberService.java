@@ -13,4 +13,6 @@ public interface MemberService {
 	public int deleteMember();
 	
 	public int confirmUserId(Member temp);
+
+	public Member updateViewMember(Member member);
 }

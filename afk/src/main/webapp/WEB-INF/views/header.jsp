@@ -43,8 +43,8 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
       <c:if test="${loginUser eq null}">
-      	<li><a href="#"><span class="glyphicon glyphicon-log-in" aria-hidden="true"> 로그인</span></a></li>
-      	<li><a href="#">회원가입</a></li>
+      	<li><a href="/afk/loginView"><span class="glyphicon glyphicon-log-in" aria-hidden="true"> 로그인</span></a></li>
+      	<li><a href="/afk/joinInsertView">회원가입</a></li>
       </c:if>
       <c:if test="${!(loginUser eq null)}">
         <li><a href="#"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
@@ -52,11 +52,11 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">${loginUser.mb_id}<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">마이페이지</a></li>
+            <li><a href="/afk/updateView">마이페이지</a></li>
             <li><a href="#">마이플래너</a></li>
             <li><a href="#">공지사항</a></li>
             <li class="divider"></li>
-            <li><a href="#">로그아웃</a></li>
+            <li><a href="/afk/logout">로그아웃</a></li>
       </c:if>
           </ul>
         </li>

@@ -32,4 +32,9 @@ public class MemberDao {
 		System.out.println("DAO :::::::::::: " + temp);
 		return sqlSession.selectOne(NAMESPACE+"confirmUserId", temp);
 	}
+
+	public Member updateViewMember(Member member) {
+		
+		return sqlSession.selectOne(NAMESPACE+"updateView",member);
+	}
 }

@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
 	<select id="selectid" parameterType="Member" resultType="Member">
-		SELECT * FROM MEMBER
+		SELECT MB_ID,MB_NAME,MB_EMAIL,MB_PHONE FROM MEMBER
 		WHERE MB_ID = #{mb_id} AND MB_PWD = #{mb_pwd}	
 	</select>
 	<insert id="insertMember" parameterType="Member">
@@ -12,5 +12,9 @@
 	</insert>
 	<select id="confirmUserId" parameterType="Member" resultType="Integer">
 		SELECT COUNT(*) FROM MEMBER WHERE MB_ID = #{mb_id}
+	</select>
+	<select id="updateView" parameterType="Member" resultType="Member">
+		SELECT * FROM MEMBER
+		WHERE MB_ID = #{mb_id}
 	</select>
 </mapper>

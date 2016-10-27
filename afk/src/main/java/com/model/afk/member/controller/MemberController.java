@@ -24,6 +24,7 @@ public class MemberController {
 	@RequestMapping(value="/mlogin", method= RequestMethod.POST)
 	public String loginMember(@RequestParam("mb_id") String Id,
 							  @RequestParam("mb_pwd") String pwd,
+							
 							  HttpSession session){	
 		Member member = ms.loginMember(new Member(Id,pwd,null,null,null));
 		System.out.println(member);
@@ -31,6 +32,7 @@ public class MemberController {
 			session.setAttribute("loginUser", member);
 			return "header";
 		}else{
+			
 			return "fail";
 		}
 }
@@ -40,6 +42,14 @@ public class MemberController {
 		
 		return "login";
 	}
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public String logout(HttpSession session){
+		if(session != null) {
+			session.invalidate();
+		}
+		return "header";
+	}
+	
 	@RequestMapping(value="/joinInsertView",method=RequestMethod.GET)
 	public String insertView(){
 		
@@ -62,6 +72,15 @@ public class MemberController {
 	}
 		return "header";
 	} 
+	@RequestMapping(value="/updateView", method=RequestMethod.GET)
+	public String updateMemberForm(Model model, HttpSession session) {
+		
+		Member member = ms.updateViewMember((Member)session.getAttribute("loginUser"));
+		
+		model.addAttribute("temp",member);
+		return "mupdate";
+	}
+
 	
 	//@RequestMapping("")
 	

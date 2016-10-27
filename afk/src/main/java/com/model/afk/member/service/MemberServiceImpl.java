@@ -33,6 +33,12 @@ public int confirmUserId(Member temp){
 	return dao.confirmUserId(temp);
 }
 
+@Override
+public Member updateViewMember(Member member) {
+	
+	return dao.updateViewMember(member);
+}
+
 
 
 }
