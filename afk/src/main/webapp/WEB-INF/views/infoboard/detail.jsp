@@ -30,6 +30,11 @@
 <script src="/afk/resources/flag/raty-2.7.0/vendor/jquery.js"></script>
 <script src="/afk/resources/flag/raty-2.7.0/lib/jquery.raty.js"></script>
 <script src="/afk/resources/flag/raty-2.7.0/demo/javascripts/labs.js" type="text/javascript"></script>
+
+<!-- scr -->
+<meta name="author" content="www.mattvarone.com">
+<link rel="stylesheet" media="screen,projection" href="/afk/resources/flag/sksmatt-UItoTop-jQuery-Plugin-14d6f09/css/ui.totop.css" />
+<meta name="viewport" content="width=device-width; initial-scale=1"/>
  </head>
 
  <body>
@@ -111,10 +116,25 @@
 	<div class="ff">
 	<h1>foot</h1>
 	</div>
-	<div class="score1"></div>
 	<script>
 		$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
 		$('.score1').raty({readOnly:true, score:5 });
 	</script>
+    <script src="/afk/resources/flag/sksmatt-UItoTop-jQuery-Plugin-14d6f09/js/easing.js" type="text/javascript"></script>
+    <script src="/afk/resources/flag/sksmatt-UItoTop-jQuery-Plugin-14d6f09/js/jquery.ui.totop.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            /* var defaults = {
+                containerID: 'toTop', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            }; */
+
+			
+            $().UItoTop({ easingType: 'easeOutQuart' });
+
+        });
+    </script>
  </body>
 </html>

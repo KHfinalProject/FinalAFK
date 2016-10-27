@@ -6,6 +6,7 @@
 <html>
 <head>
  <link rel="stylesheet" type="text/css" href="/afk/resources/css/test.css" />
+
   <title>infoboardlist</title>
   <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -24,6 +25,11 @@
 
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+<!-- starpoint -->
+<script src="/afk/resources/flag/raty-2.7.0/vendor/jquery.js"></script>
+<script src="/afk/resources/flag/raty-2.7.0/lib/jquery.raty.js"></script>
+<script src="/afk/resources/flag/raty-2.7.0/demo/javascripts/labs.js" type="text/javascript"></script>
 </head>
 <script>
 	$(document).ready(function(){
@@ -74,8 +80,17 @@
 			</div>		
 		</nav>	
 		<!-- img content -->
-		<div class="infolist-img">
-			<h1><img src="/afk/resources/images/infoboard/HongKong2.jpg" width="100%" height="300" border="0" alt=""></h1>
+		<div class="header-container">
+		<div class="content10">
+			<div class="infolist-img">
+				<img src="/afk/resources/images/infoboard/HongKong2.jpg">
+			</div>
+			<div class="title-box">
+				<div class="text-lg">
+					나라 & 도시 이름
+				</div>
+			</div>
+		</div>
 		</div>
 		<!-- img content end -->
 		<h1  style="text-align:center">여행지를 구경해 보세요</h1>
@@ -92,124 +107,179 @@
 		<!-- content start -->
 		<div class="kcol-lg-12">
 		<div class="boardmain kcol-lg-3">
+		<div class="bt">
 			<div class="boardtop">
-				<div class="boardcount">조회수</div>
-				<div class="boardreport">찜</div>
+				<div class="boardreport">
+					<img src="/afk/resources/images/favorite2.png">
+				</div>
 			</div>
 			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
 			<div class="boardfoot">
-				<div class="boardstar">별점</div>
-				<div class="boardinfo">사진</div>
-				<div class="boardname">아이디</div>
-				<div class="boardtitle">제목</div>
-				<div class="boardpay">가격</div>
+				<div class="score1 boardstar"></div>
+				<div class="board1">
+					<div class="boardinfo">
+						<img src="/afk/resources/images/infoboard/top.jpg" />
+					</div>
+					<div class="boardname">아이디</div>
+					<div class="boardtitle">제목</div>
+					<div class="boardpay">가격</div>
+				</div>
 			</div>
+		</div>
 		</div>
 		
 		<div class="boardmain kcol-lg-3">
+		<div class="bt">
 			<div class="boardtop">
-				<div class="boardcount">조회수</div>
-				<div class="boardreport">찜</div>
+				<div class="boardreport">
+					<img src="/afk/resources/images/favorite2.png">
+				</div>
 			</div>
 			<div class="boardphoto"><img src="/afk/resources/images/logo.png"></div>
 			<div class="boardfoot">
-				<div class="boardstar">별점</div>
-				<div class="boardinfo">사진</div>
-				<div class="boardname">아이디</div>
-				<div class="boardtitle">제목</div>
-				<div class="boardpay">가격</div>
+				<div class="score1 boardstar"></div>
+				<div class="board1">
+					<div class="boardinfo">
+						<img src="/afk/resources/images/infoboard/top.jpg" />
+					</div>
+					<div class="boardname">아이디</div>
+					<div class="boardtitle">제목</div>
+					<div class="boardpay">가격</div>
+				</div>
 			</div>
+		</div>
 		</div>
 
 		<div class="boardmain kcol-lg-3">
+		<div class="bt">
 			<div class="boardtop">
-				<div class="boardcount">조회수</div>
-				<div class="boardreport">찜</div>
+				<div class="boardreport">
+					<img src="/afk/resources/images/favorite2.png">
+				</div>
 			</div>
 			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
 			<div class="boardfoot">
-				<div class="boardstar">별점</div>
-				<div class="boardinfo">사진</div>
-				<div class="boardname">아이디</div>
-				<div class="boardtitle">제목</div>
-				<div class="boardpay">가격</div>
+				<div class="score1 boardstar"></div>
+				<div class="board1">
+					<div class="boardinfo">
+						<img src="/afk/resources/images/infoboard/top.jpg" />
+					</div>
+					<div class="boardname">아이디</div>
+					<div class="boardtitle">제목</div>
+					<div class="boardpay">가격</div>
+				</div>
 			</div>
+		</div>
 		</div>
 
 		<div class="boardmain kcol-lg-3">
+		<div class="bt">
 			<div class="boardtop">
-				<div class="boardcount">조회수</div>
-				<div class="boardreport">찜</div>
+				<div class="boardreport">
+					<img src="/afk/resources/images/favorite2.png">
+				</div>
 			</div>
 			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
 			<div class="boardfoot">
-				<div class="boardstar">별점</div>
-				<div class="boardinfo">사진</div>
-				<div class="boardname">아이디</div>
-				<div class="boardtitle">제목</div>
-				<div class="boardpay">가격</div>
+				<div class="score1 boardstar"></div>
+				<div class="board1">
+					<div class="boardinfo">
+						<img src="/afk/resources/images/infoboard/top.jpg" />
+					</div>
+					<div class="boardname">아이디</div>
+					<div class="boardtitle">제목</div>
+					<div class="boardpay">가격</div>
+				</div>
 			</div>
 		</div>
+		</div>
+		
 		</div>
 
 		<div class="kcol-lg-12">
 		<div class="boardmain kcol-lg-3">
 			<div class="boardtop">
-				<div class="boardcount">조회수</div>
-				<div class="boardreport">찜</div>
+				<div class="boardreport">
+					<img src="/afk/resources/images/favorite2.png">
+				</div>
 			</div>
 			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
 			<div class="boardfoot">
-				<div class="boardstar">별점</div>
-				<div class="boardinfo">사진</div>
-				<div class="boardname">아이디</div>
-				<div class="boardtitle">제목</div>
-				<div class="boardpay">가격</div>
+				<div class="score1 boardstar"></div>
+				<div class="board1">
+					<div class="boardinfo">
+						<img src="/afk/resources/images/infoboard/top.jpg" />
+					</div>
+					<div class="boardname">아이디</div>
+					<div class="boardtitle">제목</div>
+					<div class="boardpay">가격</div>
+				</div>
 			</div>
 		</div>
 		
 		<div class="boardmain kcol-lg-3">
+		<div class="bt">
 			<div class="boardtop">
-				<div class="boardcount">조회수</div>
-				<div class="boardreport">찜</div>
+				<div class="boardreport">
+					<img src="/afk/resources/images/favorite2.png">
+				</div>
 			</div>
 			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
 			<div class="boardfoot">
-				<div class="boardstar">별점</div>
-				<div class="boardinfo">사진</div>
-				<div class="boardname">아이디</div>
-				<div class="boardtitle">제목</div>
-				<div class="boardpay">가격</div>
+				<div class="score1 boardstar"></div>
+				<div class="board1">
+					<div class="boardinfo">
+						<img src="/afk/resources/images/infoboard/top.jpg" />
+					</div>
+					<div class="boardname">아이디</div>
+					<div class="boardtitle">제목</div>
+					<div class="boardpay">가격</div>
+				</div>
 			</div>
+		</div>
 		</div>
 
 		<div class="boardmain kcol-lg-3">
+		<div class="bt">
 			<div class="boardtop">
-				<div class="boardcount">조회수</div>
-				<div class="boardreport">찜</div>
+				<div class="boardreport">
+					<img src="/afk/resources/images/favorite2.png">
+				</div>
 			</div>
 			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
 			<div class="boardfoot">
-				<div class="boardstar">별점</div>
-				<div class="boardinfo">사진</div>
-				<div class="boardname">아이디</div>
-				<div class="boardtitle">제목</div>
-				<div class="boardpay">가격</div>
+				<div class="score1 boardstar"></div>
+				<div class="board1">
+					<div class="boardinfo">
+						<img src="/afk/resources/images/infoboard/top.jpg" />
+					</div>
+					<div class="boardname">아이디</div>
+					<div class="boardtitle">제목</div>
+					<div class="boardpay">가격</div>
+				</div>
 			</div>
 		</div>
+		</div>
 		<div class="boardmain kcol-lg-3">
+		<div class="bt">
 			<div class="boardtop">
-				<div class="boardcount">조회수</div>
-				<div class="boardreport">찜</div>
+				<div class="boardreport">
+					<img src="/afk/resources/images/favorite2.png">
+				</div>
 			</div>
 			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
 			<div class="boardfoot">
-				<div class="boardstar">별점</div>
-				<div class="boardinfo">사진</div>
-				<div class="boardname">아이디</div>
-				<div class="boardtitle">제목</div>
-				<div class="boardpay">가격</div>
+				<div class="score1 boardstar"></div>
+				<div class="board1">
+					<div class="boardinfo">
+						<img src="/afk/resources/images/infoboard/top.jpg" />
+					</div>
+					<div class="boardname">아이디</div>
+					<div class="boardtitle">제목이길면어떻데될까</div>
+					<div class="boardpay">가격</div>
+				</div>
 			</div>
+		</div>
 		</div>
 		</div>
 		<!-- content end -->
@@ -231,5 +301,9 @@
 
 	<div>foot</div>
 	<!-- end -->
+	<script>
+		$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
+		$('.score1').raty({readOnly:true, score:5 });
+	</script>
  </body>
 </html>
