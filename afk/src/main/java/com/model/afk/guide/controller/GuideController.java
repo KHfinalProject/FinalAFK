@@ -1,10 +1,11 @@
 package com.model.afk.guide.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,18 +16,28 @@ import com.model.afk.guide.service.GuideBoardService;
 import com.model.afk.guide.service.GuideCommentService;
 import com.model.afk.guide.vo.GuideComment;
 import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.guide.vo.Test;
 
 
-@Controller
+@Controller("guideController")
 @RequestMapping("/guide")
 public class GuideController {
 	
-	@Autowired private GuideBoardService gbs;
-	@Autowired private GuideCommentService gcs;
+	@Autowired 
+	@Qualifier("guideBoardService")
+	private GuideBoardService guideBoardService;
+	
+	@Autowired
+	@Qualifier("guideCommentService")
+	private GuideCommentService guideCommentService;
 	
 	@RequestMapping("")
-	public String test(){
-		return "guide/sub";
+	public String test(Model model){
+		List<Test> list = guideBoardService.first();
+		int count = guideBoardService.countTest();
+		model.addAttribute("list", list);
+		model.addAttribute("count", count);
+		return "guide/test";
 	}
 	
 	public String getAllGuides(Model model, int page){
@@ -40,7 +51,7 @@ public class GuideController {
 	}
 	
 	public String getOneItem(Model model, int guideNo){
-		ArrayList<GuideComment> commentList = gcs.getAllComments(guideNo);
+		List<GuideComment> commentList = guideCommentService.getAllComments(guideNo);
 		
 		return "guide/detail";
 	}

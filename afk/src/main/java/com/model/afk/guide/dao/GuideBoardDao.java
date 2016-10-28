@@ -1,14 +1,15 @@
 package com.model.afk.guide.dao;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.guide.vo.Test;
 
-@Repository
+@Repository("guideBoardDao")
 public class GuideBoardDao {
 
 	private static final String NAMESPACE = "guideMapper.";
@@ -16,12 +17,20 @@ public class GuideBoardDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public ArrayList<GuideItem> getAllGuides(int page){
+	public List<Test> first(){
+		return sqlSession.selectList(NAMESPACE + "test");
+	}
+	
+	public int countTest(){
+		return sqlSession.selectOne(NAMESPACE + "countBoard");
+	}
+	
+	public List<GuideItem> getAllGuides(int page){
 		
 		return sqlSession.selectList(NAMESPACE + "getAllGuides", page);
 	}
 	
-	public ArrayList<GuideItem> getAllItems(int page){
+	public List<GuideItem> getAllItems(int page){
 		
 		return sqlSession.selectList(NAMESPACE + "getAllItems", page);
 	}

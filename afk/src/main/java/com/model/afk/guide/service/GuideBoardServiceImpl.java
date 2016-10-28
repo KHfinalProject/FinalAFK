@@ -1,27 +1,28 @@
 package com.model.afk.guide.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model.afk.guide.dao.GuideBoardDao;
 import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.guide.vo.Test;
 
-@Service
+@Service("guideBoardService")
 public class GuideBoardServiceImpl implements GuideBoardService{
 
 	@Autowired
-	private GuideBoardDao gbd;
+	private GuideBoardDao guideBoardDao;
 	
 	@Override
-	public ArrayList<GuideItem> getAllGuides(int page) {
+	public List<GuideItem> getAllGuides(int page) {
 		return null ;
 	}
 
 	@Override
-	public ArrayList<GuideItem> getAllItems(int page) {
-		ArrayList<GuideItem> itemList = null;
+	public List<GuideItem> getAllItems(int page) {
+		List<GuideItem> itemList = null;
 		return itemList;
 	}
 
@@ -50,15 +51,25 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	}
 
 	@Override
-	public ArrayList<GuideItem> searchGuide(String keyword) {
+	public List<GuideItem> searchGuide(String keyword) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<GuideItem> searchItem(String keyword) {
+	public List<GuideItem> searchItem(String keyword) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Test> first() {
+		return guideBoardDao.first();
+	}
+
+	@Override
+	public int countTest() {
+		return guideBoardDao.countTest();
 	}
 
 }

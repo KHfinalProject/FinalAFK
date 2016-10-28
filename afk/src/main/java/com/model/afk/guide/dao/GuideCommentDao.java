@@ -1,6 +1,6 @@
 package com.model.afk.guide.dao;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.model.afk.guide.vo.GuideComment;
 
-@Repository
+@Repository("guideCommentDao")
 public class GuideCommentDao {
 
 	private static final String NAMESPACE = "guideCommentMapper.";
@@ -16,7 +16,7 @@ public class GuideCommentDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public ArrayList<GuideComment> getAllComments(int guideNo){
+	public List<GuideComment> getAllComments(int guideNo){
 		
 		return sqlSession.selectList(NAMESPACE + "getAllComments", guideNo);
 	}

@@ -1,6 +1,6 @@
 package com.model.afk.guide.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 import com.model.afk.guide.dao.GuideCommentDao;
 import com.model.afk.guide.vo.GuideComment;
 
-@Service
+@Service("guideCommentService")
 public class GuideCommentServiceImpl implements GuideCommentService {
 
 	@Autowired
 	private GuideCommentDao gcd;
 	
 	@Override
-	public ArrayList<GuideComment> getAllComments(int guideNo) {	
-		return gcd.getAllComments();
+	public List<GuideComment> getAllComments(int guideNo) {	
+		return gcd.getAllComments(guideNo);
 	}
 
 	@Override

@@ -1,12 +1,12 @@
 package com.model.afk.guide.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.model.afk.guide.vo.GuideComment;
 
 public interface GuideCommentService {
 	
-	public ArrayList<GuideComment> getAllComments(int guideNo);
+	public List<GuideComment> getAllComments(int guideNo);
 	
 	public int insertComment(GuideComment gc);
 	

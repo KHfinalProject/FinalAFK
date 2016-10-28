@@ -1,14 +1,15 @@
 package com.model.afk.guide.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.guide.vo.Test;
 
 public interface GuideBoardService {
 	
-	public ArrayList<GuideItem> getAllGuides(int page);
+	public List<GuideItem> getAllGuides(int page);
 	
-	public ArrayList<GuideItem> getAllItems(int page);
+	public List<GuideItem> getAllItems(int page);
 	
 	public int insertItem(GuideItem gi);
 	
@@ -18,9 +19,13 @@ public interface GuideBoardService {
 	
 	public int addCount(int guideNo);
 	
-	public ArrayList<GuideItem> searchGuide(String keyword);
+	public List<GuideItem> searchGuide(String keyword);
 	
-	public ArrayList<GuideItem> searchItem(String keyword);
+	public List<GuideItem> searchItem(String keyword);
+	
+	public List<Test> first();
+	
+	public int countTest();
 	
 	
 }
