@@ -70,7 +70,7 @@ public class MemberController {
 	if(result == 1){
 		session.setAttribute("loginUser", temp);
 	}
-		return "header";
+		return "loginSuccess";
 	} 
 	@RequestMapping(value="/updateView", method=RequestMethod.GET)
 	public String updateMemberForm(Model model, HttpSession session) {
@@ -90,7 +90,7 @@ public class MemberController {
 							   @RequestParam("mb_email") String email,
 							   @RequestParam("mb_phone") String phone
 							   ){
-		System.out.println("이은호천재");
+	
 		Member temp = new Member(Id,pwd,null,email,phone);
 		
 		int result = ms.updateMember(temp);
@@ -101,11 +101,17 @@ public class MemberController {
 		return "result";
 	} 
 	
-	//@RequestMapping("")
 	
-	public String deleteMember(){
-		int result = ms.deleteMember();
-		return null;
+	@RequestMapping(value="memberDelete", method=RequestMethod.GET)
+	public String deleteMember(HttpSession session){
+		Member temp = (Member)session.getAttribute("loginUser");
+		int result = ms.deleteMember(temp);
+		if(result >  0){
+		return "deleteSuccess";
+		}else{
+			return "";
+		}
+		
 	} 
 	@RequestMapping(value="/confirmUserId", method=RequestMethod.GET)
 	public String Joine(@RequestParam("mb_id") String Id, HttpServletRequest request){
@@ -117,5 +123,8 @@ public class MemberController {
 	request.setAttribute("result", result);
 	return "result";
 	}
-	
+	@RequestMapping(value="/pagemove", method=RequestMethod.GET)
+	public String pageMove(){
+		return "header";
+	}
 }

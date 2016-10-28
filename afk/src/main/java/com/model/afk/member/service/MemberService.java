@@ -10,7 +10,7 @@ public interface MemberService {
 	
 	public int updateMember(Member temp);
 	
-	public int deleteMember();
+	public int deleteMember(Member temp);
 	
 	public int confirmUserId(Member temp);
 

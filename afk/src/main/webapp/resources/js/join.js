@@ -106,8 +106,6 @@ function checking(){
 		alert("전화번호를 입력하세요")
 		document.inputform.mb_phone.focus()
 	}
-	else{
-		alert("회원가입이 완료되었습니다.")
-	}
+	
 	
 }

@@ -20,8 +20,8 @@ public int updateMember(Member temp) {
 	return dao.updateMember(temp);
 }
 @Override
-public int deleteMember() {
-	return 0;
+public int deleteMember(Member temp) {
+	return dao.deleteMember(temp);
 }
 @Override
 public int insertMember(Member temp) {

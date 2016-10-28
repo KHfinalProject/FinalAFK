@@ -25,8 +25,8 @@ public class MemberDao {
 		return sqlSession.update(NAMESPACE+"updateMember", temp);
 	}
 	
-	public int deleteMember() {
-			return 0;
+	public int deleteMember(Member temp) {
+			return sqlSession.selectOne(NAMESPACE+"deleteMember",temp);
 	}
 	public int confirmUserId(Member temp){
 		System.out.println("DAO :::::::::::: " + temp);

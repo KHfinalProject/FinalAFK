@@ -54,7 +54,7 @@ function updateResult(){
 			
 			if( xmldoc > 0){
 				alert("회원정보수정이 성공했습니다.")
-				location.href("/afk/header");   
+				location.replace("/afk/loginView");   
 			} else {
 				alert("회원정보 수정이 실패했습니다.")
 			}
@@ -92,4 +92,11 @@ function pwdCheck1(){
 		msg = "사용하실수 있습니다."
 	}
 	updateform.chekPwd1.value = msg;	
+}
+function realDelete(){
+	if(confirm("정말로 탈퇴하시겠습니까?") == true){
+		location.replace("/afk/memberDelete");   
+	}else{
+		location.replace("/afk/loginView");
+	}
 }

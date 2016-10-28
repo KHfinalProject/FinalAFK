@@ -22,4 +22,7 @@
 		SET  MB_PWD = #{mb_pwd}, MB_EMAIL = #{mb_email}, MB_PHONE = #{mb_phone}
 		WHERE MB_ID = #{mb_id}
 	</update>
+	<delete id="deleteMember" parameterType="Member">
+		DELETE FROM MEMBER WHERE MB_ID = #{mb_id}
+	</delete>
 </mapper>

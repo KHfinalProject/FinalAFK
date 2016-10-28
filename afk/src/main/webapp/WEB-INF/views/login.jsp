@@ -80,4 +80,3 @@
     <script src="/afk/resources/js/bootstrap.min.js"></script>
  </body>
 
-</html>
