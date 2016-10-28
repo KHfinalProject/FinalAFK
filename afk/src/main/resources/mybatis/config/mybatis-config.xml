@@ -7,6 +7,7 @@
   		<typeAlias type="com.model.afk.admin.vo.Member" alias="aMember"/>
   		<typeAlias type="com.model.afk.guide.vo.GuideComment" alias="gCmt"/>
   		<typeAlias type="com.model.afk.guide.vo.GuideItem" alias="gItem"/>
+  		<typeAlias type="com.model.afk.guide.vo.Test" alias="Test"/>
   		<!-- <typeAlias type="com.model.afk.infoboard.vo.InfoBoard" alias="InfoBoard"/>
   		<typeAlias type="com.model.afk.infoboard.vo.InfoComment" alias="InfoCmt"/>
   		<typeAlias type="com.model.afk.infoboard.vo.InfoPoint" alias="InfoPnt"/>
