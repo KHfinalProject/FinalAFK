@@ -2,8 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html>
+
 <head>
  <link rel="stylesheet" type="text/css" href="/afk/resources/css/test.css" />
 
@@ -109,7 +108,10 @@
 		<!-- select bar end -->
 		
 		<!-- content start -->
+
+		
 		<div class="kcol-lg-12">
+		<c:forEach var="list" items="${boardlist }">
 		<div class="boardmain kcol-lg-3">
 		<div class="bt">
 			<div class="boardtop">
@@ -124,15 +126,26 @@
 					<div class="boardinfo">
 						<img src="/afk/resources/images/infoboard/top.jpg" />
 					</div>
-					<div class="boardname">아이디</div>
-					<div class="boardtitle">제목</div>
-					<div class="boardpay">가격</div>
+					<div class="boardname">${list.info_writer }</div>
+					<div class="boardtitle">${list.info_title }</div>
+					<div class="boardpay">${list.info_price }</div>
 				</div>
 			</div>
 		</div>
 		</div>
+			<%-- <c:choose>
+			<c:when test="${empty boardlist }">
+				</div>
+			</c:when>
+			
+			<c:when test="${boardlist.size%4 == 0 }">
+				</div>
+				<div class="kcol-lg-12">
+			</c:when>
+			</c:choose> --%>
+		</c:forEach>
 		
-		<div class="boardmain kcol-lg-3">
+		<!-- <div class="boardmain kcol-lg-3">
 		<div class="bt">
 			<div class="boardtop">
 				<div class="boardreport">
@@ -285,7 +298,7 @@
 			</div>
 		</div>
 		</div>
-		</div>
+		</div> -->
 		<!-- content end -->
 		
 		<!-- footer start 인데 올라가서 이름씀 -->
@@ -310,4 +323,3 @@
 		$('.score1').raty({readOnly:true, score:5 });
 	</script>
  </body>
-</html>

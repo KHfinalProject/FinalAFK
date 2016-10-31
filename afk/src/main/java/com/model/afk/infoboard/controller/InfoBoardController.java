@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -42,9 +43,10 @@ public class InfoBoardController {
 		 return null;
 	 }
 	 @RequestMapping("")
-	 public String getBoardList() {
+	 public String getBoardList(Model model) {
 		 List<InfoBoardVO> list = bsvc.getBoardList();
 		 //게시물 리스트
+		 model.addAttribute("boardlist", list);
 		 return "infoboard/list";
 	 }
 	 public String updateBoard(InfoBoardVO vo){
