@@ -27,5 +27,8 @@ public interface GuideBoardService {
 	
 	public int countTest();
 	
+	public List<Test> paging(int testNo);
+
+	
 	
 }

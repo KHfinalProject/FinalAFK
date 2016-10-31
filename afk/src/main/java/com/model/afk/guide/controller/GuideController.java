@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -41,19 +42,22 @@ public class GuideController {
 	
 	//페이지 로딩 시 전체적인 틀만 먼저 로딩
 	@RequestMapping("/guideMain.do")
-	public String test(Model model){
+	public String test(Model model, 
+			@RequestParam(value="testNo", defaultValue= "1") int testNo){
 		System.out.println("=================guideMain.do======================");
-		List<Test> list = guideBoardService.first();
+		List<Test> list = guideBoardService.paging(testNo);
 		model.addAttribute("list", list);
 		return "guide/test";
 	}
 	
 	//더보기 버튼 클릭 시 다음 데이터 불러옴
 	@RequestMapping("/guideMore.do")
-	public @ResponseBody List<Test> test2(HttpServletResponse response) throws Exception{
+	public @ResponseBody List<Test> test2(HttpServletResponse response,
+			@RequestParam int testNo) throws Exception{
 		System.out.println("=================MoreList.do======================");
 		
-		List<Test> list = guideBoardService.first();
+		//List<Test> list = guideBoardService.first();
+		List<Test> list = guideBoardService.paging(testNo);
 		JSONObject json = new JSONObject();
 		JSONArray jarr = new JSONArray();
 		

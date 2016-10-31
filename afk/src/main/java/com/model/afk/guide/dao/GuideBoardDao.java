@@ -1,6 +1,7 @@
 package com.model.afk.guide.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,11 @@ public class GuideBoardDao {
 	public int addCount(int guideNo){
 		
 		return sqlSession.update(NAMESPACE + "addCount", guideNo);
+	}
+
+	public List<Test> paging(Map<String, Integer> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + "paging", map);
 	}
 
 }

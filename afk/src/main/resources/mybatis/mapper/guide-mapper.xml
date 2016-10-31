@@ -25,4 +25,18 @@
  	from test
  </select>
  
+ <select id="paging" parameterType="java.util.HashMap" resultMap="testList">
+ 	<![CDATA[
+ 		select x.col, x.title
+		from(
+		    select rownum as rnum, a.col, a.title
+		    from(
+		        select *
+		        from test)a
+		    where rownum <= #{end})x
+		where x.rnum >= #{start}	
+ 	]]>
+ 
+ </select>
+ 
 </mapper> 

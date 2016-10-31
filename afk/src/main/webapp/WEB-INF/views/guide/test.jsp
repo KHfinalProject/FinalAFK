@@ -45,11 +45,16 @@
 <script>
 $(function(){
 	
+	var count = 1;
+	
 	$('#paging').click(function(){
-					
+		
+		count += 5;
+		
 		$.ajax({
 			url : "guideMore.do",
 			type : "post",
+			data : {testNo : count},
 			dataType : "json",
 			success : function(response){
 				console.log("success");

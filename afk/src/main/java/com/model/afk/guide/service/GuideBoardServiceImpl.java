@@ -1,6 +1,8 @@
 package com.model.afk.guide.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,6 +72,14 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	@Override
 	public int countTest() {
 		return guideBoardDao.countTest();
+	}
+
+	@Override
+	public List<Test> paging(int testNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", testNo);
+		map.put("end", testNo + 4);
+		return guideBoardDao.paging(map);
 	}
 
 }
