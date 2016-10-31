@@ -42,8 +42,8 @@ public class InfoBoardController {
 		 return null;
 	 }
 	 @RequestMapping("")
-	 public String getBoardList(/*int bno, int bpage*/) {
-		 //List<InfoBoard> list = bsvc.getBoardList(bno);
+	 public String getBoardList() {
+		 List<InfoBoardVO> list = bsvc.getBoardList();
 		 //게시물 리스트
 		 return "infoboard/list";
 	 }

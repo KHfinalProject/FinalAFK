@@ -8,11 +8,11 @@
   		<typeAlias type="com.model.afk.guide.vo.GuideComment" alias="gCmt"/>
   		<typeAlias type="com.model.afk.guide.vo.GuideItem" alias="gItem"/>
   		<typeAlias type="com.model.afk.guide.vo.Test" alias="Test"/>
-  		<!-- <typeAlias type="com.model.afk.infoboard.vo.InfoBoard" alias="InfoBoard"/>
-  		<typeAlias type="com.model.afk.infoboard.vo.InfoComment" alias="InfoCmt"/>
-  		<typeAlias type="com.model.afk.infoboard.vo.InfoPoint" alias="InfoPnt"/>
-  		<typeAlias type="com.model.afk.infoboard.vo.InfoReport" alias="InfoRpt"/> -->
-  		<!-- <typeAlias type="com.model.afk.matching.vo.Matching" alias="Matching"/> -->
+  		<typeAlias type="com.model.afk.infoboard.vo.InfoBoardVO" alias="InfoBoardVO"/>
+  		<typeAlias type="com.model.afk.infoboard.vo.InfoCommentVO" alias="InfoCmtVO"/>
+  		<typeAlias type="com.model.afk.infoboard.vo.InfoPointVO" alias="InfoPntVO"/>
+  		<typeAlias type="com.model.afk.infoboard.vo.InfoReportVO" alias="InfoRptVO"/>
+  		<typeAlias type="com.model.afk.matching.vo.Matching" alias="Matching"/>
   		<typeAlias type="com.model.afk.member.vo.Member" alias="Member"/>
   		<typeAlias type="com.model.afk.message.vo.MessageVO" alias="Message"/>
   		<!-- <typeAlias type="com.model.afk.mypage.vo.MypageVO" alias="Mypage"/> -->

@@ -25,9 +25,9 @@ public class InfoBoardServiceImpl implements InfoBoardService{
 	}
 
 	@Override
-	public List<InfoBoardVO> getBoardList(int bno) {
+	public List<InfoBoardVO> getBoardList() {
 		// TODO Auto-generated method stub
-		return dao.getBoardList(bno);
+		return dao.getBoardList();
 	}
 
 	@Override
