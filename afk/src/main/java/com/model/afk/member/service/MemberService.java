@@ -15,4 +15,7 @@ public interface MemberService {
 	public int confirmUserId(Member temp);
 
 	public Member updateViewMember(Member member);
+
+	public Member idSearching(Member member);
+	public Member getPw(Member member);
 }

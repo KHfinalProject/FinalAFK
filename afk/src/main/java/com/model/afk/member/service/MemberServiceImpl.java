@@ -21,6 +21,7 @@ public int updateMember(Member temp) {
 }
 @Override
 public int deleteMember(Member temp) {
+	System.out.println("Su :::::::::::: " + temp);
 	return dao.deleteMember(temp);
 }
 @Override
@@ -37,6 +38,12 @@ public int confirmUserId(Member temp){
 public Member updateViewMember(Member member) {
 	
 	return dao.updateViewMember(member);
+}
+
+@Override
+public Member idSearching(Member member) {
+	
+	return dao.idSearching(member);
 }
 
 

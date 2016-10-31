@@ -13,21 +13,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.model.afk.email.Email;
+import com.model.afk.email.EmailSender;
 import com.model.afk.member.service.MemberService;
 import com.model.afk.member.vo.Member;
+import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MemberController {
 	@Autowired MemberService ms;
-	
+	@Autowired
+	private EmailSender emailSender;
+	@Autowired
+	private Email Email;
 	@RequestMapping(value="/mlogin", method= RequestMethod.POST)
 	public String loginMember(@RequestParam("mb_id") String Id,
 							  @RequestParam("mb_pwd") String pwd,
 							
 							  HttpSession session){	
 		Member member = ms.loginMember(new Member(Id,pwd,null,null,null));
-		System.out.println(member);
 		if(member != null){
 			session.setAttribute("loginUser", member);
 			return "header";
@@ -64,11 +80,10 @@ public class MemberController {
 							   @RequestParam("mb_email") String email,
 							   @RequestParam("mb_phone") String phone,
 							   HttpSession session){
-	System.out.println(Id + ", " + pwd +", "+ name + ", " + email +", " +phone);
 	Member temp = new Member(Id,pwd,name,email,phone);
 	int result = ms.insertMember(temp);
 	if(result == 1){
-		session.setAttribute("loginUser", temp);
+
 	}
 		return "loginSuccess";
 	} 
@@ -107,9 +122,11 @@ public class MemberController {
 		Member temp = (Member)session.getAttribute("loginUser");
 		int result = ms.deleteMember(temp);
 		if(result >  0){
+	
+			session.setAttribute("loginUser", "");
 		return "deleteSuccess";
 		}else{
-			return "";
+			return "deleteSuccess";
 		}
 		
 	} 
@@ -119,7 +136,6 @@ public class MemberController {
 	 
 	Member temp = new Member(Id,null,null,null,null);
 	int result = ms.confirmUserId(temp);
-	System.out.println("result ::::::::::::: " + result);
 	request.setAttribute("result", result);
 	return "result";
 	}
@@ -127,4 +143,46 @@ public class MemberController {
 	public String pageMove(){
 		return "header";
 	}
+	@RequestMapping(value="/idSearch", method=RequestMethod.GET)
+	public String idSearch(){
+		return "idSearchView";
+	}
+	@RequestMapping(value="/idseaching",method=RequestMethod.GET)
+	public String idSearching(Model model,
+							  @RequestParam("mb_name")String name,
+							  @RequestParam("mb_email")String email){
+		Member temp = ms.idSearching(new Member(null,null,name,email,null));
+		int result = 0;
+		if(temp.getMb_id() != null && temp.getMb_id() != ""){
+			// ID 찾을때
+			model.addAttribute("temp", temp);
+			result = 1;
+		} else{
+			// ID 못찾을때
+			result = 0;
+		}
+		model.addAttribute("result", result);
+		return "idSearchView";
+	}
+	
+	@RequestMapping(value="/sendMail", method=RequestMethod.GET)
+	public String sendEmailAction(Model model,
+								  @RequestParam("mb_id")String id,
+								  @RequestParam("mb_email")String email) throws Exception{
+		
+		Member temp = ms.getPw(new Member(id,null,null,email,null));
+		int sendMailResult = 0;
+		if(temp.getMb_pwd() != null && temp.getMb_pwd().equals("")){
+			Email.setContent("비밀번호는 "+temp.getMb_pwd()+" 입니다.");
+			Email.setReciver(email);
+			Email.setSubject(id+"님 비밀번호 찾기 메일입니다.");
+			emailSender.SendEmail(Email);
+		}else{
+			
+		}
+		
+		return null;
+	}
+
 }
+ 

@@ -109,3 +109,15 @@ function checking(){
 	
 	
 }
+function idchecking(){
+	if(document.idsearch.mb_name.value==""){
+		alert("이름을 입력하세요")
+		document.idsearch.mb_name.focus()
+		return false;
+}
+	else if(document.idsearch.mb_email.value==""){
+		alert("email을 입력하세요")
+		document.idsearch.mb_email.focus()
+		return false;
+	}	
+}
