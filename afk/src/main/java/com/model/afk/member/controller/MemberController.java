@@ -79,7 +79,7 @@ public class MemberController {
 		
 		model.addAttribute("temp",member);
 		
-		return "mupdate";
+		return "member/mupdate";
 	}
 
 	
