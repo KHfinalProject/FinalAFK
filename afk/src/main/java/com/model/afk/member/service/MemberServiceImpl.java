@@ -46,6 +46,12 @@ public Member idSearching(Member member) {
 	return dao.idSearching(member);
 }
 
+@Override
+public Member getPw(Member member) {
+	
+	return dao.getPw(member);
+}
+
 
 
 }

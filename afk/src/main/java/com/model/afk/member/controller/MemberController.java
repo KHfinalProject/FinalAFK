@@ -94,7 +94,7 @@ public class MemberController {
 		
 		model.addAttribute("temp",member);
 		
-		return "member/mupdate";
+		return "mupdate";
 	}
 
 	
@@ -164,6 +164,10 @@ public class MemberController {
 		model.addAttribute("result", result);
 		return "idSearchView";
 	}
+	@RequestMapping(value="/pwSearch", method=RequestMethod.GET)
+	public String pwSearch(){
+		return "pwSearchView";
+	}
 	
 	@RequestMapping(value="/sendMail", method=RequestMethod.GET)
 	public String sendEmailAction(Model model,
@@ -172,16 +176,20 @@ public class MemberController {
 		
 		Member temp = ms.getPw(new Member(id,null,null,email,null));
 		int sendMailResult = 0;
+		int result = 0;
 		if(temp.getMb_pwd() != null && temp.getMb_pwd().equals("")){
 			Email.setContent("비밀번호는 "+temp.getMb_pwd()+" 입니다.");
 			Email.setReciver(email);
 			Email.setSubject(id+"님 비밀번호 찾기 메일입니다.");
 			emailSender.SendEmail(Email);
-		}else{
+			model.addAttribute("temp", temp);
+			result = 1;
 			
+		}else{
+			result = 0;
 		}
 		
-		return null;
+		return "pwSearchView";
 	}
 
 }

@@ -17,5 +17,6 @@ public interface MemberService {
 	public Member updateViewMember(Member member);
 
 	public Member idSearching(Member member);
+	
 	public Member getPw(Member member);
 }

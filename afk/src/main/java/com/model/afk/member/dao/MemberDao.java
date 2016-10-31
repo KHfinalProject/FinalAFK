@@ -45,5 +45,11 @@ public class MemberDao {
 		return sqlSession.selectOne(NAMESPACE+"idSearching",member);
 	}
 
+	public Member getPw(Member member) {
+		
+		return sqlSession.selectOne(NAMESPACE+"getPw",member);
+		
+	}
+
 
 }

@@ -28,4 +28,7 @@
 	<select id="idSearching" parameterType="Member" resultType="Member">
 		SELECT MB_ID FROM MEMBER WHERE MB_NAME = #{mb_name} AND MB_EMAIL = #{mb_email}
 	</select>
+	<select id="getPw" parameterType="Member" resultType="Member">
+		SELECT MB_PWD FROM MEMBER WHERE MB_ID = #{mb_id} AND MB_EMAIL = #{mb_email}
+	</select>
 </mapper>

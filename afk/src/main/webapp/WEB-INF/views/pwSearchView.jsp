@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>login</title>
 <script src="/afk/resources/js/request.js"></script>
-<script src="/afk/resources/js/index.js"></script>
+<script src="/afk/resources/js/join.js"></script>
 <script src="/afk/resources/js/jquery-3.1.0.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -37,6 +38,14 @@
 		border-color: #ccc;
 		box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
 	}
+	.p1{
+	   width:100%;
+	   height:15px;	
+	}
+	p{
+	 font-size: 20px;
+	 font-family:"굴림";
+	}
 </style>
 
 </head>
@@ -44,9 +53,9 @@
 <div>
    <article class="container">
 	<div class="page-header">
-    	    <h1 class="h1">로그인 <small><img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></small></h1>
+    	    <h1 class="h1">비밀번호 찾기  <small><img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></small></h1>
     </div>
-	<form class="form-horizontal" action="mlogin" method="POST" name="loginform">
+	<form class="form-horizontal" action="sendMail" method="GET" name="pwsearch" onsubmit="return pwchecking()">
 	<div class="form-group">
             <label class="col-sm-3 control-label" for="inputName">아이디</label>
           <div class="col-sm-6">
@@ -55,24 +64,34 @@
           </div>
         </div>
 	<div class="form-group">
-            <label class="col-sm-3 control-label" for="inputName">비밀번호</label>
+            <label class="col-sm-3 control-label" for="inputName">이메일</label>
           <div class="col-sm-6">
-            <input class="form-control" id="inputName" type="password" placeholder="비밀번호를 입력하세요" name="mb_pwd">
+            <input class="form-control" id="inputName" type="email" placeholder="이메일을 입력하세요" name="mb_email">
 			<p class="help-block"></p>
           </div>
         </div>
 		<div class="form-group">
           <div class="col-sm-12 text-center">
-            <button class="btn btn-primary" type="submit">로 그 인<i class="fa fa-check spaceLeft"></i></button>
-            <button class="btn btn-danger" type="submit">회원가입<i class="fa fa-check spaceLeft"></i></button>
+            <button class="btn btn-primary" type="submit">보내기<i class="fa fa-check spaceLeft"></i></button>
+            <button class="btn btn-danger" type="submit">취소<i class="fa fa-check spaceLeft"></i></button>
+            <p class="p1" name="confirm"></p>
           </div>
         </div>
-	<div class="form-group">
+	<!-- <div class="form-group">
           <div class="col-sm-12 text-center">
-			<a href="/afk/idSearch" class="forgat-id">아이디찾기</a>/<a href= "/afk/pwSearch" class="forgat-password">비밀번호 찾기</a>
+			<a href=# class="forgat-id">아이디찾기</a>/<a href= # class="forgat-password">비밀번호 찾기</a>
           </div>
-        </div>
+        </div> -->
 	</form>
+	<c:if test="${result == null}">
+		<center><p>가입하신 정보를 정확하게 입력해 주세요.</p></center>
+	</c:if>
+	<c:if test="${result == 0}">
+		<center><p>해당정보로는 비밀번호를 찾을 수 없습니다. 다시 확인해주세요.</p></center>
+	</c:if>
+	<c:if test="${result == 1}">
+		<center><p>가입하신 이메일로 비밀번호를 보냈습니다.</p></center>
+	</c:if>
    </article>
    </div>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

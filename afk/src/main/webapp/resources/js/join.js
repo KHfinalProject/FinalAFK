@@ -121,3 +121,15 @@ function idchecking(){
 		return false;
 	}	
 }
+function pwchecking(){
+	if(document.pwsearch.mb_id.value==""){
+		alert("아이디를 입력하세요")
+		document.pwsearch.mb_id.focus()
+		return false;
+}
+	else if(document.pwsearch.mb_email.value==""){
+		alert("email을 입력하세요")
+		document.pwsearch.mb_email.focus()
+		return false;
+	}
+}
