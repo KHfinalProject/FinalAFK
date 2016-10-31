@@ -44,6 +44,10 @@
 		<!-- header Start -->
 		<div>
 			<h1>header</h1>
+			<%-- <c:forEach var="a" items="${boardlist}">
+				<h2>${a.info_no}</h2><br>
+				<h3>${a.info_writer}</h3>
+			</c:forEach> --%>
 		</div>
 		<!-- header end -->
 		<nav class="nabar-container" style="display:block;">
