@@ -26,10 +26,12 @@ public class MemberDao {
 	}
 	
 	public int deleteMember(Member temp) {
-			return sqlSession.selectOne(NAMESPACE+"deleteMember",temp);
+		System.out.println("DAO :::::::::::: " + temp);
+			return sqlSession.delete(NAMESPACE+"deleteMember",temp);
+			
 	}
 	public int confirmUserId(Member temp){
-		System.out.println("DAO :::::::::::: " + temp);
+		
 		return sqlSession.selectOne(NAMESPACE+"confirmUserId", temp);
 	}
 
@@ -37,4 +39,11 @@ public class MemberDao {
 		
 		return sqlSession.selectOne(NAMESPACE+"updateView",member);
 	}
+
+	public Member idSearching(Member member) {
+		
+		return sqlSession.selectOne(NAMESPACE+"idSearching",member);
+	}
+
+
 }

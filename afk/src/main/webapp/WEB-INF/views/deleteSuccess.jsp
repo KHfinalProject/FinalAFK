@@ -7,10 +7,10 @@
 <title>Insert title here</title>
 <script language="JavaScript">
 function nextWin()
-{location = "/afk/pagemove"}
+{location = "/afk/logout"}
 </script>
 </head>
 <body onLoad="setTimeout('nextWin()', 1000)">
-<h1>아싸 회원가입 캐성공 지리고~!!</h1>
+<H1>회원 탈퇴가  정상적으로 처리되었습니다.</H1>
 </body>
 </html>
