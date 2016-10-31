@@ -1,6 +1,6 @@
    package com.model.afk.member.controller;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +56,7 @@ public class MemberController {
 	@RequestMapping(value="/loginView",method=RequestMethod.GET)
 	public String insetView(){
 		
-		return "login";
+		return "member/login";
 	}
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logout(HttpSession session){
@@ -69,7 +69,7 @@ public class MemberController {
 	@RequestMapping(value="/joinInsertView",method=RequestMethod.GET)
 	public String insertView(){
 		
-		return "join";
+		return "member/join";
 	}
 	
 	
@@ -85,7 +85,7 @@ public class MemberController {
 	if(result == 1){
 
 	}
-		return "loginSuccess";
+		return "member/loginSuccess";
 	} 
 	@RequestMapping(value="/updateView", method=RequestMethod.GET)
 	public String updateMemberForm(Model model, HttpSession session) {
@@ -94,7 +94,7 @@ public class MemberController {
 		
 		model.addAttribute("temp",member);
 		
-		return "mupdate";
+		return "member/mupdate";
 	}
 
 	
@@ -124,9 +124,9 @@ public class MemberController {
 		if(result >  0){
 	
 			session.setAttribute("loginUser", "");
-		return "deleteSuccess";
+		return "member/deleteSuccess";
 		}else{
-			return "deleteSuccess";
+			return "member/deleteSuccess";
 		}
 		
 	} 
@@ -145,7 +145,7 @@ public class MemberController {
 	}
 	@RequestMapping(value="/idSearch", method=RequestMethod.GET)
 	public String idSearch(){
-		return "idSearchView";
+		return "member/idSearchView";
 	}
 	@RequestMapping(value="/idseaching",method=RequestMethod.GET)
 	public String idSearching(Model model,
