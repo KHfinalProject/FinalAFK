@@ -1,15 +1,23 @@
 package com.model.afk.guide.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.model.afk.guide.service.GuideBoardService;
@@ -31,13 +39,41 @@ public class GuideController {
 	@Qualifier("guideCommentService")
 	private GuideCommentService guideCommentService;
 	
-	@RequestMapping("")
+	//페이지 로딩 시 전체적인 틀만 먼저 로딩
+	@RequestMapping("/guideMain.do")
 	public String test(Model model){
+		System.out.println("=================guideMain.do======================");
 		List<Test> list = guideBoardService.first();
-		int count = guideBoardService.countTest();
 		model.addAttribute("list", list);
-		model.addAttribute("count", count);
 		return "guide/test";
+	}
+	
+	//더보기 버튼 클릭 시 다음 데이터 불러옴
+	@RequestMapping("/guideMore.do")
+	public @ResponseBody List<Test> test2(HttpServletResponse response) throws Exception{
+		System.out.println("=================MoreList.do======================");
+		
+		List<Test> list = guideBoardService.first();
+		JSONObject json = new JSONObject();
+		JSONArray jarr = new JSONArray();
+		
+		for(Test t : list){
+			JSONObject job = new JSONObject();
+			job.put("col", t.getCol());
+			job.put("title", URLEncoder.encode(t.getTitle(), "UTF-8"));//한글 깨지지 않도록 
+			
+			jarr.add(job);
+		}
+		
+		json.put("list", jarr);
+		System.out.println(json.toJSONString());
+		response.setContentType("application/json"); 
+		PrintWriter out = response.getWriter();
+		out.print(json.toJSONString());
+		out.flush();
+		out.close();
+		
+		return list; //List<Test> list 형태로 반환
 	}
 	
 	public String getAllGuides(Model model, int page){
