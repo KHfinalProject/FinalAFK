@@ -1,6 +1,8 @@
 package com.model.afk.infoboard.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +27,11 @@ public class InfoBoardServiceImpl implements InfoBoardService{
 	}
 
 	@Override
-	public List<InfoBoardVO> getBoardList() {
-		// TODO Auto-generated method stub
-		return dao.getBoardList();
+	public List<InfoBoardVO> getBoardList(int page) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", page);
+		map.put("end", page + 9);
+		return dao.getBoardList(map);
 	}
 
 	@Override
@@ -39,9 +43,9 @@ public class InfoBoardServiceImpl implements InfoBoardService{
 	@Override
 	public InfoBoardVO getBoardDetail(int info_no) {
 		// TODO Auto-generated method stub
-		System.out.println("@@@@@@@");
-		System.out.println(info_no);
 		return dao.getBoardDetail(info_no);
 	}
+
+
 
 }

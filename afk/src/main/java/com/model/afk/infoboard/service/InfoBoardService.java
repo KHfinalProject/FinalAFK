@@ -10,10 +10,11 @@ public interface InfoBoardService {
 
 	int deleteBoard(int bno);
 
-	List<InfoBoardVO> getBoardList();
+	List<InfoBoardVO> getBoardList(int page);
 
 	int updateBoard(InfoBoardVO vo);
 
 	InfoBoardVO getBoardDetail(int info_no);
+
 
 }

@@ -50,10 +50,10 @@ public class InfoBoardVO implements java.io.Serializable{
 	public void setInfo_enrolldate(Date info_enrolldate) {
 		this.info_enrolldate = info_enrolldate;
 	}
-	public String getInfo_locl() {
+	public String getInfo_loc_l() {
 		return info_loc_l;
 	}
-	public void setInfolocL(String info_loc_l) {
+	public void setInfo_loc_L(String info_loc_l) {
 		this.info_loc_l = info_loc_l;
 	}
 	public String getInfo_loc_m() {

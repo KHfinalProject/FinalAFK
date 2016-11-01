@@ -1,6 +1,7 @@
 package com.model.afk.infoboard.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,12 @@ public class InfoBoardDao {
 		return 0;
 	}
 
-	public List<InfoBoardVO> getBoardList() {
-		
-		return sqlsession.selectList(NAMESPACE + "selectAll");
+	public List<InfoBoardVO> getBoardList(Map<String, Integer> map) {
+		Object obj = sqlsession.selectList(NAMESPACE + "selectAll", map);
+		System.out.println("@@@@$$$$$$!!!!!!!!!!!!");
+		System.out.println(obj);
+		System.out.println("@@@@$$$$$$!!!!!!!!!!!!");
+		return sqlsession.selectList(NAMESPACE + "selectAll", map);
 	}
 
 	public int updateBoard(InfoBoardVO vo) {

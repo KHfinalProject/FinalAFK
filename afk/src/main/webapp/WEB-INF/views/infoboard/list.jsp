@@ -36,6 +36,7 @@
 			$('#continent-menu').toggle();
 		});
 	});
+	
 </script>
   <body>
 	<!-- Start -->
@@ -108,9 +109,51 @@
 		<!-- select bar end -->
 		
 		<!-- content start -->
-
+	<script>
+$(function(){
+		
+		var count = 1;
+		
+		$('#paging').click(function(){
+			alert(count);
+			count += 10;
+			
+		
+			$.ajax({
+				
+				url : "infoboard/infomore.do",
+				type : "post",
+				data : {page : count},
+				dataType : "json",
+				success : function(response){
+					console.log("success");
+					
+					var jsonStr = JSON.stringify(response);
+					var json = JSON.parse(jsonStr);
+					console.log(json);
+					var old = $('.kcol-lg-12').html();
+					var values = "";
+					var Ca = /\+/g;
+					
+					for(var i in json.list){
+						values += json.list[i].info_no + "," + decodeURIComponent(json.list[i].info_title.replace(Ca, " ")) + '<br>';
+					}
+					values += '<hr>';
+					
+					$('.kcol-lg-12').html(old);
+				},
+				error : function(e){
+					console.log("error");
+				}
+			})
+		});
+		
+	});
+	
+	</script>
 		
 		<div class="kcol-lg-12">
+		
 		<c:forEach var="list" items="${boardlist }">
 		<div class="boardmain kcol-lg-3">
 		<div class="bt">
@@ -149,160 +192,6 @@
 			</c:choose> --%>
 		</c:forEach>
 		
-		<!-- <div class="boardmain kcol-lg-3">
-		<div class="bt">
-			<div class="boardtop">
-				<div class="boardreport">
-					<img src="/afk/resources/images/favorite2.png">
-				</div>
-			</div>
-			<div class="boardphoto"><img src="/afk/resources/images/logo.png"></div>
-			<div class="boardfoot">
-				<div class="score1 boardstar"></div>
-				<div class="board1">
-					<div class="boardinfo">
-						<img src="/afk/resources/images/infoboard/top.jpg" />
-					</div>
-					<div class="boardname">아이디</div>
-					<div class="boardtitle">제목</div>
-					<div class="boardpay">가격</div>
-				</div>
-			</div>
-		</div>
-		</div>
-
-		<div class="boardmain kcol-lg-3">
-		<div class="bt">
-			<div class="boardtop">
-				<div class="boardreport">
-					<img src="/afk/resources/images/favorite2.png">
-				</div>
-			</div>
-			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
-			<div class="boardfoot">
-				<div class="score1 boardstar"></div>
-				<div class="board1">
-					<div class="boardinfo">
-						<img src="/afk/resources/images/infoboard/top.jpg" />
-					</div>
-					<div class="boardname">아이디</div>
-					<div class="boardtitle">제목</div>
-					<div class="boardpay">가격</div>
-				</div>
-			</div>
-		</div>
-		</div>
-
-		<div class="boardmain kcol-lg-3">
-		<div class="bt">
-			<div class="boardtop">
-				<div class="boardreport">
-					<img src="/afk/resources/images/favorite2.png">
-				</div>
-			</div>
-			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
-			<div class="boardfoot">
-				<div class="score1 boardstar"></div>
-				<div class="board1">
-					<div class="boardinfo">
-						<img src="/afk/resources/images/infoboard/top.jpg" />
-					</div>
-					<div class="boardname">아이디</div>
-					<div class="boardtitle">제목</div>
-					<div class="boardpay">가격</div>
-				</div>
-			</div>
-		</div>
-		</div>
-		
-		</div>
-
-		<div class="kcol-lg-12">
-		<div class="boardmain kcol-lg-3">
-			<div class="boardtop">
-				<div class="boardreport">
-					<img src="/afk/resources/images/favorite2.png">
-				</div>
-			</div>
-			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
-			<div class="boardfoot">
-				<div class="score1 boardstar"></div>
-				<div class="board1">
-					<div class="boardinfo">
-						<img src="/afk/resources/images/infoboard/top.jpg" />
-					</div>
-					<div class="boardname">아이디</div>
-					<div class="boardtitle">제목</div>
-					<div class="boardpay">가격</div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="boardmain kcol-lg-3">
-		<div class="bt">
-			<div class="boardtop">
-				<div class="boardreport">
-					<img src="/afk/resources/images/favorite2.png">
-				</div>
-			</div>
-			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
-			<div class="boardfoot">
-				<div class="score1 boardstar"></div>
-				<div class="board1">
-					<div class="boardinfo">
-						<img src="/afk/resources/images/infoboard/top.jpg" />
-					</div>
-					<div class="boardname">아이디</div>
-					<div class="boardtitle">제목</div>
-					<div class="boardpay">가격</div>
-				</div>
-			</div>
-		</div>
-		</div>
-
-		<div class="boardmain kcol-lg-3">
-		<div class="bt">
-			<div class="boardtop">
-				<div class="boardreport">
-					<img src="/afk/resources/images/favorite2.png">
-				</div>
-			</div>
-			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
-			<div class="boardfoot">
-				<div class="score1 boardstar"></div>
-				<div class="board1">
-					<div class="boardinfo">
-						<img src="/afk/resources/images/infoboard/top.jpg" />
-					</div>
-					<div class="boardname">아이디</div>
-					<div class="boardtitle">제목</div>
-					<div class="boardpay">가격</div>
-				</div>
-			</div>
-		</div>
-		</div>
-		<div class="boardmain kcol-lg-3">
-		<div class="bt">
-			<div class="boardtop">
-				<div class="boardreport">
-					<img src="/afk/resources/images/favorite2.png">
-				</div>
-			</div>
-			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
-			<div class="boardfoot">
-				<div class="score1 boardstar"></div>
-				<div class="board1">
-					<div class="boardinfo">
-						<img src="/afk/resources/images/infoboard/top.jpg" />
-					</div>
-					<div class="boardname">아이디</div>
-					<div class="boardtitle">제목이길면어떻데될까</div>
-					<div class="boardpay">가격</div>
-				</div>
-			</div>
-		</div>
-		</div>
-		</div> -->
 		<!-- content end -->
 		
 		<!-- footer start 인데 올라가서 이름씀 -->
@@ -317,7 +206,7 @@
 	</div>
 
 	<div class="but">
-		<input type="button" value="더보기" onclick="">
+		<button id="paging">더보기</button>
 	</div>
 
 	<div>foot</div>
@@ -325,5 +214,7 @@
 	<script>
 		$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
 		$('.score1').raty({readOnly:true, score:5 });
+		
+		
 	</script>
  </body>

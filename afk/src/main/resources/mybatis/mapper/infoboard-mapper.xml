@@ -4,8 +4,36 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="infoboard">
 
-	<select id="selectAll" resultType="InfoBoardVO">
-		select * from info_board
+	<resultMap id="info" type="InfoBoardVO">
+		<result property="info_no" column="info_no" />
+		<result property="info_title" column="info_title" />
+		<result property="info_content" column="info_content" />
+		<result property="info_writer" column="info_writer" />
+		<result property="info_enrolldate" column="info_enrolldate" />
+		<result property="info_loc_l" column="info_loc_l" />
+		<result property="info_loc_m" column="info_loc_m" />
+		<result property="info_loc_s" column="info_loc_s" />
+		<result property="info_count" column="info_count" />
+		<result property="info_point" column="info_point" />
+		<result property="info_notify" column="info_notify" />
+		<result property="info_price" column="info_price" />
+		<result property="info_map" column="info_map" />
+	</resultMap>
+
+	<select id="selectAll" parameterType="java.util.HashMap" resultMap="info">
+		<![CDATA[
+			select x.info_no, x.info_title, x.info_content, x.info_writer, x.info_enrolldate,
+					x.info_loc_l, x.info_loc_m, x.info_loc_s, x.info_count, x.info_point, x.info_notify, x.info_price, x.info_map
+			from(
+				select rownum as rnum, a.info_no, a.info_title, a.info_content, a.info_writer, a.info_enrolldate,
+					a.info_loc_l, a.info_loc_m, a.info_loc_s, a.info_count, a.info_point, a.info_notify, a.info_price, a.info_map
+				from(
+					select *
+					from info_board)a
+				where rownum <= #{end})x
+			where x.rnum >= #{start}
+			
+		]]>
 	</select>
 	
 	<select id="detail" parameterType="int" resultType="InfoBoardVO">
