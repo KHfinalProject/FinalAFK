@@ -14,6 +14,6 @@ public interface InfoBoardService {
 
 	int updateBoard(InfoBoardVO vo);
 
-	InfoBoardVO getBoardDetail(int bno);
+	InfoBoardVO getBoardDetail(int info_no);
 
 }

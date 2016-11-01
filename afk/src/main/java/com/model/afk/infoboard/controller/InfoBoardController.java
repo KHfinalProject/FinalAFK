@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.model.afk.infoboard.service.InfoBoardCommentService;
@@ -54,11 +56,13 @@ public class InfoBoardController {
 		 //게시물수정
 		 return null;
 	 }
-	 @RequestMapping("detail")
-	 public String getBoardDetail(/*int bno*/) {
+	 @RequestMapping(value="/{info_no}", method=RequestMethod.GET)
+	 public String getBoardDetail(@PathVariable int info_no, Model model) {
 		 /*InfoBoardVO board = bsvc.getBoardDetail(bno);*/
 		 //게시물디테일
-		 return null;
+		 model.addAttribute("boardDetail", bsvc.getBoardDetail(info_no));
+		 		
+		 return "infoboard/detail";
 	 }
 	 public String insertBoardReport(InfoReportVO vo) {
 		 int result = brsvc.insertBoardReport(vo);

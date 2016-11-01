@@ -36,9 +36,9 @@ public class InfoBoardDao {
 		return 0;
 	}
 
-	public InfoBoardVO getBoardDetail(int bno) {
-		// TODO Auto-generated method stub
-		return null;
+	public InfoBoardVO getBoardDetail(int info_no) {
+		
+		return sqlsession.selectOne(NAMESPACE + "detail", info_no);
 	}
 
 }

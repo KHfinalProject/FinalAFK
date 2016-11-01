@@ -119,7 +119,11 @@
 					<img src="/afk/resources/images/favorite2.png">
 				</div>
 			</div>
-			<div class="boardphoto"><img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg"></div>
+			<div class="boardphoto">
+				<a href="/afk/infoboard/${list.info_no }">
+					<img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg">
+				</a>				
+			</div>
 			<div class="boardfoot">
 				<div class="score1 boardstar"></div>
 				<div class="board1">

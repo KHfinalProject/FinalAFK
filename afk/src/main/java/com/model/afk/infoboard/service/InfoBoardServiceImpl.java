@@ -37,9 +37,11 @@ public class InfoBoardServiceImpl implements InfoBoardService{
 	}
 
 	@Override
-	public InfoBoardVO getBoardDetail(int bno) {
+	public InfoBoardVO getBoardDetail(int info_no) {
 		// TODO Auto-generated method stub
-		return dao.getBoardDetail(bno);
+		System.out.println("@@@@@@@");
+		System.out.println(info_no);
+		return dao.getBoardDetail(info_no);
 	}
 
 }

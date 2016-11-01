@@ -62,7 +62,7 @@
 					<span>후기 한 개</span>
 				</div>
 				<div class="text-lg item-inline">
-					몰디브 투어
+					${boardDetail.info_title }
 				</div>
 			</div>
 			<div class="info-box">

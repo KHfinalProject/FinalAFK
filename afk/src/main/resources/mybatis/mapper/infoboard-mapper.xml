@@ -8,4 +8,8 @@
 		select * from info_board
 	</select>
 	
+	<select id="detail" parameterType="int" resultType="InfoBoardVO">
+		select * from info_board where info_no = #{info_no}
+	</select>
+	
 </mapper>
