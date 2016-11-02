@@ -4,23 +4,27 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
 	<select id="selectid" parameterType="Member" resultType="Member">
-		SELECT MB_ID,MB_NAME,MB_EMAIL,MB_PHONE FROM MEMBER
+		SELECT MB_ID,MB_NAME,MB_EMAIL,MB_PHONE,MB_GRADE FROM MEMBER
 		WHERE MB_ID = #{mb_id} AND MB_PWD = #{mb_pwd}	
 	</select>
 	<insert id="insertMember" parameterType="Member">
-		INSERT INTO MEMBER(mb_id,mb_pwd,mb_name,mb_email,mb_phone,mb_joindate) VALUES (#{mb_id}, #{mb_pwd}, #{mb_name},#{mb_email},#{mb_phone},sysdate)
+		INSERT INTO MEMBER(mb_id,mb_pwd,mb_name,mb_email,mb_phone,mb_joindate,mb_grade) VALUES (#{mb_id}, #{mb_pwd}, #{mb_name},#{mb_email},#{mb_phone}, sysdate,'C')
 	</insert>
 	<select id="confirmUserId" parameterType="Member" resultType="Integer">
 		SELECT COUNT(*) FROM MEMBER WHERE MB_ID = #{mb_id}
 	</select>
 	<select id="updateView" parameterType="Member" resultType="Member">
-		SELECT * FROM MEMBER
+		SELECT * FROM MEMBER 
 		WHERE MB_ID = #{mb_id}
 	</select>
 	<update id="updateMember" parameterType="Member">
-		UPDATE MEMBER
-		SET  MB_PWD = #{mb_pwd}, MB_EMAIL = #{mb_email}, MB_PHONE = #{mb_phone}
-		WHERE MB_ID = #{mb_id}
+		UPDATE MEMBER SET
+	  
+			   MB_PWD = #{mb_pwd}
+	
+			   , MB_EMAIL = #{mb_email}
+			   , MB_PHONE = #{mb_phone}
+		 WHERE MB_ID = #{mb_id}
 	</update>
 	<delete id="deleteMember" parameterType="Member">
 		DELETE FROM MEMBER WHERE MB_ID = #{mb_id}

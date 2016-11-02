@@ -91,9 +91,9 @@ public class MemberController {
 	public String updateMemberForm(Model model, HttpSession session) {
 		
 		Member member = ms.updateViewMember((Member)session.getAttribute("loginUser"));
-		
+		System.out.println(member.getMb_grade()== 'B');
 		model.addAttribute("temp",member);
-		
+	
 		return "member/mupdate";
 	}
 
@@ -166,7 +166,7 @@ public class MemberController {
 	}
 	@RequestMapping(value="/pwSearch", method=RequestMethod.GET)
 	public String pwSearch(){
-		return "pwSearchView";
+		return "member/pwSearchView";
 	}
 	
 	@RequestMapping(value="/sendMail", method=RequestMethod.GET)
@@ -177,19 +177,21 @@ public class MemberController {
 		Member temp = ms.getPw(new Member(id,null,null,email,null));
 		int sendMailResult = 0;
 		int result = 0;
-		if(temp.getMb_pwd() != null && temp.getMb_pwd().equals("")){
+		int mailResult = 0;
+		if(temp.getMb_pwd() != null && ! temp.getMb_pwd().equals("")){
 			Email.setContent("비밀번호는 "+temp.getMb_pwd()+" 입니다.");
 			Email.setReciver(email);
 			Email.setSubject(id+"님 비밀번호 찾기 메일입니다.");
-			emailSender.SendEmail(Email);
-			model.addAttribute("temp", temp);
+			mailResult = emailSender.SendEmail(Email);
 			result = 1;
-			
+			System.out.println("::::::::::: cont ::" +  mailResult);
 		}else{
 			result = 0;
 		}
+		model.addAttribute("result", result);
+		model.addAttribute("mailResult", mailResult);
+		return "member/pwSearchView";
 		
-		return "pwSearchView";
 	}
 
 }

@@ -64,7 +64,7 @@
 		<div class="form-group">
           <div class="col-sm-12 text-center">
             <button class="btn btn-primary" type="submit">로 그 인<i class="fa fa-check spaceLeft"></i></button>
-            <button class="btn btn-danger" type="button" onclick="location.href='/afk/joinInsert'">회원가입<i class="fa fa-check spaceLeft"></i></button>
+            <button class="btn btn-danger" type="button" onclick="location.href='/afk/joinInsertView'">회원가입<i class="fa fa-check spaceLeft"></i></button>
           </div>
         </div>
 	<div class="form-group">
