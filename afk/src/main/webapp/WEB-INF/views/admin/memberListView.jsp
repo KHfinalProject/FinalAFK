@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+s4<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="kr">
 <head>
@@ -151,29 +152,44 @@
 <br>
 
 <div id = "member">
-<table class ="member" cellspacing ="0">
+
+<!-- <form action="memberDelete" method="post"> -->
+
+<table class ="member"  cellspacing ="0">
+<c:forEach var="m" items="${memberList}">
+
   <tr>
-		<th>번호</th><th>아이디</th><th>이름</th><th>이메일</th><th>전화번호</th><th>회원등급</th><th>가입일</th>
-		<th>옵션</th>
+		<th>아이디</th><th>이름</th><th>이메일</th><th>연락처</th><!-- <th>회원등급</th> --><th>가입일</th>
+		<th>회원사진</th><th>회원변경용사진</th><th>가이드계좌번호</th><th>가이드현지연락처</th><th>가이드현지주소</th><th>옵션</th>
   </tr>
 		<tr>
-			<td>1</td>
-			<td>user01</td>
-			<td>강명규</td>
-			<td>god9467@naver.com</td>
-			<td>010-1234-5678</td>
-			<td>
+			<td>${m.memberId}</td>
+			<td>${m.memberName}</td>
+			<td>${m.memberEmail}</td>
+			<td>${m.memberPhone}</td>
+			<!-- <td>
 				 <select name="member_select" style="width:200px">
 					<option value="member" selected> 일반회원
 					<option value="guide"> 가이드
 					<option value="admin">관리자
 			</select>
 			<input class="btn btn btn-info" type="submit" value="등급수정">
-			</td>
-			<td>2016/10/25</td>
-			<td><input class="btn btn btn-info" type="submit" value="삭제"></td>
+			</td> -->
+			 <td>${m.memberJoinDate}</td>
+			<td>${m.memberOriginalPic}</td>
+			<td>${m.memberRenamePic}</td>
+			<td>${m.memberBank}</td>
+			<td>${m.memberLocPhone}</td>
+			<td>${m.memberAddress}</td>
+			
+			<c:url var="md" value="admemberDelete">
+			<c:param name="memberId" value="${m.memberId}"/>
+			</c:url>
+				<td><a href="${md}" target="_self">삭제하기</a></td>
+			<!-- <td><input class="btn btn btn-info" type="submit" value="삭제"></td> -->
 		</tr>
-</table>
+		</c:forEach>
+	</table>
 </div>
 </body>
 </html>

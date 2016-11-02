@@ -2,14 +2,24 @@ package com.model.afk.admin.Service;
 
 import java.util.List;
 
-import com.model.afk.admin.vo.Member;
+import com.model.afk.admin.vo.AdminMember;
 
 public interface AdminMemberService {
 	
-	public List<Member> getMemberList(Member m);
+	public List<AdminMember> getMemberList();
 
-	public int memberDelete(int memNo);
 
-	public Member memberSearch();
+//	public Member memberSearch();
+
+
+//	public int memberDelete(int memberId);
+
+
+	public int memberDelete(String memberId);
+
+
+	public int memberGrUpdate(String memberId);
+
+
 
 }
