@@ -1,10 +1,12 @@
 package com.model.afk.admin.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model.afk.admin.dao.AdminMemberDao;
-import com.model.afk.admin.vo.Member;
+import com.model.afk.admin.vo.AdminMember;
 
 @Service
 public class AdminMemberServiceImpl implements AdminMemberService {
@@ -12,22 +14,26 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 	@Autowired AdminMemberDao dao;
 
 	@Override
-	public Member memberListAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<AdminMember> getMemberList() {
+		return dao.getMemberList();
 	}
 
 	@Override
-	public Member memberDelete(int memNo) {
+	public int memberDelete(String memberId) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.memberDelete(memberId);
 	}
 
 	@Override
-	public Member memberSearch() {
+	public int memberGrUpdate(String memberId) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.memberGrUpdate(memberId);
 	}
+
+	
+
+	
+
 	
 	
 

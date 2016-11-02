@@ -1,14 +1,21 @@
 package com.model.afk.admin.controller;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.model.afk.admin.Service.AdminMemberService;
-import com.model.afk.admin.vo.Member;
+import com.model.afk.admin.vo.AdminMember;
+
 
 @Controller
 public class AdminMemberController {
@@ -18,34 +25,36 @@ public class AdminMemberController {
 	
 	// 회원 전체 출력 컨트롤러
 	@RequestMapping("/memberListView")
-	public String memberListAll(Model model, int page, Member m){
+	public String memberListAll(Model model){
 		
-		List<Member> memberList = ams.getMemberList(m);
+		List<AdminMember> memberList = ams.getMemberList();
 		model.addAttribute("memberList", memberList);
-		return "memberListview";
+		return "admin/memberListView";
 		
 	}
 	
-	// 회원 삭제 컨트롤러
-	@RequestMapping("/memberdelete")
-	public String memberDelete(int memNo, Model model){
+	 //회원 삭제 컨트롤러(삭제 클릭)
+	@RequestMapping("/admemberDelete")
+	public void memberDelete(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
-		int result = ams.memberDelete(memNo);
+		String memberId = request.getParameter("memberId");
+		int result = ams.memberDelete(memberId);
 		model.addAttribute("memberDelete", result);
-		return "memberListView";
+		
+		if(result > 0){
+			response.sendRedirect("/afk/memberListView");
+		}else{
+			System.out.println("삭제실패!");
+		}
+		
 		
 	}
 	
-	// 회원 검색 컨트롤러
-	public String memberSearch(){
+	@RequestMapping("/admemberUpdate")
+	public void memberGrUpdate(Model model, HttpServletRequest request, HttpServletResponse response){
+		String memberId = request.getParameter("memberId");
 		
-		Member m = ams.memberSearch();
-		return null;
+		int result = ams.memberGrUpdate(memberId);
+		model.addAttribute("memberGrUpdate", result);
 	}
-	
-	public String memberUpdate(){
-		return null;
-		
-	}
-	
 }
