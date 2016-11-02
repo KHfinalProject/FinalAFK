@@ -20,5 +20,7 @@
   		<typeAlias type="com.model.afk.notice.vo.Notice" alias="Notice"/>
   		<typeAlias type="com.model.afk.payment.vo.Payment" alias="Payment"/>
   		<typeAlias type="com.model.afk.reviewboard.vo.Review" alias="Review"/>
+  		<typeAlias type="com.company.afk.location.vo.LocationCountry" alias="Country"/>
+		<typeAlias type="com.company.afk.location.vo.LocationCity" alias="City"/>
   	</typeAliases>
   </configuration>

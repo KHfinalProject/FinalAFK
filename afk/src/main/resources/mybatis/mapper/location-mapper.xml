@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="locationMapper">
+	
+	<select id="getCountryList" parameterType="Country" resultType="Country">
+		SELECT * FROM FINAL.LOCATION_COUNTRY
+		WHERE AREA_NO = #{code}
+	</select>
+	
+	<select id="getCityList" parameterType="City" resultType="City">
+		SELECT * FROM FINAL.LOCATION_City
+		WHERE COUNTRY_NO = #{code}
+	</select> 	
+	
+
+</mapper>
