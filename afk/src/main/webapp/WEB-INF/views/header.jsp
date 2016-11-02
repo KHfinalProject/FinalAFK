@@ -54,6 +54,12 @@
           <ul class="dropdown-menu" role="menu">
             <li><a href="/afk/mypage">마이페이지</a></li>
             <li><a href="customer">고객센터</a></li>
+            
+            <c:set value ="${adminMain.memberGrade}" var ="grade"/>
+			<c:if test="${grade eq 'A'.charAt(0)}">
+            <li><a href="memberListView">관리자 회원관리</a></l1>
+            </c:if>
+            
             <li class="divider"></li>
             <li><a href="logout">로그아웃</a></li>
       </c:if>

@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
   <configuration>
   	<typeAliases>
-  		<typeAlias type="com.model.afk.admin.vo.Member" alias="aMember"/>
+  		<typeAlias type="com.model.afk.admin.vo.AdminMember" alias="aMember"/>
   		<typeAlias type="com.model.afk.guide.vo.GuideComment" alias="gCmt"/>
   		<typeAlias type="com.model.afk.guide.vo.GuideItem" alias="gItem"/>
   		<typeAlias type="com.model.afk.guide.vo.Test" alias="Test"/>
