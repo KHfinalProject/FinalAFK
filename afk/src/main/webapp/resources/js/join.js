@@ -75,7 +75,21 @@ function pwdCheck1(){
 	}
 	inputform.chekPwd1.value = msg;	
 }
+function phoneCheck(){
+	var check = inputform.mb_phone.value;
+	var pattern = /^01([0|1|6|7|8|9]?)([0-9]{3,4})([0-9]{4})$/;
+	var msg = "";
+	 if(!pattern.test(check)){
+		$('#chekPhone').css("color","red")
+		msg ="올바른 전화번호를 입력하세요"
+	}else{
+		$('#chekPhone').css("color","blue")
+		msg = "사용하실수 있습니다."
+	}
+	 inputform.chekPhone.value = msg;	
+}
 function checking(){
+	
 	if(document.inputform.mb_id.value==""){
 		alert("아이디를 입력하세요")
 		document.inputform.mb_id.focus()
@@ -101,6 +115,7 @@ function checking(){
 		document.inputform.mb_email.focus()
 		return false;
 	}
+	
 	else if(document.inputform.mb_phone.value==""){
 
 		alert("전화번호를 입력하세요")

@@ -94,8 +94,8 @@
          <label class="col-sm-3 control-label" for="inputNumber">휴대폰번호</label>
             <div class="col-sm-6">
                 
-                  <input type="number" class="form-control" id="inputNumber" placeholder="- 없이 입력해 주세요" name="mb_phone">
-                    <p class="help-block"></p>
+                  <input type="number" class="form-control" id="inputNumber" placeholder="- 없이 입력해 주세요" name="mb_phone"  onkeyup="phoneCheck()">
+                     <input style="border:none; width:300px; " type="text" name="chekPhone" readonly id="chekPhone"  >
                 </div>
               </div>
        
