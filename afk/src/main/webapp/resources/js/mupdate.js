@@ -34,7 +34,51 @@ function updateCheck(){
 	
 
 }
+function updateCheck1(){
+	var check = updateform.mb_id.value;
+	var msg = "";
+	
+	 if(document.updateform.mb_pwd.value==""){
+		alert("비밀번호를 입력하세요")
+		document.updateform.mb_pwd.focus()
+		return false;
+	}
+	else if(document.updateform.mb_pwd1.value==""){
+		alert("비밀번호 확인을 입력하세요")
+		document.updateform.mb_pwd1.focus()
+		return false;
+	}
 
+	else if(document.updateform.mb_email.value==""){
+		alert("email을 입력하세요")
+		document.updateform.mb_email.focus()
+		return false;
+	}
+	else if(document.updateform.mb_phone.value==""){
+
+		alert("전화번호를 입력하세요")
+		document.updateform.mb_phone.focus()
+	
+	}
+	else if(document.updateform.mb_bank.value==""){
+		
+		alert("계좌번호를 입력하세요")
+		document.updateform.mb_bank.focus()
+	}
+	else if(document.updateform.mb_loc_phone.value==""){
+			
+		alert("현지 전화번호를 입력하세요")
+		document.updateform.mb_loc_phone.focus()
+	}
+	else if(document.updateform.mb_address.value==""){
+			
+		alert("현지 주소를 입력하세요")
+		document.updateform.mb_address.focus()	
+	}else{
+		updateDBCheck1();
+	}
+	updateform.chekId.value = msg;
+}
 
 function updateDBCheck(){
 	var params = "mb_id=" + updateform.mb_id.value
@@ -45,6 +89,19 @@ function updateDBCheck(){
 	request.sendRequest();	
 	
 }
+function updateDBCheck1(){
+	var params = "mb_id=" + updateform.mb_id.value
+		    	+"&mb_pwd=" +updateform.mb_pwd.value
+		    	+"&mb_email=" +updateform.mb_email.value
+		    	+"&mb_phone=" +updateform.mb_phone.value
+		    	+"&mb_bank=" +updateform.mb_bank.value
+		    	+"&mb_loc_phone=" +updateform.mb_loc_phone.value
+		    	+"&mb_address=" +updateform.mb_address.value;
+	request = new Request(updateResult, "joinUpdate1", "GET", params);
+	request.sendRequest();	
+	
+}
+
 function updateResult(){
 	if(request.httpRequest.readyState == 4){
 		if(request.httpRequest.status == 200 ){

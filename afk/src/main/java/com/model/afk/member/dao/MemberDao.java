@@ -51,5 +51,12 @@ public class MemberDao {
 		
 	}
 
+	public int updateMember1(Member temp) {
+		
+		return sqlSession.update(NAMESPACE+"updateMember1",temp);
+	}
+
+	
+
 
 }

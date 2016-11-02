@@ -52,6 +52,12 @@ public Member getPw(Member member) {
 	return dao.getPw(member);
 }
 
+@Override
+public int updateMember1(Member temp) {
+	
+	return dao.updateMember1(temp);
+}
+
 
 
 }

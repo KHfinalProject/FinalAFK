@@ -114,6 +114,26 @@ public class MemberController {
 		model.addAttribute("result", result);
 			
 		return "result";
+	}
+	@RequestMapping(value="/joinUpdate1", method=RequestMethod.GET)
+	public String updateMember1(Model model,
+							   @RequestParam("mb_id") String Id,
+							   @RequestParam("mb_pwd") String pwd,
+							   @RequestParam("mb_email") String email,
+							   @RequestParam("mb_phone") String phone,
+							   @RequestParam("mb_bank") String bank,
+							   @RequestParam("mb_loc_phone") String loc_phone,
+							   @RequestParam("mb_address") String address
+							   ){
+	
+		Member temp = new Member(Id,pwd,null,email,phone,null,null,bank,loc_phone,address,'\u0000');
+		
+		int result = ms.updateMember1(temp);
+		
+		
+		model.addAttribute("result", result);
+			
+		return "result";
 	} 
 	
 	
