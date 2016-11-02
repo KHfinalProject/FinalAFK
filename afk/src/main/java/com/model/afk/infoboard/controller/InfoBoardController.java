@@ -73,37 +73,7 @@ public class InfoBoardController {
 			 @RequestParam int page) throws Exception{
 		 System.out.println("=================MoreList.do======================");
 		 List<InfoBoardVO> list = bsvc.getBoardList(page);
-		 JSONObject json = new JSONObject();
-		 JSONArray jarr = new JSONArray();
-		 System.out.println(list);
-		 for(InfoBoardVO b : list){
-			 JSONObject job = new JSONObject();
-			 job.put("info_no", b.getInfo_no());
-			 job.put("info_title", URLEncoder.encode(b.getInfo_title(), "UTF-8"));
-			 job.put("info_content", URLEncoder.encode(b.getInfo_content(), "UTF-8"));
-			 job.put("info_writer", URLEncoder.encode(b.getInfo_writer(), "UTF-8"));
-			 job.put("info_enrolldate", b.getInfo_enrolldate());
-			 job.put("info_loc_l", URLEncoder.encode(b.getInfo_loc_l(), "UTF-8"));
-			 job.put("info_loc_m", URLEncoder.encode(b.getInfo_loc_m(), "UTF-8"));
-			 job.put("info_loc_s",  URLEncoder.encode(b.getInfo_loc_s(), "UTF-8"));
-			 job.put("info_count", b.getInfo_count());
-			 job.put("info_point", b.getInfo_point());
-			 job.put("info_notify", b.getInfo_notify());
-			 job.put("info_price", b.getInfo_price());
-			 job.put("info_map",  URLEncoder.encode(b.getInfo_map(), "UTF-8"));
-			 
-			 jarr.add(job);
-		 }
-		 
-		 json.put("list", jarr);
-		 System.out.println("ㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗ");
-		 System.out.println(json.toJSONString());
-		 response.setContentType("application/json");
-		 PrintWriter out = response.getWriter();
-		 out.print(json.toJSONString());
-		 out.flush();
-		 out.close();
-		 
+		 		 
 		 return list;
 		 
 	 }
