@@ -14,7 +14,7 @@ public class MemberDao {
 	@Autowired
 	private SqlSession sqlSession;
 	public Member loginMember(Member umember){
-		return sqlSession.selectOne(NAMESPACE+"selectid", umember);
+		return sqlSession.selectOne(NAMESPACE+"selectid",  umember);
 	}
 	
 	public int insertMember(Member temp) {

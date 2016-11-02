@@ -20,5 +20,5 @@ public interface MemberService {
 	
 	public Member getPw(Member member);
 
-	public int updateMember1(Member temp);
+	public int updateMember1(Member  temp);
 }

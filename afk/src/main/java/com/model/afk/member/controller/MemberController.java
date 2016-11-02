@@ -126,7 +126,7 @@ public class MemberController {
 							   @RequestParam("mb_address") String address
 							   ){
 	
-		Member temp = new Member(Id,pwd,null,email,phone,null,null,bank,loc_phone,address,'\u0000');
+		Member temp = new Member(Id,pwd,null,email,phone,null,null,bank,loc_phone,address,'\u0000' );
 		
 		int result = ms.updateMember1(temp);
 		

@@ -53,7 +53,7 @@ public Member getPw(Member member) {
 }
 
 @Override
-public int updateMember1(Member temp) {
+public int updateMember1(Member  temp) {
 	
 	return dao.updateMember1(temp);
 }

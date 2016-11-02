@@ -56,7 +56,7 @@ function updateCheck1(){
 	}
 	else if(document.updateform.mb_phone.value==""){
 
-		alert("전화번호를 입력하세요")
+		alert("전화번호를 입력하세요" )
 		document.updateform.mb_phone.focus()
 	
 	}

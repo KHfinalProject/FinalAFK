@@ -33,7 +33,7 @@
 			   , MB_PHONE = #{mb_phone}
 			   , MB_BANK = #{mb_bank}
 			   , MB_LOC_PHONE = #{mb_loc_phone}
-			   , MB_ADDRESS = #{mb_address}
+			   , MB_ADDRESS = #{mb_address }
 		 WHERE MB_ID = #{mb_id}
 	</update>
 	<delete id="deleteMember" parameterType="Member">
