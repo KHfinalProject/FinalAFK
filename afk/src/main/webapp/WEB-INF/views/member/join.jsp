@@ -102,7 +102,7 @@
         <div class="form-group">
           <div class="col-sm-12 text-center">
             <button class="btn btn-primary" type="submit">회원가입<i class="fa fa-check spaceLeft"></i></button>
-            <button class="btn btn-danger" type="submit">가입취소<i class="fa fa-times spaceLeft"></i></button>
+            <button class="btn btn-danger" type="button"onclick="location.href='/afk/'">가입취소<i class="fa fa-times spaceLeft"></i></button>
           </div>
         </div>
         </form>

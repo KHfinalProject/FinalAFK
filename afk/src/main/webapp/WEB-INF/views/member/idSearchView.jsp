@@ -73,7 +73,7 @@
 		<div class="form-group">
           <div class="col-sm-12 text-center">
             <button class="btn btn-primary" type="submit">확인<i class="fa fa-check spaceLeft"></i></button>
-            <button class="btn btn-danger" type="submit">취소<i class="fa fa-check spaceLeft"></i></button>
+            <button class="btn btn-danger" type="button" onclick="location.href='/afk/'">취소<i class="fa fa-check spaceLeft"></i></button>
             <p class="p1" name="confirm"></p>
           </div>
         </div>
