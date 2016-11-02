@@ -7,28 +7,24 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.model.afk.admin.vo.Member;
-import com.model.afk.member.service.MemberService;
 
+@Controller
 public class CustomerController {
 	
 	@Autowired
 	private JavaMailSender mailSender;
-	@Autowired 
-	private MemberService ms;
-	
-	@Autowired
 	
 	
 	// 고객센터 폼 호출
 	@RequestMapping(value="/customer")
 	public String customerForm(HttpSession se){
 		
-//		Member vo = (Member) se.getAttribute("loginUser");
 		
 		return "admin/customer";
 		
