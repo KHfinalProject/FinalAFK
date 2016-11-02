@@ -110,6 +110,12 @@ body {font-family:"맑은 고딕", sans-serif, arial, sans; font-size:20px; colo
     float: left;
     padding-left: 195px;
 }
+.infoinput {
+	position:relative;
+	float:left;
+	width:100px;
+	padding-left:220px;
+}
 .bselect {
 	position:relative;
 	float:right;

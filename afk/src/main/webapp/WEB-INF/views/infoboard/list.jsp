@@ -99,6 +99,9 @@
 		<!-- img content end -->
 		<h1  style="text-align:center">여행지를 구경해 보세요</h1>
 		<!-- select bar start -->
+		<div class="infoinput">
+			<input type="button" value="글쓰기" onclick="">
+		</div>
 		<div class="bselect">			
 			<input type="button" value="인기순" onclick="">
 			<input type="button" value="별점순" onclick="">
@@ -125,18 +128,15 @@ $(function(){
 				type : "post",
 				data : {page : count},
 				dataType : "json",
-				success : function(response){
+				success : function(data){
 					console.log("success");
 					
-					var jsonStr = JSON.stringify(response);
-					var json = JSON.parse(jsonStr);
-					console.log(json);
 					var old = $('.kcol-lg-12').html();
 					var values = "";
 					var Ca = /\+/g;
 					
-					for(var i in json.list){
-						values += json.list[i].info_no + "," + decodeURIComponent(json.list[i].info_title.replace(Ca, " ")) + '<br>';
+					for(var i in data){
+						values += data[i].info_no + '<br>';
 					}
 					values += '<hr>';
 					
