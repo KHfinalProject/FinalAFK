@@ -115,7 +115,7 @@
 	<script>
 $(function(){
 		
-		var count = 1;
+		var count = 1;;
 		
 		$('#paging').click(function(){
 			alert(count);
