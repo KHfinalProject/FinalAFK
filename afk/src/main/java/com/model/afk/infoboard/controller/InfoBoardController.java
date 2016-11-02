@@ -43,6 +43,12 @@ public class InfoBoardController {
 	 @Autowired private InfoBoardPointService bpsvc;
 	 @Autowired private InfoBoardNotifyService bnsvc;
 	 
+	 @RequestMapping("/insertForm")
+	 public String insertForm(){
+		 //게시물 추가 페이지로 이동
+		 return "infoboard/insertForm";
+	 }
+	 
 	 public String insertBoard(InfoBoardVO vo){
 		 int result = bsvc.insertBoard(vo);
 		 //게시물 추가

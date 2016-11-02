@@ -100,7 +100,7 @@
 		<h1  style="text-align:center">여행지를 구경해 보세요</h1>
 		<!-- select bar start -->
 		<div class="infoinput">
-			<input type="button" value="글쓰기" onclick="">
+			<input type="button" value="글쓰기" onclick="location.href='/afk/insertForm'">
 		</div>
 		<div class="bselect">			
 			<input type="button" value="인기순" onclick="">
