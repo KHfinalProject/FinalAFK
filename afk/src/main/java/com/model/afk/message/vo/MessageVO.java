@@ -4,123 +4,123 @@ import java.util.Date;
 
 @SuppressWarnings("serial")
 public class MessageVO implements java.io.Serializable{
-	
-	private int mesNo;	//메세지 고유번호
-	private String sendId;	//메세지 보낸사람 ID
-	private String recieveId;	//메세지 받는사람 ID
-	private char viewYN;	//메세지 열람여부
-	private Date sendDate;	//메세지 보낸날짜
-	private Date ViewDate;	//메세지 본 날짜
-	private String mesContent;	//메세지 내용
-	private int parentMsgno;	//부모 메세지 번호
-	private char sDelYN;		//보낸사람 삭제여부
-	private char rDelYN;		//받는사람 삭제여부
+
+	private int mes_no;	//메세지 고유번호
+	private String send_id;	//메세지 보낸사람 ID
+	private String recieve_id;	//메세지 받는사람 ID
+	private char view_yn;	//메세지 열람여부
+	private Date send_date;	//메세지 보낸날짜
+	private Date view_date;	//메세지 본 날짜
+	private String msg_content;	//메세지 내용
+	private int parent_msgno;	//부모 메세지 번호
+	private char s_delyn;		//보낸사람 삭제여부
+	private char r_delyn;		//받는사람 삭제여부
 	
 	public MessageVO() {
 		super();
 	}
 
-	public MessageVO(int mesNo, String sendId, String recieveId, char viewYN, Date sendDate, Date viewDate,
-			String mesContent, int parentMsgno, char sDelYN, char rDelYN) {
+	public MessageVO(int mes_no, String send_id, String recieve_id, char view_yn, Date send_date, Date view_date,
+			String msg_content, int parent_msgno, char s_delyn, char r_delyn) {
 		super();
-		this.mesNo = mesNo;
-		this.sendId = sendId;
-		this.recieveId = recieveId;
-		this.viewYN = viewYN;
-		this.sendDate = sendDate;
-		ViewDate = viewDate;
-		this.mesContent = mesContent;
-		this.parentMsgno = parentMsgno;
-		this.sDelYN = sDelYN;
-		this.rDelYN = rDelYN;
+		this.mes_no = mes_no;
+		this.send_id = send_id;
+		this.recieve_id = recieve_id;
+		this.view_yn = view_yn;
+		this.send_date = send_date;
+		this.view_date = view_date;
+		this.msg_content = msg_content;
+		this.parent_msgno = parent_msgno;
+		this.s_delyn = s_delyn;
+		this.r_delyn = r_delyn;
 	}
 
-	public int getMesNo() {
-		return mesNo;
+	public int getMes_no() {
+		return mes_no;
 	}
 
-	public void setMesNo(int mesNo) {
-		this.mesNo = mesNo;
+	public void setMes_no(int mes_no) {
+		this.mes_no = mes_no;
 	}
 
-	public String getSendId() {
-		return sendId;
+	public String getSend_id() {
+		return send_id;
 	}
 
-	public void setSendId(String sendId) {
-		this.sendId = sendId;
+	public void setSend_id(String send_id) {
+		this.send_id = send_id;
 	}
 
-	public String getRecieveId() {
-		return recieveId;
+	public String getRecieve_id() {
+		return recieve_id;
 	}
 
-	public void setRecieveId(String recieveId) {
-		this.recieveId = recieveId;
+	public void setRecieve_id(String recieve_id) {
+		this.recieve_id = recieve_id;
 	}
 
-	public char getViewYN() {
-		return viewYN;
+	public char getView_yn() {
+		return view_yn;
 	}
 
-	public void setViewYN(char viewYN) {
-		this.viewYN = viewYN;
+	public void setView_yn(char view_yn) {
+		this.view_yn = view_yn;
 	}
 
-	public Date getSendDate() {
-		return sendDate;
+	public Date getSend_date() {
+		return send_date;
 	}
 
-	public void setSendDate(Date sendDate) {
-		this.sendDate = sendDate;
+	public void setSend_date(Date send_date) {
+		this.send_date = send_date;
 	}
 
-	public Date getViewDate() {
-		return ViewDate;
+	public Date getView_date() {
+		return view_date;
 	}
 
-	public void setViewDate(Date viewDate) {
-		ViewDate = viewDate;
+	public void setView_date(Date view_date) {
+		this.view_date = view_date;
 	}
 
-	public String getMesContent() {
-		return mesContent;
+	public String getMsg_content() {
+		return msg_content;
 	}
 
-	public void setMesContent(String mesContent) {
-		this.mesContent = mesContent;
+	public void setMsg_content(String msg_content) {
+		this.msg_content = msg_content;
 	}
 
-	public int getParentMsgno() {
-		return parentMsgno;
+	public int getParent_msgno() {
+		return parent_msgno;
 	}
 
-	public void setParentMsgno(int parentMsgno) {
-		this.parentMsgno = parentMsgno;
+	public void setParent_msgno(int parent_msgno) {
+		this.parent_msgno = parent_msgno;
 	}
 
-	public char getsDelYN() {
-		return sDelYN;
+	public char getS_delyn() {
+		return s_delyn;
 	}
 
-	public void setsDelYN(char sDelYN) {
-		this.sDelYN = sDelYN;
+	public void setS_delyn(char s_delyn) {
+		this.s_delyn = s_delyn;
 	}
 
-	public char getrDelYN() {
-		return rDelYN;
+	public char getR_delyn() {
+		return r_delyn;
 	}
 
-	public void setrDelYN(char rDelYN) {
-		this.rDelYN = rDelYN;
+	public void setR_delyn(char r_delyn) {
+		this.r_delyn = r_delyn;
 	}
 
 	@Override
 	public String toString() {
-		return "MessageVO [mesNo=" + mesNo + ", sendId=" + sendId + ", recieveId=" + recieveId + ", viewYN=" + viewYN
-				+ ", sendDate=" + sendDate + ", ViewDate=" + ViewDate + ", mesContent=" + mesContent + ", parentMsgno="
-				+ parentMsgno + ", sDelYN=" + sDelYN + ", rDelYN=" + rDelYN + "]";
+		return "MessageVO [mes_no=" + mes_no + ", send_id=" + send_id + ", recieve_id=" + recieve_id + ", view_yn="
+				+ view_yn + ", send_date=" + send_date + ", view_date=" + view_date + ", msg_content=" + msg_content
+				+ ", parent_msgno=" + parent_msgno + ", s_delyn=" + s_delyn + ", r_delyn=" + r_delyn + "]";
 	}
-	
+
 	
 }

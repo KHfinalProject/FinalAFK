@@ -17,8 +17,8 @@ public class MessageDao {
 	@Autowired 	
 	private SqlSession sqlSession;
 	
-	public List<MessageVO>getMsgList(Map<String, Object> map, int msgpage){
-		return null;
+	public List<MessageVO>getMsgList(String id){
+		return sqlSession.selectList(NAMESPACE + "selectmsgList", id);
 		
 	}
 	
@@ -33,7 +33,7 @@ public class MessageDao {
 	}
 	
 	public int insertMsg(MessageVO mvo){
-		return 0;
+		return sqlSession.insert(NAMESPACE + "insertmsg", mvo);
 		
 	}
 	

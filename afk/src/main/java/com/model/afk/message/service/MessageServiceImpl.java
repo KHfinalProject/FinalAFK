@@ -14,9 +14,8 @@ public class MessageServiceImpl implements MessageService{
 	private MessageDao msgDao;
 	
 	@Override
-	public List<MessageVO> getMsgList(Map<String, Object> map, int msgpage) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MessageVO> getMsgList(String id) {
+		return msgDao.getMsgList(id);
 	}
 
 	@Override
@@ -33,8 +32,7 @@ public class MessageServiceImpl implements MessageService{
 
 	@Override
 	public int insertMsg(MessageVO mvo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return msgDao.insertMsg(mvo);
 	}
 
 	@Override

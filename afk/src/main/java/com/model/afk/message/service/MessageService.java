@@ -5,7 +5,7 @@ import java.util.*;
 import com.model.afk.message.vo.MessageVO;
 
 public interface MessageService {
-	List<MessageVO> getMsgList(Map<String, Object>map, int msgpage);
+	List<MessageVO> getMsgList(String id);
 	MessageVO getMsgDetail(MessageVO mvo);
 	int deleteMsg(MessageVO mvo);
 	int insertMsg(MessageVO mvo);

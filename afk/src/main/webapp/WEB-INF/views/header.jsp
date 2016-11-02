@@ -52,8 +52,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">${loginUser.mb_id}<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="updateView">마이페이지</a></li>
-            <li><a href="#">마이플래너</a></li>
+            <li><a href="/afk/mypage">마이페이지</a></li>
             <li><a href="customer">고객센터</a></li>
             <li class="divider"></li>
             <li><a href="logout">로그아웃</a></li>
