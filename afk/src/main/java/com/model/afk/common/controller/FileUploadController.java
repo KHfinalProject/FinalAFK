@@ -1,4 +1,4 @@
-package com.company.sample.common.controller;
+package com.model.afk.common.controller;
 
 import java.io.*;
 import java.text.SimpleDateFormat;

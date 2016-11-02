@@ -1,4 +1,4 @@
-package com.company.sample.location.dao;
+package com.model.afk.location.dao;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.company.sample.location.vo.LocationCity;
-import com.company.sample.location.vo.LocationCountry;
+import com.model.afk.location.vo.LocationCity;
+import com.model.afk.location.vo.LocationCountry;
 
 @Repository
 public class LocationDao {

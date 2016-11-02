@@ -1,4 +1,4 @@
-package com.company.sample.location.controller;
+package com.model.afk.location.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.company.sample.location.Service.LocationService;
-import com.company.sample.location.vo.LocationCity;
-import com.company.sample.location.vo.LocationCountry;
+import com.model.afk.location.Service.LocationService;
+import com.model.afk.location.vo.LocationCity;
+import com.model.afk.location.vo.LocationCountry;
 
 @Controller
 public class LocationController {

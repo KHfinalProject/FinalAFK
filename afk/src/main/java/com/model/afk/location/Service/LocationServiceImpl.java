@@ -1,13 +1,13 @@
-package com.company.sample.location.Service;
+package com.model.afk.location.Service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.company.sample.location.dao.LocationDao;
-import com.company.sample.location.vo.LocationCity;
-import com.company.sample.location.vo.LocationCountry;
+import com.model.afk.location.dao.LocationDao;
+import com.model.afk.location.vo.LocationCity;
+import com.model.afk.location.vo.LocationCountry;
 
 @Service
 public class LocationServiceImpl implements LocationService {

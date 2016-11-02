@@ -1,4 +1,4 @@
-package com.company.sample.location.vo;
+package com.model.afk.location.vo;
 
 public class LocationCity implements java.io.Serializable {
 	private String country_no;			//국가 코드
