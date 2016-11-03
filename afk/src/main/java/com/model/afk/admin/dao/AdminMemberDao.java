@@ -18,12 +18,12 @@ public class AdminMemberDao {
 
 	public List<AdminMember> getMemberList() {
 		
-		return sqlSession.selectList(NAMESPACE + "memberList");
+		return sqlSession.selectList(NAMESPACE + "memberAll");
 	}
 
 	public int memberDelete(String memberId) {
 		// TODO Auto-generated method stub
-		return sqlSession.delete(NAMESPACE + "memberDelete", memberId);
+		return sqlSession.delete(NAMESPACE + "deleteMember", memberId);
 	}
 
 	public int memberGrUpdate(String memberId) {
