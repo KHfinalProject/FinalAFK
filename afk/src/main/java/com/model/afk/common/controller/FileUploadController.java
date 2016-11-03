@@ -78,7 +78,7 @@ public class FileUploadController {
 		        PrintWriter print = response.getWriter();
 		        sFileInfo += "&bNewLine=true";    
 		        sFileInfo += "&sFileName=" + filename;    
-		        sFileInfo += "&sFileURL=/sample/resources/upload_images/multiupload/"+realFileNm;
+		        sFileInfo += "&sFileURL=/afk/resources/upload_images/multiupload/"+realFileNm;
 		        print.print(sFileInfo);
 		        print.flush();
 		        print.close();
