@@ -111,7 +111,13 @@
 		<div class="detail-review">
 			댓글
 		</div>
+		
+	<div class="debutton">
+		<input type="button" value="수정하기" onclick="" style="float:right; margin-left:7px;">
+		<input type="button" value="삭제하기" onclick="" style="float:right"> 
 	</div>
+	</div>
+
 	</div>
 	<div class="ff">
 	<h1>foot</h1>

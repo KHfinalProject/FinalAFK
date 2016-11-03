@@ -103,16 +103,19 @@
 			<input type="button" value="글쓰기" onclick="location.href='/afk/infoboard/insertForm'">
 		</div>
 		<div class="bselect">			
-			<input type="button" value="인기순" onclick="">
-			<input type="button" value="별점순" onclick="">
-			<input type="button" value="조회순" onclick="">
-			<input type="button" value="최신순" onclick="">
-			<input type="button" value="가격순" onclick="">
+			<input type="button" value="인기순" onclick="load_select('popular')">
+			<input type="button" value="별점순" onclick="load_select('info_point')">
+			<input type="button" value="조회순" onclick="load_select('info_count')">
+			<input type="button" value="최신순" onclick="load_select('info_enrolldate')">
+			<input type="button" value="가격순" onclick="load_select('info_price')">
 		</div>
 		<!-- select bar end -->
 		
 		<!-- content start -->
 	<script>
+	
+	
+	
 $(function(){
 		
 		var count = 1;
@@ -121,7 +124,7 @@ $(function(){
 			
 			count += 10;
 			
-		
+		alert(code);
 			$.ajax({
 				
 				url : "/afk/infoboard/infomore.do",
@@ -174,6 +177,7 @@ $(function(){
 		<div class="kcol-lg-12">
 		
 		<c:forEach var="list" items="${boardlist }">
+		
 		<div class="boardmain kcol-lg-3">
 		<div class="bt">
 			<div class="boardtop">

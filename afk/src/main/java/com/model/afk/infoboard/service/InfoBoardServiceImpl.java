@@ -46,6 +46,15 @@ public class InfoBoardServiceImpl implements InfoBoardService{
 		return dao.getBoardDetail(info_no);
 	}
 
+	@Override
+	public List<InfoBoardVO> getBoardSelectList(int page, String code) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", page);
+		map.put("end", page + 9);
+		map.put("code", code);
+		return dao.getBoardSelectList(map);
+	}
+
 
 
 }

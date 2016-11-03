@@ -87,7 +87,14 @@ public class InfoBoardController {
 		 return list;
 		 
 	 }
-	 
+	 @RequestMapping("/infoup.do")
+	 public @ResponseBody List<InfoBoardVO> getBoardSelectList(Model model,
+			 @RequestParam(value="page", defaultValue="1") int page,
+			 @RequestParam(value="code", defaultValue="info_no") String code){
+		 List<InfoBoardVO> list = bsvc.getBoardSelectList(page, code);
+		 model.addAttribute("boardlist", list);
+		 return list;
+	 }
 	 
 	 public String updateBoard(InfoBoardVO vo){
 		 int result = bsvc.updateBoard(vo);

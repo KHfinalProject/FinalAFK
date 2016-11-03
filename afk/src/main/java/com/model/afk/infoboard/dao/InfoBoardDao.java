@@ -45,4 +45,9 @@ public class InfoBoardDao {
 		return sqlsession.selectOne(NAMESPACE + "detail", info_no);
 	}
 
+	public List<InfoBoardVO> getBoardSelectList(Map<String, Object> map) {
+		
+		return sqlsession.selectList(NAMESPACE + "selectBoard", map);
+	}
+
 }
