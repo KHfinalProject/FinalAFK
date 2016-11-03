@@ -38,6 +38,7 @@ public class MemberController {
 	private EmailSender emailSender;
 	@Autowired
 	private Email Email;
+	// 로그인 
 	@RequestMapping(value="/mlogin", method= RequestMethod.POST)
 	public String loginMember(@RequestParam("mb_id") String Id,
 							  @RequestParam("mb_pwd") String pwd,
@@ -52,7 +53,7 @@ public class MemberController {
 			return "fail";
 		}
 }
-
+	// 로그인페이지 호출
 	@RequestMapping(value="/loginView",method=RequestMethod.GET)
 	public String insetView(){
 		
@@ -65,14 +66,14 @@ public class MemberController {
 		}
 		return "header";
 	}
-	
+	// 회원가입폼 호출
 	@RequestMapping(value="/joinInsertView",method=RequestMethod.GET)
 	public String insertView(){
 		
 		return "member/join";
 	}
 	
-	
+	// 회원가입
 	@RequestMapping(value="/joinInsert", method= RequestMethod.POST )
 	public String insertMember(@RequestParam("mb_id") String Id,
 							   @RequestParam("mb_pwd") String pwd,
@@ -87,6 +88,7 @@ public class MemberController {
 	}
 		return "member/loginSuccess";
 	} 
+	// 회원정보수정폼 호출
 	@RequestMapping(value="/updateView", method=RequestMethod.GET)
 	public String updateMemberForm(Model model, HttpSession session) {
 		
@@ -97,7 +99,7 @@ public class MemberController {
 		return "member/mupdate";
 	}
 
-	
+	// 일반회원정보 수정
 	@RequestMapping(value="/joinUpdate", method=RequestMethod.GET)
 	public String updateMember(Model model,
 							   @RequestParam("mb_id") String Id,
@@ -115,6 +117,7 @@ public class MemberController {
 			
 		return "result";
 	}
+	//가이드 회원정보수정
 	@RequestMapping(value="/joinUpdate1", method=RequestMethod.GET)
 	public String updateMember1(Model model,
 							   @RequestParam("mb_id") String Id,
@@ -136,7 +139,7 @@ public class MemberController {
 		return "result";
 	} 
 	
-	
+	// 회원탈퇴 
 	@RequestMapping(value="memberDelete", method=RequestMethod.GET)
 	public String deleteMember(HttpSession session){
 		Member temp = (Member)session.getAttribute("loginUser");
@@ -150,6 +153,7 @@ public class MemberController {
 		}
 		
 	} 
+	// 아이디 중복체크
 	@RequestMapping(value="/confirmUserId", method=RequestMethod.GET)
 	public String Joine(@RequestParam("mb_id") String Id, HttpServletRequest request){
 	System.out.println(Id);
@@ -159,14 +163,17 @@ public class MemberController {
 	request.setAttribute("result", result);
 	return "result";
 	}
+	// 페이지이동 
 	@RequestMapping(value="/pagemove", method=RequestMethod.GET)
 	public String pageMove(){
 		return "header";
 	}
+	// 아이디 찾기 폼 호출
 	@RequestMapping(value="/idSearch", method=RequestMethod.GET)
 	public String idSearch(){
 		return "member/idSearchView";
 	}
+	//아이디  찾기 
 	@RequestMapping(value="/idseaching",method=RequestMethod.GET)
 	public String idSearching(Model model,
 							  @RequestParam("mb_name")String name,
@@ -184,11 +191,12 @@ public class MemberController {
 		model.addAttribute("result", result);
 		return "idSearchView";
 	}
+	// 패스워드 찾기 폼 호출
 	@RequestMapping(value="/pwSearch", method=RequestMethod.GET)
 	public String pwSearch(){
 		return "member/pwSearchView";
 	}
-	
+	// 패스워드 찾아서 메일로 보내기 
 	@RequestMapping(value="/sendMail", method=RequestMethod.GET)
 	public String sendEmailAction(Model model,
 								  @RequestParam("mb_id")String id,

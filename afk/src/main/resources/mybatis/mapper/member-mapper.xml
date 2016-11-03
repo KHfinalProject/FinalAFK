@@ -3,20 +3,25 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
+	<!-- <로그인> -->
 	<select id="selectid" parameterType="Member" resultType="Member">
 		SELECT MB_ID,MB_NAME,MB_EMAIL,MB_PHONE,MB_GRADE FROM MEMBER
 		WHERE MB_ID = #{mb_id} AND MB_PWD = #{mb_pwd}	
 	</select>
+	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="Member">
 		INSERT INTO MEMBER(mb_id,mb_pwd,mb_name,mb_email,mb_phone,mb_joindate,mb_grade) VALUES (#{mb_id}, #{mb_pwd}, #{mb_name},#{mb_email},#{mb_phone}, sysdate,'C')
 	</insert>
+	<!-- 아이디 중복체크 -->
 	<select id="confirmUserId" parameterType="Member" resultType="Integer">
 		SELECT COUNT(*) FROM MEMBER WHERE MB_ID = #{mb_id}
 	</select>
+	<!--  회원정보검색 -->
 	<select id="updateView" parameterType="Member" resultType="Member">
 		SELECT * FROM MEMBER 
 		WHERE MB_ID = #{mb_id}
 	</select>
+	<!-- 일반회원정보수정 -->
 	<update id="updateMember" parameterType="Member">
 		UPDATE MEMBER SET
 	  
@@ -26,6 +31,7 @@
 			   , MB_PHONE = #{mb_phone}
 		 WHERE MB_ID = #{mb_id}
 	</update>
+	<!-- 가이드 정보수정 -->
 		<update id="updateMember1" parameterType="Member">
 		UPDATE MEMBER SET
 			   MB_PWD = #{mb_pwd}
@@ -36,12 +42,15 @@
 			   , MB_ADDRESS = #{mb_address }
 		 WHERE MB_ID = #{mb_id}
 	</update>
+	<!-- 회원정보삭제 -->
 	<delete id="deleteMember" parameterType="Member">
 		DELETE FROM MEMBER WHERE MB_ID = #{mb_id}
 	</delete>
+	<!-- 아이디 찾기  -->
 	<select id="idSearching" parameterType="Member" resultType="Member">
 		SELECT MB_ID FROM MEMBER WHERE MB_NAME = #{mb_name} AND MB_EMAIL = #{mb_email}
 	</select>
+	<!-- 패스워드 찾기 -->
 	<select id="getPw" parameterType="Member" resultType="Member">
 		SELECT MB_PWD FROM MEMBER WHERE MB_ID = #{mb_id} AND MB_EMAIL = #{mb_email}
 	</select>
