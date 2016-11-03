@@ -313,7 +313,7 @@
 		</div><!-- end of img_text -->
 		<div id="write_new">
 			<button id="write_btn" class="btn btn-default btn-lg">
-				<a href="#">새 글 작성</a>
+				<a href="/afk/guide/insertGuideForm">새 글 작성</a>
 			</button>
 		</div><!-- end of write_new -->
 	</div><!--end of div main_img-->

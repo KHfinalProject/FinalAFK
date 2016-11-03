@@ -88,8 +88,25 @@ public class GuideController {
 		return "guide/sub";
 	}
 	
-	public String insertItem(Model model, HttpSession session, GuideItem gi, 
-			SessionStatus sessionStatus, BindingResult result){
+	@RequestMapping("/insertGuideForm")
+	public String insertGuideForm(){
+		//가이드 글쓰기 페이지로 이동하는 메소드
+		return "guide/insertGuideForm";
+	}
+	
+	@RequestMapping("/insertItem")
+	public String insertItem(GuideItem gi, HttpServletResponse response){
+		System.out.println(gi);
+		
+		int result = guideBoardService.insertItem(gi);
+		
+		if(result > 0){
+			try {
+				response.sendRedirect("/afk/guide/guideMain");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		return "guide/detail";
 	}

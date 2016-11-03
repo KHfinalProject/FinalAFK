@@ -87,6 +87,12 @@
  
  </select>
  
+ <insert id="insertItem" parameterType="gItem">
+ 	insert into guide_board
+ 	values(guide_board_seq.nextval, #{gui_title}, #{gui_content}, #{gui_writer}, sysdate, 
+ 			#{gui_loc_l}, #{gui_loc_m}, #{gui_loc_s},0, 0, 0, #{gui_price}, #{gui_map}, null, #{gui_date})
+ </insert>
+ 
  <resultMap id="testList" type="Test">
  	<result property="col" column="col"/>
  	<result property="title" column="title"/>

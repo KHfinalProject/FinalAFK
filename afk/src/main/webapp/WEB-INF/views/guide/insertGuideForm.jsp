@@ -53,7 +53,7 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <!-- smarteditor 불러오기-->
-<script type="text/javascript" src="/sample/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="/afk/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 <!--jQuery ui css파일-->
 <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
@@ -66,9 +66,9 @@
 <body>
 <div class="container">	
 <hr style="border: solid 2px red">
-<form id="frm" action="" method="">
+<form id="frm" action="/afk/guide/insertItem" method="post">
 	<input type="text" id="xy" name="gui_map" size="300" />
-	<input type="text" id="guideid" name="gui_writer" size="50" /> 
+	<input type="text" id="guideid" name="gui_writer" value="${loginUser.mb_id }" size="50" /> 
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2"><b>제 목</b>&nbsp;&nbsp;&nbsp;</span>
 		<input name="gui_title" type="text" class="form-control" aria-describedby="sizing-addon2">
@@ -100,7 +100,7 @@
         <div class="dropdown-menu">
          <div id="datepicker"> &nbsp; </div>
         </div>
-		<span id="print_date"></span>
+		<input type="text" id="print_date" name="gui_date" />
 	</div>
 	
 	<br><br>
@@ -240,7 +240,7 @@ function printArray(){
 	dates.forEach(function(val){
 		printArr += val + ", ";
 	});
-	$('#print_date').html(printArr);
+	$('#print_date').val(printArr);
 }
 
 // Adds a date if we don't have it yet, else remove it

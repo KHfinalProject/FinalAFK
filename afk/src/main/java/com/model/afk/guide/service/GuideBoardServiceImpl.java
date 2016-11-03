@@ -41,8 +41,7 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 
 	@Override
 	public int insertItem(GuideItem gi) {
-		int result = 0;
-		return result;
+		return guideBoardDao.insertItem(gi);
 	}
 
 	@Override
