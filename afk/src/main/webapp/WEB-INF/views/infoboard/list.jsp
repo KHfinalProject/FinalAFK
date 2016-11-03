@@ -113,7 +113,58 @@
 		
 		<!-- content start -->
 	<script>
+	var code = "info_no";
+function load_select(cmd){
+	var code = cmd;
 	
+	$('.kcol-lg-12 div').each(function(){
+		$('.kcol-lg-12 div:eq(0)').remove();
+	})
+	
+	$.ajax({
+		url : "/afk/infoboard/infoup.do",
+		data : {code : code},
+		type : "post",
+		dataType : "json",
+		success : function(data){
+			console.log("success");
+			var result = "";
+			var old = $('.kcol-lg-12').html();
+			
+			if(data.length > 0){
+				for(var i in data){
+					result += "<div class='boardmain kcol-lg-3'>";
+					result += "<div class='bt'>";
+					result += "<div class='boardtop'>";
+					result += "<div class='boardreport'>";
+					result += "<img src=/afk/resources/images/favorite2.png></div></div>";
+					result += "<div class='boardphoto'>";
+					result += "<a href=/afk/infoboard/"+ data[i].info_no + ">";
+					result += "<img src=/afk/resources/images/infoboard/Hong_Kong_China_09.jpg></a></div>";
+					result += "<div class='boardfoot'>";
+					result += "<div class='score1 boardstar'></div>";
+					result += "<div class='board1'>";
+					result += "<div class='boardinfo'>";
+					result += "<img src='/afk/resources/images/infoboard/top.jpg' /></div>";
+					result += "<div class='boardname'>" + data[i].info_writer + "</div>";
+					result += "<div class='boardtitle'> " + data[i].info_title + "</div>";
+					result += "<div class='boardpay'>" + data[i].info_price + "</div>";
+					result += "</div></div></div></div>";
+				}
+				console.log("데이터 길이 : " + data.length);
+			}else {
+				result = "<h3>더이상 불러올 글이 없습니다.<h3>"
+			}
+			$('.kcol-lg-12').html(old + result);
+			$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
+			$('.score1').raty({readOnly:true, score:5 });
+			
+			
+		}
+
+	});
+
+}
 	
 	
 $(function(){
