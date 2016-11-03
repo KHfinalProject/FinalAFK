@@ -312,7 +312,7 @@
 
 	<!-- 글쓰기 버튼 -->
 		 <div id="insert_notice" align="right">
-			<br><input type="button" value="글쓰기">
+			<br><input type="button" value="글쓰기" onclick="location.href='/afk/noticeWrite'"/>
 		</div>
 	<!-- 버튼 끝 -->
 		</div>
