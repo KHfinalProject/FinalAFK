@@ -59,7 +59,14 @@ public class CustomerController {
 		
 		return "admin/customer";
 		
-
+	
 }
-
+	// 글쓰기 폼 호출
+	@RequestMapping(value="/noticeWrite")
+	public String noticeWriteForm(HttpSession se){
+		
+		
+		return "admin/noticeWrite";
+		
+	}
 }
