@@ -17,9 +17,9 @@ public class InfoBoardDao {
 	@Autowired
 	private SqlSession sqlsession;
 
-	public int insertBoard(InfoBoardVO vo) { 
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertBoard(InfoBoardVO vo) {
+		System.out.println(vo);
+		return sqlsession.insert(NAMESPACE + "insertBoard", vo);
 	}
 
 	public int deleteBoard(int bno) {

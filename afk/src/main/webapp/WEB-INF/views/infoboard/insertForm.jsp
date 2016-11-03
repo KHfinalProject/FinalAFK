@@ -34,15 +34,16 @@
 <body>
 <div class="container">	
 <hr style="border: solid 2px red">
-<form id="frm" action="" method="">
-	<input type="text" id="xy" name="xy" size="300" /> 
+<form id="frm" action="/afk/infoboard/insertBoard" method="post">
+	<input type="text" id="xy" name="info_map" size="300" /> <br>
+	<input type="text" id="userid" name="info_writer" value="${loginUser.mb_id}">
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2"><b>제 목</b>&nbsp;&nbsp;&nbsp;</span>
-		<input name="title" type="text" class="form-control" aria-describedby="sizing-addon2">
+		<input name="info_title" type="text" class="form-control" aria-describedby="sizing-addon2">
 	</div>
 	<br>
-	<select name="loc_l" id="loc_l" onchange="load_country()">
-		<option value="" selected>지역선택</option>
+	<select name="info_loc_l" id="loc_l" onchange="load_country()">
+		<option value="local" selected>지역선택</option>
 		<option value="A" >아메리카</option>
 		<option value="B">유럽</option>
 		<option value="C">아시아</option>
@@ -50,17 +51,17 @@
 		<option value="E">아프리카</option>
 	</select>
 	&nbsp;
-	<select name="loc_m" id="loc_m" onchange="load_city()">
-		<option value="" selected>국가선택</option>
+	<select name="info_loc_m" id="loc_m" onchange="load_city()">
+		<option value="local" selected>국가선택</option>
 	</select>
 	&nbsp;
-	<select name="loc_s" id="loc_s">
-		<option value="" selected>도시선택</option>
+	<select name="info_loc_s" id="loc_s">
+		<option value="local" selected>도시선택</option>
 	</select>
 	<br><br>
-	<input type="number" name="price" class="form-control">
+	<input type="number" name="info_price" class="form-control">
 	<br><br>
-	 <textarea name="smarteditor" id="smarteditor" style="width:100%; height:500px;"></textarea>
+	 <textarea name="info_content" id="smarteditor" style="width:100%; height:500px;"></textarea>
 	<br><br><br>	
 </form>
 	<div>
@@ -119,7 +120,7 @@ function load_country(){
 	}
 	
 	$.ajax({
-		url : "/sample/location/loadCounrty",
+		url : "/afk/location/loadCounrty",
 		data : { code : code},
 		type : "post",
 		dataType : "json",
@@ -155,7 +156,7 @@ function load_city(){
 	}
 	
 	$.ajax({
-		url : "/sample/location/loadCity",
+		url : "/afk/location/loadCity",
 		data : { code : code},
 		type : "post",
 		dataType : "json",

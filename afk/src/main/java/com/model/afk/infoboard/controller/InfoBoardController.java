@@ -49,9 +49,19 @@ public class InfoBoardController {
 		 return "infoboard/insertForm";
 	 }
 	 
-	 public String insertBoard(InfoBoardVO vo){
+	 @RequestMapping("/insertBoard")
+	 public String insertBoard(InfoBoardVO vo, HttpServletResponse response){
+		 System.out.println(vo);
+		 
 		 int result = bsvc.insertBoard(vo);
-		 //게시물 추가
+		 
+		 if(result > 0){
+			 try {
+				response.sendRedirect("/afk/infoboard");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+		 }
 		 return null;
 	 }
 	 public String deleteBoard(int bno, HttpSession session){
