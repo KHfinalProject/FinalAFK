@@ -18,22 +18,18 @@ public class GuideBoardDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public List<Test> first(){
-		return sqlSession.selectList(NAMESPACE + "test");
+	public List<GuideItem> getGuideMain(Map<String, Integer> map) {		
+		return sqlSession.selectList(NAMESPACE + "getGuideMain", map);
 	}
-	
-	public int countTest(){
-		return sqlSession.selectOne(NAMESPACE + "countBoard");
-	}
-	
+
 	public List<GuideItem> getAllGuides(int page){
 		
 		return sqlSession.selectList(NAMESPACE + "getAllGuides", page);
 	}
 	
-	public List<GuideItem> getAllItems(int page){
+	public List<GuideItem> getAllItems(Map<String, Object> map){
 		
-		return sqlSession.selectList(NAMESPACE + "getAllItems", page);
+		return sqlSession.selectList(NAMESPACE + "getAllItems", map);
 	}
 	
 	public int insertItem(GuideItem gi){
@@ -56,9 +52,21 @@ public class GuideBoardDao {
 		return sqlSession.update(NAMESPACE + "addCount", guideNo);
 	}
 
+
+	
+	public List<Test> first(){
+		return sqlSession.selectList(NAMESPACE + "test");
+	}
+	
+	public int countTest(){
+		return sqlSession.selectOne(NAMESPACE + "countBoard");
+	}
+	
+	
 	public List<Test> paging(Map<String, Integer> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + "paging", map);
 	}
 
+	
 }

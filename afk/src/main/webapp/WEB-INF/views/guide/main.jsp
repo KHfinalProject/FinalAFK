@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="ko">
  <head>
@@ -29,7 +30,76 @@
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
  
   <script>
- 
+  /*달력용*/
+	  var dates = new Array();
+	
+	  function addDate(date) {
+	      if (jQuery.inArray(date, dates) < 0) 
+	          dates.push(date);
+	  }
+	
+	  function removeDate(index) {
+	      dates.splice(index, 1);
+	  }
+	
+	  function printArray(){
+	  	var printArr = new String;
+	  	dates.forEach(function(val){
+	  		printArr += val + ", ";
+	  	});
+	  	$('#print_date').html(printArr);
+	  }
+	
+	  //이미 선택된 날짜면 배열에서 제거
+	  function addOrRemoveDate(date) {
+	      var index = jQuery.inArray(date, dates); //날짜 배열(dates)에 선택한 날짜(date)가 있는지 확인
+	      if (index >= 0) //있다면 배열에서 제거
+	          removeDate(index);
+	      else 
+	          addDate(date);
+	      printArray();
+	  }
+	
+	  // Takes a 1-digit number and inserts a zero before it
+	  function padNumber(number) {
+	      var ret = new String(number);
+	      if (ret.length == 1) 
+	          ret = "0" + ret;
+	      return ret;
+	  }
+	
+	  jQuery(function () {
+	      jQuery("#datepicker").datepicker({
+	      	minDate : "+2d",
+	      	dateFormat : "yy-mm-dd",
+	      	showAnim : "slide",
+	      	showMonthAfterYear : true,
+	      	yearRange : 'c-0:c+2',
+	      	yearSuffix : '년 ',
+	      	changeYear : true,
+	      	changeMonth : true,
+	      	monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	  		dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+	          onSelect: function (dateText, inst) {
+	              addOrRemoveDate(dateText);
+	          },
+	          beforeShowDay: function (date) {
+	              var year = date.getFullYear();
+	              var month = padNumber(date.getMonth() + 1);
+	              var day = padNumber(date.getDate());
+	            
+	              var dateString = year + "-" + month + "-" + day;
+	              
+	              var gotDate = jQuery.inArray(dateString, dates);
+	              if (gotDate >= 0) {
+	                return [true, "ui-state-highlight"];
+	              }
+	              return [true, ""];
+	          }
+	      });
+	  });
+  
+  
   /*별 클릭 시 찜하기 추가, 다시 클릭하면 삭제*/
   function add_favorite(obj){
 	  var check = $(obj).children('span').hasClass('glyphicon glyphicon-star');
@@ -41,20 +111,53 @@
   }
 
   $(function(){
-
-	/*달력용*/
-	$('#datepicker').datepicker({
-		dateFormat : 'yy-mm-dd',
-		showAnim : "slide",
-		showMonthAfterYear : true,
-		yearRange : 'c-0:c+2',
-		yearSuffix : '년 ',
-		changeYear : true,
-		changeMonth : true,
-		monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-		dayNamesMin: ['일', '월', '화', '수', '목', '금', '토']
+	/*더보기 클릭 시 다음 리스트 불러오기 기능*/
+	var count = 1;
+	$('#read_more').click(function(){
+		
+		count += 5;
+		console.log("count : " + count);
+		
+		$.ajax({
+			url : "guideMore",
+			type : "post",
+			data : {page : count},
+			dataType : "json",
+			success : function(data){
+				console.log("success");
+				var result = "";
+				var old = $("#added_list").html();
+				
+				if(data.length > 0){
+					for(var i in data){
+						result += "<section id='item_box'><table id='item_info'style='width : 100%; table-layout: fixed;'><tr><td colspan='2'>";
+						result += "<a href='#'><img src='" + data[i].gui_image + "' width='400px' height='450px' class='img-rounded'></a>";
+						result += "</td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
+						result += "<nobr>" + data[i].gui_title + "</nobr>";
+						result += "</td><td rowspan='2' align='right'>";
+						result += "<button id='wish' class='btn btn-default' style='color: #ffcc66' onclick='add_favorite(this)'>";
+						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'>"
+						result += "</span></button></td></tr><tr><td align='left'>";
+						result += data[i].gui_writer + "</td></tr><tr><td align='left'>"
+						result += data[i].gui_price + "</td></tr/></table></section>";
+						
+						console.log("추출 데이터 : " + data[i].gui_title);
+					}
+					
+				}else{
+					result = "<h3>더 이상 불러올 글이 없습니다</h3>";
+				}
+				
+				$('#added_list').html(old + result);
+								
+			},
+			error : function(e){
+				console.log("error");
+			}
+			
+		});
 	});
-
+	
   });
   
   </script>
@@ -67,28 +170,42 @@
 		text-align : center;
 	}
 
-	#main_img{
-		width : 750px;
-		height : 250px;
-		background : #04378c;
+	#main_img {
+		position : relative;
+		width : 100%;
 		margin-bottom : 50px;
 	}
 
 	/*main_img 반응형*/
-	@media all and (max-width : 750px){
-		#main_img{
-			width : 100%;
-			height : 250px;
-			background : #04378c;
-		}
-	}
-
 	@media all and (max-width : 450px){
 		#main_img{
+			position : relative;
 			width : 100%;
 			height : 100px;
 			background : #04378c;
 		}
+	}
+	
+	#img_text{
+		position : absolute;
+		top : 5%;
+		left : 5%;
+		color : white;
+	}
+	
+	#write_new {
+		position : absolute;
+		top : 80%;
+		right : 5%;
+		z-index : 1;
+	}
+	
+	#write_new button:hover {
+		background-color : #3c50b0;
+	}
+	
+	#write_new button a {
+		text-decoration : none;
 	}
 
 	#inner {
@@ -133,7 +250,8 @@
 	}
 
 	#item_box {
-		margin : 0.5%;
+		width : 40%;
+		margin : 2%;
 		padding : 0.5%;
 		display : inline-block;
 	}
@@ -147,7 +265,13 @@
 		text-decoration : none;
 		color : #000066;
 	}
-
+	
+	#item_title{
+		display : inline-block;
+		width : 300px;
+		overflow : hidden;
+	}
+	
 	#search_box {
 		border : none;
 		border-bottom : 1px solid #000066;
@@ -181,25 +305,21 @@
   </style>
  </head>
  <body>
-   
   <div id="container">
 	<div id="main_img">
-		div main_img(대표 이미지 들어갈 부분)
+		<img src="../resources/images/guide/22.jpg" width="100%" height="400px" style="opacity:0.7">
+		<div id="img_text">
+			<h1><b>가이드와 함께 떠나는 여행</b></h1>
+		</div><!-- end of img_text -->
+		<div id="write_new">
+			<button id="write_btn" class="btn btn-default btn-lg">
+				<a href="#">새 글 작성</a>
+			</button>
+		</div><!-- end of write_new -->
 	</div><!--end of div main_img-->
 	<div id="inner">
 		<div id="select">
 			<table>
-				<tr>
-					<td>
-						<select name="guide_option" id="guide_option">
-							<option value="default" selected>상품 종류
-							<option value="가이드투어">가이드투어
-							<option value="현지체험">현지체험
-							<option value="액티비티">액티비티
-							<option value="입장권/티켓">입장권
-						</select>
-					</td>
-				</tr>
 				<tr>
 					<td>
 						<div id="datepicker">
@@ -207,10 +327,15 @@
 						</div>
 					</td>
 				</tr>
+				<tr>
+					<td><span>출발일 기준 최소 2일 전까지만 선택 가능합니다.</span></td>
+				</tr>
+				<tr>
+					<td><div id="print_date"></div></td>
+				</tr>
 			</table>
 		</div><!--end of div select-->
 		<div id="items">
-		<form>
 			<p id="sort_search">
 				<input type="text" id="search_box" placeholder="검색어 입력">
 				<button id="search_icon"class="btn btn-default" type="submit">
@@ -221,172 +346,23 @@
 				<a href="#">별점순</a> &nbsp;&nbsp;
 				<a href="#">가격순</a>&nbsp;&nbsp;
 			</p>
-			</form>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
 			
+			<div id="first_loaded_div">
+			<c:forEach var="firstList" items="${list}">
 			<section id="item_box">
-				<table id="item_info">
+				<table id="item_info" style="width : 100%; table-layout: fixed;">
 					<tr>
 						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
+						<a href="#">
+							<img src="${firstList.gui_image}" width="400px" height="450px" class="img-rounded">
+						</a>
 						</td>
 					</tr>
 					<tr>
-						<td align="left"> 여행상품명</td>
+						<td align="left" style="text-overflow:ellipsis; overflow:hidden">
+						<nobr>${firstList.gui_title}</nobr>
+						
+						</td>
 						<td rowspan="2" align="right">
 							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
 								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
@@ -394,362 +370,19 @@
 						</td>
 					</tr>
 					<tr>
-						<td align="left"> 여행상품가격</td>
+						<td align="left"><%-- <a href="guideSub.do?${firstList.gui_writer}">${firstList.gui_writer}</a> --%></td>
+					</tr>
+					<tr>
+						<td align="left">${firstList.gui_price}</td>
 					</tr>
 				</table>
 			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
-
-			<section id="item_box">
-				<table id="item_info">
-					<tr>
-						<td colspan="2">
-						<div style="width: 200px; height:250px; background: #04378c">여행상품이미지</div>
-						<!--<a href="#"><img src="..." alt="..."></a>-->
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품명</td>
-						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td align="left"> 여행상품가격</td>
-					</tr>
-				</table>
-			</section>
+			</c:forEach>
+			</div><!-- end of first_loaded_div -->
+			
+			<div id="added_list">
+			
+			</div>
 			<br>
 			<button id="read_more" class="btn btn-default btn-block">더보기</button>
 

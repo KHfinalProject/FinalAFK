@@ -7,9 +7,11 @@ import com.model.afk.guide.vo.Test;
 
 public interface GuideBoardService {
 	
+	public List<GuideItem> getGuideList(int page);
+	
 	public List<GuideItem> getAllGuides(int page);
 	
-	public List<GuideItem> getAllItems(int page);
+	public List<GuideItem> getAllItems(String writerNo, int page);
 	
 	public int insertItem(GuideItem gi);
 	
@@ -28,6 +30,8 @@ public interface GuideBoardService {
 	public int countTest();
 	
 	public List<Test> paging(int testNo);
+
+	
 
 	
 	

@@ -28,8 +28,8 @@ import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.guide.vo.Test;
 
 
-@Controller("guideController")
 @RequestMapping("/guide")
+@Controller("guideController")
 public class GuideController {
 	
 	@Autowired 
@@ -40,52 +40,34 @@ public class GuideController {
 	@Qualifier("guideCommentService")
 	private GuideCommentService guideCommentService;
 	
-	//페이지 로딩 시 전체적인 틀만 먼저 로딩
-	@RequestMapping("/guideMain.do")
-	public String test(Model model, 
-			@RequestParam(value="testNo", defaultValue= "1") int testNo){
-		System.out.println("=================guideMain.do======================");
-		List<Test> list = guideBoardService.paging(testNo);
+	//가이드 메인 페이지의 틀 로딩
+	@RequestMapping("/guideMain")
+	public String getGuideMain(Model model, 
+			@RequestParam(value="page", defaultValue="1") int page){
+		System.out.println("======================guideMain=============");
+		System.out.println("page : " + page);
+		List<GuideItem> list = guideBoardService.getGuideList(page);
 		model.addAttribute("list", list);
-		return "guide/test";
-	}
-	
-	//더보기 버튼 클릭 시 다음 데이터 불러옴
-	@RequestMapping("/guideMore.do")
-	public @ResponseBody List<Test> test2(HttpServletResponse response,
-			@RequestParam int testNo) throws Exception{
-		System.out.println("=================MoreList.do======================");
 		
-		//List<Test> list = guideBoardService.first();
-		List<Test> list = guideBoardService.paging(testNo);
-		JSONObject json = new JSONObject();
-		JSONArray jarr = new JSONArray();
-		
-		for(Test t : list){
-			JSONObject job = new JSONObject();
-			job.put("col", t.getCol());
-			job.put("title", URLEncoder.encode(t.getTitle(), "UTF-8"));//한글 깨지지 않도록 
-			
-			jarr.add(job);
-		}
-		
-		json.put("list", jarr);
-		System.out.println(json.toJSONString());
-		response.setContentType("application/json"); 
-		PrintWriter out = response.getWriter();
-		out.print(json.toJSONString());
-		out.flush();
-		out.close();
-		
-		return list; //List<Test> list 형태로 반환
-	}
-	
-	public String getAllGuides(Model model, int page){
-				
 		return "guide/main";
 	}
 	
-	public String getAllItems(Model model, int writerNo, int page){
+	//가이드 메인 페이지에서 더보기 클릭 시 추가 데이터 로딩
+	@RequestMapping("/guideMore")
+	public @ResponseBody List<GuideItem> getMoreGuideItems(@RequestParam int page) throws Exception{
+		System.out.println("======================guideMore====================");
+		System.out.println("page : " + page);
+		List<GuideItem> list = guideBoardService.getGuideList(page);
+				
+		return list;
+	}
+	
+	//가이드 서브 페이지에서 해당 가이드가 등록한 정보만 로딩
+	@RequestMapping("/guideSub")
+	public String getAllItems(Model model, String writerNo, @RequestParam(value="page", defaultValue="1") int page){
+		System.out.println("=====================guideSub======================");
+		
+		//List<GuideItem> list = guideBoardService.getAllItems(writerNo, page);
 		
 		return "guide/sub";
 	}
@@ -146,4 +128,43 @@ public class GuideController {
 	}
 	
 	
+	//페이지 로딩 시 전체적인 틀만 먼저 로딩
+	@RequestMapping("/test.do")
+		public String test(Model model, 
+				@RequestParam(value="testNo", defaultValue= "1") int testNo){
+			System.out.println("=================guideMain.do======================");
+			List<Test> list = guideBoardService.paging(testNo);
+			model.addAttribute("list", list);
+			return "guide/test";
+		}
+		
+		//더보기 버튼 클릭 시 다음 데이터 불러옴
+	@RequestMapping("/testMore.do")
+	public @ResponseBody List<Test> test2(HttpServletResponse response,
+				@RequestParam int testNo) throws Exception{
+			System.out.println("=================MoreList.do======================");
+			
+			//List<Test> list = guideBoardService.first();
+			List<Test> list = guideBoardService.paging(testNo);
+			JSONObject json = new JSONObject();
+			JSONArray jarr = new JSONArray();
+			
+			for(Test t : list){
+				JSONObject job = new JSONObject();
+				job.put("col", t.getCol());
+				job.put("title", URLEncoder.encode(t.getTitle(), "UTF-8"));//한글 깨지지 않도록 
+				
+				jarr.add(job);
+			}
+			
+			json.put("list", jarr);
+			System.out.println(json.toJSONString());
+			response.setContentType("application/json"); 
+			PrintWriter out = response.getWriter();
+			out.print(json.toJSONString());
+			out.flush();
+			out.close();
+			
+			return list; //List<Test> list 형태로 반환
+		}
 }
