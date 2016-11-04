@@ -120,7 +120,7 @@ function load_select(cmd){
 	$('.kcol-lg-12 div').each(function(){
 		$('.kcol-lg-12 div:eq(0)').remove();
 	})
-	
+		
 	$.ajax({
 		url : "/afk/infoboard/infoup.do",
 		data : {code : code},
@@ -142,7 +142,7 @@ function load_select(cmd){
 					result += "<a href=/afk/infoboard/"+ data[i].info_no + ">";
 					result += "<img src=/afk/resources/images/infoboard/Hong_Kong_China_09.jpg></a></div>";
 					result += "<div class='boardfoot'>";
-					result += "<div class='score1 boardstar'></div>";
+					result += "<div class='boardstar "+ data[i].info_no + "'></div>";
 					result += "<div class='board1'>";
 					result += "<div class='boardinfo'>";
 					result += "<img src='/afk/resources/images/infoboard/top.jpg' /></div>";
@@ -157,11 +157,16 @@ function load_select(cmd){
 			}
 			$('.kcol-lg-12').html(old + result);
 			$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
-			$('.score1').raty({readOnly:true, score:5 });
+			for(var i in data){
+				$('.' + data[i].info_no).raty({readOnly:true, score:data[i].info_point });
+				console.log(data);
+			}
 			
+			$('#ppap').val(code);
+			$('#pppp').val('1');
 			
 		}
-
+	
 	});
 
 }
@@ -169,18 +174,19 @@ function load_select(cmd){
 	
 $(function(){
 		
-		var count = 1;
 		
+		var count = Number($('#pppp').val());
+	
 		$('#paging').click(function(){
-			
+			console.log(count);	
 			count += 10;
+			var code = $('#ppap').val();
 			
-		alert(code);
 			$.ajax({
 				
 				url : "/afk/infoboard/infomore.do",
 				type : "post",
-				data : {page : count},
+				data : {page : count , code : code},
 				dataType : "json",
 				success : function(data){
 					console.log("success");
@@ -198,7 +204,7 @@ $(function(){
 							result += "<a href=/afk/infoboard/"+ data[i].info_no + ">";
 							result += "<img src=/afk/resources/images/infoboard/Hong_Kong_China_09.jpg></a></div>";
 							result += "<div class='boardfoot'>";
-							result += "<div class='score1 boardstar'></div>";
+							result += "<div class= 'boardstar "+ data[i].info_no + "'></div>";
 							result += "<div class='board1'>";
 							result += "<div class='boardinfo'>";
 							result += "<img src='/afk/resources/images/infoboard/top.jpg' /></div>";
@@ -206,6 +212,8 @@ $(function(){
 							result += "<div class='boardtitle'> " + data[i].info_title + "</div>";
 							result += "<div class='boardpay'>" + data[i].info_price + "</div>";
 							result += "</div></div></div></div>";
+							
+							 
 						}
 						console.log("데이터 길이 : " + data.length);
 					}else {
@@ -213,7 +221,10 @@ $(function(){
 					}
 					$('.kcol-lg-12').html(old + result);
 					$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
-					$('.score1').raty({readOnly:true, score:5 });
+					for(var i in data){
+						$('.' + data[i].info_no).raty({readOnly:true, score:data[i].info_point });
+						
+					}
 					
 					
 				}
@@ -242,7 +253,7 @@ $(function(){
 				</a>				
 			</div>
 			<div class="boardfoot">
-				<div class="score1 boardstar"></div>
+				<div class="${list.info_no } boardstar"></div>
 				<div class="board1">
 					<div class="boardinfo">
 						<img src="/afk/resources/images/infoboard/top.jpg" />
@@ -280,14 +291,26 @@ $(function(){
 	</div>
 
 	<div class="but">
-		<button id="paging">더보기</button>
+		<button id="paging" >더보기
+			<input id="ppap" type="hidden" />
+			<input id="pppp" type="hidden" />
+		</button>
 	</div>
 
 	<div>foot</div>
 	<!-- end -->
 	<script>
-		$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
-		$('.score1').raty({readOnly:true, score:5 });
+	$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';		
+		
+		
+		<c:forEach items="${boardlist}" var="i">
+			$('.' + '${i.info_no}').raty({readOnly:true, score:'${i.info_point}' });
+		</c:forEach>
+		
+		
+		
+		
+		
 		
 		
 	</script>

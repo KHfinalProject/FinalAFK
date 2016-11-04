@@ -45,10 +45,12 @@
 					a.info_loc_l, a.info_loc_m, a.info_loc_s, a.info_count, a.info_point, a.info_notify, a.info_price, a.info_map
 				from(
 					select *
-					from info_board)a
+					from info_board
+					order by ${code} desc
+					)a
 				where rownum <= #{end})x
 			where x.rnum >= #{start}
-			order by ${code} desc
+			
 		]]>
 	</select>
 	

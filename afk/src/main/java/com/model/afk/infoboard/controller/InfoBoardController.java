@@ -80,9 +80,10 @@ public class InfoBoardController {
 	 //더보기클릭시URL
 	 @RequestMapping("/infomore.do")
 	 public @ResponseBody List<InfoBoardVO> infopaging(HttpServletResponse response,
-			 @RequestParam int page) throws Exception{
+			 @RequestParam(value="page", defaultValue="1") int page, 
+			 @RequestParam(value="code", defaultValue="info_no") String code) throws Exception{
 		 System.out.println("=================MoreList.do======================");
-		 List<InfoBoardVO> list = bsvc.getBoardList(page);
+		 List<InfoBoardVO> list = bsvc.getBoardSelectList(page, code);
 		 		 
 		 return list;
 		 
