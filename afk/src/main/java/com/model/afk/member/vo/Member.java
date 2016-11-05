@@ -11,7 +11,7 @@ public class Member implements Serializable{
 	private String mb_bank;
 	private String mb_loc_phone;
 	private String mb_address;
-	private char mb_grade;
+	private int mb_grade;
 public Member(){}
 
 public Member(String mb_id, String mb_pwd, String mb_name,  String mb_email, String mb_phone) {
@@ -25,7 +25,7 @@ public Member(String mb_id, String mb_pwd, String mb_name,  String mb_email, Str
 }
 
 public Member(String mb_id, String mb_pwd, String mb_name, String mb_email, String mb_phone, String mb_original_pic,
-		String mb_rename_pic, String mb_bank, String mb_loc_phone, String mb_address, char mb_grade) {
+		String mb_rename_pic, String mb_bank, String mb_loc_phone, String mb_address, int mb_grade) {
 	super();
 	this.mb_id = mb_id;
 	this.mb_pwd = mb_pwd;
@@ -120,11 +120,11 @@ public void setMb_address(String mb_address) {
 	this.mb_address = mb_address;
 }
 
-public char getMb_grade() {
+public int getMb_grade() {
 	return mb_grade;
 }
 
-public void setMb_grade(char mb_grade) {
+public void setMb_grade(int mb_grade) {
 	this.mb_grade = mb_grade;
 }
 
@@ -135,6 +135,8 @@ public String toString() {
 			+ ", mb_bank=" + mb_bank + ", mb_loc_phone=" + mb_loc_phone + ", mb_address=" + mb_address + ", mb_grade="
 			+ mb_grade + "]";
 }
+
+
 
 
 
