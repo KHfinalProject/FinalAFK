@@ -32,6 +32,9 @@
   <script>
   /*달력용*/
 	  var dates = new Array();
+  	  //테스트용 
+  	  dates.push("2016-11-16");
+  	  dates.push("2016-11-17");
 	
 	  function addDate(date) {
 	      if (jQuery.inArray(date, dates) < 0) 
@@ -84,6 +87,14 @@
 	              addOrRemoveDate(dateText);
 	          },
 	          beforeShowDay: function (date) {
+	        	  
+	        	  if(date.length > 0){
+	        		  for (var i in dates)
+		        		  selected += dates[i] + ", ";
+		        	  
+		        	  $('#print_date').html(selected);
+	        	  }
+	        	  
 	              var year = date.getFullYear();
 	              var month = padNumber(date.getMonth() + 1);
 	              var day = padNumber(date.getDate());
@@ -353,7 +364,7 @@
 				<table id="item_info" style="width : 100%; table-layout: fixed;">
 					<tr>
 						<td colspan="2">
-						<a href="#">
+						<a href="guideDetail?itemNo=${firstList.gui_no}&writer=${firstList.gui_writer}">
 							<img src="${firstList.gui_image}" width="400px" height="450px" class="img-rounded">
 						</a>
 						</td>
@@ -370,7 +381,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td align="left"><%-- <a href="guideSub.do?${firstList.gui_writer}">${firstList.gui_writer}</a> --%></td>
+						<td align="left"><a href="guideSub?writer=${firstList.gui_writer}">${firstList.gui_writer}</a></td>
 					</tr>
 					<tr>
 						<td align="left">${firstList.gui_price}</td>

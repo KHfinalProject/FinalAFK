@@ -26,6 +26,7 @@ import com.model.afk.guide.service.GuideCommentService;
 import com.model.afk.guide.vo.GuideComment;
 import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.guide.vo.Test;
+import com.model.afk.member.vo.Member;
 
 
 @RequestMapping("/guide")
@@ -62,30 +63,48 @@ public class GuideController {
 		return list;
 	}
 	
-	//가이드 서브 페이지에서 해당 가이드가 등록한 정보만 로딩
+	//가이드 아이디 클릭 시 해당 가이드의 페이지로 이동
 	@RequestMapping("/guideSub")
-	public String getAllItems(Model model, String writerNo, @RequestParam(value="page", defaultValue="1") int page){
+	public String getAllItems(Model model, @RequestParam String writer, @RequestParam(value="page", defaultValue="1") int page){
 		System.out.println("=====================guideSub======================");
 		
-		//List<GuideItem> list = guideBoardService.getAllItems(writerNo, page);
+		List<GuideItem> list = guideBoardService.getAllItems(writer, page);
+		Member guide = guideBoardService.getGuideInfo(writer);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("guide", guide);
+		
+		System.out.println(list.toString());
 		
 		return "guide/sub";
 	}
 	
-	public String getOneItem(Model model, int guideNo){
-		List<GuideComment> commentList = guideCommentService.getAllComments(guideNo);
+
+	//상품 사진 클릭 시 해당 상품 상세 페이지로 이동
+	@RequestMapping("/guideDetail")
+	public String getOneItem(Model model, @RequestParam int itemNo, 
+			@RequestParam(value="page", defaultValue="1") int page, @RequestParam String writer){
+		
+		int result = guideBoardService.addCount(itemNo);
+		
+		if(result > 0){
+			List<GuideComment> commentList = guideCommentService.getAllComments(itemNo, page);
+			GuideItem guideItem = guideBoardService.getOneItem(itemNo);
+			Member guide = guideBoardService.getGuideInfo(writer);
+			
+			model.addAttribute(commentList);
+			model.addAttribute(guideItem);
+			model.addAttribute(guide);
+			
+			System.out.println(guide.toString());
+		}	
 		
 		return "guide/detail";
 	}
 	
-	public String searchGuide(Model model, String keyword){
-		
-		return "guide/main";
-	}
-	
-	public String searchItem(Model model, String keyword){
-		
-		return "guide/sub";
+	@RequestMapping("/notifyGuideItem")
+	public void notifyItem(@RequestParam int itemNo){
+		int result = guideBoardService.notifyItem(itemNo);
 	}
 	
 	@RequestMapping("/insertGuideForm")
@@ -109,7 +128,20 @@ public class GuideController {
 		}
 		
 		return "guide/detail";
+	}	
+	
+	
+	public String searchGuide(Model model, String keyword){
+		
+		return "guide/main";
 	}
+	
+	public String searchItem(Model model, String keyword){
+		
+		return "guide/sub";
+	}
+	
+
 	
 	public String updateItem(Model model, SessionStatus sessionStatus, BindingResult result){
 		

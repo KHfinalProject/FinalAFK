@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.model.afk.guide.dao.GuideBoardDao;
 import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.guide.vo.Test;
+import com.model.afk.member.vo.Member;
 
 @Service("guideBoardService")
 public class GuideBoardServiceImpl implements GuideBoardService{
@@ -55,11 +56,25 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 		int result = 0;
 		return result;
 	}
+	
+	@Override
+	public Member getGuideInfo(String writer) {
+		return guideBoardDao.getGuideInfo(writer);
+	}
+	
+	@Override
+	public GuideItem getOneItem(int itemNo) {
+		return guideBoardDao.getOneItem(itemNo);
+	}
+	
+	@Override
+	public int notifyItem(int itemNo) {
+		return guideBoardDao.notifyItem(itemNo);
+	}
 
 	@Override
-	public int addCount(int guideNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int addCount(int itemNo) {
+		return guideBoardDao.addCount(itemNo);
 	}
 
 	@Override

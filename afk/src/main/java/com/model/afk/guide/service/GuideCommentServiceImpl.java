@@ -12,27 +12,28 @@ import com.model.afk.guide.vo.GuideComment;
 public class GuideCommentServiceImpl implements GuideCommentService {
 
 	@Autowired
-	private GuideCommentDao gcd;
+	private GuideCommentDao guideCommentDao;
 	
 	@Override
-	public List<GuideComment> getAllComments(int guideNo) {	
-		return gcd.getAllComments(guideNo);
+	public List<GuideComment> getAllComments(int guideNo, int page) {	
+		return guideCommentDao.getAllComments(guideNo, page);
 	}
 
 	@Override
 	public int insertComment(GuideComment gc) {
-		return gcd.insertComment(gc);
+		return guideCommentDao.insertComment(gc);
 	}
 
 	@Override
 	public int updateComment(GuideComment gc) {
-		return gcd.updateComment(gc);
+		return guideCommentDao.updateComment(gc);
 	}
 
 	@Override
 	public int deleteComment(int cmNo) {
-		return gcd.deleteComment(cmNo);
+		return guideCommentDao.deleteComment(cmNo);
 	}
+
 
 
 }

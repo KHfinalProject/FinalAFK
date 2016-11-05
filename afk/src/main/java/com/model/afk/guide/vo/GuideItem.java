@@ -20,7 +20,10 @@ public class GuideItem implements java.io.Serializable {
 	private String gui_map; // 지도 정보
 	private String gui_image; // 사진
 	private String gui_date; // 가이드 가능한 날짜들
-
+	private String area_name; //지역명
+	private String country_name; //국가명
+	private String city_name; //도시명
+	
 	// Constructor
 	public GuideItem() {
 	}
@@ -45,9 +48,33 @@ public class GuideItem implements java.io.Serializable {
 		this.gui_image = gui_image;
 		this.gui_date = gui_date;
 	}
+	
+	public GuideItem(int gui_no, String gui_title, String gui_content, String gui_writer, Date gui_enrolldate,
+			String gui_loc_l, String gui_loc_m, String gui_loc_s, int gui_count, int gui_point, int gui_notify,
+			int gui_price, String gui_map, String gui_image, String gui_date, String area_name, String country_name,
+			String city_name) {
+		super();
+		this.gui_no = gui_no;
+		this.gui_title = gui_title;
+		this.gui_content = gui_content;
+		this.gui_writer = gui_writer;
+		this.gui_enrolldate = gui_enrolldate;
+		this.gui_loc_l = gui_loc_l;
+		this.gui_loc_m = gui_loc_m;
+		this.gui_loc_s = gui_loc_s;
+		this.gui_count = gui_count;
+		this.gui_point = gui_point;
+		this.gui_notify = gui_notify;
+		this.gui_price = gui_price;
+		this.gui_map = gui_map;
+		this.gui_image = gui_image;
+		this.gui_date = gui_date;
+		this.area_name = area_name;
+		this.country_name = country_name;
+		this.city_name = city_name;
+	}
 
 	// Getter & Setter
-
 	public int getGui_no() {
 		return gui_no;
 	}
@@ -168,13 +195,38 @@ public class GuideItem implements java.io.Serializable {
 		this.gui_date = gui_date;
 	}
 
+	public String getArea_name() {
+		return area_name;
+	}
+
+	public void setArea_name(String area_name) {
+		this.area_name = area_name;
+	}
+
+	public String getCountry_name() {
+		return country_name;
+	}
+
+	public void setCountry_name(String country_name) {
+		this.country_name = country_name;
+	}
+
+	public String getCity_name() {
+		return city_name;
+	}
+
+	public void setCity_name(String city_name) {
+		this.city_name = city_name;
+	}
+
 	@Override
 	public String toString() {
 		return "GuideItem [gui_no=" + gui_no + ", gui_title=" + gui_title + ", gui_content=" + gui_content
 				+ ", gui_writer=" + gui_writer + ", gui_enrolldate=" + gui_enrolldate + ", gui_loc_l=" + gui_loc_l
 				+ ", gui_loc_m=" + gui_loc_m + ", gui_loc_s=" + gui_loc_s + ", gui_count=" + gui_count + ", gui_point="
 				+ gui_point + ", gui_notify=" + gui_notify + ", gui_price=" + gui_price + ", gui_map=" + gui_map
-				+ ", gui_image=" + gui_image + ", gui_date=" + gui_date + "]";
+				+ ", gui_image=" + gui_image + ", gui_date=" + gui_date + ", area_name=" + area_name + ", country_name="
+				+ country_name + ", city_name=" + city_name + "]";
 	}
 	
 	

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.guide.vo.Test;
+import com.model.afk.member.vo.Member;
 
 @Repository("guideBoardDao")
 public class GuideBoardDao {
@@ -32,6 +33,23 @@ public class GuideBoardDao {
 		return sqlSession.selectList(NAMESPACE + "getAllItems", map);
 	}
 	
+	public Member getGuideInfo(String writer) {
+		return sqlSession.selectOne(NAMESPACE + "getGuideInfo", writer);
+	}
+	
+	public GuideItem getOneItem(int itemNo) {
+		return sqlSession.selectOne(NAMESPACE + "getOneItem", itemNo);
+	}
+	
+	public int addCount(int itemNo){
+		
+		return sqlSession.update(NAMESPACE + "addCount", itemNo);
+	}
+	
+	public int notifyItem(int itemNo) {
+		return sqlSession.update(NAMESPACE + "notifyItem", itemNo);
+	}
+	
 	public int insertItem(GuideItem gi){
 		
 		return sqlSession.insert(NAMESPACE + "insertItem", gi);
@@ -47,10 +65,7 @@ public class GuideBoardDao {
 		return sqlSession.delete(NAMESPACE + "deleteItem", guideNo);
 	}
 	
-	public int addCount(int guideNo){
-		
-		return sqlSession.update(NAMESPACE + "addCount", guideNo);
-	}
+
 
 
 	

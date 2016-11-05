@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.guide.vo.Test;
+import com.model.afk.member.vo.Member;
 
 public interface GuideBoardService {
 	
@@ -19,7 +20,14 @@ public interface GuideBoardService {
 	
 	public int deleteItem(int guideNo);
 	
-	public int addCount(int guideNo);
+	public int addCount(int itemNo);
+	
+	public Member getGuideInfo(String writer);
+
+	public GuideItem getOneItem(int itemNo);
+
+	public int notifyItem(int itemNo);
+	
 	
 	public List<GuideItem> searchGuide(String keyword);
 	

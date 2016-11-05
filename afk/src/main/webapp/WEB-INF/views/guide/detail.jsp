@@ -79,6 +79,26 @@
 			}
 		$("#selected_point").text(point);
 	});
+	
+	//아이콘 클릭 시 해당 글 신고
+	$("#notify").on('click', function(){
+		var gui_no = ${guideItem.gui_no};
+		var check = confirm("이 글을 신고하시겠습니까?");
+		if(check){
+			$.ajax({
+				url : "notifyGuideItem",
+				type : "post",
+				data : {itemNo : gui_no},
+				success : function(data){
+					var count = $('#print_notify').val();
+					console.log("success");
+					alert("신고 처리되었습니다.");
+					console.log("신고");
+					$('#print_notify').val(count + 1);
+				}
+			});
+		}
+	})
 
 
 	/*달력용*/
@@ -93,8 +113,6 @@
 		monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
 		dayNamesMin: ['일', '월', '화', '수', '목', '금', '토']
 	});
-
-
   });
   
   </script>
@@ -351,7 +369,7 @@
 				<table width="100%">
 				<tr>
 					<td style="font-size:22pt">
-						가이드 이름
+						${guide.mb_name}
 					</td>
 					<td>&nbsp;&nbsp;
 						<button type="button" class="btn btn-default">
@@ -365,7 +383,7 @@
 						이메일 
 					</td>
 					<td>
-						메일 주소소소ㅗ
+						${guide.mb_email}
 					</td>
 				</tr>
 				<tr style="font-size:12pt">
@@ -373,7 +391,7 @@
 						현지 연락처
 					</td>
 					<td>
-						+82-10-1111-2222
+						${guide.mb_loc_phone}
 					</td>
 				</tr>	
 				</table>	
@@ -386,30 +404,30 @@
 				<table cellpadding="2" border="0">
 				<tr>
 					<td>지역</td>
-					<td colspan="2">아시아</td>
+					<td colspan="2">${guideItem.area_name}</td>
 				</tr>
 				<tr>
 					<td>국가</td>
-					<td colspan="2">대한민국</td>
+					<td colspan="2">${guideItem.country_name }</td>
 				</tr>
 				<tr>
 					<td>주요 장소</td>
-					<td colspan="2">이태원, 경리단길, 남산</td>
+					<td colspan="2">${guideItem.city_name }</td>
 				</tr>
 			
 				<tr>
 					<td>가격대</td>
-					<td colspan="2">10000~</td>
+					<td colspan="2">${guideItem.gui_price }</td>
 				</tr>
 				<tr>
 					<td>
-					<span class="glyphicon glyphicon-eye-open"></span> 100
+					<span class="glyphicon glyphicon-eye-open"></span> ${guideItem.gui_count}
 					</td>
 					<td>
-					<span class="glyphicon glyphicon-star" style="color:#ffcc33"></span> 3.5
+					<span class="glyphicon glyphicon-star" style="color:#ffcc33"></span> ${guideItem.gui_point}
 					</td>
 					<td>
-					<button class="btn btn-default" style="border:none"><span class="glyphicon glyphicon-thumbs-down"></span></button> 1
+					<button class="btn btn-default" style="border:none" id="notify"><span class="glyphicon glyphicon-thumbs-down"></span></button> <span id="print_notify">${guideItem.gui_notify}</span>
 					</td>
 				</tr>
 				<tr>
@@ -508,6 +526,7 @@
 				<button class="btn btn-primary" style="position:relative; top:-20px; height: 40px">등록</button>
 			</div>
 
+			<c:forEach var="comment" items="commentList">
 			<div id="user_rep">
 				<table width="100%">
 					<tr>
@@ -515,11 +534,9 @@
 							<img src="images/k.jpg" alt="..." class="img-circle" width="50px" height="50px">
 						</td>
 						<td width="70%">
-							리플리플리플리플
+							${commentList.mb_rename_pic}
 						</td>
-						<td width="80px">
-							16-10-23
-						</td>
+				
 						<td>
 							<span id="revise_remove">
 								<button class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
@@ -529,50 +546,8 @@
 					</tr>
 				</table>				
 			</div>
-
-			<div id="user_rep">
-				<table width="100%">
-					<tr>
-						<td width="auto">
-							<img src="images/k.jpg" alt="..." class="img-circle" width="50px" height="50px">
-						</td>
-						<td width="70%">
-							리플리플리플리플
-						</td>
-						<td width="80px">
-							16-10-23
-						</td>
-						<td>
-							<span id="revise_remove">
-								<button class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
-								<button class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
-							</span>
-						</td>
-					</tr>
-				</table>				
-			</div>
-
-			<div id="user_rep">
-				<table width="100%">
-					<tr>
-						<td width="auto">
-							<img src="images/k.jpg" alt="..." class="img-circle" width="50px" height="50px">
-						</td>
-						<td width="70%">
-							리플리플리플리플
-						</td>
-						<td width="80px">
-							16-10-23
-						</td>
-						<td>
-							<span id="revise_remove">
-								<button class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
-								<button class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
-							</span>
-						</td>
-					</tr>
-				</table>				
-			</div>
+			</c:forEach>
+			
 		</div><!--end of item_reply-->
 
 	</div><!--end of item_detail-->

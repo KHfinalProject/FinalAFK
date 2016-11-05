@@ -1,6 +1,8 @@
 package com.model.afk.guide.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,12 @@ public class GuideCommentDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public List<GuideComment> getAllComments(int guideNo){
-		
-		return sqlSession.selectList(NAMESPACE + "getAllComments", guideNo);
+	public List<GuideComment> getAllComments(int itemNo, int page){
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", page);
+		map.put("end", page + 4);
+		map.put("itemNo", itemNo);
+		return sqlSession.selectList(NAMESPACE + "getAllComments", map);
 	}
 	
 	public int insertComment(GuideComment gc){

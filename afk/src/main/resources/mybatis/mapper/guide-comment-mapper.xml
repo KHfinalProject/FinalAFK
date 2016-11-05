@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="guideCommentMapper">
+ 
+ <resultMap id="gCmtList" type="gCmt">
+ 	<result property="cm_no" column="cm_no" />
+ 	<result property="cm_writer" column="cm_writer" />
+ 	<result property="cm_board_no" column="cm_board_no" />
+ 	<result property="cm_content" column="cm_content" />
+ </resultMap>
+ 
+ <select id="getAllComments" parameterType="java.util.HashMap" resultMap="gCmtList">
+ 	<![CDATA[
+ 		SELECT x.cm_no, x.cm_writer, x.cm_board_no, x.cm_content
+		FROM(
+		    SELECT rownum as rnum, a.cm_no, a.cm_writer,
+		    	 	a.cm_board_no, a.cm_content  	
+		    FROM(
+		        SELECT *
+		        FROM guide_comment)a
+		    WHERE rownum <= #{end})x
+		WHERE x.rnum >= #{start} and x.cm_board_no = #{itemNo}
+ 	]]>
+ </select>
+ 
+ </mapper>

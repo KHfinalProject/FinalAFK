@@ -6,7 +6,7 @@ import com.model.afk.guide.vo.GuideComment;
 
 public interface GuideCommentService {
 	
-	public List<GuideComment> getAllComments(int guideNo);
+	public List<GuideComment> getAllComments(int guideNo, int page);
 	
 	public int insertComment(GuideComment gc);
 	
