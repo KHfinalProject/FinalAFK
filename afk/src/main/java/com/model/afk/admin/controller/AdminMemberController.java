@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.model.afk.admin.Service.AdminMemberService;
+import com.model.afk.admin.vo.AdminGrade;
 import com.model.afk.admin.vo.AdminMember;
 
 
@@ -30,6 +31,18 @@ public class AdminMemberController {
 		List<AdminMember> memberList = ams.getMemberList();
 		model.addAttribute("memberList", memberList);
 		return "admin/memberListView";
+		
+	}
+	
+	// 등급 출력
+	@RequestMapping("/memberGrade")
+	public String memberGradeList(Model model){
+		List<AdminGrade> memberGrade = ams.getAdminGrade();
+		model.addAttribute("memberGrade", memberGrade);
+		System.out.println(memberGrade);
+		return "admin/memberListView";
+		
+		
 		
 	}
 	

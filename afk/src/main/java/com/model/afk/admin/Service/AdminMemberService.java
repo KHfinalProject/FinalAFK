@@ -2,6 +2,7 @@ package com.model.afk.admin.Service;
 
 import java.util.List;
 
+import com.model.afk.admin.vo.AdminGrade;
 import com.model.afk.admin.vo.AdminMember;
 
 public interface AdminMemberService {
@@ -19,6 +20,9 @@ public interface AdminMemberService {
 
 
 	public int memberGrUpdate(String memberId);
+
+
+	public List<AdminGrade> getAdminGrade();
 
 
 

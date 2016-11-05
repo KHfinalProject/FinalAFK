@@ -18,12 +18,12 @@ public class AdminMember implements Serializable{
     private String memberBank;
     private String memberLocPhone;
 	private String memberAddress;
-    private char memberGrade;
+    private int memberGrade;
     
     
 	public AdminMember(String memberId, String memberPwd, String memberName, String memberEmail, String memberPhone,
 			Date memberJoinDate, String memberOriginalPic, String memberRenamePic, String memberBank,
-			String memberLocPhone, String memberAddress, char memberGrade) {
+			String memberLocPhone, String memberAddress, int memberGrade) {
 		super();
 		this.memberId = memberId;
 		this.memberPwd = memberPwd;
@@ -38,88 +38,139 @@ public class AdminMember implements Serializable{
 		this.memberAddress = memberAddress;
 		this.memberGrade = memberGrade;
 	}
+
+
 	public String getMemberId() {
 		return memberId;
 	}
+
+
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
+
+
 	public String getMemberPwd() {
 		return memberPwd;
 	}
+
+
 	public void setMemberPwd(String memberPwd) {
 		this.memberPwd = memberPwd;
 	}
+
+
 	public String getMemberName() {
 		return memberName;
 	}
+
+
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
 	}
+
+
 	public String getMemberEmail() {
 		return memberEmail;
 	}
+
+
 	public void setMemberEmail(String memberEmail) {
 		this.memberEmail = memberEmail;
 	}
+
+
 	public String getMemberPhone() {
 		return memberPhone;
 	}
+
+
 	public void setMemberPhone(String memberPhone) {
 		this.memberPhone = memberPhone;
 	}
+
+
 	public Date getMemberJoinDate() {
 		return memberJoinDate;
 	}
+
+
 	public void setMemberJoinDate(Date memberJoinDate) {
 		this.memberJoinDate = memberJoinDate;
 	}
+
+
 	public String getMemberOriginalPic() {
 		return memberOriginalPic;
 	}
+
+
 	public void setMemberOriginalPic(String memberOriginalPic) {
 		this.memberOriginalPic = memberOriginalPic;
 	}
+
+
 	public String getMemberRenamePic() {
 		return memberRenamePic;
 	}
+
+
 	public void setMemberRenamePic(String memberRenamePic) {
 		this.memberRenamePic = memberRenamePic;
 	}
+
+
 	public String getMemberBank() {
 		return memberBank;
 	}
+
+
 	public void setMemberBank(String memberBank) {
 		this.memberBank = memberBank;
 	}
+
+
 	public String getMemberLocPhone() {
 		return memberLocPhone;
 	}
+
+
 	public void setMemberLocPhone(String memberLocPhone) {
 		this.memberLocPhone = memberLocPhone;
 	}
+
+
 	public String getMemberAddress() {
 		return memberAddress;
 	}
+
+
 	public void setMemberAddress(String memberAddress) {
 		this.memberAddress = memberAddress;
 	}
-	public char getMemberGrade() {
+
+
+	public int getMemberGrade() {
 		return memberGrade;
 	}
-	public void setMemberGrade(char memberGrade) {
+
+
+	public void setMemberGrade(int memberGrade) {
 		this.memberGrade = memberGrade;
 	}
+
+
 	@Override
 	public String toString() {
 		return "AdminMember [memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName=" + memberName
-				+ ", memberEmail=" + memberEmail + ", memberPhone=" + memberPhone + ", memberJoinDate="
-				+ memberJoinDate + ", memberOriginalPic=" + memberOriginalPic + ", memberRenamePic="
-				+ memberRenamePic + ", memberBank=" + memberBank + ", memberLocPhone=" + memberLocPhone
-				+ ", memberAddress=" + memberAddress + ", memberGrade=" + memberGrade + "]";
+				+ ", memberEmail=" + memberEmail + ", memberPhone=" + memberPhone + ", memberJoinDate=" + memberJoinDate
+				+ ", memberOriginalPic=" + memberOriginalPic + ", memberRenamePic=" + memberRenamePic + ", memberBank="
+				+ memberBank + ", memberLocPhone=" + memberLocPhone + ", memberAddress=" + memberAddress
+				+ ", memberGrade=" + memberGrade + "]";
 	}
-	
-	
+    
+    
+    
 	
     
     

@@ -1,4 +1,4 @@
-s4<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -157,9 +157,8 @@ s4<%@ page language="java" contentType="text/html; charset=UTF-8"
 
 <table class ="member"  cellspacing ="0">
 <c:forEach var="m" items="${memberList}">
-
   <tr>
-		<th>아이디</th><th>이름</th><th>이메일</th><th>연락처</th><!-- <th>회원등급</th> --><th>가입일</th>
+		<th>아이디</th><th>이름</th><th>이메일</th><th>연락처</th><th>회원등급</th><th>가입일</th>
 		<th>회원사진</th><th>회원변경용사진</th><th>가이드계좌번호</th><th>가이드현지연락처</th><th>가이드현지주소</th><th>옵션</th>
   </tr>
 		<tr>
@@ -167,14 +166,21 @@ s4<%@ page language="java" contentType="text/html; charset=UTF-8"
 			<td>${m.memberName}</td>
 			<td>${m.memberEmail}</td>
 			<td>${m.memberPhone}</td>
-			<!-- <td>
-				 <select name="member_select" style="width:200px">
-					<option value="member" selected> 일반회원
-					<option value="guide"> 가이드
-					<option value="admin">관리자
+			<td align="center">
+				${m.memberGrade}
+				 <select name="memberGrade" style="width:200px">
+				 
+				 <c:forEach var="mu" items="${memberGrade}">
+				 	<option value="${mu.g_No}" selected> ${mu.g_Name} </option>
+				</c:forEach>
+				
 			</select>
-			<input class="btn btn btn-info" type="submit" value="등급수정">
-			</td> -->
+			<c:url var="mu" value="admemberUpdate">
+			<c:param name="memberId" value="${m.memberId}" />
+			</c:url>
+			<a href="${mu}" target="_self">수정하기</a>
+			<!-- <input class="btn btn btn-info" type="submit" value="등급수정"> -->
+			</td>
 			 <td>${m.memberJoinDate}</td>
 			<td>${m.memberOriginalPic}</td>
 			<td>${m.memberRenamePic}</td>

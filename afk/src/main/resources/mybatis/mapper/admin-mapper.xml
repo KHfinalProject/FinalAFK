@@ -20,6 +20,11 @@
 
 	</resultMap>
 	
+	<resultMap id="memberGrade" type="aGrade">
+		<id property="g_No" column="g_no" />
+		<result property="g_Name" column="g_name" />
+	</resultMap>
+	
 	<select id="memberAll" parameterType="List" resultMap="memberResult">
 	select * from final.member
 	</select>
@@ -28,4 +33,8 @@
 		DELETE FROM 
 		MEMBER WHERE MB_ID = #{memberId}
 	</delete>
+	
+	<select id="gradeAll" parameterType="List" resultMap="memberGrade">
+		select * from final.grade
+	</select>
   </mapper>
