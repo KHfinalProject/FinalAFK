@@ -8,7 +8,7 @@ import com.model.afk.member.vo.Member;
 
 public interface GuideBoardService {
 	
-	public List<GuideItem> getGuideList(int page);
+	public List<GuideItem> getGuideList(int page, String code);
 	
 	public List<GuideItem> getAllGuides(int page);
 	
@@ -28,6 +28,12 @@ public interface GuideBoardService {
 
 	public int notifyItem(int itemNo);
 	
+	public int addFavoriteGI(String user, int itemNo);
+
+	public int removeFavoriteGI(String user, int itemNo);
+
+	
+	
 	
 	public List<GuideItem> searchGuide(String keyword);
 	
@@ -39,7 +45,7 @@ public interface GuideBoardService {
 	
 	public List<Test> paging(int testNo);
 
-	
+
 
 	
 	

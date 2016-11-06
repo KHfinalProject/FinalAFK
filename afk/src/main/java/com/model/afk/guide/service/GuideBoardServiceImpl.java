@@ -19,10 +19,11 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	private GuideBoardDao guideBoardDao;
 	
 	@Override
-	public List<GuideItem> getGuideList(int page) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
+	public List<GuideItem> getGuideList(int page, String code) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", page);
 		map.put("end", page + 7);
+		map.put("code", code);
 		return guideBoardDao.getGuideMain(map);
 	}
 	
@@ -76,6 +77,18 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	public int addCount(int itemNo) {
 		return guideBoardDao.addCount(itemNo);
 	}
+	
+	
+	@Override
+	public int addFavoriteGI(String user, int itemNo) {	
+		return guideBoardDao.addFavoriteGI(user, itemNo);
+	}
+
+	@Override
+	public int removeFavoriteGI(String user, int itemNo) {
+		return guideBoardDao.removeFavoriteGI(user, itemNo);
+	}
+	
 
 	@Override
 	public List<GuideItem> searchGuide(String keyword) {
@@ -106,6 +119,8 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 		map.put("end", testNo + 4);
 		return guideBoardDao.paging(map);
 	}
+
+	
 	
 
 }

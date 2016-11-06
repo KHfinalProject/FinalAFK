@@ -116,50 +116,117 @@
 	  var check = $(obj).children('span').hasClass('glyphicon glyphicon-star');
 	  if(check === false){
 		$(obj).children('span').attr('class', 'glyphicon glyphicon-star');
-	  }else{
-		$(obj).children('span').attr('class', 'glyphicon glyphicon-star-empty');
-	  }
-  }
-
-  $(function(){
-	/*더보기 클릭 시 다음 리스트 불러오기 기능*/
-	var count = 1;
-	$('#read_more').click(function(){
-		
-		count += 5;
-		console.log("count : " + count);
 		
 		$.ajax({
+			url : "addFavorite",
+			type : "post",
+			data : {user : user, itemNo : itemNo},
+			success : function(data){
+				alert("즐겨찾기에 보관되었습니다!");
+			}
+		});
+		
+	  }else{
+		$(obj).children('span').attr('class', 'glyphicon glyphicon-star-empty');
+		
+		$.ajax({
+			url : "removeFavorite",
+			type : "post",
+			data : {user : user, itemNo : itemNo},
+			success : function(data){
+				alert("즐겨찾기에서 삭제되었습니다!");
+			}
+		});
+	  }
+  }
+  
+  var code = "gui_no";
+  function load_select(cmd){
+	  var code = cmd;
+	  
+	  $.ajax({
 			url : "guideMore",
 			type : "post",
-			data : {page : count},
+			data : {code : code},
 			dataType : "json",
 			success : function(data){
 				console.log("success");
 				var result = "";
-				var old = $("#added_list").html();
+				//var old = $("#loaded_item_list").html();
 				
 				if(data.length > 0){
 					for(var i in data){
-						result += "<section id='item_box'><table id='item_info'style='width : 100%; table-layout: fixed;'><tr><td colspan='2'>";
-						result += "<a href='#'><img src='" + data[i].gui_image + "' width='400px' height='450px' class='img-rounded'></a>";
-						result += "</td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
-						result += "<nobr>" + data[i].gui_title + "</nobr>";
-						result += "</td><td rowspan='2' align='right'>";
-						result += "<button id='wish' class='btn btn-default' style='color: #ffcc66' onclick='add_favorite(this)'>";
-						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'>"
-						result += "</span></button></td></tr><tr><td align='left'>";
-						result += data[i].gui_writer + "</td></tr><tr><td align='left'>"
-						result += data[i].gui_price + "</td></tr/></table></section>";
-						
-						console.log("추출 데이터 : " + data[i].gui_title);
+						result += "<section id='item_box'>";
+						result += "<table id='item_info' style='width:100% table-layout:fixed;'>";
+						result += "<tr><td colspan='2'>";
+						result += "<a href='guideDetail?itemNo=" + data[i].gui_no + "&writer=" + data[i].gui_writer + "'>";
+						result += "<img src='" + data[i].gui_image+ "' width='400px' height='450px' class='img-rounded'>";
+						result += "</a></td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
+						result += "<nobr>" + data[i].gui_title + "</nobr></td><td rowspan='2' align='right'>";
+						result += "<button id='wish' onclick='add_favorit(this)'>";
+						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
+						result += "</button></td></tr><tr><td align='left'>";
+						result += "<a href='guideSub?writer=" + data[i].gui_writer + "'>" + data[i].gui_writer;
+						result += "</a></td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
+						result += "</tr></table></section>";
 					}
 					
 				}else{
-					result = "<h3>더 이상 불러올 글이 없습니다</h3>";
+					result = "<h3>더 이상 불러올 글이 없습니다!</h3>";
+					$('#read_more').remove();
 				}
 				
-				$('#added_list').html(old + result);
+				$('#loaded_item_list').html(result);
+								
+			},
+			error : function(e){
+				console.log("error");
+			}
+  	});
+  }
+
+  $(function(){
+	/*더보기 클릭 시 다음 리스트 불러오기 기능*/
+	var count = Number($('#paging_count').val());
+	$('#read_more').click(function(){
+		
+		count += 5;
+		console.log("count : " + count);
+		var code = $('#paging_code').val();
+		
+		$.ajax({
+			url : "/afk/guide/guideMore",
+			type : "post",
+			data : {page : count, code : code},
+			dataType : "json",
+			success : function(data){
+				console.log("success");
+				var result = "";
+				var old = $("#loaded_item_list").html();
+				
+				if(data.length > 0){
+					for(var i in data){
+						result += "<section id='item_box'>";
+						result += "<table id='item_info' style='width:100% table-layout:fixed;'>";
+						result += "<tr><td colspan='2'>";
+						result += "<a href='guideDetail?itemNo=" + data[i].gui_no + "&writer=" + data[i].gui_writer + "'>";
+						result += "<img src='" + data[i].gui_image+ "' width='400px' height='450px' class='img-rounded'>";
+						result += "</a></td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
+						result += "<nobr>" + data[i].gui_title + "</nobr></td><td rowspan='2' align='right'>";
+						result += "<button id='wish' onclick='add_favorit(this)'>";
+						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
+						result += "</button></td></tr><tr><td align='left'>";
+						result += "<a href='guideSub?writer=" + data[i].gui_writer + "'>" + data[i].gui_writer;
+						result += "</a></td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
+						result += "</tr></table></section>";
+					}
+					
+				}else{
+					result = "<h3>더 이상 불러올 글이 없습니다!</h3>";
+					$('#read_more').remove();
+				}
+				
+				$('#loaded_item_list').html(old + result);
 								
 			},
 			error : function(e){
@@ -193,7 +260,6 @@
 			position : relative;
 			width : 100%;
 			height : 100px;
-			background : #04378c;
 		}
 	}
 	
@@ -211,11 +277,22 @@
 		z-index : 1;
 	}
 	
-	#write_new button:hover {
-		background-color : #3c50b0;
+	#write_btn {
+		width : 150px;
+		height : 50px;
+		font-size : 15pt;
+		-moz-border-radius:10px;
+		-webkit-border-radius:10px;
+		border-radius:10px;
+		background-color : white;
 	}
 	
-	#write_new button a {
+	#write_btn:hover {
+		background-color : #e64928;
+		color : white;
+	}
+	
+	#write_btn a {
 		text-decoration : none;
 	}
 
@@ -257,9 +334,10 @@
 	}
 
 	#sort_search {
+		position : relative;
 		text-align : right;
 	}
-
+	
 	#item_box {
 		width : 40%;
 		margin : 2%;
@@ -270,6 +348,20 @@
 	#item_info td button {
 		border : none;
 		font-size : 20px;
+	}
+	
+	#wish{
+		background-color: Transparent;
+	    background-repeat:no-repeat;
+	    border: none;
+	    cursor:pointer;
+	    overflow: hidden;
+	    outline:none;
+	    color: #ffcc66
+	}
+	
+	#wish .glyphicon {
+		font-size : 30px;
 	}
 
 	#items a {
@@ -323,7 +415,7 @@
 			<h1><b>가이드와 함께 떠나는 여행</b></h1>
 		</div><!-- end of img_text -->
 		<div id="write_new">
-			<button id="write_btn" class="btn btn-default btn-lg">
+			<button id="write_btn">
 				<a href="/afk/guide/insertGuideForm">새 글 작성</a>
 			</button>
 		</div><!-- end of write_new -->
@@ -347,18 +439,20 @@
 			</table>
 		</div><!--end of div select-->
 		<div id="items">
-			<p id="sort_search">
+			<div id="sort_search">
 				<input type="text" id="search_box" placeholder="검색어 입력">
 				<button id="search_icon"class="btn btn-default" type="submit">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-				</button>&nbsp;&nbsp;
-				<a href="#">인기순</a> &nbsp;&nbsp;
-				<a href="#">조회수순</a> &nbsp;&nbsp;
-				<a href="#">별점순</a> &nbsp;&nbsp;
-				<a href="#">가격순</a>&nbsp;&nbsp;
-			</p>
+				</button>
+				<div id="select_order" class="btn-group" role="group">						
+					<button type="button" class="btn btn-default" onclick="load_select('gui_point')">별점순</button>	
+					<button type="button" class="btn btn-default" onclick="load_select('gui_count')">조회순</button>
+					<button type="button" class="btn btn-default" onclick="load_select('gui_enrolldate')">최신순</button>	
+					<button type="button" class="btn btn-default" onclick="load_select('gui_price')">가격순</button>
+				</div>
+			</div>
 			
-			<div id="first_loaded_div">
+			<div id="loaded_item_list">
 			<c:forEach var="firstList" items="${list}">
 			<section id="item_box">
 				<table id="item_info" style="width : 100%; table-layout: fixed;">
@@ -375,7 +469,7 @@
 						
 						</td>
 						<td rowspan="2" align="right">
-							<button id="wish" class="btn btn-default" style="color: #ffcc66" onclick="add_favorite(this)">
+							<button id="wish" onclick="add_favorite(this)">
 								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
 							</button>
 						</td>
@@ -389,18 +483,16 @@
 				</table>
 			</section>
 			</c:forEach>
-			</div><!-- end of first_loaded_div -->
+			</div><!-- end of loaded_item_list -->
 			
-			<div id="added_list">
-			
-			</div>
 			<br>
 			<button id="read_more" class="btn btn-default btn-block">더보기</button>
 
 		</div><!--end of div items-->
 	</div><!--end of div inner-->
   </div> <!--end of div container-->
-
+<input type="hidden" id="paging_count">
+<input type="hidden" id="paging_code">
   
  </body>
 </html>

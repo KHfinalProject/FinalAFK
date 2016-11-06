@@ -54,7 +54,8 @@
 		    	a.gui_price, a.gui_map, a.gui_image	    	
 		    from(
 		        select *
-		        from guide_board)a
+		        from guide_board
+		        order by #{code})a
 		    where rownum <= #{end})x
 		where x.rnum >= #{start}	
  	]]>
@@ -116,6 +117,15 @@
  			#{gui_loc_l}, #{gui_loc_m}, #{gui_loc_s},0, 0, 0, #{gui_price}, #{gui_map}, null, #{gui_date})
  </insert>
  
+ <insert id="addFavorite" parameterType="map">
+ 	INSERT INTO guide_favorite
+ 	VALUES (guide_favorite_seq.nextval, #{user}, #{item})
+ </insert>
+ 
+ <delete id="removeFavorite" parameterType="map">
+ 	DELETE FROM guide_favorite
+ 	WHERE fa_mb_id = #{user} and fa_bd_no = #{item} 
+ </delete>
  
  
  <select id="test" resultType="Test" resultMap="testList">

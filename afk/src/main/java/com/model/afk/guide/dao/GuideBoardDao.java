@@ -1,5 +1,6 @@
 package com.model.afk.guide.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class GuideBoardDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public List<GuideItem> getGuideMain(Map<String, Integer> map) {		
+	public List<GuideItem> getGuideMain(Map<String, Object> map) {		
 		return sqlSession.selectList(NAMESPACE + "getGuideMain", map);
 	}
 
@@ -65,7 +66,19 @@ public class GuideBoardDao {
 		return sqlSession.delete(NAMESPACE + "deleteItem", guideNo);
 	}
 	
+	public int addFavoriteGI(String user, int itemNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("user", user);
+		map.put("item", itemNo);
+		return sqlSession.update(NAMESPACE + "addFavorite", map);
+	}
 
+	public int removeFavoriteGI(String user, int itemNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("user", user);
+		map.put("item", itemNo);
+		return sqlSession.insert(NAMESPACE + "removeFavorite", map);
+	}
 
 
 	
@@ -82,6 +95,8 @@ public class GuideBoardDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + "paging", map);
 	}
+
+	
 
 	
 }

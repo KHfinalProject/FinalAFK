@@ -44,10 +44,11 @@ public class GuideController {
 	//가이드 메인 페이지의 틀 로딩
 	@RequestMapping("/guideMain")
 	public String getGuideMain(Model model, 
-			@RequestParam(value="page", defaultValue="1") int page){
+			@RequestParam(value="page", defaultValue="1") int page,
+			@RequestParam(value="code", defaultValue="gui_no") String code){
 		System.out.println("======================guideMain=============");
 		System.out.println("page : " + page);
-		List<GuideItem> list = guideBoardService.getGuideList(page);
+		List<GuideItem> list = guideBoardService.getGuideList(page, code);
 		model.addAttribute("list", list);
 		
 		return "guide/main";
@@ -55,17 +56,18 @@ public class GuideController {
 	
 	//가이드 메인 페이지에서 더보기 클릭 시 추가 데이터 로딩
 	@RequestMapping("/guideMore")
-	public @ResponseBody List<GuideItem> getMoreGuideItems(@RequestParam int page) throws Exception{
+	public @ResponseBody List<GuideItem> getMoreGuideItems(@RequestParam(value="page", defaultValue="1") int page,
+			@RequestParam(value="code", defaultValue="gui_no") String code) throws Exception{
 		System.out.println("======================guideMore====================");
-		System.out.println("page : " + page);
-		List<GuideItem> list = guideBoardService.getGuideList(page);
+		List<GuideItem> list = guideBoardService.getGuideList(page, code);
 				
 		return list;
 	}
 	
 	//가이드 아이디 클릭 시 해당 가이드의 페이지로 이동
 	@RequestMapping("/guideSub")
-	public String getAllItems(Model model, @RequestParam String writer, @RequestParam(value="page", defaultValue="1") int page){
+	public String getAllItems(Model model, @RequestParam String writer, 
+			@RequestParam(value="page", defaultValue="1") int page){
 		System.out.println("=====================guideSub======================");
 		
 		List<GuideItem> list = guideBoardService.getAllItems(writer, page);
@@ -130,6 +132,16 @@ public class GuideController {
 		return "guide/detail";
 	}	
 	
+	@RequestMapping("/addFavorite")
+	public void addFavoriteGI(String user, int itemNo){
+		int result = guideBoardService.addFavoriteGI(user, itemNo);
+	}
+	
+	@RequestMapping("/removeFavorite")
+	public void removeFavoriteGI(String user, int itemNo){
+		int result = guideBoardService.removeFavoriteGI(user, itemNo);
+		
+	}
 	
 	public String searchGuide(Model model, String keyword){
 		
@@ -151,11 +163,6 @@ public class GuideController {
 	public String deleteItem(HttpSession session, int guideNo){
 		
 		return "guide/sub";
-	}
-	
-	public String addCount(HttpSession session, int guideNo){
-		
-		return "guide/detail";
 	}
 	
 	public String insertComment(Model model, HttpSession session, 

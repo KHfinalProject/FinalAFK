@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="ko">
  <head>
@@ -86,15 +87,16 @@
 		var check = confirm("이 글을 신고하시겠습니까?");
 		if(check){
 			$.ajax({
-				url : "notifyGuideItem",
+				url : "/afk/guide/notifyGuideItem",
 				type : "post",
 				data : {itemNo : gui_no},
 				success : function(data){
-					var count = $('#print_notify').val();
+					var count = $('#print_notify').html();
 					console.log("success");
 					alert("신고 처리되었습니다.");
 					console.log("신고");
-					$('#print_notify').val(count + 1);
+					count++;
+					$('#print_notify').html(count);
 				}
 			});
 		}
@@ -427,7 +429,7 @@
 					<span class="glyphicon glyphicon-star" style="color:#ffcc33"></span> ${guideItem.gui_point}
 					</td>
 					<td>
-					<button class="btn btn-default" style="border:none" id="notify"><span class="glyphicon glyphicon-thumbs-down"></span></button> <span id="print_notify">${guideItem.gui_notify}</span>
+					<button class="btn btn-default" style="border:none" id="notify"><span class="glyphicon glyphicon-thumbs-down"></span></button><span id="print_notify">${guideItem.gui_notify}</span>
 					</td>
 				</tr>
 				<tr>
