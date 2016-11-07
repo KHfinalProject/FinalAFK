@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -252,7 +253,15 @@
 		margin : 5px auto;
 		padding : 5px;
 	}
-
+	input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  padding: 10px;
+}
 
 </style>
 
@@ -279,43 +288,28 @@
 		
 		<table class = "notice" cellspacing="0">
 			<tr>
+				<th width="5%">체크</th>
 				<th width="10%">글번호</th>
-				<th width="65%">제목</th>
+				<th width="60%">제목</th>
 				<th width="10%">작성일자</th>
 				<th width="10%">조회수</th>
 			</tr>
+			<c:forEach var="m" items="${memberList}">
 			<tr>
-				<td>1</td>
-				<td>ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</td>
+				<td align="center"><input type="checkbox" class="cb1"></td>
+				<td align="center">1</td>
+				<td></td>
 				<td align="center">2016-10-20</td>
 				<td align="right">0</td>
 			</tr>
-			<tr>
-				<td>2</td>
-				<td>ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</td>
-				<td align="center">2016-10-20</td>
-				<td align="right">0</td>
-			</tr>
-			<tr>
-				<td>3</td>
-				<td>ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</td>
-				<td align="center">2016-10-20</td>
-				<td align="right">0</td>
-			</tr>
-			<tr>
-				<td>4</td>
-				<td>ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ</td>
-				<td align="center">2016-10-20</td>
-				<td align="right">0</td>
-			</tr>
+			</c:forEach>
 		  </table>
 
 	<!-- 글쓰기 버튼 -->
 		 <div id="insert_notice" align="right">
-			<br><input type="button" value="글쓰기" onclick="location.href='/afk/noticeWrite'"/>
+			<br><input type="button" value="삭제하기" onclick="location.href='/afk/noticeWrite'"/> &nbsp;<input type="button" value="글쓰기" onclick="location.href='/afk/noticeWrite'"/>
 		</div>
-	<!-- 버튼 끝 -->
-		</div>
+
 	<!-- 공지사항 끝-->
 
 	<div id = "faq">

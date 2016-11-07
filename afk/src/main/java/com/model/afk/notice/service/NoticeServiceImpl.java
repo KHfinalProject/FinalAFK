@@ -1,5 +1,7 @@
 package com.model.afk.notice.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +13,7 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	@Autowired NoticeDao ndo;
 
-	@Override
-	public Notice noticeInsert() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public Notice noticeDelete(int noticeNo) {
@@ -34,5 +32,16 @@ public class NoticeServiceImpl implements NoticeService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+	@Override
+	public int noticeInsert(Notice notice) {
+		System.out.println(" ::: serviceimpl :: " + notice);
+		return ndo.noticeInsert(notice);
+	}
+
+
+
 
 }

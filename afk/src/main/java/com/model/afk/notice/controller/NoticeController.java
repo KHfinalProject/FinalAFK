@@ -1,9 +1,16 @@
 package com.model.afk.notice.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.model.afk.admin.vo.AdminMember;
+import com.model.afk.member.vo.Member;
 import com.model.afk.notice.service.NoticeService;
 import com.model.afk.notice.vo.Notice;
 
@@ -13,11 +20,17 @@ public class NoticeController {
 	
 	@Autowired
 	private NoticeService ns;
-	
-	public String noticeInsert(Notice notice, Model model){
+	@RequestMapping(value="/noticeInsert", method= RequestMethod.POST )
+
+	public String noticeInsert(@RequestParam("notice_title") String title,
+							   @RequestParam("notice_content")String content,
+								Model model){
+		Notice notice = new Notice(null,title,content,'0',null);
+		System.out.println("::::::::::::::::::controller ::"+notice+":::::::::::::");
+		int result = ns.noticeInsert(notice);
 		
-		notice = ns.noticeInsert();
-		return null;
+		System.out.println("result :: " + result);
+		return "";
 		
 		
 	}

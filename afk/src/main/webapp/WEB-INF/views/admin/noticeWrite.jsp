@@ -19,21 +19,23 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <!-- smarteditor 불러오기-->
-<script type="text/javascript" src="/sample/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="/afk/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 </script>
 </head>
 <body>
 <div class="container">	
 <hr style="border: solid 2px red">
-<form id="frm" action="" method="">
+<form id="frm" action="noticeInsert" method="post">
+
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2"><b>제 목</b>&nbsp;&nbsp;&nbsp;</span>
-		<input name="title" type="text" class="form-control" aria-describedby="sizing-addon2">
+		<input name="notice_title" type="text" class="form-control" aria-describedby="sizing-addon2">
 	</div>
 	<br><br>
-	 <textarea name="smarteditor" id="smarteditor" style="width:100%; height:500px;"></textarea>
+	 <textarea name="notice_content" id="smarteditor" style="width:100%; height:500px;"></textarea>
 	<br><br><br>	
 </form>
+<br>
 	<div align="right">
 		<input class="btn btn-default btn-lg " type="button" value="취소">&nbsp;&nbsp;&nbsp;
 		<input class="btn btn-default btn-lg" type="button" value="저장" id="save">
@@ -48,7 +50,7 @@ $(function(){
     nhn.husky.EZCreator.createInIFrame({
         oAppRef: editor_object,
         elPlaceHolder: "smarteditor",
-        sSkinURI: "/sample/resources/smarteditor/SmartEditor2Skin.html", 
+        sSkinURI: "/afk/resources/smarteditor/SmartEditor2Skin.html", 
         htParams : {
             // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
             bUseToolbar : true,             
@@ -68,5 +70,6 @@ $(function(){
         $("#frm").submit();
     })
 })
+</script>
 </body>
 </html>
