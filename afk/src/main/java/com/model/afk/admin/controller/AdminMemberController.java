@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.model.afk.admin.Service.AdminMemberService;
-import com.model.afk.admin.vo.AdminGrade;
 import com.model.afk.admin.vo.AdminMember;
 
 
@@ -34,17 +33,6 @@ public class AdminMemberController {
 		
 	}
 	
-	// 등급 출력
-	@RequestMapping("/memberGrade")
-	public String memberGradeList(Model model){
-		List<AdminGrade> memberGrade = ams.getAdminGrade();
-		model.addAttribute("memberGrade", memberGrade);
-		System.out.println(memberGrade);
-		return "admin/memberListView";
-		
-		
-		
-	}
 	
 	 //회원 삭제 컨트롤러(삭제 클릭)
 	@RequestMapping("/admemberDelete")
@@ -63,11 +51,29 @@ public class AdminMemberController {
 		
 	}
 	
+	// 회원 등급수정 컨트롤러
 	@RequestMapping("/admemberUpdate")
-	public void memberGrUpdate(Model model, HttpServletRequest request, HttpServletResponse response){
-		String memberId = request.getParameter("memberId");
+	public void memberGrUpdate(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
-		int result = ams.memberGrUpdate(memberId);
-		model.addAttribute("memberGrUpdate", result);
+		String memberId = request.getParameter("id");
+		String memberGrade = request.getParameter("grade");
+		
+		AdminMember aMember = new AdminMember();
+		aMember.setMemberId(memberId);
+		aMember.setMemberGrade(memberGrade);
+		
+		int result = ams.memberGrUpdate(aMember);
+		
+		if(result > 0){
+			response.sendRedirect("/afk/memberListView");
+		}else{
+			System.out.println("수정 실패!");
+		}
+	}
+	
+	@RequestMapping("/updateform")
+	public String updateForm(){
+		return "admin/memberUpdateView";
+		
 	}
 }

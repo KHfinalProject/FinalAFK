@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.model.afk.admin.vo.AdminGrade;
 import com.model.afk.admin.vo.AdminMember;
 
 @Repository
@@ -27,14 +26,14 @@ public class AdminMemberDao {
 		return sqlSession.delete(NAMESPACE + "deleteMember", memberId);
 	}
 
-	public int memberGrUpdate(String memberId) {
+	public int memberGrUpdate(int memberGrade) {
 		// TODO Auto-generated method stub
-		return sqlSession.update(NAMESPACE + "memberGrUpdate", memberId);
+		return sqlSession.update(NAMESPACE + "memberUpdate", memberGrade);
 	}
 
-	public List<AdminGrade> getAdminGrade() {
+	public int memberGrUpdate(AdminMember aMember) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(NAMESPACE + "gradeAll");
+		return sqlSession.update(NAMESPACE + "memberUpdate", aMember);
 	}
 
 }

@@ -50,7 +50,7 @@
 ${grade }
 <%-- ${grade eq "B"} --%>${temp.mb_grade}
 				    	
-<c:if test="${grade eq 'C'.charAt(0)}">
+<c:if test="${grade eq 3}">
  <article class="container">
 
 
@@ -115,7 +115,7 @@ ${grade }
         </div>
       </article>
     </c:if> 
-<c:if test="${grade eq 'B'.charAt(0)}">
+<c:if test="${grade eq 2}">
  <article class="container">
 
 

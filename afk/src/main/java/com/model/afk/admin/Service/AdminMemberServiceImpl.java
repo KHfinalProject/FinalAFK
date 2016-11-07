@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model.afk.admin.dao.AdminMemberDao;
-import com.model.afk.admin.vo.AdminGrade;
 import com.model.afk.admin.vo.AdminMember;
 
 @Service
@@ -26,16 +25,11 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 	}
 
 	@Override
-	public int memberGrUpdate(String memberId) {
+	public int memberGrUpdate(AdminMember aMember) {
 		// TODO Auto-generated method stub
-		return dao.memberGrUpdate(memberId);
+		return dao.memberGrUpdate(aMember);
 	}
 
-	@Override
-	public List<AdminGrade> getAdminGrade() {
-		// TODO Auto-generated method stub
-		return dao.getAdminGrade();
-	}
 
 	
 
