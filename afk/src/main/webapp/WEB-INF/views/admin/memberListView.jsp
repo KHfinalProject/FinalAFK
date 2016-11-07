@@ -153,33 +153,36 @@
 
 <div id = "member">
 
-<!-- <form action="memberDelete" method="post"> -->
+<!-- <form action="admemberUpdate" method="get"> -->
 
 <table class ="member"  cellspacing ="0">
-<c:forEach var="m" items="${memberList}">
+<c:forEach var="m" items="${memberList}" varStatus="status">
   <tr>
 		<th>아이디</th><th>이름</th><th>이메일</th><th>연락처</th><th>회원등급</th><th>가입일</th>
 		<th>회원사진</th><th>회원변경용사진</th><th>가이드계좌번호</th><th>가이드현지연락처</th><th>가이드현지주소</th><th>옵션</th>
   </tr>
+  <form action="admemberUpdate" method="get">
 		<tr>
-			<td>${m.memberId}</td>
+			<td><input type="text" name="id" value="${m.memberId}"></td>
 			<td>${m.memberName}</td>
 			<td>${m.memberEmail}</td>
 			<td>${m.memberPhone}</td>
 			<td align="center">
-				${m.memberGrade}
-				 <select name="memberGrade" style="width:200px">
+				 <select name="grade" style="width:200px">
 				 
-				 <c:forEach var="mu" items="${memberGrade}">
-				 	<option value="${mu.g_No}" selected> ${mu.g_Name} </option>
-				</c:forEach>
-				
+			<option value="${m.memberGrade}" selected>
+ 				 <c:if test="${m.memberGrade eq 1}">관리자 </c:if>
+				 <c:if test="${m.memberGrade eq 2}">가이드</c:if>
+				 <c:if test="${m.memberGrade eq 3}">일반회원</c:if>
+			</option>
+
+  				 <option value="1">관리자</option>
+				 <option value="2">가이드 </option>
+				 <option value="3">일반회원</option>
+
 			</select>
-			<c:url var="mu" value="admemberUpdate">
-			<c:param name="memberId" value="${m.memberId}" />
-			</c:url>
-			<a href="${mu}" target="_self">수정하기</a>
-			<!-- <input class="btn btn btn-info" type="submit" value="등급수정"> -->
+			<input class="btn btn btn-info" type="submit" value="등급수정">
+		
 			</td>
 			 <td>${m.memberJoinDate}</td>
 			<td>${m.memberOriginalPic}</td>
@@ -194,8 +197,16 @@
 				<td><a href="${md}" target="_self">삭제하기</a></td>
 			<!-- <td><input class="btn btn btn-info" type="submit" value="삭제"></td> -->
 		</tr>
-		</c:forEach>
+	</form>
+				</c:forEach>
 	</table>
+
+<!-- </form> -->
 </div>
+<br>
+<center>
+<input type="submit" value="메인으로">
+</center>
+<br>
 </body>
 </html>
