@@ -65,10 +65,10 @@
 				#{info_loc_l}, #{info_loc_m}, #{info_loc_s}, 0, 0, 0, #{info_price}, #{info_map})
 	</insert>
 	
-	<update id="updateBoard" parameterType="infoBoardVO">
+	<!-- <update id="updateBoard" parameterType="infoBoardVO">
 		update info_board
 		set 
-	</update>
+	</update> -->
 	
 	<delete id="deleteBoard" parameterType="int">
 		delete from info_board
