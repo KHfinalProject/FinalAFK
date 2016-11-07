@@ -55,13 +55,13 @@
             <li><a href="/afk/mypage">마이페이지</a></li>
             <li><a href="customer">고객센터</a></li>
            
-			<c:if test="${loginUser.mb_grade eq 1}"> 
+			<%-- <c:if test="${loginUser.mb_grade eq 1}"> --%>
             <li><a href="memberListView">관리자 회원관리</a></l1>
             </c:if>
             
             <li class="divider"></li>
             <li><a href="logout">로그아웃</a></li>
-      </c:if>
+     <%-- </c:if> --%> 
           </ul>
         </li>
       </ul>

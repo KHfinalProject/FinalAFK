@@ -18,12 +18,12 @@ public class AdminMember implements Serializable{
     private String memberBank;
     private String memberLocPhone;
 	private String memberAddress;
-    private int memberGrade;
+    private String memberGrade;
     
     
 	public AdminMember(String memberId, String memberPwd, String memberName, String memberEmail, String memberPhone,
 			Date memberJoinDate, String memberOriginalPic, String memberRenamePic, String memberBank,
-			String memberLocPhone, String memberAddress, int memberGrade) {
+			String memberLocPhone, String memberAddress, String memberGrade) {
 		super();
 		this.memberId = memberId;
 		this.memberPwd = memberPwd;
@@ -40,9 +40,24 @@ public class AdminMember implements Serializable{
 	}
 
 
+	
+
+
+	public AdminMember(String memberId, String memberGrade) {
+		this.memberId = memberId;
+		this.memberGrade = memberGrade;
+	}
+
+
+
+
+
 	public String getMemberId() {
 		return memberId;
 	}
+
+
+
 
 
 	public void setMemberId(String memberId) {
@@ -50,9 +65,15 @@ public class AdminMember implements Serializable{
 	}
 
 
+
+
+
 	public String getMemberPwd() {
 		return memberPwd;
 	}
+
+
+
 
 
 	public void setMemberPwd(String memberPwd) {
@@ -60,9 +81,15 @@ public class AdminMember implements Serializable{
 	}
 
 
+
+
+
 	public String getMemberName() {
 		return memberName;
 	}
+
+
+
 
 
 	public void setMemberName(String memberName) {
@@ -70,9 +97,15 @@ public class AdminMember implements Serializable{
 	}
 
 
+
+
+
 	public String getMemberEmail() {
 		return memberEmail;
 	}
+
+
+
 
 
 	public void setMemberEmail(String memberEmail) {
@@ -80,9 +113,15 @@ public class AdminMember implements Serializable{
 	}
 
 
+
+
+
 	public String getMemberPhone() {
 		return memberPhone;
 	}
+
+
+
 
 
 	public void setMemberPhone(String memberPhone) {
@@ -90,9 +129,15 @@ public class AdminMember implements Serializable{
 	}
 
 
+
+
+
 	public Date getMemberJoinDate() {
 		return memberJoinDate;
 	}
+
+
+
 
 
 	public void setMemberJoinDate(Date memberJoinDate) {
@@ -100,9 +145,15 @@ public class AdminMember implements Serializable{
 	}
 
 
+
+
+
 	public String getMemberOriginalPic() {
 		return memberOriginalPic;
 	}
+
+
+
 
 
 	public void setMemberOriginalPic(String memberOriginalPic) {
@@ -110,9 +161,15 @@ public class AdminMember implements Serializable{
 	}
 
 
+
+
+
 	public String getMemberRenamePic() {
 		return memberRenamePic;
 	}
+
+
+
 
 
 	public void setMemberRenamePic(String memberRenamePic) {
@@ -120,9 +177,15 @@ public class AdminMember implements Serializable{
 	}
 
 
+
+
+
 	public String getMemberBank() {
 		return memberBank;
 	}
+
+
+
 
 
 	public void setMemberBank(String memberBank) {
@@ -130,9 +193,15 @@ public class AdminMember implements Serializable{
 	}
 
 
+
+
+
 	public String getMemberLocPhone() {
 		return memberLocPhone;
 	}
+
+
+
 
 
 	public void setMemberLocPhone(String memberLocPhone) {
@@ -140,9 +209,15 @@ public class AdminMember implements Serializable{
 	}
 
 
+
+
+
 	public String getMemberAddress() {
 		return memberAddress;
 	}
+
+
+
 
 
 	public void setMemberAddress(String memberAddress) {
@@ -150,14 +225,23 @@ public class AdminMember implements Serializable{
 	}
 
 
-	public int getMemberGrade() {
+
+
+
+	public String getMemberGrade() {
 		return memberGrade;
 	}
 
 
-	public void setMemberGrade(int memberGrade) {
+
+
+
+	public void setMemberGrade(String memberGrade) {
 		this.memberGrade = memberGrade;
 	}
+
+
+
 
 
 	@Override
@@ -168,12 +252,6 @@ public class AdminMember implements Serializable{
 				+ memberBank + ", memberLocPhone=" + memberLocPhone + ", memberAddress=" + memberAddress
 				+ ", memberGrade=" + memberGrade + "]";
 	}
-    
-    
-    
-	
-    
-    
     
 
 }

@@ -93,7 +93,6 @@ public class MemberController {
 	public String updateMemberForm(Model model, HttpSession session) {
 		
 		Member member = ms.updateViewMember((Member)session.getAttribute("loginUser"));
-		System.out.println(member.getMb_grade()== 'B');
 		model.addAttribute("temp",member);
 	
 		return "member/mupdate";
@@ -129,7 +128,7 @@ public class MemberController {
 							   @RequestParam("mb_address") String address
 							   ){
 	
-		Member temp = new Member(Id,pwd,null,email,phone,null,null,bank,loc_phone,address,'\u0000' );
+		Member temp = new Member(Id,pwd,null,email,phone,null,null,bank,loc_phone,address,null );
 		
 		int result = ms.updateMember1(temp);
 		
