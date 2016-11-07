@@ -52,12 +52,14 @@ public class InfoBoardController {
 	 
 	 @RequestMapping("/insertBoard")
 	 public String insertBoard(InfoBoardVO vo, HttpServletResponse response){
+		 //게시물 추가
 		 System.out.println(vo);
 		 
 		 int result = bsvc.insertBoard(vo);
 		 
 		 if(result > 0){
 			 try {
+				 //게시물 리스트 맵핑으로 이동
 				response.sendRedirect("/afk/infoboard");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -73,6 +75,7 @@ public class InfoBoardController {
 		 
 		 if(result > 0){
 			 try {
+				 //게시물 리스트 맵핑으로 이동
 				response.sendRedirect("/afk/infoboard");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -120,9 +123,20 @@ public class InfoBoardController {
 		 return null;
 	 }
 	 
-	 public String updateBoard(InfoBoardVO vo){
+	 @RequestMapping("/updateBoard")
+	 public String updateBoard(InfoBoardVO vo, HttpServletResponse response){
+		 //게시물 수정
 		 int result = bsvc.updateBoard(vo);
-		 //게시물수정
+		 
+		 if(result > 0){
+			 try {
+				 //게시물 디테일보기 맵핑으로 이동
+				response.sendRedirect("/afk/infoboard/" + vo.getInfo_no());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		 }
+		 
 		 return null;
 	 }
 	 

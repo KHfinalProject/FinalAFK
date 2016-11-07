@@ -36,7 +36,8 @@
 <div class="container">	
 <hr style="border: solid 2px red">
 <form id="frm" action="/afk/infoboard/updateBoard" method="post">
-	<input type="text" id="xy" name="info_map" size="300" value="${infoboard.info_map }"/> <br>
+	<input type="hidden" name="info_no" value="${infoboard.info_no }"/>
+	<input type="text" id="xy" name="info_map" size="300" value="${infoboard.info_map}"/> <br>
 	<input type="text" id="userid" name="info_writer" value="${infoboard.info_writer}">
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2"><b>제 목</b>&nbsp;&nbsp;&nbsp;</span>
@@ -95,7 +96,14 @@ $(function(){
             bUseVerticalResizer : true,     
             // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
             bUseModeChanger : true, 
-        }
+        },
+        fOnAppLoad : function(){
+        	//info_content 변수 생성
+        	var sHTML = "${infoboard.info_content}";
+        	//info_content의 내용을 html로 변환시켜 에디터에 삽입함
+    		editor_object.getById["smarteditor"].exec("PASTE_HTML", [sHTML]);
+        },
+        fCreator: "createSEditor2"
     });
      
     //저장 버튼을 클릭시 전송버튼 이벤트
