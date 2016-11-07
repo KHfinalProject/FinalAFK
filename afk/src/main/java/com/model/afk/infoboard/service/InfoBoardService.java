@@ -8,7 +8,7 @@ public interface InfoBoardService {
 
 	int insertBoard(InfoBoardVO vo);
 
-	int deleteBoard(int bno);
+	int deleteBoard(int info_no);
 
 	List<InfoBoardVO> getBoardList(int page);
 

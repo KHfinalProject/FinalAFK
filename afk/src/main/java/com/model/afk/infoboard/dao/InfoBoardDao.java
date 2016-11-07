@@ -18,13 +18,12 @@ public class InfoBoardDao {
 	private SqlSession sqlsession;
 
 	public int insertBoard(InfoBoardVO vo) {
-		System.out.println(vo);
 		return sqlsession.insert(NAMESPACE + "insertBoard", vo);
 	}
 
-	public int deleteBoard(int bno) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteBoard(int info_no) {
+		
+		return sqlsession.delete(NAMESPACE + "deleteBoard", info_no);
 	}
 
 	public List<InfoBoardVO> getBoardList(Map<String, Integer> map) {
@@ -35,9 +34,8 @@ public class InfoBoardDao {
 		return sqlsession.selectList(NAMESPACE + "selectAll", map);
 	}
 
-	public int updateBoard(InfoBoardVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateBoard(InfoBoardVO vo) {	
+		return sqlsession.update(NAMESPACE + "updateBoard", vo);
 	}
 
 	public InfoBoardVO getBoardDetail(int info_no) {

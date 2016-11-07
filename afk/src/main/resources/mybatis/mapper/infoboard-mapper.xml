@@ -55,7 +55,8 @@
 	</select>
 	
 	<select id="detail" parameterType="int" resultType="InfoBoardVO">
-		select * from info_board where info_no = #{info_no}
+		select * from info_board 
+		where info_no = #{info_no}
 	</select>
 	
 	<insert id="insertBoard" parameterType="infoBoardVO">
@@ -63,5 +64,15 @@
 		values (info_board_seq.nextval, #{info_title}, #{info_content}, #{info_writer}, sysdate,
 				#{info_loc_l}, #{info_loc_m}, #{info_loc_s}, 0, 0, 0, #{info_price}, #{info_map})
 	</insert>
+	
+	<update id="updateBoard" parameterType="infoBoardVO">
+		update info_board
+		set 
+	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+		delete from info_board
+		where info_no = #{info_no}
+	</delete>
 	
 </mapper>

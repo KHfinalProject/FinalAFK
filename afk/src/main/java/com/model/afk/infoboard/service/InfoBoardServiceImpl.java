@@ -21,9 +21,9 @@ public class InfoBoardServiceImpl implements InfoBoardService{
 	}
 
 	@Override
-	public int deleteBoard(int bno) {
+	public int deleteBoard(int info_no) {
 		// TODO Auto-generated method stub
-		return dao.deleteBoard(bno); 
+		return dao.deleteBoard(info_no); 
 	}
 
 	@Override

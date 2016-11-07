@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +65,19 @@ public class InfoBoardController {
 		 }
 		 return null;
 	 }
-	 public String deleteBoard(int bno, HttpSession session){
-		 int result = bsvc.deleteBoard(bno);
+	 
+	 @RequestMapping("/deleteInfoBoard")
+	 public String deleteBoard(@RequestParam("info_no") int info_no , HttpServletResponse response){
+		 int result = bsvc.deleteBoard(info_no);
 		 //게시물 삭제
+		 
+		 if(result > 0){
+			 try {
+				response.sendRedirect("/afk/infoboard");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		 }
 		 return null;
 	 }
 	 @RequestMapping("")
@@ -97,11 +108,24 @@ public class InfoBoardController {
 		 return list;
 	 }
 	 
+	 @RequestMapping("/updateInfoBoardForm")
+	 public String updateInfoBoardForm(@RequestParam("info_no") int info_no, Model model){
+		 //게시글 수정 페이지로 이동
+		 InfoBoardVO vo = bsvc.getBoardDetail(info_no);
+		 
+		 if(vo != null){
+			 model.addAttribute("infoboard", vo);
+			 return "infoboard/updateForm";
+		 }
+		 return null;
+	 }
+	 
 	 public String updateBoard(InfoBoardVO vo){
 		 int result = bsvc.updateBoard(vo);
 		 //게시물수정
 		 return null;
 	 }
+	 
 	 @RequestMapping(value="/{info_no}", method=RequestMethod.GET)
 	 public String getBoardDetail(@PathVariable int info_no, Model model) {
 		 /*InfoBoardVO board = bsvc.getBoardDetail(bno);*/
