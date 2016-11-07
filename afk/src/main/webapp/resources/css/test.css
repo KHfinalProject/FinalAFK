@@ -130,10 +130,10 @@ body {font-family:"맑은 고딕", sans-serif, arial, sans; font-size:20px; colo
 }
 
 
-@media (min-width: 1200px)
+@media (min-width: 1200px){
 
 .kcol-lg-12 {
-	padding-left: 195px;
+	padding-left: 100px;
 	text-align:center;
 	position: relative;
     min-height: 1px;
@@ -152,4 +152,5 @@ body {font-family:"맑은 고딕", sans-serif, arial, sans; font-size:20px; colo
 	min-height:1px;
 	padding-left:15px;
 	padding-right:15px;
+}
 }
