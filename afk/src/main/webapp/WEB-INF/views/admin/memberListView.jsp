@@ -44,12 +44,15 @@
 		width : 80%;
 	}
 	
-	.member tr th, .faq tr td{
+	.member tr th{
 		BORDER-BOTTOM: 1px solid #d9d9d9;
 		padding : 10px;
 	}
 	.member tr th {
 		text-align : center;
+	}
+	.member tr td {
+		width: 20px nowrap
 	}
 	.member tr td:nth-child(2n+1), .member tr th:nth-child(2n+1){
 		background: #ebebeb;
@@ -145,7 +148,7 @@
  &nbsp; &nbsp;
 	 <input type="text" name="keyword">
 	
-<!-- <input type="button" value="검색" onclick="searchCheck(form)" /> -->
+
 
 </div>
 </center>
@@ -153,35 +156,37 @@
 <br>
 
 <center>
-<!-- <input type="submit" value="검색" > -->
+
 <input type="button" value="검색" onclick="searchCheck(form)" />
 </center>
 </form>
   <br>
   <br>
+<c:forEach var="m" items="${memberList}" varStatus="status">  
 <div id="memberall">
-  총 회원수: 35000명이 회원으로 등록되어 있습니다.
+  총 회원수: ${status.index}명이 회원으로 등록되어 있습니다.
 </div>
+</c:forEach>
 <br>
 
 <div id = "member">
 
-<!-- <form action="admemberUpdate" method="get"> -->
+
 
 <table class ="member"  cellspacing ="0">
 <c:forEach var="m" items="${memberList}" varStatus="status">
   <tr>
 		<th>아이디</th><th>이름</th><th>이메일</th><th>연락처</th><th>회원등급</th><th>가입일</th>
-		<th>회원사진</th><th>회원변경용사진</th><th>가이드계좌번호</th><th>가이드현지연락처</th><th>가이드현지주소</th><th>옵션</th>
+		<th>가이드계좌번호</th><th>가이드현지연락처</th><th>가이드현지주소</th><th>옵션</th>
   </tr>
   <form action="admemberUpdate" method="get">
 		<tr>
-			<td><input type="text" name="id" value="${m.memberId}"></td>
+			<td><input type="text" name="id" value="${m.memberId}" size="5"></td>
 			<td>${m.memberName}</td>
 			<td>${m.memberEmail}</td>
 			<td>${m.memberPhone}</td>
 			<td align="center">
-				 <select name="grade" style="width:200px">
+				 <select name="grade" style="width:100px">
 				 
 			<option value="${m.memberGrade}" selected>
  				 <c:if test="${m.memberGrade eq 1}">관리자 </c:if>
@@ -198,8 +203,6 @@
 		
 			</td>
 			 <td>${m.memberJoinDate}</td>
-			<td>${m.memberOriginalPic}</td>
-			<td>${m.memberRenamePic}</td>
 			<td>${m.memberBank}</td>
 			<td>${m.memberLocPhone}</td>
 			<td>${m.memberAddress}</td>
@@ -218,7 +221,9 @@
 </div>
 <br>
 <center>
+<form action="/">
 <input type="submit" value="메인으로">
+</form>
 
 <form action="memberListView" method="get">
 <input type="submit" value="회원전체조회">
