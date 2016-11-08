@@ -6,6 +6,20 @@
 <head>
 
 <title>회원관리</title>
+
+<script>
+    function searchCheck(frm){
+        //검색
+       
+        if(frm.keyWord.value ==""){
+            alert("검색 단어를 입력하세요.");
+            frm.keyWord.focus();
+            return;
+        }
+        frm.submit();      
+    }
+</script>
+
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -117,33 +131,32 @@
 		<h1>회원 리스트</h1>
 	</div><!--end of jumbotron--><br>
 	</center>
-
-<center><div id="serach">
-  <form action = "" method="post">
-  회원 검색: <select name="member_serech" style="width:300px">
-		<option value="select" selected> 회원등급 선택
-		<option value="1">관리자
-		<option value="2">가이드
-		<option value="3">일반회원
- 
-	</select>
-
-	&nbsp;&nbsp;
-
-	<select name="memeber_info" style="width:100px">
-	<option value="membername" selected>회원명
-	<option value="memberid">회원아이디
 	
-	</select>
 
-	<input type="text" size="30">
-  </form>
+<form action ="memberSearch" method="get">
+<center>
+<div id="search">
+  회원 검색: <select name="memberId">
+		<option value="0" selected> ---선택--- </option>
+		<option value="id">아이디</option>
+		<option value="name">이름 </option>
+		<option value="grade">등급 </option>
+ 		</select>
+ &nbsp; &nbsp;
+	 <input type="text" name="keyword">
+	
+<!-- <input type="button" value="검색" onclick="searchCheck(form)" /> -->
+
 </div>
 </center>
+
 <br>
+
 <center>
-<input class="btn btn-primary" type="submit" value="검색">
+<!-- <input type="submit" value="검색" > -->
+<input type="button" value="검색" onclick="searchCheck(form)" />
 </center>
+</form>
   <br>
   <br>
 <div id="memberall">
@@ -206,6 +219,10 @@
 <br>
 <center>
 <input type="submit" value="메인으로">
+
+<form action="memberListView" method="get">
+<input type="submit" value="회원전체조회">
+</form>
 </center>
 <br>
 </body>

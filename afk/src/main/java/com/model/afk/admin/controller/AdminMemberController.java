@@ -1,8 +1,12 @@
 package com.model.afk.admin.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,7 +29,9 @@ public class AdminMemberController {
 	
 	// 회원 전체 출력 컨트롤러
 	@RequestMapping("/memberListView")
-	public String memberListAll(Model model){
+	public String memberListAll(Model model, HttpServletRequest request, HttpServletResponse response){
+		
+		String keyword = request.getParameter("keyword");
 		
 		List<AdminMember> memberList = ams.getMemberList();
 		model.addAttribute("memberList", memberList);
@@ -53,7 +59,7 @@ public class AdminMemberController {
 	
 	// 회원 등급수정 컨트롤러
 	@RequestMapping("/admemberUpdate")
-	public void memberGrUpdate(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException{
+	public void memberGrUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
 		String memberId = request.getParameter("id");
 		String memberGrade = request.getParameter("grade");
@@ -71,9 +77,24 @@ public class AdminMemberController {
 		}
 	}
 	
-	@RequestMapping("/updateform")
-	public String updateForm(){
-		return "admin/memberUpdateView";
+	// 회원 검색 컨트롤러
+	@RequestMapping("/memberSearch")
+	public String memberSearch(HttpServletRequest request, HttpServletResponse response,
+							   Model model) throws IOException{
+		
+		String memberId = request.getParameter("memberId");
+		String keyword = request.getParameter("keyword"); // 검색할 키워드
+		String memberName = request.getParameter("memberName");
+		String memberGrade = request.getParameter("memberGrade");
+		
+		List<AdminMember> list = ams.memberSearch(memberId, keyword, memberName, memberGrade);
+		System.out.println("==========" + list);
+		model.addAttribute("memberList", list);
+		
+		return "admin/memberListView";
+	
+		
+		
 		
 	}
 }

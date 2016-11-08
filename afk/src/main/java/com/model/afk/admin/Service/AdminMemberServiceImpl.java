@@ -1,6 +1,8 @@
 package com.model.afk.admin.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,17 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 		// TODO Auto-generated method stub
 		return dao.memberGrUpdate(aMember);
 	}
+
+	@Override
+	public List<AdminMember> memberSearch(String memberId, String keyword, String memberName, String memberGrade) {
+		
+		return dao.memberSearch(memberId, keyword, memberGrade, memberName);
+	}
+
+
+
+
+
 
 
 	
