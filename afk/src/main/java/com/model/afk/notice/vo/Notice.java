@@ -6,6 +6,7 @@ public class Notice {
 	private String notice_no;
 	private String notice_title;
 	private String notice_content;
+	private Date notice_enrolldate;
 	private int notice_count;
 	private String notice_writer;
 	public Notice(){}
@@ -15,6 +16,17 @@ public class Notice {
 		this.notice_no = notice_no;
 		this.notice_title = notice_title;
 		this.notice_content = notice_content;
+		this.notice_count = notice_count;
+		this.notice_writer = notice_writer;
+		
+	}
+	public Notice(String notice_no, String notice_title, String notice_content, Date notice_enrolldate,
+			int notice_count, String notice_writer) {
+		super();
+		this.notice_no = notice_no;
+		this.notice_title = notice_title;
+		this.notice_content = notice_content;
+		this.notice_enrolldate = notice_enrolldate;
 		this.notice_count = notice_count;
 		this.notice_writer = notice_writer;
 	}
@@ -36,6 +48,12 @@ public class Notice {
 	public void setNotice_content(String notice_content) {
 		this.notice_content = notice_content;
 	}
+	public Date getNotice_enrolldate() {
+		return notice_enrolldate;
+	}
+	public void setNotice_enrolldate(Date notice_enrolldate) {
+		this.notice_enrolldate = notice_enrolldate;
+	}
 	public int getNotice_count() {
 		return notice_count;
 	}
@@ -51,8 +69,8 @@ public class Notice {
 	@Override
 	public String toString() {
 		return "Notice [notice_no=" + notice_no + ", notice_title=" + notice_title + ", notice_content="
-				+ notice_content + ", notice_count=" + notice_count + ", notice_writer=" + notice_writer + "]";
+				+ notice_content + ", notice_enrolldate=" + notice_enrolldate + ", notice_count=" + notice_count
+				+ ", notice_writer=" + notice_writer + "]";
 	}
-		
 	
 }

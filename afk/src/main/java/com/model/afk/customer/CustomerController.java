@@ -1,5 +1,7 @@
 package com.model.afk.customer;
 
+import java.util.List;
+
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,17 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.model.afk.admin.Service.AdminMemberService;
+import com.model.afk.admin.vo.AdminMember;
+import com.model.afk.notice.service.NoticeService;
+import com.model.afk.notice.vo.Notice;
+
 
 @Controller
 public class CustomerController {
 	
 	@Autowired
 	private JavaMailSender mailSender;
-	
+	@Autowired
+	private NoticeService ns;
 	
 	// 고객센터 폼 호출
 	@RequestMapping(value="/customer")
-	public String customerForm(HttpSession se){
+	public String customerForm(HttpSession se,Model model){
+		List<Notice> NoticeList = ns.getNoticeList();
+		model.addAttribute("NoticeList", NoticeList);
 		
 		
 		return "admin/customer";

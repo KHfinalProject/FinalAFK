@@ -16,6 +16,8 @@ public interface NoticeService {
 
 
 	public int noticeInsert(Notice notice);
+
+	public List<Notice> getNoticeList();
 	
 
 

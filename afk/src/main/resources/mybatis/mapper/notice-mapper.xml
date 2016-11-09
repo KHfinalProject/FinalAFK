@@ -8,4 +8,8 @@
 		 
 		INSERT INTO NOTICE(NOTICE_NO,NOTICE_TITLE, NOTICE_CONTENT,NOTICE_ENROLLDATE,NOTICE_COUNT) VALUES ( NOTICE_SEQ.NEXTVAL, #{notice_title}, #{notice_content}, sysdate,0)
 	</insert>
+	
+	<select id="getNoticeList" parameterType="Notice" resultType="Notice">
+		SELECT * FROM NOTICE 
+	</select>
 </mapper>

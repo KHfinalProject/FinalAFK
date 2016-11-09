@@ -14,10 +14,17 @@ public class NoticeDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	
 	public int noticeInsert(Notice notice) {
 		 System.out.println("::::::::::::::::::dao ::::"+notice+":::::::::::");
 		 return sqlSession.insert(NAMESPACE+"noticeInsert", notice);
 		
+	}
+
+
+	public List<Notice> getNoticeList() {
+		
+		return sqlSession.selectList(NAMESPACE+"getNoticeList");
 	}
 
 

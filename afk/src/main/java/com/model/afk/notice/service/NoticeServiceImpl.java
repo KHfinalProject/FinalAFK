@@ -41,6 +41,12 @@ public class NoticeServiceImpl implements NoticeService {
 		return ndo.noticeInsert(notice);
 	}
 
+	@Override
+	public List<Notice> getNoticeList() {
+		// TODO Auto-generated method stub
+		return ndo.getNoticeList();
+	}
+
 
 
 

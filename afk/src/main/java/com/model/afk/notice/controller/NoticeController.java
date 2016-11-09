@@ -1,6 +1,9 @@
 package com.model.afk.notice.controller;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,15 +25,16 @@ public class NoticeController {
 	private NoticeService ns;
 	@RequestMapping(value="/noticeInsert", method= RequestMethod.POST )
 
-	public String noticeInsert(@RequestParam("notice_title") String title,
+	public void noticeInsert(@RequestParam("notice_title") String title,
 							   @RequestParam("notice_content")String content,
-								Model model){
+								Model model, HttpServletResponse response) throws IOException{
 		Notice notice = new Notice(null,title,content,'0',null);
 		System.out.println("::::::::::::::::::controller ::"+notice+":::::::::::::");
 		int result = ns.noticeInsert(notice);
 		
 		System.out.println("result :: " + result);
-		return "";
+		if(result > 0)
+		response.sendRedirect("customer"); 
 		
 		
 	}
