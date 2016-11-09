@@ -38,4 +38,11 @@
 		MB_GRADE = #{memberGrade}
 		WHERE MB_ID = #{memberId}
 	</update>
+	
+	<select id="select" parameterType="List" resultMap="memberResult">
+		select * from final.member
+		where mb_id like '%'||#{keyword}||'%'
+		or mb_name like '%'||#{keyword}||'%'
+		or mb_grade like '%'||#{keyword}||'%'
+	</select>
   </mapper>

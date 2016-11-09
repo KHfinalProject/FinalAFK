@@ -6,6 +6,20 @@
 <head>
 
 <title>회원관리</title>
+
+<script>
+    function searchCheck(frm){
+        //검색
+       
+        if(frm.keyWord.value ==""){
+            alert("검색 단어를 입력하세요.");
+            frm.keyWord.focus();
+            return;
+        }
+        frm.submit();      
+    }
+</script>
+
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,12 +44,15 @@
 		width : 80%;
 	}
 	
-	.member tr th, .faq tr td{
+	.member tr th{
 		BORDER-BOTTOM: 1px solid #d9d9d9;
 		padding : 10px;
 	}
 	.member tr th {
 		text-align : center;
+	}
+	.member tr td {
+		width: 20px nowrap
 	}
 	.member tr td:nth-child(2n+1), .member tr th:nth-child(2n+1){
 		background: #ebebeb;
@@ -117,58 +134,59 @@
 		<h1>회원 리스트</h1>
 	</div><!--end of jumbotron--><br>
 	</center>
-
-<center><div id="serach">
-  <form action = "" method="post">
-  회원 검색: <select name="member_serech" style="width:300px">
-		<option value="select" selected> 회원등급 선택
-		<option value="1">관리자
-		<option value="2">가이드
-		<option value="3">일반회원
- 
-	</select>
-
-	&nbsp;&nbsp;
-
-	<select name="memeber_info" style="width:100px">
-	<option value="membername" selected>회원명
-	<option value="memberid">회원아이디
 	
-	</select>
 
-	<input type="text" size="30">
-  </form>
-</div>
-</center>
-<br>
+<form action ="memberSearch" method="get">
 <center>
-<input class="btn btn-primary" type="submit" value="검색">
-</center>
-  <br>
-  <br>
-<div id="memberall">
-  총 회원수: 35000명이 회원으로 등록되어 있습니다.
+<div id="search">
+  회원 검색: <select name="memberId">
+		<option value="0" selected> ---선택--- </option>
+		<option value="id">아이디</option>
+		<option value="name">이름 </option>
+		<option value="grade">등급 </option>
+ 		</select>
+ &nbsp; &nbsp;
+	 <input type="text" name="keyword">
+	
+
+
 </div>
+</center>
+
+<br>
+
+<center>
+
+<input type="button" value="검색" onclick="searchCheck(form)" />
+</center>
+</form>
+  <br>
+  <br>
+<c:forEach var="m" items="${memberList}" varStatus="status">  
+<div id="memberall">
+  총 회원수: ${status.index}명이 회원으로 등록되어 있습니다.
+</div>
+</c:forEach>
 <br>
 
 <div id = "member">
 
-<!-- <form action="admemberUpdate" method="get"> -->
+
 
 <table class ="member"  cellspacing ="0">
 <c:forEach var="m" items="${memberList}" varStatus="status">
   <tr>
 		<th>아이디</th><th>이름</th><th>이메일</th><th>연락처</th><th>회원등급</th><th>가입일</th>
-		<th>회원사진</th><th>회원변경용사진</th><th>가이드계좌번호</th><th>가이드현지연락처</th><th>가이드현지주소</th><th>옵션</th>
+		<th>가이드계좌번호</th><th>가이드현지연락처</th><th>가이드현지주소</th><th>옵션</th>
   </tr>
   <form action="admemberUpdate" method="get">
 		<tr>
-			<td><input type="text" name="id" value="${m.memberId}"></td>
+			<td><input type="text" name="id" value="${m.memberId}" size="5"></td>
 			<td>${m.memberName}</td>
 			<td>${m.memberEmail}</td>
 			<td>${m.memberPhone}</td>
 			<td align="center">
-				 <select name="grade" style="width:200px">
+				 <select name="grade" style="width:100px">
 				 
 			<option value="${m.memberGrade}" selected>
  				 <c:if test="${m.memberGrade eq 1}">관리자 </c:if>
@@ -185,8 +203,6 @@
 		
 			</td>
 			 <td>${m.memberJoinDate}</td>
-			<td>${m.memberOriginalPic}</td>
-			<td>${m.memberRenamePic}</td>
 			<td>${m.memberBank}</td>
 			<td>${m.memberLocPhone}</td>
 			<td>${m.memberAddress}</td>
@@ -205,7 +221,13 @@
 </div>
 <br>
 <center>
+<form action="/">
 <input type="submit" value="메인으로">
+</form>
+
+<form action="memberListView" method="get">
+<input type="submit" value="회원전체조회">
+</form>
 </center>
 <br>
 </body>
