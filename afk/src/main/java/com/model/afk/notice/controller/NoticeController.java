@@ -90,5 +90,11 @@ public class NoticeController {
 		return "admin/noticeDetailView";
 	}
 	
-	
+	@RequestMapping(value="/noticeUpdateView", method= RequestMethod.GET )
+	public String noticUpdate(int notice_no, Model model){
+		Notice notice = ns.noticeUpdateView(notice_no);
+		model.addAttribute("temp",notice);
+		System.out.println("::::::::::::::::"+notice_no+"::::::::::::");
+		return "admin/noticeUpdateView";
+	}
 }

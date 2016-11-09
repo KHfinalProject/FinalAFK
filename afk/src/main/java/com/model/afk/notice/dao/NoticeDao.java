@@ -50,5 +50,11 @@ public class NoticeDao {
 	}
 
 
+	public Notice noticeUpdateView(int notice_no) {
+		
+		return sqlSession.selectOne(NAMESPACE+"noticeUpdateView",notice_no);
+	}
+
+
 
 }

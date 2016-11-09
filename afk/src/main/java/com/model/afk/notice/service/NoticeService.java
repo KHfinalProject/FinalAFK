@@ -27,6 +27,8 @@ public interface NoticeService {
 	public Notice noticeDetailView(int notice_no);
 
 	public int noticeCount(int notice_no);
+
+	public Notice noticeUpdateView(int notice_no);
 	
 
 

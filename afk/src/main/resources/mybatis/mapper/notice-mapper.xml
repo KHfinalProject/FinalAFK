@@ -18,4 +18,7 @@
 	<update id="noticeCount" parameterType="Integer">
 		UPDATE NOTICE SET NOTICE_COUNT = notice_count+1 WHERE NOTICE_NO = #{notice_no}
 	</update>
+	<select id="noticeUpdateView" parameterType="Integer" resultType="Notice">
+		SELECT * FROM NOTICE WHERE NOTICE_NO = #{notice_no}
+	</select>
 </mapper>
