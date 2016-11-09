@@ -1,6 +1,7 @@
 package com.model.afk.notice.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,28 @@ public class NoticeDao {
 		
 		return sqlSession.selectList(NAMESPACE+"getNoticeList");
 	}
+
+
+	
+
+
+	/*public Notice noticeDetailView(Map<String, Integer> map) {
+		
+		return sqlSession.selectOne(NAMESPACE+"noticeDetailView", map);
+	}
+*/
+
+	public Notice noticeDetailView(int notice_no) {
+		
+		return sqlSession.selectOne(NAMESPACE+"noticeDetailView", notice_no);
+	}
+
+
+	public int noticeCount(int notice_no) {
+		
+		return sqlSession.update(NAMESPACE+"noticeCount",notice_no);
+	}
+
 
 
 }

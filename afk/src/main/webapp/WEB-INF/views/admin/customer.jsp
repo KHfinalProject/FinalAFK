@@ -299,7 +299,7 @@
          <tr>
             <td align="center"><input type="checkbox" class="cb1"></td>
             <td align="center">${n.notice_no }</td>
-            <td align="center"><a href="">${n.notice_title}</a></td>
+            <td align="center"><a href="/afk/noticeDetailView?notice_no=${n.notice_no}">${n.notice_title}</a></td>
             <td align="center">${n.notice_enrolldate }</td>
             <td align="right">${n.notice_count}</td>
          </tr>

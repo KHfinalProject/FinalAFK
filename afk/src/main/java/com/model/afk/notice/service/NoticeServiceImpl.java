@@ -1,6 +1,7 @@
 package com.model.afk.notice.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,25 @@ public class NoticeServiceImpl implements NoticeService {
 		// TODO Auto-generated method stub
 		return ndo.getNoticeList();
 	}
+
+	@Override
+	public Notice noticeDetailView(int notice_no) {
+		// TODO Auto-generated method stub
+		return ndo.noticeDetailView(notice_no);
+	}
+
+	@Override
+	public int noticeCount(int notice_no) {
+		
+		return ndo.noticeCount(notice_no);
+	}
+
+/*	@Override
+	public Notice noticeDetailView(Map<String, Integer> map) {
+		// TODO Auto-generated method stub
+		return ndo.noticeDetailView(map);
+	}
+*/
 
 
 

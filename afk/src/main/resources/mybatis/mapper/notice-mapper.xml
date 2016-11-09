@@ -12,4 +12,10 @@
 	<select id="getNoticeList" parameterType="Notice" resultType="Notice">
 		SELECT * FROM NOTICE  
 	</select>
+	<select id="noticeDetailView" parameterType="Integer" resultType="Notice">
+		SELECT * FROM NOTICE WHERE NOTICE_NO = #{notice_no}
+	</select>
+	<update id="noticeCount" parameterType="Integer">
+		UPDATE NOTICE SET NOTICE_COUNT = notice_count+1 WHERE NOTICE_NO = #{notice_no}
+	</update>
 </mapper>

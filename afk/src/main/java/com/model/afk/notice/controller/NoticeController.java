@@ -1,9 +1,12 @@
 package com.model.afk.notice.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,9 +53,24 @@ public class NoticeController {
 	public String noticeUpdate(int noticeNo, Notice notice){
 		
 		Notice notice1 = ns.noticeUpdate(noticeNo);
+	
+
 		return null;
 		
 	}
+	// 공지사항수정폼 호출
+/*		@RequestMapping(value="/noticeUpdateView", method=RequestMethod.GET)
+		public String updateMemberForm(Model model) {
+			
+			Notice notice = ns.noticeUpdateViewMember();
+			model.addAttribute("temp",notice);
+		
+			return "admin/noticeUpdateView";
+		}*/
+	
+	
+	
+	
 	
 	public String noticeListAll(int page, Model model){
 		
@@ -61,5 +79,16 @@ public class NoticeController {
 		
 		
 	}
-
+	@RequestMapping(value="/noticeDetailView", method= RequestMethod.GET )
+	public String noticeDetailView(int notice_no,Model model){
+		     /* Map<String,Integer> map = new HashMap<String, Integer>();
+		      map.put("notice_no",notice_no);*/
+		      Notice notice = ns.noticeDetailView(notice_no);
+		      int result = ns.noticeCount(notice_no);
+		      model.addAttribute("temp",result);
+		      model.addAttribute("temp",notice);
+		return "admin/noticeDetailView";
+	}
+	
+	
 }
