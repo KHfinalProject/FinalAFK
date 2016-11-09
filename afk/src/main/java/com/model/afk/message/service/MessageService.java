@@ -10,4 +10,5 @@ public interface MessageService {
 	int deleteMsg(MessageVO mvo);
 	int insertMsg(MessageVO mvo);
 	int updateOpen(MessageVO mvo);
+	List<MessageVO> getMsgDetailList(MessageVO msgVO);
 }

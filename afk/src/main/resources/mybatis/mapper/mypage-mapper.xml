@@ -12,11 +12,8 @@
 	
 	<update id="updateProfile" parameterType="Member">
 		UPDATE MEMBER
-		SET MB_ORIGINAL_PIC = #{originalFileName}, MB_RENAME_PIC = #{renameFileName}
-		WHERE MB_ID = #{mbid}
+		SET MB_ORIGINAL_PIC = #{mb_original_pic}, MB_RENAME_PIC = #{mb_rename_pic}
+		WHERE MB_ID = #{mb_id}
 	</update>
-	
-	<select id="selectmyPlan" parameterType="String" resultType="MyPlanner">
-		SELECT * FROM MYPLANNER WHERE PLAN_WRITER = #{mbid} ORDER BY PLAN_NO DESC	
-	</select>
+
 </mapper>

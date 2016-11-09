@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,11 +108,16 @@
 					height: 200px;
 				}
 			}
-
+			.doclick{
+				cursor: pointer;
+			}
+			.act{
+				background:#0CC;
+			}
 		</style>
 		<script>
 			 $(function(){
-				
+				 //alert("${loginUser.mb_id} , ${loginUser.mb_rename_pic}");
 				 var id = "${loginUser.mb_id}";
 					$.ajax({
 						url : "mypage/favoritelist",
@@ -129,27 +134,61 @@
 								
 								$("#myfaContent").empty();
 								for(var i in json.list){
-									//$("#myfaContent").append(json.list[i].writer + ", " + decodeURIComponent(json.list[i].title.replace(Ca, " ")) + ", " + decodeURIComponent(json.list[i].content.replace(Ca, " ")) + "<br>");
+									
 									$("#myfaContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; background-color:red;'>"+ json.list[i].writer + "</div>" 
 											+ "<h3><span class='pull-right' style='margin-right: 5%; margin-top: 5%;'>" + decodeURIComponent(json.list[i].title.replace(Ca, " ")) +"</span></h3></div><br>");
 								}
-							}
-							else{
-								$("#myfaContent").append("즐겨찾기한 게시물이 없습니다.");
-							}
+								
+								$('#myfaContent').each(function(){
+									var currentPage = 0;
+									var numPerPage= 5;
+									var $myfaContent = $(this);
+									
+									$myfaContent.bind('repaginate', function(){
+										$myfaContent.find('div.mycontent').hide()
+													.slice(currentPage * numPerPage, (currentPage + 1) * numPerPage)
+													.show();
+									});
+									//페이지
+									var numRows = $('#myFavorite').find('div.mycontent').length;
+									alert(numRows); 
+								    var numPages = Math.ceil(numRows / numPerPage);
+								    var $pager = $('<div class="pager"></div>');
+								    for (var page = 0; page < numPages; page++) {
+								      $('<span class="page-number"></span>').text(page + 1)
+								        .bind('click', {newPage: page}, function(event) {
+								          currentPage = event.data['newPage'];
+								          $myfaContent.trigger('repaginate');
+								          $(this).addClass('act')
+								            .siblings().removeClass('act');
+								        }).appendTo($pager).addClass('doclick');
+								    }
+								    $pager.insertBefore($myfaContent)
+								      .find('span.page-number:first').addClass('active');
+								});
+								
+								if(json.list.length == 0){
+									$("#myfaContent").empty();
+									$("#myfaContent").append("<center><h3><span>즐겨찾기에 추가한 게시물이 없습니다.</span></h3><br><br>" +
+									"<button type='button' class='btn btn-default btn-lg' onclick="+"'window.location.href='"+"myplan/write'"+
+									"><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 여행 정보 게시물 보러가기 </button></center>");
+								}
+							}	
 						}
 					});
-					
-				$('#btnMsgDel').click(function(){
+
+				
+				$('.btnMsgDel').click(function(){
 					if (confirm("정말 삭제하시겠습니까??") == true){    //확인
 					    document.form.submit();
 					}else{   //취소
 					    return;
 					}
 				});
-				
-			}); 
+			});	
+			 
 			
+			//즐겨찾기 리스트
 			function getFavorite(){
 				//alert("1");
 				var id = "${loginUser.mb_id}";
@@ -174,24 +213,26 @@
 								}
 							}
 							else{
+								$("#myfaContent").empty();
 								$("#myfaContent").append("<center><h3><span>즐겨찾기에 추가한 게시물이 없습니다.</span></h3><br><br>" +
-								"<button type='button' class='btn btn-default btn-lg' onclick="+"'window.location.href='"+"myplan/write'"+
-								"><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span> 여행 정보 게시물 보러가기 </button></center>");
+								"<button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 여행 정보 게시물 보러가기 </button></center>");
 							}
 						}	
 					}
 				});	
 			}
 			
-			/* function getPlan(){
-				//alert("1");
-				var id = "${loginUser.mb_id}";
+			//메시지 리스트
+			function getmymsg(){
+				var loginId = "${loginUser.mb_id}";
+				
 				$.ajax({
-					url : "mypage/planlist",
-					data : { mbid : id },
-					type : "post",
+					url : "msg/msglist",
+					data : { loginId : loginId},
+					type: "post",
 					dataType : "json",
 					success : function(data){
+						//alert("list");
 						if(data != null){	
 							var jsonStr = JSON.stringify(data);  //객체를 문자열로 변환
 							console.log(jsonStr);
@@ -200,27 +241,30 @@
 							var Ca = /\+/g;
 							
 							if(json.list.length != 0){
-								$("#myPlanContent").empty();
+								$("#mymsgdiv").empty();
 								for(var i in json.list){
-									$("#myPlanContent").append("<button type='button' class='btn btn-default btn-lg pull-right' onclick="+"window.location.href="+"'"+"myplan/write'" +">"+
-									"<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span> 여행 계획 작성하러 가기</button><br><br><br><br>" +
-									"<div class='mycontent' style='cursor:pointer' data-toggle='modal' data-target='#myplan'>"+decodeURIComponent(json.list[i].title.replace(Ca, " "))+"</div>");
+									$("#mymsgdiv").append("<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" 
+										+ decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) + "</div></td>" +
+										"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'>" +
+										"</div></div></div></td></tr><tr><td>" + json.list[i].rid + "에게 보냄</td>" +
+										"<td>" + json.list[i].sid + "</td></tr><tr><td colspan='2' style='text-align:center'>"+
+										"<a href='/afk/msg?guideId=user99&loginId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a> &nbsp; &nbsp; <button type='button' class='btn btn-default btn-lg btnMsgDel'>삭제하기</button></tr></table></div><hr><p></p>");
 								}
+								
+							}else{
+								$("#mymsgdiv").empty();
+								$("#mymsgdiv").append("<center><h3><span>주고받은 메세지가 없습니다.</span></h3></center>");
 							}
-							else{
-								$("#myPlanContent").append("<center><h3><span>아직 작성된 여행 계획이 없습니다.</span></h3><br><br>" +
-								"<button type='button' class='btn btn-default btn-lg' onclick="+"window.location.href="+"'"+"myplan/write'" +">"+
-								"<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span> 여행 계획 작성하러 가기 </button></center>");
-							}	
-						}					
+						}	
 					}
-				});	
-			} */
+				});
+			}
+
 		</script>
  </head>
  <body>
-
- <br><br><br>
+<jsp:include page="../header.jsp" flush="true"/>
+<br>
 	<div class="container">
 		<div class="row" style=" background-color: rgba( 210, 210, 255, 0.3 ); border-radius:10px;">
 		
@@ -228,7 +272,14 @@
 				<div class="thumbnail-wrapper">
 					<div class="thumbnail">
 						<div class="centered">
-							<img src="resources/images/mypage/jo.jpg">
+							<!-- <img src="resources/images/mypage/user99profile.jpg"> -->
+							<c:if test=" ${loginUser.mb_rename_pic eq null}">
+								<img src="resources/images/mypage/jo.jpg">
+							</c:if>
+							
+							<c:if test="${loginUser.mb_rename_pic ne null}">
+								<img src="resources/images/mypage/${loginUser.mb_rename_pic }" style="width:100%;">
+							</c:if> 
 						</div>
 					</div>
 				</div>
@@ -247,7 +298,7 @@
 				<!-- 프로필 사진 변경 모달 -->
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 				  <div class="modal-dialog">
-				  <form action="mypage/updateMyProfile" enctype="multipart/form-data" method="post">
+				  <form action="/afk/mypage/updateMyProfile" enctype="multipart/form-data" method="post">
 					<div class="modal-content">
 					  <div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
@@ -255,7 +306,7 @@
 					  </div>
 					  <div class="modal-body">
 						<input type="file" accept=".jpg" name="profilePic">
-						<input type="hidden" name="mbid" value="${loginUser.mb_id}" >
+						<input type="hidden" name="loginid" value="${loginUser.mb_id}" >
 					  </div>
 					  <div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -272,8 +323,7 @@
 						<li class="active" onclick="getFavorite()"><a href="#myFavorite" data-toggle="tab" id="myFa">즐겨찾기 리스트</a></li>
 						<li><a href="#myWish" data-toggle="tab" id="myWi">위시 리스트</a></li>
 						<li><a href="#myReview" data-toggle="tab" id="myRe">후기 리스트</a></li>
-						<!-- <li onclick="getPlan()"><a href="#myPlanner" data-toggle="tab" id="myPl">MY PLANNER LIST</a></li> -->
-						<li><a href="#myMessage" data-toggle="tab" id="myMe">메세지 리스트</a></li>
+						<li onclick="getmymsg()"><a href="#myMessage" data-toggle="tab" id="myMe">메세지 리스트</a></li>
 						<li><a href="/afk/updateView">정보 수정하기</a></li>
 						<li><a href="/afk/msg">문의하기 작성</a></li>
 					</ul>
@@ -284,10 +334,6 @@
 				<div class="tab-content">
 					<div class="tab-pane active" id="myFavorite">
 						<h2><span class="page-header">나의 즐겨찾기</span></h2><br>
-						<!-- <div class="pull-right">
-							 <a href="">최신순</a> &nbsp; &nbsp; &nbsp; <a href="">조회수순</a> &nbsp; &nbsp; &nbsp; 
-							 <a href="">인기순</a> &nbsp; &nbsp; &nbsp; <a href="">별점순</a>
-						</div> -->
 						<br><br>
 
 						<div id="myfaContent">
@@ -295,125 +341,23 @@
 						</div>
 						<p></p>
 
-						<div style="text-align:center">
-							<nav>
-							  <ul class="pagination">
-								<li>
-								  <a href="#" aria-label="Previous">
-									<span aria-hidden="true">&laquo;</span>
-								  </a>
-								</li>
-								<li class="active" onclick='window.location.href="myplan/write"'><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li>
-								  <a href="#" aria-label="Next">
-									<span aria-hidden="true">&raquo;</span>
-								  </a>
-								</li>
-							  </ul>
-							</nav>
-						</div>
 					</div>
 					<div class="tab-pane" id="myWish">
 						<h2><span class="page-header">나의 위시리스트</span></h2><br>
-						<!-- <div class="pull-right"><a href="">최신순</a> &nbsp; &nbsp; &nbsp; <a href="">조회수순</a> &nbsp; &nbsp; &nbsp; 
-							 <a href="">인기순</a> &nbsp; &nbsp; &nbsp; <a href="">별점순</a> &nbsp; &nbsp; &nbsp; <a href="">가격순</a>
-						</div> -->
 						<br><br>
 
 					</div>
 					<div class="tab-pane" id="myReview">
 						<h2><span class="page-header">내가 작성한 후기</span></h2><br>
-						<!-- <div class="pull-right"><a href="">최신순</a> &nbsp; &nbsp; &nbsp; <a href="">조회수순</a> &nbsp; &nbsp; &nbsp; 
-							 <a href="">인기순</a> &nbsp; &nbsp; &nbsp; <a href="">별점순</a>
-						</div> -->
 						<br><br>
 
-					</div>
-					<div class="tab-pane" id="myPlanner">
-						<h2><span class="page-header">나의 여행 플래너</span></h2><br><br>
-						
-						<div id="myPlanContent">
-							<!-- 플래너 부분 -->
-						</div>
-						<!-- 저장된 여행계획 없을때 -->
-						<!-- <center>
-							<h3><span>아직 작성된 여행 계획이 없습니다.</span></h3><br><br>
-							<button type="button" class="btn btn-default btn-lg" onclick="window.location.href='myplan/write'">
-								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 여행 계획 작성하러 가기
-							</button>
-						</center> -->
-
-						
-						<!-- 여행계획 있을 때 -->
-							<!-- <button type="button" class="btn btn-default btn-lg pull-right">
-								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 여행 계획 작성하러 가기
-							</button>
-						<br><br><br><br>
-						<div class="mycontent" style="cursor:pointer" data-toggle="modal" data-target="#myplan" > 
-							
-						</div> -->
-					
-						<!-- 디테일 모달 -->
-						<div class="modal fade" id="myplan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-						  <div class="modal-dialog">
-							<div class="modal-content">
-							  <div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-								<h4 class="modal-title" id="myModalLabel">제목</h4>
-							  </div>
-							  <div class="modal-body">
-								내용
-							  </div>
-							  <div class="modal-footer">
-								<button type="button" class="btn btn-primary">수정</button>
-								<button type="button" class="btn btn-primary">삭제</button> &nbsp; &nbsp; &nbsp;
-								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							  </div>
-							</div>
-						  </div>
-						</div>
-						<!-- /디테일 모달 -->
-
-					</div>		
+					</div>	
 
 					<div class="tab-pane" id="myMessage">
 						<h2><span class="page-header">나의 메세지</span></h2><br>
-
-						<div class="mymessage">
-							<div class="sPicName">
-								<div class="senderPic">
-									<div class="thumbnail-wrapper">
-										<div class="thumbnail">
-											<div class="centered">
-												<img src="resources/images/mypage/jo.jpg">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="senderName">
-									보낸사람이름
-								</div>
-							</div>
-
-							<div class="msgContent">
-								<div class="panel panel-default">
-									<div class="panel-body">Message Content Message Content Message Content Message Content Message Content Message Content Message Content</div>
-									<div class="panel-footer sendtime">2016년 10월 22일 &nbsp; 23시 14분에 받음</div>
-								</div>
-							</div>
-
-							<div class="btnMsgdel">
-								<button type="button" class="btn btn-primary btn-lg" id="btnMsgDel">
-									삭제하기
-								</button>
-							</div>
-						<!-- </div class="mymessage"> -->
+						<button onclick="location.href='/afk/msg?guideId=user99&loginId=${loginUser.mb_id}'">버튼</button>
+						<div class="mymessage" id="mymsgdiv">
 						</div>
-
 						<br><br>
 					</div>
 					

@@ -2,8 +2,6 @@ package com.model.afk.mypage.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.model.afk.infoboard.vo.InfoBoardVO;
 import com.model.afk.member.vo.Member;
 import com.model.afk.myplanner.vo.MyPlanner;

@@ -11,7 +11,7 @@ public class MessageVO implements java.io.Serializable{
 	private char view_yn;	//메세지 열람여부
 	private Date send_date;	//메세지 보낸날짜
 	private Date view_date;	//메세지 본 날짜
-	private String msg_content;	//메세지 내용
+	private String mes_content;	//메세지 내용
 	private int parent_msgno;	//부모 메세지 번호
 	private char s_delyn;		//보낸사람 삭제여부
 	private char r_delyn;		//받는사람 삭제여부
@@ -21,7 +21,7 @@ public class MessageVO implements java.io.Serializable{
 	}
 
 	public MessageVO(int mes_no, String send_id, String recieve_id, char view_yn, Date send_date, Date view_date,
-			String msg_content, int parent_msgno, char s_delyn, char r_delyn) {
+			String mes_content, int parent_msgno, char s_delyn, char r_delyn) {
 		super();
 		this.mes_no = mes_no;
 		this.send_id = send_id;
@@ -29,10 +29,15 @@ public class MessageVO implements java.io.Serializable{
 		this.view_yn = view_yn;
 		this.send_date = send_date;
 		this.view_date = view_date;
-		this.msg_content = msg_content;
+		this.mes_content = mes_content;
 		this.parent_msgno = parent_msgno;
 		this.s_delyn = s_delyn;
 		this.r_delyn = r_delyn;
+	}
+
+	public MessageVO(String send_id, String recieve_id) {
+		this.send_id = send_id;
+		this.recieve_id = recieve_id;
 	}
 
 	public int getMes_no() {
@@ -83,12 +88,12 @@ public class MessageVO implements java.io.Serializable{
 		this.view_date = view_date;
 	}
 
-	public String getMsg_content() {
-		return msg_content;
+	public String getMes_content() {
+		return mes_content;
 	}
 
-	public void setMsg_content(String msg_content) {
-		this.msg_content = msg_content;
+	public void setMes_content(String mes_content) {
+		this.mes_content = mes_content;
 	}
 
 	public int getParent_msgno() {
@@ -118,7 +123,7 @@ public class MessageVO implements java.io.Serializable{
 	@Override
 	public String toString() {
 		return "MessageVO [mes_no=" + mes_no + ", send_id=" + send_id + ", recieve_id=" + recieve_id + ", view_yn="
-				+ view_yn + ", send_date=" + send_date + ", view_date=" + view_date + ", msg_content=" + msg_content
+				+ view_yn + ", send_date=" + send_date + ", view_date=" + view_date + ", mes_content=" + mes_content
 				+ ", parent_msgno=" + parent_msgno + ", s_delyn=" + s_delyn + ", r_delyn=" + r_delyn + "]";
 	}
 

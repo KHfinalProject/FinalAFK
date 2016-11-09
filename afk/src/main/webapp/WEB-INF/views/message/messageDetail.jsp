@@ -69,10 +69,10 @@
 	</style>
 	<script>
 	function sendMsg(){
-		//alert("sendMsg");
+		//메세지 보내는 기능
 		var senderId = "${loginUser.mb_id}";
-		var recieveId = "user02";
-		var msgContent = $("#msgarea").val();
+		var recieveId = "user99"; //문의하기 버튼 주인 넣기
+		var msgContent = $('#msgarea').val();
 		$.ajax({
 			url: "msg/sendmsg",
 			data : { sendid : senderId, msgcontent : msgContent, recieveid : recieveId },
@@ -81,6 +81,7 @@
 			success : function(data){
 				if(data != null){
 					$("#msgarea").val('');
+					$("#msglists").empty();
 					msglist();
 				}
 			}		
@@ -88,17 +89,45 @@
 	}
 	
 	function msglist(){
+		//메세지 디테일 보기
 		var loginId = "${loginUser.mb_id}";
-		
+		var URL = "msg/msgdetailList";
 		$.ajax({
-			url : "msg/msglist",
-			data : { loginId : loginId},
+			url : URL,
+			data : { loginId : loginId, guideId : "user99"},
 			type: "post",
 			dataType : "json",
 			success : function(data){
 				//alert("list");
-				
-			}
+				if(data != null){	
+					var jsonStr = JSON.stringify(data);  //객체를 문자열로 변환
+					console.log(jsonStr);
+					var json = JSON.parse(jsonStr); //문자열을 배열 객체로 바꿈
+					console.log(json);
+					var Ca = /\+/g;
+					
+					if(json.list.length != 0){
+						for(var i in json.list){
+							
+							if(json.list[i].sid == loginId){
+								$("#msglists").append("<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" + decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) + "</div></td>" +
+									"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'>" +
+									"</div></div></div></td></tr><tr><td>" + json.list[i].rid + "에게  <samll>" + json.list[i].sendDate + "</small> 보냄</td>" +
+									"<td>" + json.list[i].sid + "</td></tr></table></div>");
+							}
+							else{
+								$("#msglists").append("<div class='table-responsive'><table class='table'><tr><td width='25%'><div class='thumbnail-wrapper'>"+
+											"<div class='thumbnail'><div class='centered'><img src='img/h.jpg'></div></div></div></td>"+
+											"<td style='word-break:break-all'>" + decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) + "</td></tr><tr>"+
+									"<td>" + json.list[i].sid + "</td><td style='float:right'><small>view date<small></td></tr></table></div>");
+							}
+						}
+					}
+				}
+			},
+			error:function(request,status,error){
+		        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		       }
 		});
 	}
 	
@@ -108,102 +137,50 @@
 	</script>
  </head>
  <body>
-  header
-  <hr>
+<jsp:include page="../header.jsp" flush="true"/>
 	<div class="container">
 		<div class="row" >
 			<h2><span class="page-header">문의하기</span><small> &nbsp; 궁금한 점을 직접 물어보세요! </small></h2><br>
-				
 			<div class="col-sm-12" style="background-color:#faf4ff; border-radius:20px;">
 
 				<div class="col-sm-8 col-sm-offset-2" style=" background-color: rgba( 255, 255, 255, 0.5 );">
 
 					<br><br>
-					<div class="msg-new">
+					<div class="msg-new" id="msgdiv">
 					
 						<textarea class="form-control" rows="4" style="resize:none; display:inline-block;" name="msgcontent" id="msgarea" placeholder="여기에 문의하고 싶은 내용을 적어 보내세요."></textarea>
-						<%-- <input type="hidden" name="sender" value="${loginUser.mb_id}"> --%>
-						<!--  -->
 						<button type="button" class="btn btn-default" style="float:right" onclick="sendMsg()">보내기</button>
 					
 					</div>
 					<br><br><br><br>
 					<!-- 주고받은 메세지들 -->
-
-							<%-- <div class="table-responsive">
-							<table class="table">
-							<tr>
-								<td width="25%">
-									<div class="thumbnail-wrapper">
-										<div class="thumbnail">
-											<div class="centered">
-												<img src="img/h.jpg">
-											</div>
+						<div id="msglists">			
+						</div>
+					<!-- 주고받은 메세지 끝 -->		
+					<br><br>	
+					<!-- 기본 문의 div -->
+					<div class="table-responsive">
+						<table class="table">
+						<tr>
+							<td width="25%">
+								<div class="thumbnail-wrapper">
+									<div class="thumbnail">
+										<div class="centered">
+											<img src="img/jo.jpg">
 										</div>
 									</div>
-								</td>
-								<td style="word-break:break-all">
-									안녕하세요. 문의해주셔서 감사합니다. 이러쿵저러쿵
-								</td>
-							</tr>
-							<tr>
-								<td>문의 당하는 사람</td>
-								<td style="float:right"><small>2016년 10월 25일 22시 30분에 받음<small></td>
-							</tr>
-							</table>
-							</div>
-							<br><br>
-
-	 						<!-- 문의 내용 --> 
-							<div class="table-responsive">
-							<table class="table">
-							<tr>
-								<td style="word-break:break-all; color:blue">궁금해요 이것저것 궁금궁금궁금</div></td>
-								<td width="25%">
-									<div class="thumbnail-wrapper">
-										<div class="thumbnail">
-											<div class="centered">
-												<img src="img/p.jpg">
-											</div>
-										</div>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td><small>2016년 10월 25일 22시 20분에 보냄 &nbsp; &nbsp; &nbsp; 읽음</small></td>
-								<td>${loginUser.mb_id}</td>
-							</tr>
-							</table>
-							</div> --%>
-					<!-- 주고받은 메세지 끝 -->
-					
-							<br><br>	
-
-							<!-- 기본 문의 div -->
-							<div class="table-responsive">
-							<table class="table">
-							<tr>
-								<td width="25%">
-									<div class="thumbnail-wrapper">
-										<div class="thumbnail">
-											<div class="centered">
-												<img src="img/jo.jpg">
-											</div>
-										</div>
-									</div>
-								</td>
-								<td rowspan="2" style="word-break:break-all">
-									궁금한 사항을 물어봐주세요!
-								</td>
-							</tr>
-							<tr>
-								<td>문의 당하는 사람</td>
-							</tr>
-							</table>
-							</div>
-
-					<br>
-				
+								</div>
+							</td>
+							<td rowspan="2" style="word-break:break-all">
+								궁금한 사항을 물어봐주세요!
+							</td>
+						</tr>
+						<tr>
+							<td>문의 당하는 사람</td>
+						</tr>
+						</table>
+					</div>
+					<br>			
 				</div>
 
 			<!-- </div class="col-sm-12"> -->
@@ -211,6 +188,7 @@
 
 		<!-- </div class="row"> -->
 		</div>
+		
 	<!-- <div class="container"> -->
 	</div>
   <hr>
