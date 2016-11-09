@@ -10,7 +10,7 @@
   <meta name="Description" content="">
 
   <title>Document</title>
-  <style type="text/css">
+  <style type="text/css"> 
 	.container{
 		width: 70%;
 		height:800px;

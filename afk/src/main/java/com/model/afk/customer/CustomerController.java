@@ -33,7 +33,7 @@ public class CustomerController {
 	@RequestMapping(value="/customer")
 	public String customerForm(HttpSession se,Model model){
 		List<Notice> NoticeList = ns.getNoticeList();
-		model.addAttribute("NoticeList", NoticeList);
+		model.addAttribute("NoticeList",  NoticeList);
 		
 		
 		return "admin/customer";

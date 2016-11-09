@@ -11,7 +11,7 @@ public class Notice {
 	private String notice_writer;
 	public Notice(){}
 	public Notice(String notice_no, String notice_title, String notice_content, int notice_count,
-			String notice_writer) {
+			String notice_writer) { 
 		super();
 		this.notice_no = notice_no;
 		this.notice_title = notice_title;

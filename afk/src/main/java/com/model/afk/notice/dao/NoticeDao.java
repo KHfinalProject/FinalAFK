@@ -16,7 +16,7 @@ public class NoticeDao {
 	
 	
 	public int noticeInsert(Notice notice) {
-		 System.out.println("::::::::::::::::::dao ::::"+notice+":::::::::::");
+		 System.out.println(":::::::::: ::::::::dao ::::"+notice+":::::::::::");
 		 return sqlSession.insert(NAMESPACE+"noticeInsert", notice);
 		
 	}

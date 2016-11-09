@@ -12,7 +12,7 @@ public interface NoticeService {
 
 	public Notice noticeUpdate(int noticeNo);
 
-	public Object noticeListAll();
+	public Object noticeListAll( );
 
 
 	public int noticeInsert(Notice notice);

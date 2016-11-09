@@ -10,6 +10,6 @@
 	</insert>
 	
 	<select id="getNoticeList" parameterType="Notice" resultType="Notice">
-		SELECT * FROM NOTICE 
+		SELECT * FROM NOTICE  
 	</select>
 </mapper>

@@ -29,7 +29,7 @@ public class NoticeController {
 							   @RequestParam("notice_content")String content,
 								Model model, HttpServletResponse response) throws IOException{
 		Notice notice = new Notice(null,title,content,'0',null);
-		System.out.println("::::::::::::::::::controller ::"+notice+":::::::::::::");
+		System.out.println(": :::::::::::::::::controller ::"+notice+":::::::::::::");
 		int result = ns.noticeInsert(notice);
 		
 		System.out.println("result :: " + result);
