@@ -5,91 +5,90 @@ import java.sql.Date;
 public class Payment implements java.io.Serializable {
 
 	//Field
-	private int payNo; //결제번호
-	private String payId; //결제자 ID
-	private String payName; //결제자 성명
-	private String payPhone; //결제자 연락처
-	private String payEmail; //결제자 이메일
-	private int guideNo; //결제한 상품번호
-	private String guideId; //결제한 상품의 담당 가이드 ID
+	private int pay_no; //결제번호
+	private String pay_id; //결제자 ID
+	private String pay_name; //결제자 성명
+	private String pay_phone; //결제자 연락처
+	private String pay_email; //결제자 이메일
+	private int gui_no; //결제한 상품번호
+	private String guide_id; //결제한 상품의 담당 가이드 ID
 	private int price; //결제가격
-	private Date payDate; //결제일
+	private Date pay_date; //결제일
 	private char paid; //결제여부
 	
 	//Constructor
 	public Payment(){}
 
-	public Payment(int payNo, String payId, String payName, String payPhone, String payEmail, int guideNo,
-			String guideId, int price, Date payDate, char paid) {
+	public Payment(int pay_no, String pay_id, String pay_name, String pay_phone, String pay_email, int gui_no,
+			String guide_id, int price, Date pay_date, char paid) {
 		super();
-		this.payNo = payNo;
-		this.payId = payId;
-		this.payName = payName;
-		this.payPhone = payPhone;
-		this.payEmail = payEmail;
-		this.guideNo = guideNo;
-		this.guideId = guideId;
+		this.pay_no = pay_no;
+		this.pay_id = pay_id;
+		this.pay_name = pay_name;
+		this.pay_phone = pay_phone;
+		this.pay_email = pay_email;
+		this.gui_no = gui_no;
+		this.guide_id = guide_id;
 		this.price = price;
-		this.payDate = payDate;
+		this.pay_date = pay_date;
 		this.paid = paid;
 	}
 
-	
 	//Getter & Setter
-	public int getPayNo() {
-		return payNo;
+	public int getPay_no() {
+		return pay_no;
 	}
 
-	public void setPayNo(int payNo) {
-		this.payNo = payNo;
+	public void setPay_no(int pay_no) {
+		this.pay_no = pay_no;
 	}
 
-	public String getPayId() {
-		return payId;
+	public String getPay_id() {
+		return pay_id;
 	}
 
-	public void setPayId(String payId) {
-		this.payId = payId;
+	public void setPay_id(String pay_id) {
+		this.pay_id = pay_id;
 	}
 
-	public String getPayName() {
-		return payName;
+	public String getPay_name() {
+		return pay_name;
 	}
 
-	public void setPayName(String payName) {
-		this.payName = payName;
+	public void setPay_name(String pay_name) {
+		this.pay_name = pay_name;
 	}
 
-	public String getPayPhone() {
-		return payPhone;
+	public String getPay_phone() {
+		return pay_phone;
 	}
 
-	public void setPayPhone(String payPhone) {
-		this.payPhone = payPhone;
+	public void setPay_phone(String pay_phone) {
+		this.pay_phone = pay_phone;
 	}
 
-	public String getPayEmail() {
-		return payEmail;
+	public String getPay_email() {
+		return pay_email;
 	}
 
-	public void setPayEmail(String payEmail) {
-		this.payEmail = payEmail;
+	public void setPay_email(String pay_email) {
+		this.pay_email = pay_email;
 	}
 
-	public int getGuideNo() {
-		return guideNo;
+	public int getGui_no() {
+		return gui_no;
 	}
 
-	public void setGuideNo(int guideNo) {
-		this.guideNo = guideNo;
+	public void setGui_no(int gui_no) {
+		this.gui_no = gui_no;
 	}
 
-	public String getGuideId() {
-		return guideId;
+	public String getGuide_id() {
+		return guide_id;
 	}
 
-	public void setGuideId(String guideId) {
-		this.guideId = guideId;
+	public void setGuide_id(String guide_id) {
+		this.guide_id = guide_id;
 	}
 
 	public int getPrice() {
@@ -100,12 +99,12 @@ public class Payment implements java.io.Serializable {
 		this.price = price;
 	}
 
-	public Date getPayDate() {
-		return payDate;
+	public Date getPay_date() {
+		return pay_date;
 	}
 
-	public void setPayDate(Date payDate) {
-		this.payDate = payDate;
+	public void setPay_date(Date pay_date) {
+		this.pay_date = pay_date;
 	}
 
 	public char getPaid() {
@@ -118,10 +117,12 @@ public class Payment implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "Payment [payNo=" + payNo + ", payId=" + payId + ", payName=" + payName + ", payPhone=" + payPhone
-				+ ", payEmail=" + payEmail + ", guideNo=" + guideNo + ", guideId=" + guideId + ", price=" + price
-				+ ", payDate=" + payDate + ", paid=" + paid + "]";
+		return "Payment [pay_no=" + pay_no + ", pay_id=" + pay_id + ", pay_name=" + pay_name + ", pay_phone="
+				+ pay_phone + ", pay_email=" + pay_email + ", gui_no=" + gui_no + ", guide_id=" + guide_id + ", price="
+				+ price + ", pay_date=" + pay_date + ", paid=" + paid + "]";
 	}
+	
+
 
 
 }

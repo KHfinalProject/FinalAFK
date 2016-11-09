@@ -7,21 +7,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.model.afk.guide.service.GuideBoardService;
 import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.payment.service.PaymentService;
 import com.model.afk.payment.vo.Payment;
 
+@RequestMapping("/payment")
 @Controller
 public class PaymentController {
 
 	@Autowired
-	private GuideBoardService gbs;
+	private PaymentService paymentService;
 	
-	public String getPurchasedList(Model model, int page){
+	@RequestMapping("/paymentProceed")
+	public String paymentProceed(/*Model model, int page*/){
 		
-		return "payment/purchasedList";
+		return "payment/paymentProceed";
+	}
+	
+	@RequestMapping("/paymentComplete")
+	public String getPurchasedList(/*Model model, int page*/){
+		
+		return "payment/paymentComplete";
 	}
 	
 	public String insertPayment(Model model, HttpSession session, GuideItem gi,
