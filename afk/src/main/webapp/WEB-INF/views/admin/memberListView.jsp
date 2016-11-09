@@ -157,16 +157,11 @@
 
 <center>
 
-<input type="button" value="검색" onclick="searchCheck(form)" />
+<input type="submit" value="검색" onclick="searchCheck(form)" class="btn btn-success" />
 </center>
 </form>
   <br>
   <br>
-<c:forEach var="m" items="${memberList}" varStatus="status">  
-<div id="memberall">
-  총 회원수: ${status.index}명이 회원으로 등록되어 있습니다.
-</div>
-</c:forEach>
 <br>
 
 <div id = "member">
@@ -177,7 +172,7 @@
 <c:forEach var="m" items="${memberList}" varStatus="status">
   <tr>
 		<th>아이디</th><th>이름</th><th>이메일</th><th>연락처</th><th>회원등급</th><th>가입일</th>
-		<th>가이드계좌번호</th><th>가이드현지연락처</th><th>가이드현지주소</th><th>옵션</th>
+		<th>가이드 <br>계좌번호</th><th>가이드<br>현지연락처</th><th>가이드현지주소</th><th>옵션</th>
   </tr>
   <form action="admemberUpdate" method="get">
 		<tr>
@@ -220,15 +215,21 @@
 <!-- </form> -->
 </div>
 <br>
+
 <center>
-<form action="/">
-<input type="submit" value="메인으로">
+<div id="membermove">
+
+<form action="header">
+<input type="submit" class="btn btn-primary" value="메인으로">
 </form>
 
 <form action="memberListView" method="get">
-<input type="submit" value="회원전체조회">
+<input type="submit" class="btn btn-primary" value="회원전체조회">
 </form>
+
+</div>
 </center>
+
 <br>
 </body>
 </html>

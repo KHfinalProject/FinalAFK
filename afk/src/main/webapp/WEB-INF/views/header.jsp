@@ -71,12 +71,13 @@ body {margin:0; padding:0;}
   
   <c:if test="${!(loginUser eq null)}">
   <li style="float: right;"class="dropdown">
-    <a href="#" class="dropbtn">${loginUser.mb_id}&nbsp;&nbsp;&nbsp;</a>
+    <a href="#" class="dropbtn">${loginUser.mb_id}님 좋은여행!</a>
     <div class="dropdown-content">
       <a href="/afk/mypage">마이페이지</a>
       <a href="customer">고객센터</a>
      <c:if test="${loginUser.mb_grade eq '1'}">
-      <a href="memberListView">관리자회원관리</a>
+      <a href="memberListView">관리자(회원관리)</a>
+      <a href="matching">관리자(매칭관리)</a>
      </c:if>
 	  <a href="logout">로그아웃</a>
     </div>
