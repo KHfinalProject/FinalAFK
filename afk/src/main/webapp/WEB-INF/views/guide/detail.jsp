@@ -81,6 +81,12 @@
 		$("#selected_point").text(point);
 	});
 	
+	$('#send_star_point').on('click', function(){
+		var selected_point = $('#selected_point').text();
+		var check = confirm("이 글에 별 " + selected_point + "개를 주시겠습니까?");
+	
+	});
+	
 	//아이콘 클릭 시 해당 글 신고
 	$("#notify").on('click', function(){
 		var gui_no = ${guideItem.gui_no};
@@ -97,11 +103,22 @@
 					console.log("신고");
 					count++;
 					$('#print_notify').html(count);
+				},
+				error : function(e){
+					alert("ERROR TT_TT");
 				}
 			});
 		}
 	})
-
+	
+	$('#buy_btn').on('click', function(){
+		var check = confirm("이 상품을 구매하시겠습니까?");
+		/* if(check){
+			/* var guide = ${guide}; 
+			var guideItem = ${guideItem};
+			var user = ${loginUser.mb_id};
+		} */
+	});
 
 	/*달력용*/
 	$('#datepicker').datepicker({
@@ -129,14 +146,27 @@
 	}
 
 	#guide_detail_main {
-		background-color : #04378c;
-		height : 300px;
+		width : 100%;
+		height : 400px;
 		margin-bottom : 3%;
+	}
+	
+	#img_title{
+		position : absolute;
+		top : 5%;
+		left : 5%;
+		color : white;
+
+	}
+
+	#img_title h1 {
+		background-color : #5d5d5d;
+		opacity : 7%;
 	}
 
 	#writer {
 		position : absolute;
-		top : 70%;
+		top : 30%;
 		right : 10%;
 		z-index : 1;
 	}
@@ -186,9 +216,7 @@
 		margin-bottom : 3%;
 	}
 
-
 	#intro {
-	
 		font-size : 16pt;
 		height : 400px;
 	}
@@ -226,8 +254,8 @@
 		width : 150px;
 		height : 40px;
 		font-size : 14pt;
-		color : white;
-		background-color :#317d59;
+		color : black;
+		background-color :white;
 		-moz-border-radius:10px;
 		-webkit-border-radius:10px;
 		border-radius:10px;
@@ -246,6 +274,11 @@
 		-moz-border-radius:10px;
 		-webkit-border-radius:10px;
 		border-radius:10px;
+	}
+	
+	#btns button:hover {
+		background-color : #ba012b;
+		color : white;
 	}
 
 	#guide_comment {
@@ -266,16 +299,6 @@
 		border-top : 1px solid gray;
 	}
 
-	#item_pics{
-		display : inline-block;
-		margin-top : 2%;
-		margin-bottom : 3%;
-	}
-
-	#item_pics img {
-		margin : 0.1%;		
-	}
-
 	#item_reviews, #item_reply{
 		width : 100%;
 		margin-top : 5%;
@@ -289,10 +312,6 @@
 		margin-left : 5%;
 		text-align : left;
 		display : inline-block;	
-	}
-
-	#user_rep p {
-		width : 100%;
 	}
 
 	#write_rep {
@@ -344,22 +363,27 @@
  </head>
  <body>
    
-  <div class="container">
-	<div class="row">
-		<div class="col-md-12" id="guide_detail_main">
-			guide_detail_main 이미지
+  <div id="container">
+	<div id="guide_detail_main">
+		<img src="${guideItem.gui_image}" width="100%" height="400px" style="opacity:0.7">
+		<div id="img_title">
+			<h1><b>"${guideItem.gui_title}"</b></h1>
+		</div><!-- end of img_text -->
+			
+		<c:if test="${loginUser.mb_id eq guide.mb_id}">
 			<div id="writer">
-				<button id="revise_btn" class="btn btn-default btn-lg" onclick="location.href='/afk/guide/updateGuideForm?itemNo=${guideItem.gui_no}'">
-					수정하기
+				<button id="revise_btn" class="btn btn-default btn-lg">
+					<span class="glyphicon glyphicon-erase"></span>수정하기
 				</button>
 				&nbsp;
-				<button id="delete_btn" class="btn btn-default btn-lg" onclick="location.href='/afk/guide/deleteGuide?itemNo=${guideItem.gui_no}'">
-					삭제하기
+				<button id="delete_btn" class="btn btn-default btn-lg">
+					<span class="glyphicon glyphicon-trash"></span>삭제하기
 				</button>
 			</div><!--end of writer-->
-		</div><!--guide_detail_main-->
-	</div>
-
+		</c:if>
+	</div><!--guide_detail_main-->
+	
+	<div class="container">
 	<div id="guide_detail_top">
 		<div class="row">
 		<div class="col-md-4">
@@ -434,6 +458,7 @@
 				</tr>
 				<tr>
 					<td colspan="3" style="margin-left:10%">
+					<c:if test="${!empty loginUser}">
 						<span class="star_point">
 							<a href="#" class="on">★</a>
 							<a href="#" class="on">★</a>
@@ -443,6 +468,7 @@
 						</span>
 						<span style="font-size:12pt; margin-left:5%"><span id="selected_point">3</span>점</span>&nbsp;
 						<button class="btn btn-default">별점 주기</button>
+					</c:if>	
 					</td>
 				</tr>
 				</table>
@@ -462,34 +488,21 @@
 			&nbsp;&nbsp;
 			<input type="text" name="" id="datepicker" value="날짜 선택">
 		</div>
-		<div class="col-md-6">
-			<button id="add_favorite" onclick="add_favorite(this);" class="btn btn-default"><span class="glyphicon glyphicon-star-empty"></span> 찜하기</button>
+		<div class="col-md-6" id="btns">
+			<button id="add_favorite" onclick="add_favorite(this);" class"btn btn-default">
+			<span class="glyphicon glyphicon-star-empty"></span> 찜하기
+			</button>
 	
-			<button id="buy_btn" class="btn btn-default">구매하기</button>
+			<button id="buy_btn">구매하기</button>
 		</div>
 		
 	</div>
 	</div><!--end of sub_nav-->
 
 	<div id="item_detail">
-		<div id="guide_comment">
-			<p>"난 지금 서울인데 서울이 아닌 느낌을 가지고 싶다면 선택하세요 랄라라라라라랄라라랄 예스터데이 얼마트러블 씸소 파어웨이 슈슈슈슈슈나ㅏㅏㅏ다깁ㄱ바ㅣㅏ긩ㅁ르ㅏㅣㅢㅏㅣㅁ"</p>
+		<div id="item_contents">
+			${guideItem.gui_content}
 		</div>
-		<div id="item_pics">
-			<img src="images/n.jpg" alt="..." class="img-rounded" width="300px" height="200px">
-			
-			<img src="images/n.jpg" alt="..." class="img-rounded" width="300px" height="200px">
-	
-			
-			<img src="images/n.jpg" alt="..." class="img-rounded" width="300px" height="200px">
-			
-			<img src="images/n.jpg" alt="..." class="img-rounded" width="300px" height="200px">
-
-			<img src="images/n.jpg" alt="..." class="img-rounded" width="300px" height="200px">
-
-			<img src="images/n.jpg" alt="..." class="img-rounded" width="300px" height="200px">
-			
-		</div><!--end of item_pics-->
 
 		<div id="item_maps" align="center">
 			<div class="row">
@@ -502,21 +515,21 @@
 		<div id="item_reviews">
 		<h3>후기</h3>
 			<div id="user_review">
-				<p><img src="/images/n.jpg" alt="..." class="img-circle" width="50px" height="80px">
+				<p><img src="#" alt="..." class="img-circle" width="50px" height="80px">
 				좋았어요 ㅑㅋ캬
 				</p>
 			</div><!--end of user_review-->
 
 			<div id="user_review">
 				<a>
-					<img src="images/k.jpg" alt="..." class="img-circle" width="100px" height="100px">
+					<img src="#" alt="..." class="img-circle" width="100px" height="100px">
 				</a>
 				<a>
 				좋았어요 ㅑㅋ캬캬ㅑ캬캬캬컄캬캬캬캬캬캬캬캬캬캬캬캬컄캬캬캬컄캬컄캬컄컄캬컄컄캬컄캬캬컄캬<!--후기 보드의 타이틀 불러옴-->	</a>			
 			</div><!--end of user_review-->
 
 			<div id="user_review">
-				<img src="..." alt="..." class="img-circle" width="100px" height="100px">
+				<img src="#" alt="..." class="img-circle" width="100px" height="100px">
 				좋았어요 ㅑㅋ캬캬ㅑ캬캬캬컄캬캬캬캬캬캬캬캬캬캬캬캬컄캬캬캬컄캬컄캬컄컄캬컄컄캬컄캬캬컄캬<!--후기 보드의 타이틀 불러옴-->				
 			</div><!--end of user_review-->
 		</div><!--end of item_reviews-->
@@ -527,16 +540,16 @@
 				<textarea name="" rows="" cols="" placeholder="이 상품 또는 담당 가이드에 대해 적어주세요"></textarea> 
 				<button class="btn btn-primary" style="position:relative; top:-20px; height: 40px">등록</button>
 			</div>
-
-			<c:forEach var="comment" items="commentList">
+	
+			<c:forEach var="comment" items="${commentList}">
 			<div id="user_rep">
 				<table width="100%">
 					<tr>
 						<td width="auto">
-							<img src="images/k.jpg" alt="..." class="img-circle" width="50px" height="50px">
+							<img src="<%-- ${comment.mb_rename_pic} --%>" alt="..." class="img-circle" width="50px" height="50px">
 						</td>
 						<td width="70%">
-							${commentList.mb_rename_pic}
+							${comment.cm_content}
 						</td>
 				
 						<td>
@@ -549,11 +562,13 @@
 				</table>				
 			</div>
 			</c:forEach>
+			<c:if test="${empty commentList}">
+			<h3>아직 등록된 코멘트가 없습니다.</h3>
+			</c:if>
 			
 		</div><!--end of item_reply-->
 
 	</div><!--end of item_detail-->
-	
 
   </div><!--end of container-->
   

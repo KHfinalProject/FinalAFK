@@ -74,7 +74,9 @@
 		    FROM(
 		        select *
 		        from guide_board
-		        where gui_writer = #{writer})a
+		        where gui_writer = #{writer}
+		        order by ${code}
+		        )a
 		    WHERE rownum <= #{end})x
 		WHERE x.rnum >= #{start}
  	]]>
@@ -86,9 +88,15 @@
  	WHERE mb_id = #{writer} 
  </select>
  
+ <select id="getTotalCount" parameterType="String" resultType="Integer">
+ 	SELECT count(*)
+ 	FROM guide_board
+ 	WHERE gui_writer = #{writer}
+ </select>
+ 
  <select id="getOneItem" parameterType="int" resultType="gItem">
  	SELECT * 
- 	FROM GUIDE_BOARD
+ 	FROM guide_board
  	JOIN location_city on (gui_loc_s = city_no)
  	JOIN location_country using (country_no)
 	JOIN location_area using (area_no)

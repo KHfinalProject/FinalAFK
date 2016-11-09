@@ -47,10 +47,14 @@ public class GuideController {
 			@RequestParam(value="page", defaultValue="1") int page,
 			@RequestParam(value="code", defaultValue="gui_no") String code){
 		System.out.println("======================guideMain=============");
-		System.out.println("page : " + page);
-		List<GuideItem> list = guideBoardService.getGuideList(page, code);
-		model.addAttribute("list", list);
 		
+		List<GuideItem> list = guideBoardService.getGuideList(page, code);
+		list = getImagePath(list);
+		
+		model.addAttribute("list", list);
+			
+		System.out.println(list.toString());
+			
 		return "guide/main";
 	}
 	
@@ -60,47 +64,88 @@ public class GuideController {
 			@RequestParam(value="code", defaultValue="gui_no") String code) throws Exception{
 		System.out.println("======================guideMore====================");
 		List<GuideItem> list = guideBoardService.getGuideList(page, code);
-				
+		list = getImagePath(list);		
+		
 		return list;
 	}
 	
 	//가이드 아이디 클릭 시 해당 가이드의 페이지로 이동
 	@RequestMapping("/guideSub")
 	public String getAllItems(Model model, @RequestParam String writer, 
-			@RequestParam(value="page", defaultValue="1") int page){
+			@RequestParam(value="page", defaultValue="1") int page,
+			@RequestParam(value="code", defaultValue="gui_no") String code){
 		System.out.println("=====================guideSub======================");
-		
-		List<GuideItem> list = guideBoardService.getAllItems(writer, page);
+			
+		List<GuideItem> list = guideBoardService.getAllItems(writer, page, code);
+		list = getImagePath(list);
 		Member guide = guideBoardService.getGuideInfo(writer);
-		
+		int total = guideBoardService.getTotalCount(writer);
+					
 		model.addAttribute("list", list);
 		model.addAttribute("guide", guide);
-		
+		model.addAttribute("total", total);
+			
 		System.out.println(list.toString());
-		
+			
 		return "guide/sub";
 	}
+
+	//서브 페이지에서 더보기 클릭 시 추가 데이터 로딩
+	@RequestMapping("/subMore")
+	public @ResponseBody List<GuideItem> getMoreSub(@RequestParam String writer, 
+			@RequestParam(value="page", defaultValue="1") int page,
+			@RequestParam(value="code", defaultValue="gui_no") String code){
+		System.out.println("===========================subMore============================");
+		
+		List<GuideItem> list = guideBoardService.getAllItems(writer, page, code);
+		list = getImagePath(list);	
+		
+		return list;		
+	}	
 	
+	//gui_content 중 첨부된 이미지가 있을 시 대표 이미지로 사용하게 하는 메소드
+	public List<GuideItem> getImagePath(List<GuideItem> list){
+		String img_path = "";
+		for(GuideItem g : list){
+			String e = g.getGui_content();
+			if(e.indexOf("/afk/resources/upload") != -1){ //gui_content 중 첨부이미지 있을 시
+				//img_path 변수에 이미지 저장 경로만 추출하여 저장
+				img_path = e.substring(e.indexOf("/afk/resources/upload"), e.indexOf(" title") -1);
+				//GuideItem 객체에 이미지 저장 경로 공백을 제거하여 저장
+				g.setGui_image(img_path.trim());
+			}else{//첨부 이미지가 없을 경우 임의로 대표 이미지 설정
+				g.setGui_image("../resources/images/guide/tempthumb.jpg");
+			}				
+		}
+		return list;
+	}
 
 	//상품 사진 클릭 시 해당 상품 상세 페이지로 이동
 	@RequestMapping("/guideDetail")
 	public String getOneItem(Model model, @RequestParam int itemNo, 
 			@RequestParam(value="page", defaultValue="1") int page, 
 			@RequestParam String writer){
+		System.out.println("==============guideDetail==================");
 		
 		int result = guideBoardService.addCount(itemNo);
 		
+		List<GuideComment> commentList = null;
+		GuideItem guideItem = null;
+		Member guide = null;
+		
 		if(result > 0){
-			List<GuideComment> commentList = guideCommentService.getAllComments(itemNo, page);
-			GuideItem guideItem = guideBoardService.getOneItem(itemNo);
-			Member guide = guideBoardService.getGuideInfo(writer);
-			
-			model.addAttribute(commentList);
-			model.addAttribute(guideItem);
-			model.addAttribute(guide);
-			
-			System.out.println(guide.toString());
-		}	
+			commentList = guideCommentService.getAllComments(itemNo, page);
+			guideItem = guideBoardService.getOneItem(itemNo);
+			guide = guideBoardService.getGuideInfo(writer);
+		}			
+		
+		System.out.println("guide : " + guide.toString());
+		System.out.println("commentList : " + commentList.toString());
+		System.out.println("guideItem : " + guideItem.toString());
+
+		model.addAttribute("commentList", commentList);
+		model.addAttribute("guideItem", guideItem);
+		model.addAttribute("guide", guide);
 		
 		return "guide/detail";
 	}

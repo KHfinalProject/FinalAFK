@@ -20,11 +20,7 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	
 	@Override
 	public List<GuideItem> getGuideList(int page, String code) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("start", page);
-		map.put("end", page + 7);
-		map.put("code", code);
-		return guideBoardDao.getGuideMain(map);
+		return guideBoardDao.getGuideMain(page, code);
 	}
 	
 	@Override
@@ -33,12 +29,8 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	}
 
 	@Override
-	public List<GuideItem> getAllItems(String writerNo, int page) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("writer", writerNo);
-		map.put("start", page);
-		map.put("end", page + 7);
-		return guideBoardDao.getAllItems(map);
+	public List<GuideItem> getAllItems(String writerNo, int page, String code) {
+		return guideBoardDao.getAllItems(writerNo, page, code);
 	}
 
 	@Override
@@ -59,6 +51,12 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	@Override
 	public Member getGuideInfo(String writer) {
 		return guideBoardDao.getGuideInfo(writer);
+	}
+	
+	@Override
+	public int getTotalCount(String writer) {
+		// TODO Auto-generated method stub
+		return guideBoardDao.getTotalCount(writer);
 	}
 	
 	@Override

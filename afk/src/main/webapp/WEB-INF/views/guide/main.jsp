@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!doctype html>
 <html lang="ko">
  <head>
@@ -31,6 +32,130 @@
  
   <script>
   /*달력용*/
+    /*별 클릭 시 찜하기 추가, 다시 클릭하면 삭제*/
+  function add_favorite(obj){
+	  var check = $(obj).children('span').hasClass('glyphicon glyphicon-star');
+	  if(check === false){
+		$(obj).children('span').attr('class', 'glyphicon glyphicon-star');
+		
+		$.ajax({
+			url : "addFavorite",
+			type : "post",
+			data : {user : user, itemNo : itemNo},
+			success : function(data){
+				alert("즐겨찾기에 보관되었습니다!");
+			}
+		});
+		
+	  }else{
+		$(obj).children('span').attr('class', 'glyphicon glyphicon-star-empty');
+		
+		$.ajax({
+			url : "removeFavorite",
+			type : "post",
+			data : {user : user, itemNo : itemNo},
+			success : function(data){
+				alert("즐겨찾기에서 삭제되었습니다!");
+			}
+		});
+	  }
+  }
+  
+  var code = "gui_no";
+  function load_select(cmd){
+	  var code = cmd;
+	  
+	  $.ajax({
+			url : "guideMore",
+			type : "post",
+			data : {code : code},
+			dataType : "json",
+			success : function(data){
+				console.log("success");
+				var result = "";
+				//var old = $("#loaded_item_list").html();
+				
+				if(data.length > 0){
+					for(var i in data){
+						result += "<section id='item_box'>";
+						result += "<table id='item_info' style='width:100% table-layout:fixed;'>";
+						result += "<tr><td colspan='2'>";
+						result += "<a href='guideDetail?itemNo=" + data[i].gui_no + "&writer=" + data[i].gui_writer + "'>";
+						result += "<img src='" + data[i].gui_image+ "' width='400px' height='450px' class='img-rounded'>";
+						result += "</a></td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
+						result += "<nobr>" + data[i].gui_title + "</nobr></td><td rowspan='2' align='right'>";
+						result += "<button id='wish' onclick='add_favorite(this)'>";
+						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
+						result += "</button></td></tr><tr><td align='left'>";
+						result += "<a href='guideSub?writer=" + data[i].gui_writer + "'>" + data[i].gui_writer;
+						result += "</a></td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
+						result += "</tr></table></section>";
+					}
+					$('#loaded_item_list').html(result);
+					
+				}else{
+					result = "<h3>더 이상 불러올 글이 없습니다!</h3>";
+					$('#read_more').remove();
+				}
+								
+			},
+			error : function(e){
+				console.log("error");
+			}
+  	});
+  }
+
+  $(function(){
+	/*더보기 클릭 시 다음 리스트 불러오기 기능*/
+	var count = Number($('#paging_count').val());
+	$('#read_more').click(function(){
+		
+		count += 5;
+		console.log("count : " + count);
+		var code = $('#paging_code').val();
+		
+		$.ajax({
+			url : "/afk/guide/guideMore",
+			type : "post",
+			data : {page : count, code : code},
+			dataType : "json",
+			success : function(data){
+				console.log("success");
+				var result = "";
+				var old = $("#loaded_item_list").html();
+				
+				if(data.length > 0){
+					for(var i in data){
+						result += "<section id='item_box'>";
+						result += "<table id='item_info' style='width:100% table-layout:fixed;'>";
+						result += "<tr><td colspan='2'>";
+						result += "<a href='guideDetail?itemNo=" + data[i].gui_no + "&writer=" + data[i].gui_writer + "'>";
+						result += "<img src='" + data[i].gui_image+ "' width='400px' height='450px' class='img-rounded'>";
+						result += "</a></td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
+						result += "<nobr>" + data[i].gui_title + "</nobr></td><td rowspan='2' align='right'>";
+						result += "<button id='wish' onclick='add_favorite(this)'>";
+						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
+						result += "</button></td></tr><tr><td align='left'>";
+						result += "<a href='guideSub?writer=" + data[i].gui_writer + "'>" + data[i].gui_writer;
+						result += "</a></td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
+						result += "</tr></table></section>";
+					}
+					$('#loaded_item_list').html(old + result);
+					
+				}else{
+					result = "<h3>더 이상 불러올 글이 없습니다!</h3>";
+					$('#read_more').remove();
+				}
+								
+			},
+			error : function(e){
+				console.log("error");
+			}
+			
+		});
+	});
+	
+  });
 	  var dates = new Array();
   	  //테스트용 
   	  dates.push("2016-11-16");
@@ -110,133 +235,45 @@
 	      });
 	  });
   
-  
-  /*별 클릭 시 찜하기 추가, 다시 클릭하면 삭제*/
-  function add_favorite(obj){
-	  var check = $(obj).children('span').hasClass('glyphicon glyphicon-star');
-	  if(check === false){
-		$(obj).children('span').attr('class', 'glyphicon glyphicon-star');
-		
-		$.ajax({
-			url : "addFavorite",
-			type : "post",
-			data : {user : user, itemNo : itemNo},
-			success : function(data){
-				alert("즐겨찾기에 보관되었습니다!");
-			}
-		});
-		
-	  }else{
-		$(obj).children('span').attr('class', 'glyphicon glyphicon-star-empty');
-		
-		$.ajax({
-			url : "removeFavorite",
-			type : "post",
-			data : {user : user, itemNo : itemNo},
-			success : function(data){
-				alert("즐겨찾기에서 삭제되었습니다!");
-			}
-		});
-	  }
-  }
-  
-  var code = "gui_no";
-  function load_select(cmd){
-	  var code = cmd;
+	  jQuery(function () {
+	      jQuery("#hidden_picker").datepicker({
+	      	minDate : "+2d",
+	      	dateFormat : "yy-mm-dd",
+	      	showAnim : "slide",
+	      	showMonthAfterYear : true,
+	      	yearRange : 'c-0:c+2',
+	      	yearSuffix : '년 ',
+	      	changeYear : true,
+	      	changeMonth : true,
+	      	monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	  		dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+	          onSelect: function (dateText, inst) {
+	              addOrRemoveDate(dateText);
+	          },
+	          beforeShowDay: function (date) {
+	        	  
+	        	  if(date.length > 0){
+	        		  for (var i in dates)
+		        		  selected += dates[i] + ", ";
+		        	  
+		        	  $('#print_date').html(selected);
+	        	  }
+	        	  
+	              var year = date.getFullYear();
+	              var month = padNumber(date.getMonth() + 1);
+	              var day = padNumber(date.getDate());
+	            
+	              var dateString = year + "-" + month + "-" + day;
+	              
+	              var gotDate = jQuery.inArray(dateString, dates);
+	              if (gotDate >= 0) {
+	                return [true, "ui-state-highlight"];
+	              }
+	              return [true, ""];
+	          }
+	      });
+	  });
 	  
-	  $.ajax({
-			url : "guideMore",
-			type : "post",
-			data : {code : code},
-			dataType : "json",
-			success : function(data){
-				console.log("success");
-				var result = "";
-				//var old = $("#loaded_item_list").html();
-				
-				if(data.length > 0){
-					for(var i in data){
-						result += "<section id='item_box'>";
-						result += "<table id='item_info' style='width:100% table-layout:fixed;'>";
-						result += "<tr><td colspan='2'>";
-						result += "<a href='guideDetail?itemNo=" + data[i].gui_no + "&writer=" + data[i].gui_writer + "'>";
-						result += "<img src='" + data[i].gui_image+ "' width='400px' height='450px' class='img-rounded'>";
-						result += "</a></td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
-						result += "<nobr>" + data[i].gui_title + "</nobr></td><td rowspan='2' align='right'>";
-						result += "<button id='wish' onclick='add_favorit(this)'>";
-						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
-						result += "</button></td></tr><tr><td align='left'>";
-						result += "<a href='guideSub?writer=" + data[i].gui_writer + "'>" + data[i].gui_writer;
-						result += "</a></td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
-						result += "</tr></table></section>";
-					}
-					
-				}else{
-					result = "<h3>더 이상 불러올 글이 없습니다!</h3>";
-					$('#read_more').remove();
-				}
-				
-				$('#loaded_item_list').html(result);
-								
-			},
-			error : function(e){
-				console.log("error");
-			}
-  	});
-  }
-
-  $(function(){
-	/*더보기 클릭 시 다음 리스트 불러오기 기능*/
-	var count = Number($('#paging_count').val());
-	$('#read_more').click(function(){
-		
-		count += 5;
-		console.log("count : " + count);
-		var code = $('#paging_code').val();
-		
-		$.ajax({
-			url : "/afk/guide/guideMore",
-			type : "post",
-			data : {page : count, code : code},
-			dataType : "json",
-			success : function(data){
-				console.log("success");
-				var result = "";
-				var old = $("#loaded_item_list").html();
-				
-				if(data.length > 0){
-					for(var i in data){
-						result += "<section id='item_box'>";
-						result += "<table id='item_info' style='width:100% table-layout:fixed;'>";
-						result += "<tr><td colspan='2'>";
-						result += "<a href='guideDetail?itemNo=" + data[i].gui_no + "&writer=" + data[i].gui_writer + "'>";
-						result += "<img src='" + data[i].gui_image+ "' width='400px' height='450px' class='img-rounded'>";
-						result += "</a></td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
-						result += "<nobr>" + data[i].gui_title + "</nobr></td><td rowspan='2' align='right'>";
-						result += "<button id='wish' onclick='add_favorit(this)'>";
-						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
-						result += "</button></td></tr><tr><td align='left'>";
-						result += "<a href='guideSub?writer=" + data[i].gui_writer + "'>" + data[i].gui_writer;
-						result += "</a></td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
-						result += "</tr></table></section>";
-					}
-					
-				}else{
-					result = "<h3>더 이상 불러올 글이 없습니다!</h3>";
-					$('#read_more').remove();
-				}
-				
-				$('#loaded_item_list').html(old + result);
-								
-			},
-			error : function(e){
-				console.log("error");
-			}
-			
-		});
-	});
-	
-  });
   
   </script>
 
@@ -310,6 +347,23 @@
 		text-align : center;
 		transition : top 0.2s ease-in-out;
 	}
+	
+	#hidden_select {
+		display : none;
+	}
+	
+	@media all and (max-width : 1000px){
+		#select table {
+			display : none;
+		}
+		
+		#hidden_select {
+			display : block;
+			clear : both;
+			width : 100%;
+			height : auto;
+		}
+	} 
 
 	.select_top {
 		position : absolute;
@@ -339,7 +393,7 @@
 	}
 	
 	#item_box {
-		width : 40%;
+		width : 400px;
 		margin : 2%;
 		padding : 0.5%;
 		display : inline-block;
@@ -409,18 +463,26 @@
  </head>
  <body>
   <div id="container">
+  <jsp:include page="../header.jsp"/>
 	<div id="main_img">
-		<img src="../resources/images/guide/22.jpg" width="100%" height="400px" style="opacity:0.7">
+		<img src="../resources/images/guide/guideMain.jpg" width="100%" height="450px" style="opacity:0.7">
 		<div id="img_text">
 			<h1><b>가이드와 함께 떠나는 여행</b></h1>
 		</div><!-- end of img_text -->
+		<c:if test="${loginUser.mb_grade eq 'B'.charAt(0)}">
 		<div id="write_new">
 			<button id="write_btn">
 				<a href="/afk/guide/insertGuideForm">새 글 작성</a>
 			</button>
 		</div><!-- end of write_new -->
+		</c:if>
+		
 	</div><!--end of div main_img-->
 	<div id="inner">
+		<div id="hidden_select">
+				날짜 선택 : <input type="text" id="hidden_picker">
+			<br>
+		</div> 
 		<div id="select">
 			<table>
 				<tr>
@@ -435,6 +497,17 @@
 				</tr>
 				<tr>
 					<td><div id="print_date"></div></td>
+				</tr>
+				<tr>
+					<td>				
+					<c:if test="${loginUser.mb_grade eq 2}">
+						<a href="insertGuideForm">
+						<button type="button" class="btn btn-default btn-lg">
+						  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 글쓰기
+						</button>	
+						</a>
+					</c:if>
+				</td>
 				</tr>
 			</table>
 		</div><!--end of div select-->
@@ -454,12 +527,16 @@
 			
 			<div id="loaded_item_list">
 			<c:forEach var="firstList" items="${list}">
+										
 			<section id="item_box">
 				<table id="item_info" style="width : 100%; table-layout: fixed;">
 					<tr>
 						<td colspan="2">
 						<a href="guideDetail?itemNo=${firstList.gui_no}&writer=${firstList.gui_writer}">
 							<img src="${firstList.gui_image}" width="400px" height="450px" class="img-rounded">
+							<c:if test="${empty firstList.gui_image}">
+							<img src="${img_path}" width="400px" height="450px" class="img-rounded">
+							</c:if>
 						</a>
 						</td>
 					</tr>

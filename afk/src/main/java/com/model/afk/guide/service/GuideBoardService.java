@@ -12,7 +12,7 @@ public interface GuideBoardService {
 	
 	public List<GuideItem> getAllGuides(int page);
 	
-	public List<GuideItem> getAllItems(String writerNo, int page);
+	public List<GuideItem> getAllItems(String writerNo, int page, String code);
 	
 	public int insertItem(GuideItem gi);
 	
@@ -44,6 +44,8 @@ public interface GuideBoardService {
 	public int countTest();
 	
 	public List<Test> paging(int testNo);
+
+	public int getTotalCount(String writer);
 
 
 

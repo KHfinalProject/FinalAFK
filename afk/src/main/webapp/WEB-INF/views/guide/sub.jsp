@@ -5,9 +5,8 @@
 <html lang="ko">
  <head>
   <meta charset="UTF-8">
-  <title>가이드 페이지 서브화면</title>
+  <title>가이드 페이지 메인화면</title>
      
-    
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
  
   <!--[if lt IE 9]>
@@ -29,107 +28,253 @@
   
    <!--jQuery ui js파일(달력용)-->
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+ 
+ 
+ </head>
+ <body>
+  <div id="container">
+	<div id="inner">	
+		<div id="select">
+			<div style="margin-top:50px">
+				<img src="#" width="100%" height="250px" border="1" alt="">
+			</div>
+			
+			<table>
+				<tr>
+					<td style="font-size:22pt" id="guide_name">
+						${guide.mb_name} <input type="hidden" id="guide_id" value="${guide.mb_id}">
+					</td>
+					<td>&nbsp;&nbsp;
+						<a href="/afk/msg">
+						<button type="button" class="btn btn-default">
+							<span class="glyphicon glyphicon-envelope">쪽지보내기</span>
+						</button>
+						</a>
+					</td>
+				</tr>
+				<tr style="font-size:12pt">
+					<td align="left">
+						이메일 
+					</td>
+					<td>
+						${guide.mb_email}
+					</td>
+				</tr>
+				<tr style="font-size:12pt">
+					<td align="left">
+						현지 연락처
+					</td>
+					<td>
+						${guide.mb_loc_phone}
+					</td>
+				</tr>
+			</table>
+			<br>
+			<table>
+				<tr>
+					<td>
+						<div id="datepicker">
+							 <!--달력 출력되는 부분-->
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span>출발일 기준 최소 2일 전까지만 선택 가능합니다.</span>
+					</td>
+				</tr>
+				<tr>
+					<td><div id="print_date"></div></td>
+				</tr>
+				<tr>
+					<td>
+						<c:if test="${loginUser.mb_grade eq 2}">
+							<button type="button" class="btn btn-default btn-lg">
+							  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 글쓰기
+							</button>
+						</c:if>
+					</td>
+				</tr>
+			</table>
+		</div><!--end of div select-->
+		<div id="items">
+			<div id="sort_search">
+				<input type="text" id="search_box" placeholder="검색어 입력">
+				<button id="search_icon"class="btn btn-default" type="submit">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+				<div id="select_order" class="btn-group" role="group">						
+					<button type="button" class="btn btn-default" onclick="load_select('gui_point')">별점순</button>	
+					<button type="button" class="btn btn-default" onclick="load_select('gui_count')">조회순</button>
+					<button type="button" class="btn btn-default" onclick="load_select('gui_enrolldate')">최신순</button>	
+					<button type="button" class="btn btn-default" onclick="load_select('gui_price')">가격순</button>
+				</div>
+			</div>
+			
+			<div id="loaded_item_list">
+			<c:forEach var="firstList" items="${list}">
+			<section id="item_box">
+				<table id="item_info" style="width : 100%; table-layout: fixed;">
+					<tr>
+						<td colspan="2">
+						<a href="guideDetail?itemNo=${firstList.gui_no}&writer=${firstList.gui_writer}">
+							<img src="${firstList.gui_image}" width="400px" height="450px" class="img-rounded">
+						</a>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" style="text-overflow:ellipsis; overflow:hidden">
+						<nobr>${firstList.gui_title}</nobr>
+						
+						</td>
+						<td rowspan="2" align="right">
+							<button id="wish" onclick="add_favorite(this)">
+								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<td align="left">${firstList.gui_price}</td>
+					</tr>
+				</table>
+			</section>
+			</c:forEach>
+			</div><!-- end of loaded_item_list -->
+			
+			<c:if test="${total > 4}"> 
+				<br>
+				<button id="read_more" class="btn btn-default btn-block">더보기</button>
+			</c:if>
+			
 
+		</div><!--end of div items-->
+	</div><!--end of div inner-->
+  </div> <!--end of div container-->
+<input type="hidden" id="paging_count">
+<input type="hidden" id="paging_code">
+
+ </body>
   <script>
   /*달력용*/
-  var dates = new Array();
-	  //테스트용 
-	  dates.push("2016-11-16");
-	  dates.push("2016-11-17");
-
-  function addDate(date) {
-      if (jQuery.inArray(date, dates) < 0) 
-          dates.push(date);
-  }
-
-  function removeDate(index) {
-      dates.splice(index, 1);
-  }
-
-  function printArray(){
-  	var printArr = new String;
-  	dates.forEach(function(val){
-  		printArr += val + ", ";
-  	});
-  	$('#print_date').html(printArr);
-  }
-
-  //이미 선택된 날짜면 배열에서 제거
-  function addOrRemoveDate(date) {
-      var index = jQuery.inArray(date, dates); //날짜 배열(dates)에 선택한 날짜(date)가 있는지 확인
-      if (index >= 0) //있다면 배열에서 제거
-          removeDate(index);
-      else 
-          addDate(date);
-      printArray();
-  }
-
-  // Takes a 1-digit number and inserts a zero before it
-  function padNumber(number) {
-      var ret = new String(number);
-      if (ret.length == 1) 
-          ret = "0" + ret;
-      return ret;
-  }
-
-  jQuery(function () {
-      jQuery("#datepicker").datepicker({
-      	minDate : "+2d",
-      	dateFormat : "yy-mm-dd",
-      	showAnim : "slide",
-      	showMonthAfterYear : true,
-      	yearRange : 'c-0:c+2',
-      	yearSuffix : '년 ',
-      	changeYear : true,
-      	changeMonth : true,
-      	monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-  		dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-          onSelect: function (dateText, inst) {
-              addOrRemoveDate(dateText);
-          },
-          beforeShowDay: function (date) {
-        	  
-        	  if(date.length > 0){
-        		  for (var i in dates)
-	        		  selected += dates[i] + ", ";
+	  var dates = new Array();
+  	  //테스트용 
+  	  dates.push("2016-11-16");
+  	  dates.push("2016-11-17");
+	
+	  function addDate(date) {
+	      if (jQuery.inArray(date, dates) < 0) 
+	          dates.push(date);
+	  }
+	
+	  function removeDate(index) {
+	      dates.splice(index, 1);
+	  }
+	
+	  function printArray(){
+	  	var printArr = new String;
+	  	dates.forEach(function(val){
+	  		printArr += val + ", ";
+	  	});
+	  	$('#print_date').html(printArr);
+	  }
+	
+	  //이미 선택된 날짜면 배열에서 제거
+	  function addOrRemoveDate(date) {
+	      var index = jQuery.inArray(date, dates); //날짜 배열(dates)에 선택한 날짜(date)가 있는지 확인
+	      if (index >= 0) //있다면 배열에서 제거
+	          removeDate(index);
+	      else 
+	          addDate(date);
+	      printArray();
+	  }
+	
+	  // Takes a 1-digit number and inserts a zero before it
+	  function padNumber(number) {
+	      var ret = new String(number);
+	      if (ret.length == 1) 
+	          ret = "0" + ret;
+	      return ret;
+	  }
+	
+	  jQuery(function () {
+	      jQuery("#datepicker").datepicker({
+	      	minDate : "+2d",
+	      	dateFormat : "yy-mm-dd",
+	      	showAnim : "slide",
+	      	showMonthAfterYear : true,
+	      	yearRange : 'c-0:c+2',
+	      	yearSuffix : '년 ',
+	      	changeYear : true,
+	      	changeMonth : true,
+	      	monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	  		dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+	          onSelect: function (dateText, inst) {
+	              addOrRemoveDate(dateText);
+	          },
+	          beforeShowDay: function (date) {
 	        	  
-	        	  $('#print_date').html(selected);
-        	  }
-        	  
-              var year = date.getFullYear();
-              var month = padNumber(date.getMonth() + 1);
-              var day = padNumber(date.getDate());
-            
-              var dateString = year + "-" + month + "-" + day;
-              
-              var gotDate = jQuery.inArray(dateString, dates);
-              if (gotDate >= 0) {
-                return [true, "ui-state-highlight"];
-              }
-              return [true, ""];
-          }
-      });
-  });
+	        	  if(date.length > 0){
+	        		  for (var i in dates)
+		        		  selected += dates[i] + ", ";
+		        	  
+		        	  $('#print_date').html(selected);
+	        	  }
+	        	  
+	              var year = date.getFullYear();
+	              var month = padNumber(date.getMonth() + 1);
+	              var day = padNumber(date.getDate());
+	            
+	              var dateString = year + "-" + month + "-" + day;
+	              
+	              var gotDate = jQuery.inArray(dateString, dates);
+	              if (gotDate >= 0) {
+	                return [true, "ui-state-highlight"];
+	              }
+	              return [true, ""];
+	          }
+	      });
+	  });
   
- 
+  
   /*별 클릭 시 찜하기 추가, 다시 클릭하면 삭제*/
   function add_favorite(obj){
 	  var check = $(obj).children('span').hasClass('glyphicon glyphicon-star');
 	  if(check === false){
 		$(obj).children('span').attr('class', 'glyphicon glyphicon-star');
+		
+		$.ajax({
+			url : "addFavorite",
+			type : "post",
+			data : {user : user, itemNo : itemNo},
+			success : function(data){
+				alert("즐겨찾기에 보관되었습니다!");
+			}
+		});
+		
 	  }else{
 		$(obj).children('span').attr('class', 'glyphicon glyphicon-star-empty');
+		
+		$.ajax({
+			url : "removeFavorite",
+			type : "post",
+			data : {user : user, itemNo : itemNo},
+			success : function(data){
+				alert("즐겨찾기에서 삭제되었습니다!");
+			}
+		});
 	  }
   }
   
   var code = "gui_no";
   function load_select(cmd){
+	 
 	  var code = cmd;
-	  
+	  var writer = $('#guide_id').val();
+	 
 	  $.ajax({
-			url : "guideMore",
+			url : "subMore",
 			type : "post",
-			data : {code : code},
+			data : {code : code, writer : writer},
 			dataType : "json",
 			success : function(data){
 				console.log("success");
@@ -145,11 +290,9 @@
 						result += "<img src='" + data[i].gui_image+ "' width='400px' height='450px' class='img-rounded'>";
 						result += "</a></td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
 						result += "<nobr>" + data[i].gui_title + "</nobr></td><td rowspan='2' align='right'>";
-						result += "<button id='wish' onclick='add_favorit(this)'>";
+						result += "<button id='wish' onclick='add_favorite(this)'>";
 						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
-						result += "</button></td></tr><tr><td align='left'>";
-						result += "<a href='guideSub?writer=" + data[i].gui_writer + "'>" + data[i].gui_writer;
-						result += "</a></td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
+						result += "</button></td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
 						result += "</tr></table></section>";
 					}
 					
@@ -159,6 +302,8 @@
 				}
 				
 				$('#loaded_item_list').html(result);
+				$('#paging_count').val(1);
+				$('#paging_code').val(code);
 								
 			},
 			error : function(e){
@@ -172,14 +317,15 @@
 	var count = Number($('#paging_count').val());
 	$('#read_more').click(function(){
 		
+		var writer = $('#guide_id').val();
 		count += 5;
 		console.log("count : " + count);
 		var code = $('#paging_code').val();
 		
 		$.ajax({
-			url : "/afk/guide/guideMore",
+			url : "subMore",
 			type : "post",
-			data : {page : count, code : code},
+			data : {page : count, code : code, writer : writer},
 			dataType : "json",
 			success : function(data){
 				console.log("success");
@@ -195,11 +341,9 @@
 						result += "<img src='" + data[i].gui_image+ "' width='400px' height='450px' class='img-rounded'>";
 						result += "</a></td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
 						result += "<nobr>" + data[i].gui_title + "</nobr></td><td rowspan='2' align='right'>";
-						result += "<button id='wish' onclick='add_favorit(this)'>";
+						result += "<button id='wish' onclick='add_favorite(this)'>";
 						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
-						result += "</button></td></tr><tr><td align='left'>";
-						result += "<a href='guideSub?writer=" + data[i].gui_writer + "'>" + data[i].gui_writer;
-						result += "</a></td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
+						result += "</button></td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
 						result += "</tr></table></section>";
 					}
 					
@@ -223,43 +367,79 @@
   </script>
 
   <style type="text/css">
-	body {
-		min-width : 350px;
-		position : relative;
-	}
 
 	div { 
 		margin : 0 auto;
 		vertical-align:middle;
 		text-align : center;
-		/*border : 1px solid red;*/
 	}
 
-	#guide_sub_main {
-		background-color : #04378c;
-		height : 300px;
-		margin-bottom : 30px;
+	#main_img {
+		position : relative;
+		width : 100%;
+		margin-bottom : 50px;
 	}
 
-	#writer {
+	/*main_img 반응형*/
+	@media all and (max-width : 450px){
+		#main_img{
+			position : relative;
+			width : 100%;
+			height : 100px;
+		}
+	}
+	
+	#img_text{
 		position : absolute;
-		top : 70%;
-		right : 10%;
+		top : 5%;
+		left : 5%;
+		color : white;
+	}
+	
+	#write_new {
+		position : absolute;
+		top : 80%;
+		right : 5%;
 		z-index : 1;
 	}
+	
+	#write_btn {
+		width : 150px;
+		height : 50px;
+		font-size : 15pt;
+		-moz-border-radius:10px;
+		-webkit-border-radius:10px;
+		border-radius:10px;
+		background-color : white;
+	}
+	
+	#write_btn:hover {
+		background-color : #e64928;
+		color : white;
+	}
+	
+	#write_btn a {
+		text-decoration : none;
+	}
 
-	#guide_profile {
-		text-align : left; 
-		margin-top : 20px
+	#inner {
+		text-align: center;
+		margin : 0 auto;
 	}
 
 	#select {
 		float : left;
-		/*position : fixed;*/
+		position : fixed;
 		margin : 0 auto;
+		padding : 1%;
 		margin-top : 30px;
 		text-align : center;
 		transition : top 0.2s ease-in-out;
+	}
+
+	.select_top {
+		position : absolute;
+		bottom : 3000px;
 	}
 
 	#guide_option {
@@ -272,14 +452,31 @@
 		background: #fff;
 		margin-bottom : 30px;
 	}
+	
+	#items {
+		max-width : 1000px;
+		padding : 1%;
+		margin-left : auto;
+	}
 
+	#sort_search {
+		position : relative;
+		text-align : right;
+	}
+	
 	#item_box {
-		margin : 0.5%;
+		width : 40%;
+		margin : 2%;
 		padding : 0.5%;
 		display : inline-block;
 	}
+
+	#item_info td button {
+		border : none;
+		font-size : 20px;
+	}
 	
-	#wish {
+	#wish{
 		background-color: Transparent;
 	    background-repeat:no-repeat;
 	    border: none;
@@ -288,22 +485,26 @@
 	    outline:none;
 	    color: #ffcc66
 	}
-
-	#item_info td button {
-		border : none;
-		font-size : 20px;
+	
+	#wish .glyphicon {
+		font-size : 30px;
 	}
 
 	#items a {
 		text-decoration : none;
 		color : #000066;
 	}
-
+	
+	#item_title{
+		display : inline-block;
+		width : 300px;
+		overflow : hidden;
+	}
+	
 	#search_box {
 		border : none;
 		border-bottom : 1px solid #000066;
 	}
-
 
 	/*달력용*/
 	.ui-datepicker {
@@ -331,110 +532,5 @@
 
 
   </style>
- </head>
- <body>
-   
-  <div class="container">
-	<div class="row">
-		<div class="col-md-12" id="guide_sub_main">
-			guide_sub_main 이미지
-			<div id="writer">
-				<button id="revise_btn" class="btn btn-default btn-lg">
-					글쓰기
-				</button>				
-			</div><!--end of writer-->
-		</div>
-	</div>
-
-	<div class="col-md-4">
-		<div style="margin-top:50px">
-			<img src="#" width="100%" height="250px" border="1" alt="">
-		</div>
-		<div id="guide_profile">
-			<table>
-				<tr>
-					<td style="font-size:22pt">
-						${guide.mb_name}
-					</td>
-					<td>&nbsp;&nbsp;
-						<button type="button" class="btn btn-default">
-							<span class="glyphicon glyphicon-envelope">쪽지보내기</span>
-						</button>
-					</td>
-				</tr>
-			
-				<tr style="font-size:12pt">
-					<td>
-						이메일 
-					</td>
-					<td>
-						${guide.mb_email}
-					</td>
-				</tr>
-				<tr style="font-size:12pt">
-					<td>
-						현지 연락처
-					</td>
-					<td>
-						${guide.mb_loc_phone}
-					</td>
-				</tr>				
-			</table>			
-		</div><!--guide_profile-->
-		
-		<div id="select">
-		<div>
-			<div id="datepicker">
-				<!--달력 출력되는 부분-->
-			</div>
-		</div>
-		</div><!--end of select-->
-	</div>
-
-	<div class="col-md-8">
-		<div id="sort_search">
-			<input type="text" id="search_box" placeholder="검색어 입력">
-			<button id="search_icon"class="btn btn-default" type="submit">
-				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-			</button>&nbsp;&nbsp;
-			<div id="select_order" class="btn-group" role="group">						
-				<button type="button" class="btn btn-default" onclick="load_select('gui_point')">별점순</button>	
-				<button type="button" class="btn btn-default" onclick="load_select('gui_count')">조회순</button>
-				<button type="button" class="btn btn-default" onclick="load_select('gui_enrolldate')">최신순</button>	
-				<button type="button" class="btn btn-default" onclick="load_select('gui_price')">가격순</button>
-			</div>
-		</div>
-
-		<c:forEach var="firstList" items="${list}">
-		<section id="item_box">
-			<table id="item_info">
-				<tr>				
-					<td colspan="2">
-						<a href="#">
-							<img src="${firstList.gui_image}" width="400px" height="450px" class="img-rounded">
-						</a>
-					</td>
-				</tr>
-				<tr>
-					<td align="left"> ${firstList.gui_title}</td>
-					<td rowspan="2" align="right">
-					<button id="wish" onclick="add_favorite(this)">
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					</button>
-					</td>
-				</tr>
-				<tr>
-					<td align="left">${firstList.gui_price}</td>
-				</tr>
-			</table>
-		</section>
-		</c:forEach>
-
-		<br>
-		<button id="read_more" class="btn btn-default btn-block">더보기</button>
-	</div>
-
-  </div><!--end of container-->
-  
-  </body>
+ 
 </html>

@@ -20,7 +20,11 @@ public class GuideBoardDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public List<GuideItem> getGuideMain(Map<String, Object> map) {		
+	public List<GuideItem> getGuideMain(int page, String code) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", page);
+		map.put("end", page + 7);
+		map.put("code", code);
 		return sqlSession.selectList(NAMESPACE + "getGuideMain", map);
 	}
 
@@ -29,21 +33,28 @@ public class GuideBoardDao {
 		return sqlSession.selectList(NAMESPACE + "getAllGuides", page);
 	}
 	
-	public List<GuideItem> getAllItems(Map<String, Object> map){
-		
+	public Member getGuideInfo(String writer) {
+		return sqlSession.selectOne(NAMESPACE + "getGuideInfo", writer);
+	}
+	
+	public List<GuideItem> getAllItems(String writerNo, int page, String code) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("writer", writerNo);
+		map.put("start", page);
+		map.put("end", page + 3);
+		map.put("code", code);
 		return sqlSession.selectList(NAMESPACE + "getAllItems", map);
 	}
 	
-	public Member getGuideInfo(String writer) {
-		return sqlSession.selectOne(NAMESPACE + "getGuideInfo", writer);
+	public int getTotalCount(String writer) {
+		return sqlSession.selectOne(NAMESPACE + "getTotalCount", writer);
 	}
 	
 	public GuideItem getOneItem(int itemNo) {
 		return sqlSession.selectOne(NAMESPACE + "getOneItem", itemNo);
 	}
 	
-	public int addCount(int itemNo){
-		
+	public int addCount(int itemNo){	
 		return sqlSession.update(NAMESPACE + "addCount", itemNo);
 	}
 	
