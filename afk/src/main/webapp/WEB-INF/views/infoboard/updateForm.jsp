@@ -37,7 +37,7 @@
 <hr style="border: solid 2px red">
 <form id="frm" action="/afk/infoboard/updateBoard" method="post">
 	<input type="hidden" name="info_no" value="${infoboard.info_no }"/>
-	<input type="text" id="xy" name="info_map" size="300" value="${infoboard.info_map}"/> <br>
+	<input type="text" id="xy" name="info_map" size="300" /> <br>
 	<input type="text" id="userid" name="info_writer" value="${infoboard.info_writer}">
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2"><b>제 목</b>&nbsp;&nbsp;&nbsp;</span>
@@ -81,42 +81,9 @@
 <hr style="border: solid 2px red">
 </div>
 <script type="text/javascript">
-$(function(){
-    //전역변수선언
-    var editor_object = [];
-     
-    nhn.husky.EZCreator.createInIFrame({
-        oAppRef: editor_object,
-        elPlaceHolder: "smarteditor",
-        sSkinURI: "/afk/resources/smarteditor/SmartEditor2Skin.html", 
-        htParams : {
-            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-            bUseToolbar : true,             
-            // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-            bUseVerticalResizer : true,     
-            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-            bUseModeChanger : true, 
-        },
-        fOnAppLoad : function(){
-        	//info_content 변수 생성
-        	var sHTML = "${infoboard.info_content}";
-        	//info_content의 내용을 html로 변환시켜 에디터에 삽입함
-    		editor_object.getById["smarteditor"].exec("PASTE_HTML", [sHTML]);
-        },
-        fCreator: "createSEditor2"
-    });
-     
-    //저장 버튼을 클릭시 전송버튼 이벤트
-    $("#save").click(function(){
-        //id가 smarteditor인 textarea에 에디터에서 대입
-        editor_object.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
-        
-        //폼 submit
-        $("#frm").submit();
-    })
-})
+
 //국가선택 select박스 ajax 처리로 불러오기 
-function load_country(){
+function load_country(m, s){
 	var code = loc_l.value; //지역선택의 밸류값
 	
 	if(code == ""){//code의 밸류값이 ""(지역선택) 이라면
@@ -146,8 +113,15 @@ function load_country(){
 				$('#loc_s').append('<option value="">도시선택</option>'); //loc_s이라는 id를 가진 selectbox에 도시선택을 붙임
 				
 				for(var i=0; i<data.list.length; i++){//받아온 data배열을 for문을 이용해 option태그로 뿌려줌
-					$('#loc_m').append('<option value="' + data.list[i].country_no + '">' + data.list[i].country_name + '</option>');
+					var selected = ""; //빈 변수 생성
+					var country_no = data.list[i].country_no;
+					if(m == country_no){ //매개변수가 country_no와 같다면
+						selected = "selected";	//빈 변수에 selected 라는 문자 생성
+					}
+					//그리고 뿌려줌
+					$('#loc_m').append('<option value="' + data.list[i].country_no + '"'+ selected +'>' + data.list[i].country_name + '</option>');
 				}
+				load_city(s);
 			}
 			
 		}
@@ -155,9 +129,10 @@ function load_country(){
 }
 
 //도시선택 selectbox ajax로 불러오기
-function load_city(){
+function load_city(s){
+
 	var code = loc_m.value; //지역선택의 밸류값
-	
+
 	if(code == ""){//code의 밸류값이 ""(지역선택) 이라면
 		$('#loc_s option').each(function(){ //loc_s의 option 요소를
 			$('#loc_s option:eq(1)').remove();//loc_s의 option의 1번째를 계속 삭제(0번만 남게됨)
@@ -170,6 +145,7 @@ function load_city(){
 		type : "post",
 		dataType : "json",
 		success : function(data){
+			console.log(data);
 			if(data != null){ //받아온 data가 null이 아니라면
 				$('#loc_s option').each(function(){ //loc_s의 option 요소를
 					$('#loc_s option:eq(0)').remove();//loc_s의 option의 0번째를 반복삭제(option 항목이 전부 삭제됨)
@@ -178,19 +154,85 @@ function load_city(){
 				$('#loc_s').append('<option value="">도시선택</option>'); //loc_m이라는 id를 가진 selectbox에 국가선택을 붙임
 				
 				for(var i=0; i<data.list.length; i++){//받아온 data배열을 for문을 이용해 option태그로 뿌려줌
-					$('#loc_s').append('<option value="' + data.list[i].city_no + '">' + data.list[i].city_name + '</option>');
+					var selected = ""; //빈 변수 생성
+					var city_no = data.list[i].city_no;
+					if(s == city_no){ //매개변수가 city_no와 같다면
+						selected = "selected";	//빈 변수에 selected 라는 문자 생성
+					}
+					//그리고 뿌려줌
+					$('#loc_s').append('<option value="' + data.list[i].city_no + '"' + selected +'>' + data.list[i].city_name + '</option>');
 				}
 			}
 			
 		}
 	});
 }
+
+$(function(){
+	
+    //전역변수선언
+    var editor_object = [];
+     
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: editor_object,
+        elPlaceHolder: "smarteditor",
+        sSkinURI: "/afk/resources/smarteditor/SmartEditor2Skin.html", 
+        htParams : {
+            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseToolbar : true,             
+            // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseVerticalResizer : true,     
+            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+            bUseModeChanger : true, 
+        },
+        fOnAppLoad : function(){
+        	//info_content 변수 생성
+        	var sHTML = "${infoboard.info_content}";
+        	//info_content의 내용을 html로 변환시켜 에디터에 삽입함
+    		editor_object.getById["smarteditor"].exec("PASTE_HTML", [sHTML]);
+        },
+        fCreator: "createSEditor2"
+    });
+    
+  //자바스크립트로 location selectbox의 value 불러오기
+    $('#loc_l').val('${infoboard.info_loc_l}');
+  
+    load_country('${infoboard.info_loc_m}', '${infoboard.info_loc_s}');
+    
+    
+
+     
+    //저장 버튼을 클릭시 전송버튼 이벤트
+    $("#save").click(function(){
+        //id가 smarteditor인 textarea에 에디터에서 대입
+        editor_object.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
+        
+        //폼 submit
+        $("#frm").submit();
+    })
+})
+
+
+
+
 </script>
 <script>
 // 구글맵 관련 스크립트(임시)
 // In the following example, markers appear when the user clicks on the map.
 // The markers are stored in an array.
 // The user can then click an option to hide, show or delete the markers.
+
+//map에서 문자열 추출
+var loadMap = "${infoboard.info_map}"; //불러온 map 정보 변수에 삽입
+var maplist = loadMap.split('/');	//map '/'을 기준으로 분할해 배열에 삽입
+var mapX = new Array;
+var mapY = new Array;	//x, y 좌표들을 집어넣을 빈 배열 변수 생성
+
+for(var i = 0 ; i<maplist.length-1; i++){ //x좌표 y좌표 분리해서 각 배열에 삽입
+	mapX.push(maplist[i].substring(maplist[i].indexOf("(") + 1, maplist[i].indexOf(",")));
+	mapY.push(maplist[i].substring(maplist[i].indexOf(",") + 1, maplist[i].indexOf(")")));
+};
+
 var map;
 var markers = [];
 var xy = [];
@@ -200,22 +242,23 @@ var positions = "";
 
 function initMap() {
   geocoder = new google.maps.Geocoder(); 
-  var haightAshbury = {lat: 37.5, lng: 127.0124};
+  //Number타입으로 형변환 후 가장 첫번째 x,y좌표를 이용해  지도생성
+  var haightAshbury = {lat: Number(mapX[0]), lng: Number(mapY[0])}; 
 
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 16,
     center: haightAshbury,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
+  
+  for(var i = 0 ; i<maplist.length-1; i++){ //불러온 좌표들 마커 찍어주기
+	  	addMarker({lat: Number(mapX[i]) , lng: Number(mapY[i])});
+	};
 
   // This event listener will call addMarker() when the map is clicked.
   map.addListener('click', function(event) {
     addMarker(event.latLng);
   });
-
-  // Adds a marker at the center of the map.
-  addMarker(haightAshbury);
-  info();
 }
 
 // Adds a marker to the map and push to the array.

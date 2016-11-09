@@ -48,14 +48,12 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 
 	@Override
 	public int updateItem(GuideItem gi) {
-		int result = 0;
-		return result;
+		return guideBoardDao.updateItem(gi);
 	}
 
 	@Override
 	public int deleteItem(int guideNo) {
-		int result = 0;
-		return result;
+		return guideBoardDao.deleteItem(guideNo);
 	}
 	
 	@Override
@@ -119,8 +117,4 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 		map.put("end", testNo + 4);
 		return guideBoardDao.paging(map);
 	}
-
-	
-	
-
 }

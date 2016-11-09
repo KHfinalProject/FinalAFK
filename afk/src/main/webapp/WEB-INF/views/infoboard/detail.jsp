@@ -114,7 +114,7 @@
 		
 	<div class="debutton">
 		<input type="button" value="수정하기" onclick="location.href='/afk/infoboard/updateInfoBoardForm?info_no=${boardDetail.info_no}'" style="float:right; margin-left:7px;">
-		<input type="button" value="삭제하기" onclick="location.href='/afk/infoboard/deleteInfoBoard?info_no=${boardDetail.info_no}''" style="float:right"> 
+		<input type="button" value="삭제하기" onclick="location.href='/afk/infoboard/deleteInfoBoard?info_no=${boardDetail.info_no}'" style="float:right"> 
 	</div>
 	</div>
 

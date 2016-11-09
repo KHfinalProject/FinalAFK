@@ -117,6 +117,19 @@
  			#{gui_loc_l}, #{gui_loc_m}, #{gui_loc_s},0, 0, 0, #{gui_price}, #{gui_map}, null, #{gui_date})
  </insert>
  
+ <update id="updateItem" parameterType="gItem">
+ 	update guide_board
+ 	set gui_title = #{gui_title}, gui_content = #{gui_content}, gui_loc_l = #{gui_loc_l}, 
+ 		gui_loc_m = #{gui_loc_m}, gui_loc_s = #{gui_loc_s}, gui_price = #{gui_price},
+ 		gui_map = #{gui_map}, gui_date = #{gui_date}
+ 	where gui_no = #{gui_no}
+ </update>
+ 
+ <delete id="deleteItem" parameterType="int">
+ 	delete guide_board
+ 	where gui_no = #{guideNo}
+ </delete>
+ 
  <insert id="addFavorite" parameterType="map">
  	INSERT INTO guide_favorite
  	VALUES (guide_favorite_seq.nextval, #{user}, #{item})

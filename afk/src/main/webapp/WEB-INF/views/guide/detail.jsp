@@ -349,11 +349,11 @@
 		<div class="col-md-12" id="guide_detail_main">
 			guide_detail_main 이미지
 			<div id="writer">
-				<button id="revise_btn" class="btn btn-default btn-lg">
+				<button id="revise_btn" class="btn btn-default btn-lg" onclick="location.href='/afk/guide/updateGuideForm?itemNo=${guideItem.gui_no}'">
 					수정하기
 				</button>
 				&nbsp;
-				<button id="delete_btn" class="btn btn-default btn-lg">
+				<button id="delete_btn" class="btn btn-default btn-lg" onclick="location.href='/afk/guide/deleteGuide?itemNo=${guideItem.gui_no}'">
 					삭제하기
 				</button>
 			</div><!--end of writer-->

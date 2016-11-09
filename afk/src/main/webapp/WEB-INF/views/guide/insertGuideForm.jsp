@@ -238,7 +238,7 @@ function removeDate(index) {
 function printArray(){
 	var printArr = new String;
 	dates.forEach(function(val){
-		printArr += val + ", ";
+		printArr += val + ",";
 	});
 	$('#print_date').val(printArr);
 }

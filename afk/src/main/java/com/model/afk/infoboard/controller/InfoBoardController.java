@@ -70,6 +70,7 @@ public class InfoBoardController {
 	 
 	 @RequestMapping("/deleteInfoBoard")
 	 public String deleteBoard(@RequestParam("info_no") int info_no , HttpServletResponse response){
+		 System.out.println(info_no);
 		 int result = bsvc.deleteBoard(info_no);
 		 //게시물 삭제
 		 

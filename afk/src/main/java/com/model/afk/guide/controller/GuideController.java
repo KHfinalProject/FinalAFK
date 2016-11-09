@@ -85,7 +85,8 @@ public class GuideController {
 	//상품 사진 클릭 시 해당 상품 상세 페이지로 이동
 	@RequestMapping("/guideDetail")
 	public String getOneItem(Model model, @RequestParam int itemNo, 
-			@RequestParam(value="page", defaultValue="1") int page, @RequestParam String writer){
+			@RequestParam(value="page", defaultValue="1") int page, 
+			@RequestParam String writer){
 		
 		int result = guideBoardService.addCount(itemNo);
 		
@@ -117,8 +118,7 @@ public class GuideController {
 	
 	@RequestMapping("/insertItem")
 	public String insertItem(GuideItem gi, HttpServletResponse response){
-		System.out.println(gi);
-		
+		//가이드 글 등록하는 메소드
 		int result = guideBoardService.insertItem(gi);
 		
 		if(result > 0){
@@ -154,15 +154,46 @@ public class GuideController {
 	}
 	
 
-	
-	public String updateItem(Model model, SessionStatus sessionStatus, BindingResult result){
+	@RequestMapping("/updateGuideForm")
+	public String updateGuideForm(@RequestParam("itemNo") int itemNo, Model model){
+		//가이드 글 수정 페이지로 이동하는 메소드
+		GuideItem gi = guideBoardService.getOneItem(itemNo);
 		
-		return "guide/detail";
+		if(gi != null){
+			model.addAttribute("guideItem", gi);
+			return "guide/updateGuideForm";
+		}
+		return null;	
 	}
 	
-	public String deleteItem(HttpSession session, int guideNo){
+	@RequestMapping("/updateItem")
+	public String updateItem(GuideItem gi, HttpServletResponse response){
+		//가이드 글 수정하는 메소드
+		int result = guideBoardService.updateItem(gi);
 		
-		return "guide/sub";
+		if(result > 0){
+			try {
+				response.sendRedirect("/afk/guide/guideDetail?itemNo=" + gi.getGui_no() 
+										+ "&writer=" + gi.getGui_writer());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return null;
+	}
+	
+	@RequestMapping("/deleteGuide")
+	public String deleteItem(@RequestParam("itemNo") int guideNo, 
+							 HttpServletResponse response) throws IOException{
+		
+		int result = guideBoardService.deleteItem(guideNo);
+		
+		if(result > 0){
+			response.sendRedirect("/afk/guide/guideMain");
+		}
+		
+		return null;
 	}
 	
 	public String insertComment(Model model, HttpSession session, 
