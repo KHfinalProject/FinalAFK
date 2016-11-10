@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.infoboard.vo.InfoBoardVO;
 import com.model.afk.member.vo.Member;
 import com.model.afk.myplanner.vo.MyPlanner;
@@ -28,5 +29,13 @@ public class MypageDao {
 
 	public int updateMyProfile(Member mvo) {
 		return sqlSession.update(NAMESPACE + "updateProfile", mvo);	
+	}
+
+	public List<GuideItem> selectmyWish(String mbid) {
+		return sqlSession.selectList(NAMESPACE + "selectmyWish", mbid);
+	}
+
+	public int deleteMyProfile(Member mvo) {
+		return sqlSession.delete(NAMESPACE + "deleteMyProfile", mvo);
 	}
 }

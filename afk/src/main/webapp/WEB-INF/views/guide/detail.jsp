@@ -141,7 +141,7 @@
 	$('#send_msg').on('click', function(){
 		var guide_id = $('#guide_id').val();
 		var loginUser = "${loginUser.mb_id}";
-		alert("login : " + loginUser);
+		alert("login : " + loginUser + "guide : " + guide_id);
 		
 		var form = document.createElement("form");
 		form.method = 'get';
@@ -153,11 +153,11 @@
 		input.value = guide_id;
 		$(form).append(input);
 		
-		var input2 = document.createElement("input2");
-		input2.type = "hidden";
-		input2.name = "loginId";
-		input2.value = loginUser;
-		$(form).append(input2);
+		var input = document.createElement("input");
+		input.type = "hidden";
+		input.name = "loginId";
+		input.value = loginUser;
+		$(form).append(input);
 		
 		$('#body').append(form);
 		form.submit();		

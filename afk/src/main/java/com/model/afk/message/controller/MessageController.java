@@ -31,10 +31,18 @@ public class MessageController {
 	private MessageService ms;
 	
 	@RequestMapping("")
-	public String getMsgList(){
+	public String getMsgList(@RequestParam("guideId") String guideId, @RequestParam("loginId") String loginId, Model model){
 		//문의 작성페이지로 이동
+		model.addAttribute("guideId", guideId);
 		return "message/messageDetail";
 	}
+	
+	/*@RequestMapping("")
+	public String getMsgList(){
+		//문의 작성페이지로 이동
+		//model.addAttribute("guideId", guideId);
+		return "message/messageDetail";
+	}*/
 	
 	@RequestMapping(value="/msglist", produces = "text/json; charset=UTF-8")
 	public String getMsgList(@RequestParam("loginId") String id, HttpServletResponse response) throws Exception{
@@ -106,31 +114,6 @@ public class MessageController {
 		return msgdetailList;
 		
 	}
-	
-	/*@RequestMapping("/msgdetailList")
-	public @ResponseBody List<MessageVO> msgDetailList(@RequestParam("loginId") String id, @RequestParam("guideId") String gid) throws Exception{
-		MessageVO msgVO = new MessageVO(id, gid);
-		List<MessageVO> msgdetailList = ms.getMsgDetailList(msgVO);
-		
-		return msgdetailList;
-	}*/
-	
-	/*@RequestMapping("/msgdetailList")
-	public void msgDetailList(@RequestParam("loginId") String id, @RequestParam("guideId") String gid, HttpServletResponse  response) throws Exception{
-		MessageVO msgVO = new MessageVO(id, gid);
-		List<MessageVO> msgdetailList = ms.getMsgDetailList(msgVO);
-		
-		//전송할 최종 json 객체
-		JSONObject json = new JSONObject();
-
-		json.put("list", msgdetailList);                
-		
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.print(json.toString());
-		
-		//return msgdetailList;
-	}*/
 	
 	@RequestMapping("/msgdelete")
 	public String deleteMsg(@RequestParam("mesno") int mesNo, HttpSession session){

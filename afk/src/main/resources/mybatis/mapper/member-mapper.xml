@@ -5,7 +5,7 @@
 <mapper namespace="memberMapper">
 	<!-- <로그인> -->
 	<select id="selectid" parameterType="Member" resultType="Member">
-		SELECT MB_ID,MB_NAME,MB_EMAIL,MB_PHONE,MB_GRADE FROM MEMBER
+		SELECT MB_ID,MB_NAME,MB_EMAIL,MB_PHONE,MB_GRADE, MB_RENAME_PIC FROM MEMBER
 		WHERE MB_ID = #{mb_id} AND MB_PWD = #{mb_pwd}	
 	</select>
 	<!-- 회원가입 -->
