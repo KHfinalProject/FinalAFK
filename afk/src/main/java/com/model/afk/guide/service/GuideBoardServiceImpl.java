@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.model.afk.guide.dao.GuideBoardDao;
 import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.guide.vo.NotifyGItem;
 import com.model.afk.guide.vo.StarPoint;
 import com.model.afk.guide.vo.Test;
 import com.model.afk.member.vo.Member;
@@ -71,14 +72,24 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	}
 	
 	@Override
+	public List<NotifyGItem> getNotifiedList(int itemNo) {
+		return guideBoardDao.getNotifiedList(itemNo);
+	}
+	
+	@Override
 	public int giveStarPoint(String writer, int itemNo, int point) {
 		return guideBoardDao.giveStarPoint(writer, itemNo, point);
 	}
 	
 	@Override
-	public int notifyItem(int itemNo) {
-		return guideBoardDao.notifyItem(itemNo);
+	public int notifyItem(int itemNo, String user) {
+		return guideBoardDao.notifyItem(itemNo, user);
 	}	
+	
+	@Override
+	public int cancelNotifyItem(int itemNo, String user) {
+		return guideBoardDao.cancelNotifyItem(itemNo, user);
+	}
 
 	@Override
 	public int addCount(int itemNo) {
@@ -126,6 +137,9 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 		map.put("end", testNo + 4);
 		return guideBoardDao.paging(map);
 	}
+
+	
+
 
 	
 

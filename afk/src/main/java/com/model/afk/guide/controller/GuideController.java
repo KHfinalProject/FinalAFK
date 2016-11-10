@@ -3,7 +3,6 @@ package com.model.afk.guide.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
-import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +24,7 @@ import com.model.afk.guide.service.GuideBoardService;
 import com.model.afk.guide.service.GuideCommentService;
 import com.model.afk.guide.vo.GuideComment;
 import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.guide.vo.NotifyGItem;
 import com.model.afk.guide.vo.StarPoint;
 import com.model.afk.guide.vo.Test;
 import com.model.afk.member.vo.Member;
@@ -49,8 +49,9 @@ public class GuideController {
 			@RequestParam(value="code", defaultValue="gui_no") String code){
 		System.out.println("======================guideMain=============");
 		
+		//DB에서 GuideItem list 가져옴 
 		List<GuideItem> list = guideBoardService.getGuideList(page, code);
-		list = getImagePath(list);
+		list = getImagePath(list); //GuideItem 객체의 gui_content 중 이미지를 찾아 대표이미지로 만들고, 없으면 임의 사진을 넣어 리스트 재정비
 		
 		model.addAttribute("list", list);
 			
@@ -77,12 +78,12 @@ public class GuideController {
 			@RequestParam(value="code", defaultValue="gui_no") String code){
 		System.out.println("=====================guideSub======================");
 			
-		List<GuideItem> list = guideBoardService.getAllItems(writer, page, code);
+		List<GuideItem> list = guideBoardService.getAllItems(writer, page, code); 
 		list = getImagePath(list);
-		Member guide = guideBoardService.getGuideInfo(writer);
-		int total = guideBoardService.getTotalCount(writer);
+		Member guide = guideBoardService.getGuideInfo(writer); //해당 페이지의 가이드 기본 정보 가져옴(Member 타입)
+		int total = guideBoardService.getTotalCount(writer); //해당 가이드가 등록한 상품의 총수량 카운트
 					
-		model.addAttribute("list", list);
+		model.addAttribute("list", list); 
 		model.addAttribute("guide", guide);
 		model.addAttribute("total", total);
 			
@@ -129,22 +130,24 @@ public class GuideController {
 			@RequestParam String writer){
 		System.out.println("==============guideDetail==================");
 		
-		int result = guideBoardService.addCount(itemNo);
+		int result = guideBoardService.addCount(itemNo); //조회수 증가처리 메소드
 		
 		List<GuideComment> commentList = null;
 		GuideItem guideItem = null;
 		Member guide = null;
 		List<StarPoint> pointList = null;
+		List<NotifyGItem> notifiedList = null;
 		
 		double avgPoint = 0;
 				
 		//조회수 증가처리 성공 시에만 객체 가져와서 넘김
 		if(result > 0){
-			commentList = guideCommentService.getAllComments(itemNo, page);
-			guideItem = guideBoardService.getOneItem(itemNo);
-			guide = guideBoardService.getGuideInfo(writer);
-			pointList = guideBoardService.getPointList(itemNo);
-			avgPoint = getAvgStarPoint(itemNo);
+			commentList = guideCommentService.getAllComments(itemNo, page); //댓글 목록
+			guideItem = guideBoardService.getOneItem(itemNo); //해당 가이드 상품 정보
+			guide = guideBoardService.getGuideInfo(writer); //해당 가이드의 등록 정보
+			pointList = guideBoardService.getPointList(itemNo); //해당 상품에 매겨진 별점 목록
+			avgPoint = getAvgStarPoint(itemNo); //해당 상품의 별점 평균
+			notifiedList = guideBoardService.getNotifiedList(itemNo); //해당 상품을 신고한 유저 목록
 		}			
 		
 		System.out.println("guide : " + guide.toString());
@@ -156,6 +159,8 @@ public class GuideController {
 		model.addAttribute("guideItem", guideItem);
 		model.addAttribute("guide", guide);
 		model.addAttribute("pointList", pointList);
+		model.addAttribute("notifiedList", notifiedList);
+		System.out.println("notifiedList : " + notifiedList.toString());
 		model.addAttribute("point", avgPoint);
 				
 		return "guide/detail";
@@ -163,10 +168,19 @@ public class GuideController {
 	
 	//아이콘 클릭 시 신고 처리 기능
 	@RequestMapping("/notifyGuideItem")
-	public @ResponseBody int notifyItem(@RequestParam int itemNo){
-		int result = guideBoardService.notifyItem(itemNo);
+	public @ResponseBody int notifyItem(@RequestParam int itemNo, @RequestParam String user){
+		int result = guideBoardService.notifyItem(itemNo, user);
 		if(result > 0)
-			System.out.println("업데이트 성공");
+			System.out.println("글 신고 : 업데이트 성공");
+		
+		return result;
+	}
+	
+	@RequestMapping("/cancelNotifyItem")
+	public @ResponseBody int cancelNotifyItem(@RequestParam int itemNo, @RequestParam String user){
+		int result = guideBoardService.cancelNotifyItem(itemNo, user);
+		if(result > 0)
+			System.out.println("글 신고 취소 : 업데이트 성공");
 		
 		return result;
 	}
@@ -195,6 +209,7 @@ public class GuideController {
 		double average = 0;
 		double totalPoint = 0;
 		double count = 0;
+		double avgPoint = 0;
 		
 		List<StarPoint> pointList = guideBoardService.getPointList(itemNo);
 		if(pointList != null){
@@ -202,9 +217,12 @@ public class GuideController {
 				totalPoint += s.getPoint();
 				count++;
 			}
+			average = totalPoint / count;
+			avgPoint = Double.parseDouble(String.format("%.1f", average));
 		}
-		average = totalPoint / count;
-		double avgPoint = Double.parseDouble(String.format("%.1f", average));
+		
+		if(Double.isNaN(avgPoint) == true)
+			avgPoint = 0;
 		
 		return avgPoint;
 	}

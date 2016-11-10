@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.guide.vo.NotifyGItem;
 import com.model.afk.guide.vo.StarPoint;
 import com.model.afk.guide.vo.Test;
 import com.model.afk.member.vo.Member;
@@ -63,8 +64,22 @@ public class GuideBoardDao {
 		return sqlSession.update(NAMESPACE + "addCount", itemNo);
 	}
 	
-	public int notifyItem(int itemNo) {
-		return sqlSession.update(NAMESPACE + "notifyItem", itemNo);
+	public int notifyItem(int itemNo, String user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("itemNo", itemNo);
+		map.put("user", user);
+		return sqlSession.insert(NAMESPACE + "notifyItem", map);
+	}
+	
+	public List<NotifyGItem> getNotifiedList(int itemNo) {
+		return sqlSession.selectList(NAMESPACE + "getNotifiedList", itemNo);
+	}
+	
+	public int cancelNotifyItem(int itemNo, String user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("itemNo", itemNo);
+		map.put("user", user);
+		return sqlSession.delete(NAMESPACE + "cancelNotify", map);
 	}
 	
 	public int insertItem(GuideItem gi){
@@ -120,6 +135,8 @@ public class GuideBoardDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + "paging", map);
 	}
+
+
 
 
 	

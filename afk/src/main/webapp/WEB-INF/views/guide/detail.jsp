@@ -94,7 +94,7 @@
 				data : {itemNo : gui_no, writer : user, point : selected_point},
 				success : function(data){
 					alert("별점 등록>.ㅇ");
-					$('#avg_point fmt').text(data);
+					$('#avg_point').text(data);
 				},
 				error : function(e){
 					alert("별점 등록 실패ㅠㅠㅠ");
@@ -106,12 +106,13 @@
 	//아이콘 클릭 시 해당 글 신고
 	$("#notify").on('click', function(){
 		var gui_no = ${guideItem.gui_no};
+		var user = "${loginUser.mb_id}";
 		var check = confirm("이 글을 신고하시겠습니까?");
 		if(check){
 			$.ajax({
 				url : "/afk/guide/notifyGuideItem",
 				type : "post",
-				data : {itemNo : gui_no},
+				data : {itemNo : gui_no, user : user},
 				success : function(data){
 					var count = $('#print_notify').html();
 					console.log("success");
@@ -172,7 +173,6 @@
 		top : 5%;
 		left : 5%;
 		color : white;
-
 	}
 
 	#img_title h1 {
@@ -182,7 +182,7 @@
 
 	#writer {
 		position : absolute;
-		top : 30%;
+		top : 50%;
 		right : 10%;
 		z-index : 1;
 	}
@@ -190,6 +190,24 @@
 	#guide_detail_top {
 		width : 100%;
 		height : auto;
+	}
+	
+	#notify {
+		border-radius : 5px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+	}
+	
+	#notify:hover {
+		background-color : red;
+	}
+	
+	.notify_default {
+		background-color : white;
+	}
+	
+	.notified {
+		background-color : #b7b7b7;
 	}
 
 	/*별점 부분*/
@@ -226,6 +244,8 @@
 		height : 30px;
 		border : 1px solid #ccc;
 		border-radius : 5px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
 		overflow: hidden;
 		background-color : #fff;
 		background: #fff;
@@ -388,11 +408,11 @@
 			
 		<c:if test="${loginUser.mb_id eq guide.mb_id}">
 			<div id="writer">
-				<button id="revise_btn" class="btn btn-default btn-lg">
+				<button id="revise_btn" class="btn btn-default btn-lg" onclick="location.href='/afk/guide/updateGuideForm?itemNo=${guideItem.gui_no}'">
 					<span class="glyphicon glyphicon-erase"></span>수정하기
 				</button>
 				&nbsp;
-				<button id="delete_btn" class="btn btn-default btn-lg">
+				<button id="delete_btn" class="btn btn-default btn-lg" onclick="location.href='/afk/guide/deleteGuide?itemNo=${guideItem.gui_no}'">
 					<span class="glyphicon glyphicon-trash"></span>삭제하기
 				</button>
 			</div><!--end of writer-->
@@ -467,11 +487,35 @@
 					</td>
 					<td>
 					<span class="glyphicon glyphicon-star" style="color:#ffcc33"></span> 
-					<%-- <span id="avg_point">${point}</span> --%>
-					<span id="avg_point"><fmt:formatNumber value="${point}" type="pattern" pattern="0.0"/></span>
+					<span id="avg_point">${point}</span>
 					</td>
 					<td>
-					<button class="btn btn-default" style="border:none" id="notify"><span class="glyphicon glyphicon-thumbs-down"></span></button><span id="print_notify">${guideItem.gui_notify}</span>
+					
+					<c:if test="${empty loginUser}">
+						<button id="notify" class="notify_default" disabled="true" title="로그인 후 신고해주세요">
+						<span class="glyphicon glyphicon-thumbs-down"></span>
+						</button>
+						&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
+					</c:if>
+					
+					<c:if test="${!empty loginUser}">
+					<c:forEach var="notify" items="${notifiedList}">
+					${notify.mb_id }
+						<%-- <c:if test="${notify.mb_id eq loginUser.mb_id}">
+							<button id="notify" class="notify_default">
+							<span class="glyphicon glyphicon-thumbs-down"></span>
+							</button>
+							&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
+						</c:if>
+						<c:if test="${notify.mb_id ne loginUser.mb_id}">
+							<button id="notify" class="notified">
+							<span class="glyphicon glyphicon-thumbs-down"></span>
+							</button>
+							&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
+						</c:if> --%>
+					</c:forEach>
+					</c:if>
+					
 					</td>
 				</tr>
 				<tr>

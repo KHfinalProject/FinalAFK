@@ -109,6 +109,12 @@
  	WHERE board_no = #{itemNo} 
  </select>
  
+ <select id="getNotifiedList" parameterType="int" resultType="notify">
+ 	SELECT * 
+ 	FROM guide_notify
+ 	WHERE board_no = #{itemNo}
+ </select>
+ 
  <insert id="giveStarPoint" parameterType="map">
  	INSERT INTO guide_point
  	VALUES (#{itemNo}, #{point}, #{writer}) 
@@ -122,13 +128,21 @@
  	WHERE gui_no = #{itemNo}
  </update>
  
- <update id="notifyItem" parameterType="int">
- 	UPDATE guide_board
+ <insert id="notifyItem" parameterType="map">
+ 	<!-- UPDATE guide_board
  	SET gui_notify = (SELECT gui_notify 
  					  FROM guide_board
  					  WHERE gui_no = #{itemNo}) + 1
- 	WHERE gui_no = #{itemNo}
- </update>
+ 	WHERE gui_no = #{itemNo} -->
+ 	INSERT INTO guide_notify
+ 	VALUES (#{itemNo}, #{user})
+ </insert>
+ 
+ <delete id="cancelNotify" parameterType="map">
+ 	DELETE FROM guide_notify
+ 	WHERE board_no = #{itemNo} 
+ 		AND mb_id = #{user} 	
+ </delete>
  
  <insert id="insertItem" parameterType="gItem">
  	insert into guide_board
