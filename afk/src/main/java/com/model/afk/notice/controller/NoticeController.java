@@ -31,7 +31,7 @@ public class NoticeController {
 	public void noticeInsert(@RequestParam("notice_title") String title,
 							   @RequestParam("notice_content")String content,
 								Model model, HttpServletResponse response) throws IOException{
-		Notice notice = new Notice(null,title,content,'0',null);
+		Notice notice = new Notice('0',title,content,'0',null);
 		System.out.println(": :::::::::::::::::controller ::"+notice+":::::::::::::");
 		int result = ns.noticeInsert(notice);
 		
@@ -91,10 +91,25 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value="/noticeUpdateView", method= RequestMethod.GET )
-	public String noticUpdate(int notice_no, Model model){
+	public String noticUpdateView(int notice_no, Model model){
 		Notice notice = ns.noticeUpdateView(notice_no);
 		model.addAttribute("temp",notice);
 		System.out.println("::::::::::::::::"+notice_no+"::::::::::::");
 		return "admin/noticeUpdateView";
+	}
+	@RequestMapping(value="/noticeUpdate", method= RequestMethod.POST )
+	public void noticeUpdate(  @RequestParam("notice_no") int no,
+							   @RequestParam("notice_title") String title,
+							   @RequestParam("notice_content")String content,
+								Model model, HttpServletResponse response) throws IOException{
+		Notice notice = new Notice(no,title,content,'0',null);
+		
+		int result = ns.noticeUpdate(notice);
+		
+		System.out.println("result :: " + result);
+		if(result > 0)
+		response.sendRedirect("customer"); 
+		
+		
 	}
 }

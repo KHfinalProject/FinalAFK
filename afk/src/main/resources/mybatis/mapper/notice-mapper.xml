@@ -21,4 +21,7 @@
 	<select id="noticeUpdateView" parameterType="Integer" resultType="Notice">
 		SELECT * FROM NOTICE WHERE NOTICE_NO = #{notice_no}
 	</select>
+	<update id="noticeUpdate" parameterType="Notice">
+		UPDATE NOTICE SET NOTICE_TITLE = #{notice_title}, NOTICE_CONTENT = #{notice_content} WHERE NOTICE_NO = #{notice_no}
+	</update>
 </mapper>

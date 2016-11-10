@@ -56,5 +56,11 @@ public class NoticeDao {
 	}
 
 
+	public int noticeUpdate(Notice notice) {
+		
+		return sqlSession.update(NAMESPACE+"noticeUpdate", notice);
+	}
+
+
 
 }

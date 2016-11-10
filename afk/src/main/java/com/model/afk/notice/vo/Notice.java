@@ -3,14 +3,14 @@ package com.model.afk.notice.vo;
 import java.sql.Date;
 
 public class Notice {
-	private String notice_no;
+	private int notice_no;
 	private String notice_title;
 	private String notice_content;
 	private Date notice_enrolldate;
 	private int notice_count;
 	private String notice_writer;
 	public Notice(){}
-	public Notice(String notice_no, String notice_title, String notice_content, int notice_count,
+	public Notice(int notice_no, String notice_title, String notice_content, int notice_count,
 			String notice_writer) { 
 		super();
 		this.notice_no = notice_no;
@@ -20,7 +20,7 @@ public class Notice {
 		this.notice_writer = notice_writer;
 		
 	}
-	public Notice(String notice_no, String notice_title, String notice_content, Date notice_enrolldate,
+	public Notice(int notice_no, String notice_title, String notice_content, Date notice_enrolldate,
 			int notice_count, String notice_writer) {
 		super();
 		this.notice_no = notice_no;
@@ -30,10 +30,10 @@ public class Notice {
 		this.notice_count = notice_count;
 		this.notice_writer = notice_writer;
 	}
-	public String getNotice_no() {
+	public int getNotice_no() {
 		return notice_no;
 	}
-	public void setNotice_no(String notice_no) {
+	public void setNotice_no(int notice_no) {
 		this.notice_no = notice_no;
 	}
 	public String getNotice_title() {

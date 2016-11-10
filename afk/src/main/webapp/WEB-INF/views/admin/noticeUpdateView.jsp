@@ -30,7 +30,9 @@
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2"><b>제목</b>&nbsp;&nbsp;&nbsp;</span>
 		<input name="notice_title" type="text" class="form-control" aria-describedby="sizing-addon2" value="${temp.notice_title}">
+		<input type=hidden name = "notice_no" value="${temp.notice_no}"> 
 	</div>
+	
 	<br><br>
 	 <textarea name="notice_content" id="smarteditor"  style="width:100%; height:500px;" >${temp.notice_content}</textarea>
 	<br><br><br>	

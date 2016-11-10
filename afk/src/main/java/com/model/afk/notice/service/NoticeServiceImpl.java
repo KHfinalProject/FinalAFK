@@ -66,6 +66,12 @@ public class NoticeServiceImpl implements NoticeService {
 		return ndo.noticeUpdateView(notice_no);
 	}
 
+	@Override
+	public int noticeUpdate(Notice notice) {
+		
+		return ndo.noticeUpdate(notice);
+	}
+
 /*	@Override
 	public Notice noticeDetailView(Map<String, Integer> map) {
 		// TODO Auto-generated method stub
