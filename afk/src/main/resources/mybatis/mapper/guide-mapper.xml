@@ -103,6 +103,17 @@
   	WHERE gui_no = #{itemNo}
  </select>
  
+ <select id="getPointList" parameterType="int" resultType="sPoint">
+ 	SELECT * 
+ 	FROM guide_point
+ 	WHERE board_no = #{itemNo} 
+ </select>
+ 
+ <insert id="giveStarPoint" parameterType="map">
+ 	INSERT INTO guide_point
+ 	VALUES (#{itemNo}, #{point}, #{writer}) 
+ </insert>
+ 
  <update id="addCount" parameterType="int">
  	UPDATE guide_board 
  	SET gui_count = (SELECT gui_count 

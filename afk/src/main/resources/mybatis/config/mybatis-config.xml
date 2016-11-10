@@ -7,7 +7,11 @@
   		<typeAlias type="com.model.afk.admin.vo.AdminMember" alias="aMember"/>
   		<typeAlias type="com.model.afk.guide.vo.GuideComment" alias="gCmt"/>
   		<typeAlias type="com.model.afk.guide.vo.GuideItem" alias="gItem"/>
+  		<typeAlias type="com.model.afk.guide.vo.StarPoint" alias="sPoint"/>
+  		
+  		<!-- 얘는 지울것 -->
   		<typeAlias type="com.model.afk.guide.vo.Test" alias="Test"/>
+  		
   		<typeAlias type="com.model.afk.infoboard.vo.InfoBoardVO" alias="InfoBoardVO"/>
   		<typeAlias type="com.model.afk.infoboard.vo.InfoCommentVO" alias="InfoCmtVO"/>
   		<typeAlias type="com.model.afk.infoboard.vo.InfoPointVO" alias="InfoPntVO"/>

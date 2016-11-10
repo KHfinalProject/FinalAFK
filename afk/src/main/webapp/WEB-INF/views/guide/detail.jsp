@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="ko">
  <head>
@@ -84,7 +85,22 @@
 	$('#send_star_point').on('click', function(){
 		var selected_point = $('#selected_point').text();
 		var check = confirm("이 글에 별 " + selected_point + "개를 주시겠습니까?");
-	
+		var gui_no = ${guideItem.gui_no};
+		var user = "${loginUser.mb_id}";
+		if(check){
+			$.ajax({
+				url : "giveStarPoint",
+				type: "post",
+				data : {itemNo : gui_no, writer : user, point : selected_point},
+				success : function(data){
+					alert("별점 등록>.ㅇ");
+					$('#avg_point fmt').text(data);
+				},
+				error : function(e){
+					alert("별점 등록 실패ㅠㅠㅠ");
+				}
+			});
+		}
 	});
 	
 	//아이콘 클릭 시 해당 글 신고
@@ -450,7 +466,9 @@
 					<span class="glyphicon glyphicon-eye-open"></span> ${guideItem.gui_count}
 					</td>
 					<td>
-					<span class="glyphicon glyphicon-star" style="color:#ffcc33"></span> ${guideItem.gui_point}
+					<span class="glyphicon glyphicon-star" style="color:#ffcc33"></span> 
+					<%-- <span id="avg_point">${point}</span> --%>
+					<span id="avg_point"><fmt:formatNumber value="${point}" type="pattern" pattern="0.0"/></span>
 					</td>
 					<td>
 					<button class="btn btn-default" style="border:none" id="notify"><span class="glyphicon glyphicon-thumbs-down"></span></button><span id="print_notify">${guideItem.gui_notify}</span>
@@ -467,7 +485,7 @@
 							<a href="#">★</a>
 						</span>
 						<span style="font-size:12pt; margin-left:5%"><span id="selected_point">3</span>점</span>&nbsp;
-						<button class="btn btn-default">별점 주기</button>
+						<button class="btn btn-default" id="send_star_point">별점 주기</button>
 					</c:if>	
 					</td>
 				</tr>

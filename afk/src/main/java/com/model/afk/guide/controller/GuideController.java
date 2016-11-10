@@ -2,8 +2,8 @@ package com.model.afk.guide.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +25,7 @@ import com.model.afk.guide.service.GuideBoardService;
 import com.model.afk.guide.service.GuideCommentService;
 import com.model.afk.guide.vo.GuideComment;
 import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.guide.vo.StarPoint;
 import com.model.afk.guide.vo.Test;
 import com.model.afk.member.vo.Member;
 
@@ -111,6 +112,7 @@ public class GuideController {
 			if(e.indexOf("/afk/resources/upload") != -1){ //gui_content 중 첨부이미지 있을 시
 				//img_path 변수에 이미지 저장 경로만 추출하여 저장
 				img_path = e.substring(e.indexOf("/afk/resources/upload"), e.indexOf(" title") -1);
+				System.out.println("img_path : " + img_path);
 				//GuideItem 객체에 이미지 저장 경로 공백을 제거하여 저장
 				g.setGui_image(img_path.trim());
 			}else{//첨부 이미지가 없을 경우 임의로 대표 이미지 설정
@@ -132,27 +134,79 @@ public class GuideController {
 		List<GuideComment> commentList = null;
 		GuideItem guideItem = null;
 		Member guide = null;
+		List<StarPoint> pointList = null;
 		
+		double avgPoint = 0;
+				
+		//조회수 증가처리 성공 시에만 객체 가져와서 넘김
 		if(result > 0){
 			commentList = guideCommentService.getAllComments(itemNo, page);
 			guideItem = guideBoardService.getOneItem(itemNo);
 			guide = guideBoardService.getGuideInfo(writer);
+			pointList = guideBoardService.getPointList(itemNo);
+			avgPoint = getAvgStarPoint(itemNo);
 		}			
 		
 		System.out.println("guide : " + guide.toString());
 		System.out.println("commentList : " + commentList.toString());
 		System.out.println("guideItem : " + guideItem.toString());
-
+		System.out.println("point : " + avgPoint);
+		
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("guideItem", guideItem);
 		model.addAttribute("guide", guide);
-		
+		model.addAttribute("pointList", pointList);
+		model.addAttribute("point", avgPoint);
+				
 		return "guide/detail";
 	}
 	
+	//아이콘 클릭 시 신고 처리 기능
 	@RequestMapping("/notifyGuideItem")
-	public void notifyItem(@RequestParam int itemNo){
+	public @ResponseBody int notifyItem(@RequestParam int itemNo){
 		int result = guideBoardService.notifyItem(itemNo);
+		if(result > 0)
+			System.out.println("업데이트 성공");
+		
+		return result;
+	}
+	
+	//별점 입력
+	@RequestMapping("/giveStarPoint")
+	public @ResponseBody double giveStarPoint(@RequestParam String writer,
+			@RequestParam int itemNo, @RequestParam int point){
+		System.out.println("=================giveStarPoint=================");
+		System.out.println("itemNo : " + itemNo);
+		int result = guideBoardService.giveStarPoint(writer, itemNo, point);
+		
+		double avgPoint = 0;
+		
+		if(result > 0){
+			avgPoint = getAvgStarPoint(itemNo);
+		}
+		
+		return avgPoint;
+	}
+	
+	//별점 평균 계산하여 반환
+	@RequestMapping("/getAvgStarPoint")
+	public @ResponseBody double getAvgStarPoint(@RequestParam int itemNo){
+		System.out.println("================getAvgStarPoint==============");
+		double average = 0;
+		double totalPoint = 0;
+		double count = 0;
+		
+		List<StarPoint> pointList = guideBoardService.getPointList(itemNo);
+		if(pointList != null){
+			for(StarPoint s : pointList){
+				totalPoint += s.getPoint();
+				count++;
+			}
+		}
+		average = totalPoint / count;
+		double avgPoint = Double.parseDouble(String.format("%.1f", average));
+		
+		return avgPoint;
 	}
 	
 	@RequestMapping("/insertGuideForm")
