@@ -157,3 +157,11 @@ function realDelete(){
 		location.replace("/afk/loginView");
 	}
 }
+function NDelete(notice_no){
+	var url = "/afk/noticeDelete?notice_no="  + notice_no;
+	if(confirm("이글을 삭제하시겠습니까?") == true){
+		location.replace(url);
+	}else{
+		location.replace("/afk/customer")
+	}
+}

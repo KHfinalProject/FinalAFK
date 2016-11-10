@@ -16,17 +16,7 @@ public class NoticeServiceImpl implements NoticeService {
 
 
 
-	@Override
-	public Notice noticeDelete(int noticeNo ) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public Notice noticeUpdate(int noticeNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Object noticeListAll() {
@@ -71,6 +61,18 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		return ndo.noticeUpdate(notice);
 	}
+
+
+
+	@Override
+	public int noticeDelete(int notice_no) {
+		
+		return ndo.noticeDelete(notice_no);
+	}
+
+
+
+
 
 /*	@Override
 	public Notice noticeDetailView(Map<String, Integer> map) {

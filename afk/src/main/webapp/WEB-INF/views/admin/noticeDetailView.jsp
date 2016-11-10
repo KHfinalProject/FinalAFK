@@ -11,6 +11,7 @@
   <meta name="Description" content="">
 
   <title>Document</title>
+<script src="/afk/resources/js/mupdate.js"></script>
   <style type="text/css"> 
 	.container{
 		width: 70%;
@@ -74,7 +75,7 @@
 </table>
 					<hr style="border: solid 1px #0000ff">
 			<div class="hadan">		<input type="button" value="수정하기" onclick="location.href='/afk/noticeUpdateView?notice_no=${temp.notice_no}'">
-						<input type="button" value="삭제하기" >
+						<input type="button" value="삭제하기" onclick="NDelete(${temp.notice_no})">
 						<input type="button" value="목록으로" onclick="location.href='/afk/customer'">
 			</div>
 </div>

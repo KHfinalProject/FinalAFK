@@ -42,22 +42,7 @@ public class NoticeController {
 		
 	}
 	
-	public String noticeDelete(int noticeNo, Model model){
-		
-		Notice notice = ns.noticeDelete(noticeNo);
-		return null;
-		
-		
-	}
-	
-	public String noticeUpdate(int noticeNo, Notice notice){
-		
-		Notice notice1 = ns.noticeUpdate(noticeNo);
-	
 
-		return null;
-		
-	}
 	// 공지사항수정폼 호출
 /*		@RequestMapping(value="/noticeUpdateView", method=RequestMethod.GET)
 		public String updateMemberForm(Model model) {
@@ -109,7 +94,12 @@ public class NoticeController {
 		System.out.println("result :: " + result);
 		if(result > 0)
 		response.sendRedirect("customer"); 
-		
-		
 	}
+	@RequestMapping(value="/noticeDelete", method= RequestMethod.GET )
+	public void noticeDelete(int notice_no, HttpServletResponse response ) throws IOException{
+		int result = ns.noticeDelete(notice_no);
+		if(result>0)
+		response.sendRedirect("customer");
+	}
+	
 }

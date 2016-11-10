@@ -62,5 +62,11 @@ public class NoticeDao {
 	}
 
 
+	public int noticeDelete(int notice_no) {
+		
+		return sqlSession.delete(NAMESPACE+"noticeDelete", notice_no);
+	}
+
+
 
 }
