@@ -24,4 +24,7 @@
 	<update id="noticeUpdate" parameterType="Notice">
 		UPDATE NOTICE SET NOTICE_TITLE = #{notice_title}, NOTICE_CONTENT = #{notice_content} WHERE NOTICE_NO = #{notice_no}
 	</update>
-</mapper>
+	<delete id="noticeDelete" parameterType="Integer">
+		DELETE  FROM NOTICE WHERE NOTICE_NO = #{notice_no}
+	</delete>
+</mapper> 

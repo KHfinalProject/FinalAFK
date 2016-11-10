@@ -9,9 +9,8 @@ public interface NoticeService {
 
 	
 
-	public Notice noticeDelete(int noticeNo);
+	public int noticeDelete(int notice_no);
 
-	public Notice noticeUpdate(int noticeNo);
 
 	public Object noticeListAll( );
 
@@ -32,6 +31,7 @@ public interface NoticeService {
 
 	public int noticeUpdate(Notice notice);
 	
-
+	
 
 }
+ 
