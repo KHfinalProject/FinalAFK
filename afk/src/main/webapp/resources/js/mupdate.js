@@ -164,4 +164,4 @@ function NDelete(notice_no){
 	}else{
 		location.replace("/afk/customer")
 	}
-}
+} 

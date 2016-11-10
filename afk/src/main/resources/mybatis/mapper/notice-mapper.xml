@@ -27,4 +27,4 @@
 	<delete id="noticeDelete" parameterType="Integer">
 		DELETE  FROM NOTICE WHERE NOTICE_NO = #{notice_no}
 	</delete>
-</mapper>
+</mapper> 
