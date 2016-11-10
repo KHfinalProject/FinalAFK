@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.guide.vo.StarPoint;
 import com.model.afk.guide.vo.Test;
 import com.model.afk.member.vo.Member;
 
@@ -54,6 +55,10 @@ public class GuideBoardDao {
 		return sqlSession.selectOne(NAMESPACE + "getOneItem", itemNo);
 	}
 	
+	public List<StarPoint> getPointList(int itemNo) {
+		return sqlSession.selectList(NAMESPACE + "getPointList", itemNo);
+	}
+	
 	public int addCount(int itemNo){	
 		return sqlSession.update(NAMESPACE + "addCount", itemNo);
 	}
@@ -90,6 +95,15 @@ public class GuideBoardDao {
 		map.put("item", itemNo);
 		return sqlSession.insert(NAMESPACE + "removeFavorite", map);
 	}
+	
+	public int giveStarPoint(String writer, int itemNo, int point) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("writer", writer);
+		map.put("itemNo", itemNo);
+		map.put("point", point);
+		return sqlSession.insert(NAMESPACE + "giveStarPoint", map);
+	}
+
 
 
 	
@@ -106,6 +120,9 @@ public class GuideBoardDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + "paging", map);
 	}
+
+
+	
 
 	
 
