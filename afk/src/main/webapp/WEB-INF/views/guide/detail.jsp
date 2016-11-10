@@ -136,6 +136,32 @@
 			var user = ${loginUser.mb_id};
 		} */
 	});
+	
+	//쪽지 보내기 버튼 클릭 시 새로 form 생성하여 메시지 송수진 페이지로 이동
+	$('#send_msg').on('click', function(){
+		var guide_id = $('#guide_id').val();
+		var loginUser = "${loginUser.mb_id}";
+		alert("login : " + loginUser);
+		
+		var form = document.createElement("form");
+		form.method = 'get';
+		form.action = '/afk/msg';
+		
+		var input = document.createElement("input");
+		input.type = "hidden";
+		input.name = "guideId";
+		input.value = guide_id;
+		$(form).append(input);
+		
+		var input2 = document.createElement("input2");
+		input2.type = "hidden";
+		input2.name = "loginId";
+		input2.value = loginUser;
+		$(form).append(input2);
+		
+		$('#body').append(form);
+		form.submit();		
+	});
 
 	/*달력용*/
 	$('#datepicker').datepicker({
@@ -432,9 +458,10 @@
 				<tr>
 					<td style="font-size:22pt">
 						${guide.mb_name}
+						<input type="hidden" id="guide_id" value="${guide.mb_id}">
 					</td>
 					<td>&nbsp;&nbsp;
-						<button type="button" class="btn btn-default">
+						<button type="button" class="btn btn-default" id="send_msg">
 							<span class="glyphicon glyphicon-envelope">쪽지보내기</span>
 						</button>
 					</td>
@@ -470,11 +497,11 @@
 				</tr>
 				<tr>
 					<td>국가</td>
-					<td colspan="2">${guideItem.country_name }</td>
+					<td colspan="2">${guideItem.country_name}</td>
 				</tr>
 				<tr>
 					<td>주요 장소</td>
-					<td colspan="2">${guideItem.city_name }</td>
+					<td colspan="2">${guideItem.city_name}</td>
 				</tr>
 			
 				<tr>
@@ -491,21 +518,17 @@
 					</td>
 					<td>
 					
-					<c:if test="${empty loginUser}">
-						<button id="notify" class="notify_default" disabled="true" title="로그인 후 신고해주세요">
-						<span class="glyphicon glyphicon-thumbs-down"></span>
-						</button>
-						&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
-					</c:if>
+					<button id="notify" class="notify_default">
+					<span class="glyphicon glyphicon-thumbs-down"></span>
+					</button>
+					&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
 					
-					<c:if test="${!empty loginUser}">
-					<c:forEach var="notify" items="${notifiedList}">
-					${notify.mb_id }
 						<%-- <c:if test="${notify.mb_id eq loginUser.mb_id}">
 							<button id="notify" class="notify_default">
 							<span class="glyphicon glyphicon-thumbs-down"></span>
 							</button>
 							&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
+							disabled="true" title="로그인 후 신고해주세요"
 						</c:if>
 						<c:if test="${notify.mb_id ne loginUser.mb_id}">
 							<button id="notify" class="notified">
@@ -513,8 +536,6 @@
 							</button>
 							&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
 						</c:if> --%>
-					</c:forEach>
-					</c:if>
 					
 					</td>
 				</tr>

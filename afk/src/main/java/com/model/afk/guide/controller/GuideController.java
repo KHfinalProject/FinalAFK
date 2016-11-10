@@ -195,7 +195,7 @@ public class GuideController {
 		
 		double avgPoint = 0;
 		
-		if(result > 0){
+		if(result > 0){//별점 입력 성공 시에만 별점 평균 다시 계산하여 가져옴
 			avgPoint = getAvgStarPoint(itemNo);
 		}
 		
@@ -206,22 +206,22 @@ public class GuideController {
 	@RequestMapping("/getAvgStarPoint")
 	public @ResponseBody double getAvgStarPoint(@RequestParam int itemNo){
 		System.out.println("================getAvgStarPoint==============");
-		double average = 0;
-		double totalPoint = 0;
-		double count = 0;
-		double avgPoint = 0;
+		double average = 0; //반올림 전 평균
+		double totalPoint = 0; //별점 총합산
+		double count = 0; //별점 준 사람들 수
+		double avgPoint = 0; //반올림 후 평균
 		
 		List<StarPoint> pointList = guideBoardService.getPointList(itemNo);
-		if(pointList != null){
+		if(pointList != null){ //별점 준 내역이 있을 때만 평균 계산
 			for(StarPoint s : pointList){
-				totalPoint += s.getPoint();
+				totalPoint += s.getPoint(); //별점을 꺼내 총 합산 구함
 				count++;
 			}
-			average = totalPoint / count;
-			avgPoint = Double.parseDouble(String.format("%.1f", average));
+			average = totalPoint / count; //평균 계산
+			avgPoint = Double.parseDouble(String.format("%.1f", average)); //소수점 첫째자리까지만 표기
 		}
 		
-		if(Double.isNaN(avgPoint) == true)
+		if(Double.isNaN(avgPoint) == true) //만약 avgPoint의 값이 없을 경우 0을 대입함
 			avgPoint = 0;
 		
 		return avgPoint;
