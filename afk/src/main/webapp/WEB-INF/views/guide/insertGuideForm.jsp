@@ -44,6 +44,8 @@
 	}
 	
 </style>
+<!-- 유효성검사를 위한 js -->
+<script src="/afk/resources/writeCheck.js"></script>
 <!-- JQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->
@@ -66,7 +68,7 @@
 <body>
 <div class="container">	
 <hr style="border: solid 2px red">
-<form id="frm" action="/afk/guide/insertItem" method="post">
+<form id="frm" name="frm" action="/afk/guide/insertItem" method="post" onsubmit="return writeCheck()">
 	<input type="text" id="xy" name="gui_map" size="300" />
 	<input type="text" id="guideid" name="gui_writer" value="${loginUser.mb_id }" size="50" /> 
 	<div class="input-group">
@@ -119,7 +121,7 @@
 	<div id="map"></div>
 	<br><br>
 	<div align="right">
-		<input class="btn btn-default btn-lg " type="button" value="취소">&nbsp;&nbsp;&nbsp;
+		<input class="btn btn-default btn-lg " type="button" value="취소" onclick="history.go(-1)">&nbsp;&nbsp;&nbsp;
 		<input class="btn btn-default btn-lg" type="button" value="저장" id="save">
 	</div>
 <hr style="border: solid 2px red">
