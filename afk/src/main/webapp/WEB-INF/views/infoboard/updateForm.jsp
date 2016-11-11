@@ -47,7 +47,7 @@
 	</div>
 	<br>
 	<select name="info_loc_l" id="loc_l" onchange="load_country()">
-		<option value="local" selected>지역선택</option>
+		<option value="" selected>지역선택</option>
 		<option value="A" >아메리카</option>
 		<option value="B">유럽</option>
 		<option value="C">아시아</option>
@@ -56,11 +56,11 @@
 	</select>
 	&nbsp;
 	<select name="info_loc_m" id="loc_m" onchange="load_city()">
-		<option value="local" selected>국가선택</option>
+		<option value="" selected>국가선택</option>
 	</select>
 	&nbsp;
 	<select name="info_loc_s" id="loc_s">
-		<option value="local" selected>도시선택</option>
+		<option value="" selected>도시선택</option>
 	</select>
 	<br><br>
 	<input type="number" name="info_price" class="form-control" value="${infoboard.info_price }">

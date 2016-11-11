@@ -30,3 +30,18 @@ function writeCheck(){ //글 저장 버튼 클릭시 유효성검사
 		return false;
 	}
 }
+
+function guideDelete(gui_no){ //가이드 글 삭제
+	var url = "/afk/guide/deleteGuide?itemNo="  + gui_no;
+	if(confirm("이글을 삭제하시겠습니까?") == true){
+		location.replace(url);
+	}
+}
+
+function infoDelete(info_no){
+	var url = "/afk/infoboard/deleteInfoBoard?info_no=" + info_no
+	if(confirm("이글을 삭제하시겠습니까?") == true){
+		location.replace(url)
+	}
+}
+
