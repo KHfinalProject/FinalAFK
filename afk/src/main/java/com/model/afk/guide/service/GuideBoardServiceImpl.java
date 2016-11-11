@@ -21,8 +21,8 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	private GuideBoardDao guideBoardDao;
 	
 	@Override
-	public List<GuideItem> getGuideList(int page, String code) {
-		return guideBoardDao.getGuideMain(page, code);
+	public List<GuideItem> getGuideList(int page, String code, String keyword) {	
+		return guideBoardDao.getGuideMain(page, code, keyword);
 	}
 	
 	@Override
@@ -138,7 +138,7 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 		return guideBoardDao.paging(map);
 	}
 
-	
+
 
 
 	

@@ -22,11 +22,12 @@ public class GuideBoardDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public List<GuideItem> getGuideMain(int page, String code) {
+	public List<GuideItem> getGuideMain(int page, String code, String keyword) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", page);
 		map.put("end", page + 7);
 		map.put("code", code);
+		map.put("keyword", keyword);
 		return sqlSession.selectList(NAMESPACE + "getGuideMain", map);
 	}
 
@@ -135,6 +136,8 @@ public class GuideBoardDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + "paging", map);
 	}
+
+
 
 
 

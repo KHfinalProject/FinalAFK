@@ -13,7 +13,7 @@
  	<result property="cm_content" column="cm_content" />
  </resultMap>
  
- <select id="getAllComments" parameterType="java.util.HashMap" resultMap="gCmtList">
+ <select id="getAllComments" parameterType="map" resultMap="gCmtList">
  	<![CDATA[
  		SELECT x.cm_no, x.cm_writer, x.cm_board_no, x.cm_content
 		FROM(
@@ -26,5 +26,28 @@
 		WHERE x.rnum >= #{start} and x.cm_board_no = #{itemNo}
  	]]>
  </select>
+ 
+ <select id="getCommentList" parameterType="int" resultMap="gCmtList">
+ 	SELECT *
+ 	FROM guide_comment
+ 	WHERE cm_board_no = #{itemNo}
+ 	ORDER BY cm_no desc
+ </select>
+ 
+ <insert id="insertComment" parameterType="map">
+ 	INSERT INTO guide_comment
+ 	VALUES (guide_comment_seq.nextval, #{writer}, #{itemNo}, #{content})
+ </insert>
+ 
+ <update id="updateComment" parameterType="map">
+ 	UPDATE guide_comment 
+ 	SET cm_content = #{content}
+ 	WHERE cm_no = #{cmNo}
+ </update>
+ 
+ <delete id="deleteComment" parameterType="int">
+ 	DELETE FROM guide_comment
+ 	WHERE cm_no = #{cmNo}
+ </delete>
  
  </mapper>

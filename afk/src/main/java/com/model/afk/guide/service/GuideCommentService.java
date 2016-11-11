@@ -8,10 +8,16 @@ public interface GuideCommentService {
 	
 	public List<GuideComment> getAllComments(int guideNo, int page);
 	
-	public int insertComment(GuideComment gc);
+	public int insertComment(String writer, int itemNo, String content);
 	
-	public int updateComment(GuideComment gc);
+	public int updateComment(int cmNo, String content);
 	
 	public int deleteComment(int cmNo);
+
+	public List<GuideComment> getCommentList(int itemNo);
+
+	
+
+	
 
 }

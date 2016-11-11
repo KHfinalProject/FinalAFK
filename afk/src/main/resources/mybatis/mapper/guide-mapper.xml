@@ -42,7 +42,19 @@
  	<result property="city_name" column="city_name" />
  </resultMap>
  
- <select id="getGuideMain" parameterType="java.util.HashMap" resultMap="gItemList">
+ <sql id="search">
+ 	<if test="keyword != null">
+ 		AND gui_title LIKE '%'||#{keyword}||'%'
+ 		OR gui_writer LIKE '%'||#{keyword}||'%'
+ 		OR gui_content LIKE '%'||#{keyword}||'%'
+ 		OR gui_loc_l LIKE '%'||#{keyword}||'%'
+ 		OR gui_loc_m LIKE '%'||#{keyword}||'%'
+ 		OR gui_loc_s LIKE '%'||#{keyword}||'%'
+ 	</if> 
+ </sql>
+
+ 
+ <select id="getGuideMain" parameterType="map" resultMap="gItemList">
  	<![CDATA[
  		select x.gui_no, x.gui_title, x.gui_content, x.gui_writer, 
  			x.gui_enrolldate, x.gui_loc_l, x.gui_loc_m, x.gui_loc_s,
@@ -59,6 +71,7 @@
 		    where rownum <= #{end})x
 		where x.rnum >= #{start}	
  	]]>
+		<include refid="search" />
  </select>
  
  <select id="getAllItems" parameterType="map" resultMap="gItemList">

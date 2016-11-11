@@ -10,7 +10,7 @@ import com.model.afk.member.vo.Member;
 
 public interface GuideBoardService {
 	
-	public List<GuideItem> getGuideList(int page, String code);
+	public List<GuideItem> getGuideList(int page, String code, String keyword);
 	
 	public List<GuideItem> getAllGuides(int page);
 	
@@ -55,6 +55,8 @@ public interface GuideBoardService {
 	public List<Test> paging(int testNo);
 
 	public int getTotalCount(String writer);
+
+	
 
 
 

@@ -42,9 +42,68 @@
 		$(obj).children('span').attr('class', 'glyphicon glyphicon-star-empty');
 	  }
   }
+  
+  /* /*댓글 수정하기 버튼 클릭 시 모달창 생성*/
+  function update_comment(obj){
+	 
+	  $('#update_comment_area').empty();
+	  $('#update_comment_cm_no').empty();
+	  
+	  var cmNo = "";
+	  var content = "";
+	  
+	  //수정하기 버튼을 누른 행의 댓글번호 가져옴
+	  cmNo = $(obj).parent().parent().siblings('td:first').children('input').val();
+	  //수정하기 버튼을 누른 행의 댓글 내용 가져옴
+	  content = $(obj).parent().parent().prev().children('textarea').text();
+	  
+	  alert(cmNo + ", " + content);
+	 
+	  $('div.modal').modal(); //모달창 팝업
+	  $('#update_comment_area').text(content); //모달창에 댓글 내용 출력
+	  $('#update_comment_cm_no').text(cmNo); //모달창에 댓글 번호 보냄
+  }
+  
+  /*댓글 삭제하기*/
+  function delete_comment(obj){
+	  var cmNo = $(obj).parent().parent().siblings('td:first').children('input').val();
+	  var itemNo = ${guideItem.gui_no};
+	  
+	  $.ajax({
+		  url : "deleteComment",
+		  type : "post",
+		  data : {itemNo : itemNo, cmNo : cmNo},
+		  dataType : "json",
+		  success : function(data){
+			  alert("삭제 성공");
+			  var result = "";
+				
+			  if(data.length > 0){
+				for(var i in data){
+					result += "<tr><td width='auto'>";
+					result += "<img src='" + data[i].mb_rename_pic + "' class='img-circle' width='50px' height='50px'>";
+					result += "<input type='hidden' id='cmNo' value='" + data[i].cm_no + "'/>";
+					result += "</td><td width='70%'><textarea name='content' id='content' disabled>" + data[i].cm_content;
+					result += "</textarea></td><td>";
+					result += "<span id='revise_remove'><button class='btn btn-default' id='update_comment' onclick='update_comment(this)'>";
+					result += "<span class='glyphicon glyphicon-pencil'></span></button>";
+					result += "<button class='btn btn-default' id='delete_comment' onclick='delete_comment(this)'><span class='glyphicon glyphicon-trash'>";
+					result += "</span></button></span>";
+					result += "<input type='hidden' id='" + data[i].cm_no + "'/></td></tr>";
+				}
+				$('#user_rep table tr').remove();
+				$('#user_rep table').append(result);
+			}  
+		  },
+		  error : function(e){
+			  alert("삭제 실패");
+		  } 
+	  });
+  }
+  
 
   $(function(){
-
+	
 	/*메뉴 고정*/
 	var nav = $('#sub_nav');
 	$(window).scroll(function(){
@@ -82,6 +141,7 @@
 		$("#selected_point").text(point);
 	});
 	
+	//별점 입력 메소드
 	$('#send_star_point').on('click', function(){
 		var selected_point = $('#selected_point').text();
 		var check = confirm("이 글에 별 " + selected_point + "개를 주시겠습니까?");
@@ -103,30 +163,57 @@
 		}
 	});
 	
-	//아이콘 클릭 시 해당 글 신고
+	//아이콘 클릭 시 해당 글 신고 또는 신고 취소
 	$("#notify").on('click', function(){
 		var gui_no = ${guideItem.gui_no};
 		var user = "${loginUser.mb_id}";
-		var check = confirm("이 글을 신고하시겠습니까?");
-		if(check){
-			$.ajax({
-				url : "/afk/guide/notifyGuideItem",
-				type : "post",
-				data : {itemNo : gui_no, user : user},
-				success : function(data){
-					var count = $('#print_notify').html();
-					console.log("success");
-					alert("신고 처리되었습니다.");
-					console.log("신고");
-					count++;
-					$('#print_notify').html(count);
-				},
-				error : function(e){
-					alert("ERROR TT_TT");
-				}
-			});
-		}
-	})
+		var notified = $('#notify').hasClass('notified');
+		
+		if(notified == false){
+			var check = confirm("이 글을 신고하시겠습니까?");
+			if(check){
+				$.ajax({
+					url : "notifyGuideItem",
+					type : "post",
+					data : {itemNo : gui_no, user : user},
+					success : function(data){
+						var count = $('#print_notify').html();
+						console.log("notify success");
+						alert("신고 처리되었습니다.");
+						console.log("신고");
+						count++;
+						$('#print_notify').html(count);
+						$('#notify').removeClass('notify_default');
+						$('#notify').addClass('notified');
+					},
+					error : function(e){
+						alert("ERROR TT_TT");
+					}
+				});
+			}			
+		}else{
+			var check = confirm("이 글에 대한 신고를 취소하시겠습니까?");
+			if(check){
+				$.ajax({
+					url : "cancelNotifyItem",
+					type : "post",
+					data : {itemNo : gui_no, user : user},
+					success : function(data){
+						var count = $('#print_notify').html();
+						console.log("cancel notify success");
+						alert("신고 취소 >.ㅇ");
+						count--;
+						$('#print_notify').html(count);
+						$('#notify').removeClass('notified');
+						$('#notify').addClass('notify_default');
+					},
+					error : function(e){
+						alert("ERROR TT_TT");
+					}
+				});	
+			}	
+		}		
+	});
 	
 	$('#buy_btn').on('click', function(){
 		var check = confirm("이 상품을 구매하시겠습니까?");
@@ -153,16 +240,80 @@
 		input.value = guide_id;
 		$(form).append(input);
 		
-		var input2 = document.createElement("input2");
-		input2.type = "hidden";
-		input2.name = "loginId";
-		input2.value = loginUser;
-		$(form).append(input2);
+		var input = document.createElement("input");
+		input.type = "hidden";
+		input.name = "loginId";
+		input.value = loginUser;
+		$(form).append(input);
 		
 		$('#body').append(form);
 		form.submit();		
 	});
-
+	
+	//댓글 입력
+	$('#comment_submit').on('click', function(){
+		var user = "${loginUser.mb_id}";
+		var itemNo = ${guideItem.gui_no};
+		var content = $('#comment').val();
+		alert("content" + content);
+				
+		$.ajax({
+			url : "insertComment",
+			type : "post",
+			data : {writer : user, itemNo : itemNo, content : content},
+			dataType : "json",
+			success : function(data){
+				var result = "";
+				
+				if(data.length > 0){
+					for(var i in data){
+						result += "<tr><td width='auto'>";
+						result += "<img src='" + data[i].mb_rename_pic + "' class='img-circle' width='50px' height='50px'>";
+						result += "<input type='hidden' id='cmNo' value='" + data[i].cm_no + "'/>";
+						result += "</td><td width='70%'><textarea name='content' id='content' disabled>" + data[i].cm_content;
+						result += "</textarea></td><td>";
+						result += "<span id='revise_remove'><button class='btn btn-default' id='update_comment' onclick='update_comment(this)'>";
+						result += "<span class='glyphicon glyphicon-pencil'></span></button>";
+						result += "<button class='btn btn-default' id='delete_comment' onclick='delete_comment(this)'><span class='glyphicon glyphicon-trash'>";
+						result += "</span></button></span>";
+						result += "<input type='hidden' id='" + data[i].cm_no + "'/></td></tr>";
+					}
+					$('#comment').val("");
+					$('#user_rep table tr').remove();
+					$('#user_rep table').append(result);
+				}
+			},
+			error : function(e){
+				alert("댓글 달기 실패");
+				$('#comment').val("");
+			}
+		});
+	});
+	
+	/*모달창에서 댓글 내용 수정*/  
+	$('#update_complete').on('click', function(){
+		var cmNo =  $('#update_comment_cm_no').text();
+		var content = $('#update_comment_area').val();
+		var itemNo = ${guideItem.gui_no};
+		alert(cmNo + ", " + content);
+		
+		$.ajax({
+			url : "updateComment",
+			type : "post",
+			data : {cmNo : cmNo, content : content, itemNo : itemNo},
+			success : function(data){
+				alert("댓글 수정 완료 >.ㅇ");
+				var origin = document.getElementById(cmNo);
+				var originNo = $(origin).val();
+				alert("원래 여기 수정하려고 했지롱 : " + originNo);
+				$(origin).parent().prev().children('textarea').text(content);
+			},
+			error : function(e){
+				alert("댓글 수정 실패 ㅠ");
+			}
+		}); 
+	});
+	
 	/*달력용*/
 	$('#datepicker').datepicker({
 		dateFormat : 'yy-mm-dd',
@@ -190,7 +341,7 @@
 
 	#guide_detail_main {
 		width : 100%;
-		height : 400px;
+		height : 500px;
 		margin-bottom : 3%;
 	}
 	
@@ -222,6 +373,7 @@
 		border-radius : 5px;
 		-moz-border-radius: 5px;
 		-webkit-border-radius: 5px;
+		border : 1px solid gray;
 	}
 	
 	#notify:hover {
@@ -234,6 +386,7 @@
 	
 	.notified {
 		background-color : #b7b7b7;
+		
 	}
 
 	/*별점 부분*/
@@ -383,6 +536,22 @@
 	#write_rep textarea{
 		width : 70%;
 	}
+	
+	#comment_submit {
+		position : relative;
+		top : -20px;
+		height : 40px;
+	}
+	
+	#comment {
+		width : 100%;
+	}
+	
+	#content, #update_comment_area {
+		width : 100%;
+		background : none;
+		border : none;
+	}
 
 	#revise_remove{
 		right : -70%;
@@ -391,7 +560,7 @@
 		visibility : hidden;
 	}
 
-	#user_rep:hover #revise_remove{
+	#user_rep tr:hover #revise_remove{
 		visibility : visible;
 	}
 	
@@ -424,10 +593,10 @@
   </style>
  </head>
  <body>
-   
+  <jsp:include page="../header.jsp"/>
   <div id="container">
 	<div id="guide_detail_main">
-		<img src="${guideItem.gui_image}" width="100%" height="400px" style="opacity:0.7">
+		<img src="${guideItem.gui_image}" width="100%" height="500px" style="opacity:0.7">
 		<div id="img_title">
 			<h1><b>"${guideItem.gui_title}"</b></h1>
 		</div><!-- end of img_text -->
@@ -510,37 +679,63 @@
 				</tr>
 				<tr>
 					<td>
-					<span class="glyphicon glyphicon-eye-open"></span> ${guideItem.gui_count}
+						<span class="glyphicon glyphicon-eye-open"></span> ${guideItem.gui_count}
 					</td>
 					<td>
-					<span class="glyphicon glyphicon-star" style="color:#ffcc33"></span> 
-					<span id="avg_point">${point}</span>
+						<span class="glyphicon glyphicon-star" style="color:#ffcc33"></span> 
+						<span id="avg_point">${point}</span>
 					</td>
-					<td>
-					
-					<button id="notify" class="notify_default">
-					<span class="glyphicon glyphicon-thumbs-down"></span>
-					</button>
-					&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
-					
-						<%-- <c:if test="${notify.mb_id eq loginUser.mb_id}">
-							<button id="notify" class="notify_default">
+					<td>			
+					<c:choose>
+						<c:when test="${empty loginUser}">
+							<button id="notify" class="notify_default" disabled="true" title="로그인 후 신고해주세요">
 							<span class="glyphicon glyphicon-thumbs-down"></span>
 							</button>
 							&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
-							disabled="true" title="로그인 후 신고해주세요"
-						</c:if>
-						<c:if test="${notify.mb_id ne loginUser.mb_id}">
-							<button id="notify" class="notified">
-							<span class="glyphicon glyphicon-thumbs-down"></span>
-							</button>
-							&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
-						</c:if> --%>
-					
+						</c:when>
+						<c:otherwise>	
+							<c:if test="${!empty notifiedList}">
+							<c:forEach var="n" items="${notifiedList}">
+								<c:choose>
+								<c:when test="${n.mb_id eq loginUser.mb_id}">
+									<button id="notify" class="notified">
+									<span class="glyphicon glyphicon-thumbs-down"></span>
+									</button>
+									&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
+								</c:when>
+								<c:otherwise>
+									<button id="notify" class="notify_default">
+									<span class="glyphicon glyphicon-thumbs-down"></span>
+									</button>
+									&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
+								</c:otherwise>
+								</c:choose>	
+							</c:forEach>
+							</c:if>
+								
+							<c:if test="${empty notifiedList}">
+								<button id="notify" class="notify_default">
+								<span class="glyphicon glyphicon-thumbs-down"></span>
+								</button>
+								&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
+							</c:if>	
+						</c:otherwise>
+					</c:choose>					
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" style="margin-left:10%">
+					<c:choose>
+						<c:when test="${!empty loginUser}">
+							구매 목록 가져와서 구매 목록이랑 후기 목록 비교, 
+							로그인 사용자 id == 구매 목록 id && 후기 목록에 없음 => 별점 입력창
+							로그인 사용자 id == 구매 목록 id && 후기 목록에 있음 => 별점 수정창 
+						</c:when>
+						<c:otherwise>
+							<h4>해당 여행상품을 이용하신 분만 별점을 남길 수 있습니다.</h4>
+						</c:otherwise>
+					</c:choose>
+					
 					<c:if test="${!empty loginUser}">
 						<span class="star_point">
 							<a href="#" class="on">★</a>
@@ -552,6 +747,7 @@
 						<span style="font-size:12pt; margin-left:5%"><span id="selected_point">3</span>점</span>&nbsp;
 						<button class="btn btn-default" id="send_star_point">별점 주기</button>
 					</c:if>	
+					
 					</td>
 				</tr>
 				</table>
@@ -619,32 +815,67 @@
 
 		<div id="item_reply">
 			
+			<c:if test="${empty loginUser}">
+				<h3>로그인 후에 댓글 작성 가능합니다</h3>
+			</c:if>
+			<c:if test="${!empty loginUser}">
 			<div id="write_rep">
-				<textarea name="" rows="" cols="" placeholder="이 상품 또는 담당 가이드에 대해 적어주세요"></textarea> 
-				<button class="btn btn-primary" style="position:relative; top:-20px; height: 40px">등록</button>
+				<textarea id="comment" rows="" cols="" placeholder="이 상품 또는 담당 가이드에 대해 적어주세요" required></textarea>
+				<button class="btn btn-primary" id="comment_submit">등록</button>
 			</div>
-	
-			<c:forEach var="comment" items="${commentList}">
+			</c:if>
+			
+			<hr style="border : none; border-top : 1px dotted gray">
+			
+			<div class="modal fade" id="layerpop" >
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal">×</button>
+			        <h4 class="modal-title">댓글 수정하기</h4>
+			      </div>
+			      <!-- body -->
+			      <div class="modal-body">
+			      	<input type="hidden" id="update_comment_cm_no"/>
+			      	<textarea id="update_comment_area"></textarea>
+			      </div>
+			      <!-- Footer -->
+			      <div class="modal-footer">
+			      	<button id="update_complete" data-dismiss="modal">수정하기</button>
+			        <button class="btn btn-default" data-dismiss="modal">닫기</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
 			<div id="user_rep">
 				<table width="100%">
+					<c:forEach var="comment" items="${commentList}">
 					<tr>
 						<td width="auto">
 							<img src="<%-- ${comment.mb_rename_pic} --%>" alt="..." class="img-circle" width="50px" height="50px">
+							<input type="hidden" id="cmNo" name="cmNo" value="${comment.cm_no}"/>
 						</td>
 						<td width="70%">
-							${comment.cm_content}
+							<textarea name="content" id="content" disabled>${comment.cm_content}</textarea>
 						</td>
-				
 						<td>
 							<span id="revise_remove">
-								<button class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
-								<button class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+								<button class="btn btn-default" id="update_comment" onclick="update_comment(this)">
+								<span class="glyphicon glyphicon-pencil"></span>
+								</button>
+								
+								<button class="btn btn-default" id="delete_comment" onclick="delete_comment(this)">
+								<span class="glyphicon glyphicon-trash"></span>
+								</button>
 							</span>
+							<input type="hidden" id="${comment.cm_no}"/>
 						</td>
 					</tr>
+					</c:forEach>	
 				</table>				
 			</div>
-			</c:forEach>
+			
 			<c:if test="${empty commentList}">
 			<h3>아직 등록된 코멘트가 없습니다.</h3>
 			</c:if>

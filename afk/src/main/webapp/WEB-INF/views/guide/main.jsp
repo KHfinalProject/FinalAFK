@@ -113,11 +113,12 @@
 		count += 5;
 		console.log("count : " + count);
 		var code = $('#paging_code').val();
+		var keyword = $('#paging_keyword').val();
 		
 		$.ajax({
 			url : "/afk/guide/guideMore",
 			type : "post",
-			data : {page : count, code : code},
+			data : {page : count, code : code, keyword : keyword},
 			dataType : "json",
 			success : function(data){
 				console.log("success");
@@ -469,11 +470,13 @@
 		<div id="img_text">
 			<h1><b>가이드와 함께 떠나는 여행</b></h1>
 		</div><!-- end of img_text -->
-		<c:if test="${loginUser.mb_grade eq 'B'.charAt(0)}">
+		<c:if test="${loginUser.mb_grade eq 2}">
 		<div id="write_new">
+			<a href="/afk/guide/insertGuideForm">
 			<button id="write_btn">
-				<a href="/afk/guide/insertGuideForm">새 글 작성</a>
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 글쓰기
 			</button>
+			</a>
 		</div><!-- end of write_new -->
 		</c:if>
 		
@@ -498,25 +501,16 @@
 				<tr>
 					<td><div id="print_date"></div></td>
 				</tr>
-				<tr>
-					<td>				
-					<c:if test="${loginUser.mb_grade eq 2}">
-						<a href="insertGuideForm">
-						<button type="button" class="btn btn-default btn-lg">
-						  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 글쓰기
-						</button>	
-						</a>
-					</c:if>
-				</td>
-				</tr>
 			</table>
 		</div><!--end of div select-->
 		<div id="items">
 			<div id="sort_search">
-				<input type="text" id="search_box" placeholder="검색어 입력">
-				<button id="search_icon"class="btn btn-default" type="submit">
+				<form action="guideMain" method="post" >
+				<input type="text" id="search_box" name="keyword" placeholder="검색어 입력">
+				<button id="search_icon" class="btn btn-default" type="submit">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 				</button>
+				</form>
 				<div id="select_order" class="btn-group" role="group">						
 					<button type="button" class="btn btn-default" onclick="load_select('gui_point')">별점순</button>	
 					<button type="button" class="btn btn-default" onclick="load_select('gui_count')">조회순</button>
@@ -534,9 +528,6 @@
 						<td colspan="2">
 						<a href="guideDetail?itemNo=${firstList.gui_no}&writer=${firstList.gui_writer}">
 							<img src="${firstList.gui_image}" width="400px" height="450px" class="img-rounded">
-							<c:if test="${empty firstList.gui_image}">
-							<img src="${img_path}" width="400px" height="450px" class="img-rounded">
-							</c:if>
 						</a>
 						</td>
 					</tr>
@@ -562,14 +553,17 @@
 			</c:forEach>
 			</div><!-- end of loaded_item_list -->
 			
+			<c:if test="${fn:length(list) > 4}">
 			<br>
 			<button id="read_more" class="btn btn-default btn-block">더보기</button>
+			</c:if>
 
 		</div><!--end of div items-->
 	</div><!--end of div inner-->
   </div> <!--end of div container-->
 <input type="hidden" id="paging_count">
 <input type="hidden" id="paging_code">
+<input type="hidden" id="paging_keyword">
   
  </body>
 </html>

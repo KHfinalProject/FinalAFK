@@ -46,11 +46,11 @@ public class GuideController {
 	@RequestMapping("/guideMain")
 	public String getGuideMain(Model model, 
 			@RequestParam(value="page", defaultValue="1") int page,
-			@RequestParam(value="code", defaultValue="gui_no") String code){
+			@RequestParam(value="code", defaultValue="gui_no") String code, String keyword){
 		System.out.println("======================guideMain=============");
 		
 		//DB에서 GuideItem list 가져옴 
-		List<GuideItem> list = guideBoardService.getGuideList(page, code);
+		List<GuideItem> list = guideBoardService.getGuideList(page, code, keyword);
 		list = getImagePath(list); //GuideItem 객체의 gui_content 중 이미지를 찾아 대표이미지로 만들고, 없으면 임의 사진을 넣어 리스트 재정비
 		
 		model.addAttribute("list", list);
@@ -63,9 +63,9 @@ public class GuideController {
 	//가이드 메인 페이지에서 더보기 클릭 시 추가 데이터 로딩
 	@RequestMapping("/guideMore")
 	public @ResponseBody List<GuideItem> getMoreGuideItems(@RequestParam(value="page", defaultValue="1") int page,
-			@RequestParam(value="code", defaultValue="gui_no") String code) throws Exception{
+			@RequestParam(value="code", defaultValue="gui_no") String code, String keyword) throws Exception{
 		System.out.println("======================guideMore====================");
-		List<GuideItem> list = guideBoardService.getGuideList(page, code);
+		List<GuideItem> list = guideBoardService.getGuideList(page, code, keyword);
 		list = getImagePath(list);		
 		
 		return list;
@@ -142,7 +142,8 @@ public class GuideController {
 				
 		//조회수 증가처리 성공 시에만 객체 가져와서 넘김
 		if(result > 0){
-			commentList = guideCommentService.getAllComments(itemNo, page); //댓글 목록
+			//commentList = guideCommentService.getAllComments(itemNo, page); //댓글 목록
+			commentList = getCommentList(itemNo);
 			guideItem = guideBoardService.getOneItem(itemNo); //해당 가이드 상품 정보
 			guide = guideBoardService.getGuideInfo(writer); //해당 가이드의 등록 정보
 			pointList = guideBoardService.getPointList(itemNo); //해당 상품에 매겨진 별점 목록
@@ -176,6 +177,7 @@ public class GuideController {
 		return result;
 	}
 	
+	//이미 해당 글을 신고했을 시 신고 취소 기능
 	@RequestMapping("/cancelNotifyItem")
 	public @ResponseBody int cancelNotifyItem(@RequestParam int itemNo, @RequestParam String user){
 		int result = guideBoardService.cancelNotifyItem(itemNo, user);
@@ -313,24 +315,60 @@ public class GuideController {
 		return null;
 	}
 	
-	public String insertComment(Model model, HttpSession session, 
-			SessionStatus sessionStatus, BindingResult result){
+	@RequestMapping("/getAllComments")
+	public List<GuideComment> getAllComments(@RequestParam int guideNo,
+			@RequestParam(value="page", defaultValue="1") int page){
+		List<GuideComment> commentList = guideCommentService.getAllComments(guideNo, page);
 		
-		return "guide/detail";
+		return commentList;
 	}
 	
-	
-	public String updatecomment(Model model, GuideComment gc, 
-			BindingResult result, SessionStatus sessionStatus){
-		
-		return "guide/detail";
+	//상품에 대한 댓글 작성
+	@RequestMapping("/insertComment")
+	public @ResponseBody List<GuideComment> insertComment(@RequestParam String writer, @RequestParam int itemNo, 
+			@RequestParam String content){
+		List<GuideComment> list = null;
+		int result = guideCommentService.insertComment(writer, itemNo, content);
+		if(result > 0){
+			System.out.println("코멘트 입력 완료");
+			list = getCommentList(itemNo);
+			System.out.println("commentList" + list.toString());
+		}			
+		return list;
 	}
 	
-	public String deleteCommennt(HttpSession session, int cmNo){
-		
-		return "guide/detail";
+	//댓글 리스트 가져옴
+	public List<GuideComment> getCommentList(int itemNo) {
+		List<GuideComment> commentList = guideCommentService.getCommentList(itemNo);
+		return commentList;
+	}
+
+	//댓글 수정
+	@RequestMapping("/updateComment")
+	public @ResponseBody List<GuideComment> updateComment(@RequestParam int cmNo, 
+			@RequestParam int itemNo, @RequestParam String content){
+		System.out.println("================updateComment==============");
+		List<GuideComment> list = null;
+		int result = guideCommentService.updateComment(cmNo, content);
+		if(result > 0){
+			System.out.println("코멘트 수정 완료");
+			list = getCommentList(itemNo);		
+		}
+		return list;
 	}
 	
+	//댓글 삭제
+	@RequestMapping("/deleteComment")
+	public @ResponseBody List<GuideComment> deleteCommennt(@RequestParam int cmNo, 
+			@RequestParam int itemNo){
+		List<GuideComment> list = null;
+		int result = guideCommentService.deleteComment(cmNo);
+		if(result > 0){
+			System.out.println("코멘트 삭제 완료");
+			list = getCommentList(itemNo);			
+		}
+		return list;
+	}	
 	
 	//페이지 로딩 시 전체적인 틀만 먼저 로딩
 	@RequestMapping("/test.do")

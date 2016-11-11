@@ -20,13 +20,14 @@ public class GuideCommentServiceImpl implements GuideCommentService {
 	}
 
 	@Override
-	public int insertComment(GuideComment gc) {
-		return guideCommentDao.insertComment(gc);
+	public int insertComment(String writer, int itemNo, String content) {
+		return guideCommentDao.insertComment(writer, itemNo, content);
 	}
 
+
 	@Override
-	public int updateComment(GuideComment gc) {
-		return guideCommentDao.updateComment(gc);
+	public int updateComment(int cmNo, String content) {
+		return guideCommentDao.updateComment(cmNo, content);
 	}
 
 	@Override
@@ -34,6 +35,15 @@ public class GuideCommentServiceImpl implements GuideCommentService {
 		return guideCommentDao.deleteComment(cmNo);
 	}
 
+	@Override
+	public List<GuideComment> getCommentList(int itemNo) {
+		// TODO Auto-generated method stub
+		return guideCommentDao.getCommentList(itemNo);
+	}
+
+
+
+	
 
 
 }

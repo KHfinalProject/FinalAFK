@@ -99,10 +99,12 @@
 		</div><!--end of div select-->
 		<div id="items">
 			<div id="sort_search">
-				<input type="text" id="search_box" placeholder="검색어 입력">
-				<button id="search_icon"class="btn btn-default" type="submit">
+				<form action="guideMain" method="post" >
+				<input type="text" id="search_box" name="keyword" placeholder="검색어 입력">
+				<button id="search_icon" class="btn btn-default" type="submit">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 				</button>
+				</form>
 				<div id="select_order" class="btn-group" role="group">						
 					<button type="button" class="btn btn-default" onclick="load_select('gui_point')">별점순</button>	
 					<button type="button" class="btn btn-default" onclick="load_select('gui_count')">조회순</button>
@@ -152,6 +154,7 @@
   </div> <!--end of div container-->
 <input type="hidden" id="paging_count">
 <input type="hidden" id="paging_code">
+<input type="hidden" id="paging_keyword">
 
  </body>
   <script>
@@ -270,7 +273,7 @@
 	 
 	  var code = cmd;
 	  var writer = $('#guide_id').val();
-	 
+	  
 	  $.ajax({
 			url : "subMore",
 			type : "post",
@@ -321,6 +324,7 @@
 		count += 5;
 		console.log("count : " + count);
 		var code = $('#paging_code').val();
+		//var keyword = $('#paging_keyword').val();
 		
 		$.ajax({
 			url : "subMore",
