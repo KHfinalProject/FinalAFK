@@ -331,10 +331,11 @@
         </table>
   
    <!-- 글쓰기 버튼 -->
+     <c:if test="${loginUser.mb_grade eq '1'}">
         <div id="insert_notice" align="right">
          <br><input type="button" value="삭제하기" onclick="checkDelete()"/> &nbsp;<input type="button" value="글쓰기" onclick="location.href='/afk/noticeWrite'"/>
       </div> <!--  글쓰기 버튼 끝 -->
-      
+      </c:if>
 </div><!-- 공지사항 끝-->
 
    <!-- faq 시작-->

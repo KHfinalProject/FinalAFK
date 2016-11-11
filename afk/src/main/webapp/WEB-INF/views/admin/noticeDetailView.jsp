@@ -74,8 +74,11 @@
 				                </tr>
 </table>
 					<hr style="border: solid 1px #0000ff">
-			<div class="hadan">		<input type="button" value="수정하기" onclick="location.href='/afk/noticeUpdateView?notice_no=${temp.notice_no}'">
+			<div class="hadan">		
+						<c:if test="${loginUser.mb_grade eq '1'}">
+						<input type="button" value="수정하기" onclick="location.href='/afk/noticeUpdateView?notice_no=${temp.notice_no}'">
 						<input type="button" value="삭제하기" onclick="NDelete(${temp.notice_no})">
+						</c:if>
 						<input type="button" value="목록으로" onclick="location.href='/afk/customer'">
 			</div>
 </div>
