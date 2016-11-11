@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -46,7 +47,28 @@
       $(document).on("click",".question", function(){
          $(this).next().slideToggle();
       });
-
+      function checkDelete(){
+    	  if(confirm("체크된 항목의 글을 삭제하시겠습니까?") == true){
+    			chekDelete();
+    		}else{
+    			location.replace("/afk/customer")
+    		}
+      }
+      function chekDelete(){
+    	
+    	  chk = document.getElementsByName("deleteChk")
+    	  var chek = new Array();
+    	  var cnt = 0;
+    	  for( var i = 0; i < chk.length; i++ ){
+    		  if(chk[i].checked){
+  				chek[cnt] = chk[i].value;
+  				cnt++
+    		  }
+    	  }
+    	
+    	  location.replace("/afk/checkDelete?chek="+chek) 
+    	 
+      }
 </script>
 
 <style type="text/css">
@@ -295,20 +317,22 @@
             <th width="10%">작성일자</th>
             <th width="10%">조회수</th>
          </tr>
-           <c:forEach var="n" items="${NoticeList}">
+           <c:forEach var="n" items="${NoticeList}" varStatus="status">
+          
          <tr>
-            <td align="center"><input type="checkbox" class="cb1"></td>
+            <td align="center"><input type="checkbox" class="cb1" name="deleteChk" value = "${n.notice_no}"></td>
             <td align="center">${n.notice_no }</td>
             <td align="center"><a href="/afk/noticeDetailView?notice_no=${n.notice_no}">${n.notice_title}</a></td>
             <td align="center">${n.notice_enrolldate }</td>
             <td align="right">${n.notice_count}</td>
          </tr>
          </c:forEach>
+       
         </table>
-
+  
    <!-- 글쓰기 버튼 -->
         <div id="insert_notice" align="right">
-         <br><input type="button" value="삭제하기" onclick="location.href='/afk/noticeWrite'"/> &nbsp;<input type="button" value="글쓰기" onclick="location.href='/afk/noticeWrite'"/>
+         <br><input type="button" value="삭제하기" onclick="checkDelete()"/> &nbsp;<input type="button" value="글쓰기" onclick="location.href='/afk/noticeWrite'"/>
       </div> <!--  글쓰기 버튼 끝 -->
       
 </div><!-- 공지사항 끝-->
@@ -339,7 +363,7 @@
       <th>제목</th>
       <td><input type="text" name="subject"></td>
    </tr>
-   <!-- <tr>
+   <tr>
       <th>연락처</th>
       <td><input type="text" name="phone" size="20"></td>
    </tr>
@@ -348,17 +372,10 @@
       <td>
       <input type="text" name="email">
       </td>
-   </tr> -->
+   </tr>
    <tr>
-      <th>내용</th>
-      <td><textarea name="content" rows="5" cols="50">아 이 디 : ${loginUser.mb_id}
-이 름 :    ${loginUser.mb_name}
-이 메 일  :  ${loginUser.mb_email}
-연 락 처  :  ${loginUser.mb_phone}
-문의 내용 : 
-     
-      </textarea>
-      </td>
+      <th>문의내용</th>
+      <td><textarea name="content" rows="5" cols="50"></textarea></td>
    </tr>
    </table><br>
       <input type="submit" value = "문의하기" id = "dqBtn">

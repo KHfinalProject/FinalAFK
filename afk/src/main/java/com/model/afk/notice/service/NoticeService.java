@@ -10,7 +10,7 @@ public interface NoticeService {
 	
 
 	public int noticeDelete(int notice_no);
-
+ 
 
 	public Object noticeListAll( );
 
