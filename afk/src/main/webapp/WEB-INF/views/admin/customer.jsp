@@ -339,7 +339,7 @@
       <th>제목</th>
       <td><input type="text" name="subject"></td>
    </tr>
-   <tr>
+   <!-- <tr>
       <th>연락처</th>
       <td><input type="text" name="phone" size="20"></td>
    </tr>
@@ -348,10 +348,17 @@
       <td>
       <input type="text" name="email">
       </td>
-   </tr>
+   </tr> -->
    <tr>
-      <th>문의내용</th>
-      <td><textarea name="content" rows="5" cols="50"></textarea></td>
+      <th>내용</th>
+      <td><textarea name="content" rows="5" cols="50">아 이 디 : ${loginUser.mb_id}
+이 름 :    ${loginUser.mb_name}
+이 메 일  :  ${loginUser.mb_email}
+연 락 처  :  ${loginUser.mb_phone}
+문의 내용 : 
+     
+      </textarea>
+      </td>
    </tr>
    </table><br>
       <input type="submit" value = "문의하기" id = "dqBtn">
