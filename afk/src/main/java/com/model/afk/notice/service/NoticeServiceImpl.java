@@ -74,6 +74,10 @@ public class NoticeServiceImpl implements NoticeService {
 
 
 
+
+
+
+
 /*	@Override
 	public Notice noticeDetailView(Map<String, Integer> map) {
 		// TODO Auto-generated method stub

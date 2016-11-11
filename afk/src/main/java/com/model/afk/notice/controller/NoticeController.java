@@ -101,6 +101,17 @@ public class NoticeController {
 		if(result>0)
 		response.sendRedirect("customer");
 	}
+	@RequestMapping(value="/checkDelete",method= RequestMethod.GET)
+	public void noticeDelete(int[] chek, HttpServletResponse response ) throws IOException{
+		System.out.println("::::::::::::cont"+chek+"::::::::::::");
+		 int result = 0;
+		  for( int i = 0; i < chek.length; i++ ){
+			  System.out.println(chek[i]);
+			   result = ns.noticeDelete(chek[i]);
+    		  }
+		if(result>0)
+		response.sendRedirect("customer");
 	
+	}
 }
  

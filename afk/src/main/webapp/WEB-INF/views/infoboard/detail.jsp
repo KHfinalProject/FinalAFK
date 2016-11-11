@@ -8,6 +8,9 @@
  <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="/afk/resources/css/boarddetail.css" />
   <title>detail</title>
+  <!-- 유효성검사를 위한 js -->
+<script src="/afk/resources/js/writeCheck.js"></script>
+
   <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
@@ -114,7 +117,7 @@
 		
 	<div class="debutton">
 		<input type="button" value="수정하기" onclick="location.href='/afk/infoboard/updateInfoBoardForm?info_no=${boardDetail.info_no}'" style="float:right; margin-left:7px;">
-		<input type="button" value="삭제하기" onclick="location.href='/afk/infoboard/deleteInfoBoard?info_no=${boardDetail.info_no}'" style="float:right"> 
+		<input type="button" value="삭제하기" onclick="infoDelete(${boardDetail.info_no})" style="float:right"> 
 	</div>
 	</div>
 

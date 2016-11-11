@@ -22,10 +22,24 @@
 <script type="text/javascript" src="/afk/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 </script>
 </head>
+<script type="text/javascript">
+function checking(){
+	if(document.titleform.notice_title.value==""){
+		alert("제목을 입력하세요")
+		document.titleform.notice_title.focus()
+		return false;
+	}else if(document.titleform.notice_content.value=="<p>&nbsp;</p>"){
+		alert("글의 내용을 입력하세요")
+		document.titleform.notice_content.focus()
+		return false;
+	}
+	
+}
+</script>
 <body>
 <div class="container">	
 <hr style="border: solid 2px red">
-<form id="frm" action="noticeUpdate" method="post">
+<form id="frm"  name="titleform" action="noticeUpdate" method="post" onsubmit="return checking()" >
 
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2"><b>제목</b>&nbsp;&nbsp;&nbsp;</span>

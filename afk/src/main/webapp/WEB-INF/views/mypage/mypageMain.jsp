@@ -117,7 +117,6 @@
 		</style>
 		<script>
 			 $(function(){
-				 //alert("${loginUser.mb_id} , ${loginUser.mb_rename_pic}");
 				 var id = "${loginUser.mb_id}";
 					$.ajax({
 						url : "mypage/favoritelist",
@@ -151,7 +150,6 @@
 									});
 									//페이지
 									var numRows = $('#myFavorite').find('div.mycontent').length;
-									alert(numRows); 
 								    var numPages = Math.ceil(numRows / numPerPage);
 								    var $pager = $('<div class="pager"></div>');
 								    for (var page = 0; page < numPages; page++) {
@@ -168,67 +166,101 @@
 								});
 								
 								if(json.list.length == 0){
-									$("#myfaContent").empty();
 									$("#myfaContent").append("<center><h3><span>즐겨찾기에 추가한 게시물이 없습니다.</span></h3><br><br>" +
-									"<button type='button' class='btn btn-default btn-lg' onclick="+"'window.location.href='"+"myplan/write'"+
-									"><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 여행 정보 게시물 보러가기 </button></center>");
+									"<a href='/afk/infoboard'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 여행 정보 게시물 보러가기 </button></a></center>");
 								}
 							}	
 						}
 					});
 
 				
-				$('.btnMsgDel').click(function(){
+				$('button#btnMsgDel').on('click',function(){
 					if (confirm("정말 삭제하시겠습니까??") == true){    //확인
-					    document.form.submit();
+					    //document.form.submit();
 					}else{   //취소
 					    return;
 					}
-				});
+				}); 
+				
+				$('button#btnProfileDel').on('click',function(){
+					if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+					    location.href='/afk/mypage/deleteprofile?loginid=${loginUser.mb_id}';
+					}else{   //취소
+					    return;
+					}
+				}); 
 			});	
 			 
 			
 			//즐겨찾기 리스트
 			function getFavorite(){
-				//alert("1");
-				var id = "${loginUser.mb_id}";
-				$.ajax({
-					url : "mypage/favoritelist",
-					data : { mbid : id },
-					type : "post",
-					dataType : "json",
-					success : function(data){
-						if(data != null){	
-							var jsonStr = JSON.stringify(data);  //객체를 문자열로 변환
-							console.log(jsonStr);
-							var json = JSON.parse(jsonStr); //문자열을 배열 객체로 바꿈
-							console.log(json);
-							var Ca = /\+/g;
-							
-							if(json.list.length != 0){
+				 var id = "${loginUser.mb_id}";
+					$.ajax({
+						url : "mypage/favoritelist",
+						data : { mbid : id },
+						type : "post",
+						dataType : "json",
+						success : function(data){
+							if(data != null){	
+								var jsonStr = JSON.stringify(data);  //객체를 문자열로 변환
+								console.log(jsonStr);
+								var json = JSON.parse(jsonStr); //문자열을 배열 객체로 바꿈
+								console.log(json);
+								var Ca = /\+/g;
+								
 								$("#myfaContent").empty();
 								for(var i in json.list){
-									//$("#myfaContent").append(json.list[i].writer + ", " + decodeURIComponent(json.list[i].title.replace(Ca, " ")) + ", " + decodeURIComponent(json.list[i].content.replace(Ca, " ")) + "<br>");
-									$("#myfaContent").append("<div class='mycontent'>"+ json.list[i].writer + ", " + "<h3>" + decodeURIComponent(json.list[i].title.replace(Ca, " ")) +"</h3></div><br>");
+									if(json.list.length != 0){
+									$("#myfaContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; background-color:red;'>"+ json.list[i].writer + "</div>" 
+											+ "<h3><span class='pull-right' style='margin-right: 5%; margin-top: 5%;'>" + decodeURIComponent(json.list[i].title.replace(Ca, " ")) +"</span></h3></div><br>");
 								}
-							}
-							else{
-								$("#myfaContent").empty();
-								$("#myfaContent").append("<center><h3><span>즐겨찾기에 추가한 게시물이 없습니다.</span></h3><br><br>" +
-								"<button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 여행 정보 게시물 보러가기 </button></center>");
-							}
-						}	
-					}
-				});	
+								
+									$('#myfaContent').each(function(){
+										var currentPage = 0;
+										var numPerPage= 5;
+										var $myfaContent = $(this);
+										
+										$myfaContent.bind('repaginate', function(){
+											$myfaContent.find('div.mycontent').hide()
+														.slice(currentPage * numPerPage, (currentPage + 1) * numPerPage)
+														.show();
+										});
+										//페이지
+										$(".pager").remove();
+										var numRows = $('#myFavorite').find('div.mycontent').length;
+										//alert(numRows); 
+									    var numPages = Math.ceil(numRows / numPerPage);
+									    var $pager = $('<div class="pager"></div>');
+									    for (var page = 0; page < numPages; page++) {
+									      $('<span class="page-number"></span>').text(page + 1)
+									        .bind('click', {newPage: page}, function(event) {
+									          currentPage = event.data['newPage'];
+									          $myfaContent.trigger('repaginate');
+									          $(this).addClass('act')
+									            .siblings().removeClass('act');
+									        }).appendTo($pager).addClass('doclick');
+									    }
+									    $pager.insertBefore($myfaContent)
+									      .find('span.page-number:first').addClass('active');
+									});
+								}
+								if(json.list.length == 0){
+									$("#myfaContent").empty();
+									$("#myfaContent").append("<center><h3><span>즐겨찾기에 추가한 게시물이 없습니다.</span></h3><br><br>" +
+									"<a href='/afk/infoboard'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 여행 정보 게시물 보러가기 </button></a></center>");
+								}
+							}	
+						}
+					});
 			}
 			
 			//메시지 리스트
 			function getmymsg(){
 				var loginId = "${loginUser.mb_id}";
-				
+				//var guideId = "${guide.mb_id}"
 				$.ajax({
 					url : "msg/msglist",
-					data : { loginId : loginId},
+					data : { loginId : loginId/* , guideId : guideId */},
 					type: "post",
 					dataType : "json",
 					success : function(data){
@@ -248,18 +280,50 @@
 										"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'>" +
 										"</div></div></div></td></tr><tr><td>" + json.list[i].rid + "에게 보냄</td>" +
 										"<td>" + json.list[i].sid + "</td></tr><tr><td colspan='2' style='text-align:center'>"+
-										"<a href='/afk/msg?guideId=user99&loginId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a> &nbsp; &nbsp; <button type='button' class='btn btn-default btn-lg btnMsgDel'>삭제하기</button></tr></table></div><hr><p></p>");
-								}
-								
+										"<a href='/afk/msg?guideId="+ json.list[i].rid +"&loginId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a>"
+										+" &nbsp; &nbsp; <button type='button' class='btn btn-default btn-lg' id='btnMsgDel'>삭제하기</button></tr></table></div><hr><p></p>");
+								}	
 							}else{
 								$("#mymsgdiv").empty();
-								$("#mymsgdiv").append("<center><h3><span>주고받은 메세지가 없습니다.</span></h3></center>");
+								$("#mymsgdiv").append("<br><center><h3><span>주고받은 메세지가 없습니다.</span></h3></center>");
 							}
 						}	
 					}
-				});
+					
+				});		
 			}
-
+			
+			function getmywish(){
+				//위시리스트 불러오기
+				var id = "${loginUser.mb_id}";
+				$.ajax({
+					url : "mypage/wishlist",
+					data : { mbid : id },
+					type : "post",
+					dataType : "json",
+					success : function(data){
+						if(data != null){	
+							var jsonStr = JSON.stringify(data);  //객체를 문자열로 변환
+							console.log(jsonStr);
+							var json = JSON.parse(jsonStr); //문자열을 배열 객체로 바꿈
+							console.log(json);
+							var Ca = /\+/g;
+							
+							if(json.list.length != 0){
+								$("#mywishContent").empty();
+								for(var i in json.list){
+									$("#mywishContent").append("<a href='/afk/guide/guideDetail?itemNo="+ json.list[i].gno +"&writer="+ json.list[i].writer +"'><div class='mycontent'>"+ json.list[i].writer + ", " + "<h3>" + decodeURIComponent(json.list[i].title.replace(Ca, " ")) +"</h3><img src='" + json.list[i].image + "'</img></div></a><br>");
+								}
+							}
+							else{
+								$("#mywishContent").empty();
+								$("#mywishContent").append("<br><center><h3><span>위시리스트에 추가한 게시물이 없습니다.</span></h3><br><br>" +
+								"<a href='/afk/guide/guideMain'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 가이드 게시물 보러가기 </button></a></center>");
+							}
+						}	
+					}
+				});	
+			}
 		</script>
  </head>
  <body>
@@ -272,14 +336,13 @@
 				<div class="thumbnail-wrapper">
 					<div class="thumbnail">
 						<div class="centered">
-							<!-- <img src="resources/images/mypage/user99profile.jpg"> -->
-							<c:if test=" ${loginUser.mb_rename_pic eq null}">
+							<c:if test="${empty loginUser.mb_rename_pic}">
 								<img src="resources/images/mypage/jo.jpg">
 							</c:if>
 							
-							<c:if test="${loginUser.mb_rename_pic ne null}">
-								<img src="resources/images/mypage/${loginUser.mb_rename_pic }" style="width:100%;">
-							</c:if> 
+							<c:if test="${!(loginUser.mb_rename_pic eq null)}">
+								<img src="${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic }" style="width:100%;">
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -292,6 +355,7 @@
 						<button type="button" class="btn btn-primary" id="btnProfileDel">
 							사진 삭제
 						</button>
+						${loginUser }
 					</div>
 				</p>
 
@@ -321,11 +385,11 @@
 				<div>
 					<ul class="nav nav-pills nav-stacked">
 						<li class="active" onclick="getFavorite()"><a href="#myFavorite" data-toggle="tab" id="myFa">즐겨찾기 리스트</a></li>
-						<li><a href="#myWish" data-toggle="tab" id="myWi">위시 리스트</a></li>
-						<li><a href="#myReview" data-toggle="tab" id="myRe">후기 리스트</a></li>
+						<li onclick="getmywish()"><a href="#myWish" data-toggle="tab" id="myWi">위시 리스트</a></li>
+						<li onclick="getReview()"><a href="#myReview" data-toggle="tab" id="myRe">후기 리스트</a></li>
 						<li onclick="getmymsg()"><a href="#myMessage" data-toggle="tab" id="myMe">메세지 리스트</a></li>
 						<li><a href="/afk/updateView">정보 수정하기</a></li>
-						<li><a href="/afk/msg">문의하기 작성</a></li>
+						<!-- <li><a href="/afk/msg">문의하기 작성</a></li> -->
 					</ul>
 				</div>
 			</div>
@@ -334,19 +398,19 @@
 				<div class="tab-content">
 					<div class="tab-pane active" id="myFavorite">
 						<h2><span class="page-header">나의 즐겨찾기</span></h2><br>
-						<br><br>
-
 						<div id="myfaContent">
 							<!-- 즐겨찾기 게시물 부분 -->
 						</div>
-						<p></p>
-
+						<br><br>
 					</div>
+					
 					<div class="tab-pane" id="myWish">
 						<h2><span class="page-header">나의 위시리스트</span></h2><br>
+						<div id="mywishContent">
+						</div>
 						<br><br>
-
 					</div>
+					
 					<div class="tab-pane" id="myReview">
 						<h2><span class="page-header">내가 작성한 후기</span></h2><br>
 						<br><br>
@@ -355,8 +419,7 @@
 
 					<div class="tab-pane" id="myMessage">
 						<h2><span class="page-header">나의 메세지</span></h2><br>
-						<button onclick="location.href='/afk/msg?guideId=user99&loginId=${loginUser.mb_id}'">버튼</button>
-						<div class="mymessage" id="mymsgdiv">
+						<div class="mymessage" id="mymsgdiv">	
 						</div>
 						<br><br>
 					</div>

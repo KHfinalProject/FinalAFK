@@ -15,5 +15,18 @@
 		SET MB_ORIGINAL_PIC = #{mb_original_pic}, MB_RENAME_PIC = #{mb_rename_pic}
 		WHERE MB_ID = #{mb_id}
 	</update>
+	
+	<update id="deleteMyProfile" parameterType="Member">
+		UPDATE MEMBER
+		SET MB_ORIGINAL_PIC = NULL, MB_RENAME_PIC = NULL
+		WHERE MB_ID = #{mb_id}
+	</update>
 
+	<select id="selectmyWish" parameterType="String" resultType="gItem">
+		SELECT *
+		FROM GUIDE_BOARD GB, GUIDE_FAVORITE GF
+		WHERE GB.GUI_NO = GF.FA_BD_NO
+		AND GF.FA_MB_ID = #{mbid} 
+		ORDER BY FA_BD_NO DESC
+	</select>
 </mapper>

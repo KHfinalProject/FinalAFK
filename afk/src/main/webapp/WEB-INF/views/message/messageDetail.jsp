@@ -71,7 +71,7 @@
 	function sendMsg(){
 		//메세지 보내는 기능
 		var senderId = "${loginUser.mb_id}";
-		var recieveId = "user99"; //문의하기 버튼 주인 넣기
+		var recieveId = "${guideId}"; //문의하기 버튼 주인 넣기
 		var msgContent = $('#msgarea').val();
 		$.ajax({
 			url: "msg/sendmsg",
@@ -91,10 +91,11 @@
 	function msglist(){
 		//메세지 디테일 보기
 		var loginId = "${loginUser.mb_id}";
+		var guideId = "${guideId}";
 		var URL = "msg/msgdetailList";
 		$.ajax({
 			url : URL,
-			data : { loginId : loginId, guideId : "user99"},
+			data : { loginId : loginId, guideId : guideId},
 			type: "post",
 			dataType : "json",
 			success : function(data){
@@ -176,7 +177,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td>문의 당하는 사람</td>
+							<td>${guideId}</td>
 						</tr>
 						</table>
 					</div>

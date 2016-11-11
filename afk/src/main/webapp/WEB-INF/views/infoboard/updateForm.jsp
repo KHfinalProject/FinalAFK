@@ -20,6 +20,8 @@
 		border: solid #6699cc 2px;
 	}
 </style>
+<!-- 유효성검사를 위한 js -->
+<script src="/afk/resources/writeCheck.js"></script>
 <!-- JQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->
@@ -35,7 +37,7 @@
 <body>
 <div class="container">	
 <hr style="border: solid 2px red">
-<form id="frm" action="/afk/infoboard/updateBoard" method="post">
+<form id="frm" name="frm" action="/afk/infoboard/updateBoard" method="post">
 	<input type="hidden" name="info_no" value="${infoboard.info_no }"/>
 	<input type="text" id="xy" name="info_map" size="300" /> <br>
 	<input type="text" id="userid" name="info_writer" value="${infoboard.info_writer}">
@@ -45,7 +47,7 @@
 	</div>
 	<br>
 	<select name="info_loc_l" id="loc_l" onchange="load_country()">
-		<option value="local" selected>지역선택</option>
+		<option value="" selected>지역선택</option>
 		<option value="A" >아메리카</option>
 		<option value="B">유럽</option>
 		<option value="C">아시아</option>
@@ -54,11 +56,11 @@
 	</select>
 	&nbsp;
 	<select name="info_loc_m" id="loc_m" onchange="load_city()">
-		<option value="local" selected>국가선택</option>
+		<option value="" selected>국가선택</option>
 	</select>
 	&nbsp;
 	<select name="info_loc_s" id="loc_s">
-		<option value="local" selected>도시선택</option>
+		<option value="" selected>도시선택</option>
 	</select>
 	<br><br>
 	<input type="number" name="info_price" class="form-control" value="${infoboard.info_price }">
@@ -75,7 +77,7 @@
 	<div id="map"></div>
 	<br><br>
 	<div align="right">
-		<input class="btn btn-default btn-lg " type="button" value="취소">&nbsp;&nbsp;&nbsp;
+		<input class="btn btn-default btn-lg " type="button" value="취소" onclick="history.go(-1)">&nbsp;&nbsp;&nbsp;
 		<input class="btn btn-default btn-lg" type="button" value="수정" id="save">
 	</div>
 <hr style="border: solid 2px red">

@@ -68,6 +68,12 @@ public class NoticeDao {
 	}
 
 
+	public int noticeDelete(int[] chek) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
 
 }
  

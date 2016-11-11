@@ -110,7 +110,7 @@
 	</div><!--end of ticket_detail-->
 
 	<div style="margin-top : 30px; text-align:center">
-		<button class="btn btn-default">메인으로</button>
+		<button class="btn btn-default" onclick="location='guide/guideMain'">메인으로</button>
 		&nbsp;&nbsp;
 		<button class="btn btn-default">지난 구매내역 보기</button>
 	</div>

@@ -228,7 +228,7 @@
 	$('#send_msg').on('click', function(){
 		var guide_id = $('#guide_id').val();
 		var loginUser = "${loginUser.mb_id}";
-		alert("login : " + loginUser);
+		alert("login : " + loginUser + "guide : " + guide_id);
 		
 		var form = document.createElement("form");
 		form.method = 'get';
