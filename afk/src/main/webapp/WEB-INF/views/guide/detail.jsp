@@ -8,7 +8,6 @@
   <meta charset="UTF-8">
   <title>가이드 상세 상품 보기</title>
      
-    
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
  
   <!--[if lt IE 9]>
@@ -30,9 +29,13 @@
   
    <!--jQuery ui js파일(달력용)-->
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
+  
+  <link rel="stylesheet" href="/maps/documentation/javascript/demos/demos.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3m6vYQoQmgfby10NojiU1GxgorAr6cH0&callback=initMap"
+    async defer></script>
+  
   <script>
- 
+    
   /*별 클릭 시 찜하기 추가, 다시 클릭하면 삭제*/
   function add_favorite(obj){
 	  var check = $(obj).children('span').hasClass('glyphicon glyphicon-star');
@@ -42,9 +45,9 @@
 		$(obj).children('span').attr('class', 'glyphicon glyphicon-star-empty');
 	  }
   }
-  
-  /* /*댓글 수정하기 버튼 클릭 시 모달창 생성*/
-  function update_comment(obj){
+    
+   /*댓글 수정하기 버튼 클릭 시 모달창 생성*/
+   function update_comment(obj){
 	 
 	  $('#update_comment_area').empty();
 	  $('#update_comment_cm_no').empty();
@@ -55,12 +58,20 @@
 	  //수정하기 버튼을 누른 행의 댓글번호 가져옴
 	  cmNo = $(obj).parent().parent().siblings('td:first').children('input').val();
 	  //수정하기 버튼을 누른 행의 댓글 내용 가져옴
-	  content = $(obj).parent().parent().prev().children('textarea').text();
-	  
+	  content = $(obj).parent().parent().prev().text();
+	 	  
 	  alert(cmNo + ", " + content);
-	 
-	  $('div.modal').modal(); //모달창 팝업
-	  $('#update_comment_area').text(content); //모달창에 댓글 내용 출력
+	  
+	  $('#comment_modal').css('display', 'block'); //모달 영역 보이도록 css 변경
+	  $('.close_modal').on('click', function(){
+		  $('#comment_modal').css('display', 'none'); //모달 영역 내의 x 누르면 창 안보이게 함
+	  });
+	  
+	  $('#update_complete').on('click', function(){
+		 $('#comment_modal').css('display', 'none'); //모달 영역 내의 수정하기 버튼 누를 시 창 안보이게 함
+	  });
+	  
+	  $('#update_comment_area').text(content.trim()); //모달창에 댓글 내용 출력
 	  $('#update_comment_cm_no').text(cmNo); //모달창에 댓글 번호 보냄
   }
   
@@ -69,41 +80,77 @@
 	  var cmNo = $(obj).parent().parent().siblings('td:first').children('input').val();
 	  var itemNo = ${guideItem.gui_no};
 	  
-	  $.ajax({
-		  url : "deleteComment",
-		  type : "post",
-		  data : {itemNo : itemNo, cmNo : cmNo},
-		  dataType : "json",
-		  success : function(data){
-			  alert("삭제 성공");
-			  var result = "";
+	  var check = confirm("이 댓글을 삭제하실건가요?");
+	  if(check){
+		  $.ajax({
+			  url : "deleteComment",
+			  type : "post",
+			  data : {itemNo : itemNo, cmNo : cmNo},
+			  success : function(data){
+				  alert("댓글 삭제 완료 >.ㅇ");
+				  var origin = document.getElementById(cmNo); //삭제되는 행을 찾음
+				  
+				  //댓글 삭제 시 애니메이션 적용
+				  $(origin).parent().parent().fadeOut(800, function(){
+					  $(this).remove();
+				  });
+				  
+				  var count = $('#user_rep table tr').size();
+				  if(count == 1){
+					  $('#user_rep table').after('<h3>아직 등록된 코멘트가 없습니다.</h3>');
+				  }
 				
-			  if(data.length > 0){
-				for(var i in data){
-					result += "<tr><td width='auto'>";
-					result += "<img src='" + data[i].mb_rename_pic + "' class='img-circle' width='50px' height='50px'>";
-					result += "<input type='hidden' id='cmNo' value='" + data[i].cm_no + "'/>";
-					result += "</td><td width='70%'><textarea name='content' id='content' disabled>" + data[i].cm_content;
-					result += "</textarea></td><td>";
-					result += "<span id='revise_remove'><button class='btn btn-default' id='update_comment' onclick='update_comment(this)'>";
-					result += "<span class='glyphicon glyphicon-pencil'></span></button>";
-					result += "<button class='btn btn-default' id='delete_comment' onclick='delete_comment(this)'><span class='glyphicon glyphicon-trash'>";
-					result += "</span></button></span>";
-					result += "<input type='hidden' id='" + data[i].cm_no + "'/></td></tr>";
-				}
-				$('#user_rep table tr').remove();
-				$('#user_rep table').append(result);
-			}  
-		  },
-		  error : function(e){
-			  alert("삭제 실패");
-		  } 
-	  });
+			  },
+			  error : function(e){
+				  alert("삭제 실패");
+			  } 
+		  });  
+	  }
   }
   
-
-  $(function(){
+  /*DB에 저장된 좌표를 지도에 출력*/
+  function initialize(){
+	var temp = "${guideItem.gui_map}"; //DB에 저장된 좌표값 불러옴
 	
+	//필요한 좌표값만 1차로 꺼내줌
+	var location = temp.substring(temp.indexOf("(") + 1, temp.indexOf(")"));
+	
+	//1차로 꺼낸 좌표에서 x값과 y값을 분리하여 변수에 저장
+	var x = location.substring(0, location.indexOf(", "));
+	var y = location.substring(location.indexOf(", ") + 1, location.length);
+	
+	var mapLocation = new google.maps.LatLng(x, y); 
+	var markLocation = new google.maps.LatLng(x, y);
+	  
+	var mapOptions = {
+		  center : mapLocation,
+		  zoom : 11,
+		  mapTypeId : google.maps.MapTypeId.ROADMAP
+	};
+	  
+	var map = new google.maps.Map(document.getElementById('print_map'), mapOptions);
+	  
+	var size_x = 60;
+	var size_y = 60;
+	  
+	var image = new google.maps.MarkerImage( 'http://www.larva.re.kr/home/img/boximage3.png',
+              new google.maps.Size(size_x, size_y),
+              '',
+              '',
+              new google.maps.Size(size_x, size_y));
+
+	var marker;
+	marker = new google.maps.Marker({
+			 position: markLocation, // 마커가 위치할 위도와 경도(변수)
+			 map: map,
+			 icon: image // 마커로 사용할 이미지(변수)
+	});  
+  }
+  google.maps.event.addDomListener(window, 'load', initialize);
+
+
+  
+  $(function(){
 	/*메뉴 고정*/
 	var nav = $('#sub_nav');
 	$(window).scroll(function(){
@@ -113,8 +160,8 @@
 			nav.removeClass('fixing');
 		}
 	});
-
-	/*별점용*/
+	
+	/*별점 출력*/
 	$(".star_point a").click(function() {
 		$(this).nextAll(this).removeClass("on");
 		$(this).addClass("on").prevAll("a").addClass("on");
@@ -155,6 +202,7 @@
 				success : function(data){
 					alert("별점 등록>.ㅇ");
 					$('#avg_point').text(data);
+					
 				},
 				error : function(e){
 					alert("별점 등록 실패ㅠㅠㅠ");
@@ -224,7 +272,7 @@
 		} */
 	});
 	
-	//쪽지 보내기 버튼 클릭 시 새로 form 생성하여 메시지 송수진 페이지로 이동
+	//쪽지 보내기 버튼 클릭 시 새로 form 생성하여 메시지 송수신 페이지로 이동
 	$('#send_msg').on('click', function(){
 		var guide_id = $('#guide_id').val();
 		var loginUser = "${loginUser.mb_id}";
@@ -255,39 +303,83 @@
 		var user = "${loginUser.mb_id}";
 		var itemNo = ${guideItem.gui_no};
 		var content = $('#comment').val();
-		alert("content" + content);
-				
-		$.ajax({
-			url : "insertComment",
-			type : "post",
-			data : {writer : user, itemNo : itemNo, content : content},
-			dataType : "json",
-			success : function(data){
-				var result = "";
-				
-				if(data.length > 0){
-					for(var i in data){
-						result += "<tr><td width='auto'>";
-						result += "<img src='" + data[i].mb_rename_pic + "' class='img-circle' width='50px' height='50px'>";
-						result += "<input type='hidden' id='cmNo' value='" + data[i].cm_no + "'/>";
-						result += "</td><td width='70%'><textarea name='content' id='content' disabled>" + data[i].cm_content;
-						result += "</textarea></td><td>";
-						result += "<span id='revise_remove'><button class='btn btn-default' id='update_comment' onclick='update_comment(this)'>";
-						result += "<span class='glyphicon glyphicon-pencil'></span></button>";
-						result += "<button class='btn btn-default' id='delete_comment' onclick='delete_comment(this)'><span class='glyphicon glyphicon-trash'>";
-						result += "</span></button></span>";
-						result += "<input type='hidden' id='" + data[i].cm_no + "'/></td></tr>";
+		
+		var check = confirm("댓글을 등록하시겠습니까?")
+		
+		if(check){
+			$.ajax({
+				url : "insertComment",
+				type : "post",
+				data : {writer : user, itemNo : itemNo, content : content},
+				dataType : "json",
+				success : function(data){
+					var result = "";
+					if(data.length > 0){
+						for(var i in data){
+							result += "<tr><td width='auto'>";
+							result += "<img src='" + data[i].mb_rename_pic + "' class='img-circle' width='70px' height='70px'>";
+							result += "<p>" + data[i].cm_writer + "</p>";
+							result += "<input type='hidden' id='cmNo' value='" + data[i].cm_no + "'/>";
+							result += "</td><td width='70%' height='auto'>" + data[i].cm_content;
+							result += "</td><td>";
+							result += "<span id='revise_remove'><button class='btn btn-default' onclick='update_comment(this)'>";
+							result += "<span class='glyphicon glyphicon-pencil'></span></button>";
+							result += "<button class='btn btn-default' onclick='delete_comment(this)'><span class='glyphicon glyphicon-trash'>";
+							result += "</span></button></span>";
+							result += "<input type='hidden' id='" + data[i].cm_no + "'/>";
+							result += "<input type='hidden' id='cm_writer' value='" + data[i].cm_writer + "'/></td></tr>";
+						}
+						$('#comment').val("");
+						$('#user_rep table tr').remove();
+						$('#user_rep table').append(result);
+						
+						$('#user_rep h3').remove();
 					}
+					
+					$('#user_rep table tr').each(function(){
+				    	var cm_writer = $(this).children('td').children().filter('#cm_writer').val();
+											
+						if(cm_writer == user){
+							$(this).css('background-color', '#dbebee'); 
+							
+							$(this).mouseover(function(){
+								$(this).children('td:last').children('#revise_remove').css('visibility', 'visible');
+							});
+							
+							$(this).mouseout(function(){
+								$(this).children('td:last').children('#revise_remove').css('visibility', 'hidden');
+							});
+						}
+					}); 		 
+				},
+				error : function(e){
+					alert("댓글 달기 실패");
 					$('#comment').val("");
-					$('#user_rep table tr').remove();
-					$('#user_rep table').append(result);
 				}
-			},
-			error : function(e){
-				alert("댓글 달기 실패");
-				$('#comment').val("");
-			}
-		});
+			});
+		}
+	});
+	
+	/*본인이 쓴 댓글에 css 추가 적용*/
+	$('#user_rep table tr').each(function(){
+	    var cm_writer = $(this).children('td').children().filter('#cm_writer').val();
+		var loginUser = "${loginUser.mb_id}";
+			
+		//로그인한 사용자와 댓글 작성자가 일치할 경우
+		if(cm_writer == loginUser){
+			//본인 작성 댓글의 색깔 변경
+			$(this).css('background-color', '#dbebee'); 
+				
+			//마우스 오버 이벤트 시 수정, 삭제 버튼 보임
+			$(this).mouseover(function(){
+				$(this).children('td:last').children('#revise_remove').css('visibility', 'visible');
+			});
+				
+			//영역 밖으로 마우스 나가면 버튼 숨김
+			$(this).mouseout(function(){
+				$(this).children('td:last').children('#revise_remove').css('visibility', 'hidden');
+			});
+		}
 	});
 	
 	/*모달창에서 댓글 내용 수정*/  
@@ -304,9 +396,7 @@
 			success : function(data){
 				alert("댓글 수정 완료 >.ㅇ");
 				var origin = document.getElementById(cmNo);
-				var originNo = $(origin).val();
-				alert("원래 여기 수정하려고 했지롱 : " + originNo);
-				$(origin).parent().prev().children('textarea').text(content);
+				$(origin).parent().prev().text(content); //수정 버튼을 클릭한 댓글을 찾아서 내용만 업데이트
 			},
 			error : function(e){
 				alert("댓글 수정 실패 ㅠ");
@@ -376,8 +466,9 @@
 		border : 1px solid gray;
 	}
 	
-	#notify:hover {
+	#notify:hover, #notify:focus {
 		background-color : red;
+		cursor: pointer;
 	}
 	
 	.notify_default {
@@ -514,19 +605,24 @@
 		border-top : 1px solid gray;
 	}
 
-	#item_reviews, #item_reply{
+	#item_reply, #item_maps{
 		width : 100%;
 		margin-top : 5%;
 		padding-top : 5%;
 		border-top : 1px solid gray;
 	}
 
-	#user_review, #user_rep{
+	#user_rep{
 		padding : 1%;
 		width : 80%;
 		margin-left : 5%;
 		text-align : left;
 		display : inline-block;	
+	}
+	
+	#user_rep table {
+		border-spacing : 0px 5px;
+		border-collapse : separate;
 	}
 
 	#write_rep {
@@ -549,8 +645,16 @@
 	
 	#content, #update_comment_area {
 		width : 100%;
+		height : auto;
 		background : none;
 		border : none;
+	    overflow: auto;
+	    outline: none;
+	    -webkit-box-shadow: none;
+	    -moz-box-shadow: none;
+	    box-shadow: none;
+	    border-style : none;
+	    border-color : Transparent;
 	}
 
 	#revise_remove{
@@ -559,11 +663,78 @@
 		z-index: 1;
 		visibility : hidden;
 	}
+	
+	/*모달용*/
+	.modal {
+		display : none;
+		position : fixed;
+		z-index : 10;
+		padding-top : 30%;
+		width : 100%;
+		height : 100%;
+		overflow : auto;
+		background-color: rgb(0,0,0);
+		background-color: rgba(0,0,0,0.4); 
+	}
 
-	#user_rep tr:hover #revise_remove{
-		visibility : visible;
+	.modal_body {
+		background-color : white;
+		margin : 0 auto;
+		padding : 2%;
+		border : 1px solid gray;
+		width : 60%;
+		height : 350px;
+		border-radius : 30px;
+		-moz-border-radius: 30px;
+		-webkit-border-radius: 30px;
+	}
+
+	@Media all and (max-width : 800px){
+		.modal_body {
+			width : 100%;
+		}
+	} 
+
+	.modal_head {
+		text-align : center;
+	}
+
+	.modal_content {
+		height : 120px;
+	}
+
+	.modal_footer {
+		text-align : right;
+	}
+
+	.close_modal {
+		color: #aaaaaa;
+		float: right;
+		top : 0;
+		font-size: 28px;
+	    font-weight: bold;
+	}
+
+	.close_modal:hover,.close_modal:focus {
+		color: #000;
+		text-decoration: none;
+		cursor: pointer;
 	}
 	
+	#update_complete {
+		border-radius : 5px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		width : 100px;
+		height : 40px;
+		border : 1px solid gray;
+	}
+	
+	#update_complete:hover, #update_complete:focus {
+		background-color : #04378c;
+		color : white;
+		cursor: pointer;
+	}
 
 	/*달력용*/
 	.ui-datepicker {
@@ -629,11 +800,13 @@
 						${guide.mb_name}
 						<input type="hidden" id="guide_id" value="${guide.mb_id}">
 					</td>
+					<c:if test="${loginUser.mb_id ne guide.mb_id}">	
 					<td>&nbsp;&nbsp;
 						<button type="button" class="btn btn-default" id="send_msg">
 							<span class="glyphicon glyphicon-envelope">쪽지보내기</span>
 						</button>
 					</td>
+					</c:if>
 				</tr>
 			
 				<tr style="font-size:12pt">
@@ -782,36 +955,17 @@
 		<div id="item_contents">
 			${guideItem.gui_content}
 		</div>
-
+		
 		<div id="item_maps" align="center">
 			<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1930.5432756838056!2d129.31058764132314!3d35.534586152691354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35662d66cf9ecfaf%3A0x2d8f16207dd9335b!2zS0jsoJXrs7TqtZDsnKHsm5A!5e0!3m2!1sko!2skr!4v1477440467383" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+				<div id="print_map"  style="width: 600px; height: 450px;">
+				<!-- 지도 출력되는 부분 -->
+				</div>
+			
 			</div>
 			</div>
 		</div><!--end of item_maps-->
-
-		<div id="item_reviews">
-		<h3>후기</h3>
-			<div id="user_review">
-				<p><img src="#" alt="..." class="img-circle" width="50px" height="80px">
-				좋았어요 ㅑㅋ캬
-				</p>
-			</div><!--end of user_review-->
-
-			<div id="user_review">
-				<a>
-					<img src="#" alt="..." class="img-circle" width="100px" height="100px">
-				</a>
-				<a>
-				좋았어요 ㅑㅋ캬캬ㅑ캬캬캬컄캬캬캬캬캬캬캬캬캬캬캬캬컄캬캬캬컄캬컄캬컄컄캬컄컄캬컄캬캬컄캬<!--후기 보드의 타이틀 불러옴-->	</a>			
-			</div><!--end of user_review-->
-
-			<div id="user_review">
-				<img src="#" alt="..." class="img-circle" width="100px" height="100px">
-				좋았어요 ㅑㅋ캬캬ㅑ캬캬캬컄캬캬캬캬캬캬캬캬캬캬캬캬컄캬캬캬컄캬컄캬컄컄캬컄컄캬컄캬캬컄캬<!--후기 보드의 타이틀 불러옴-->				
-			</div><!--end of user_review-->
-		</div><!--end of item_reviews-->
 
 		<div id="item_reply">
 			
@@ -827,58 +981,59 @@
 			
 			<hr style="border : none; border-top : 1px dotted gray">
 			
-			<div class="modal fade" id="layerpop" >
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal">×</button>
-			        <h4 class="modal-title">댓글 수정하기</h4>
-			      </div>
-			      <!-- body -->
-			      <div class="modal-body">
-			      	<input type="hidden" id="update_comment_cm_no"/>
-			      	<textarea id="update_comment_area"></textarea>
-			      </div>
-			      <!-- Footer -->
-			      <div class="modal-footer">
-			      	<button id="update_complete" data-dismiss="modal">수정하기</button>
-			        <button class="btn btn-default" data-dismiss="modal">닫기</button>
-			      </div>
-			    </div>
-			  </div>
-			</div>
+			<div class="modal" id="comment_modal">
+				<div class="modal_body">
+					<div class="modal_head">
+						<h4>댓글 수정 <span class="close_modal">x</span></h4>
+					</div><!--  end of modal_head -->
+					<hr>
+					<div class="modal_content">
+						<input type="hidden" id="update_comment_cm_no"/>
+			      		<textarea id="update_comment_area" rows="9"></textarea>
+					</div><!-- end of modal_content -->
+					<hr>
+					<div class="modal_footer">
+						<button id="update_complete">수정하기</button>
+					</div><!-- end of modal_footer -->
+				</div><!-- end of modal_body -->
+			</div><!-- end of class modal -->
 			
 			<div id="user_rep">
 				<table width="100%">
-					<c:forEach var="comment" items="${commentList}">
+				<c:if test="${!empty commentList}">
+				<c:forEach var="comment" items="${commentList }">
 					<tr>
 						<td width="auto">
-							<img src="<%-- ${comment.mb_rename_pic} --%>" alt="..." class="img-circle" width="50px" height="50px">
+							<img src="${comment.mb_rename_pic}" alt="..." class="img-circle" width="70px" height="70px">
+							<p>${comment.cm_writer }</p>
 							<input type="hidden" id="cmNo" name="cmNo" value="${comment.cm_no}"/>
 						</td>
-						<td width="70%">
-							<textarea name="content" id="content" disabled>${comment.cm_content}</textarea>
+						<td width="70%" height="auto">
+							${comment.cm_content}
 						</td>
 						<td>
 							<span id="revise_remove">
-								<button class="btn btn-default" id="update_comment" onclick="update_comment(this)">
+								<button class="btn btn-default" onclick="update_comment(this)">
 								<span class="glyphicon glyphicon-pencil"></span>
 								</button>
-								
-								<button class="btn btn-default" id="delete_comment" onclick="delete_comment(this)">
+									
+								<button class="btn btn-default" onclick="delete_comment(this)">
 								<span class="glyphicon glyphicon-trash"></span>
 								</button>
 							</span>
 							<input type="hidden" id="${comment.cm_no}"/>
+							<input type="hidden" id="cm_writer" value="${comment.cm_writer }"/>
 						</td>
-					</tr>
-					</c:forEach>	
-				</table>				
-			</div>
-			
-			<c:if test="${empty commentList}">
-			<h3>아직 등록된 코멘트가 없습니다.</h3>
-			</c:if>
+					</tr>			
+				</c:forEach>
+				</c:if>				
+				</table>
+				
+				<c:if test="${empty commentList}">
+				<h3>등록된 코멘트가 없습니다.</h3>
+				</c:if>	
+									
+			</div><!-- end of user_rep -->			
 			
 		</div><!--end of item_reply-->
 
@@ -888,3 +1043,4 @@
   
  </body>
 </html>
+
