@@ -9,7 +9,19 @@
 <link rel="stylesheet" type="text/css" href="/afk/resources/css/examples.css" />
 <style>
 	@font-face{font-family:'typo'; src:url('/afk/resources/fonts/Typo_PapyrusB.ttf') format('truetype');}
+	
+	/* Fixed header and footer.
+	* --------------------------------------- */
+	#header, #footer{
+		position:fixed;
+		z-index:9;
+		
+	}
 
+	#header{
+		top:0px;
+	}
+	
 	/* Style for our header texts
 	* --------------------------------------- */
 	h1{
@@ -111,10 +123,11 @@
 	</script>
  </head>
  <body>
+  <div id="header"></div>
   <div id="fullpage">
 	<div class="section " id="section0">
 		<video autoplay loop muted id="myVideo">
-			<source src="/afk/resources/video/videoplayback.mp4" type="video/mp4">
+			<source src="/afk/resources/video/main.mp4" type="video/mp4">
 		</video>
 		<div class="layer">
 				<img src="/afk/resources/images/pause.png" id="controll" onclick="playPause()">
@@ -123,9 +136,9 @@
                 <h2>수천명의 가이드와 회원들이 제공하는 여행정보들을 확인하세요</h2>
                 <br><br>
                 <p>
-                    <a class="inputbutton" href="#">여행정보</a>
+                    <a class="inputbutton" href="/afk/infoboard">여행정보</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="inputbutton" href="#">가이드정보</a>
+                    <a class="inputbutton" href="/afk/guide/guideMain">가이드정보</a>
                 </p>
 		</div>
 	</div>
