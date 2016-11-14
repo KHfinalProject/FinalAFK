@@ -51,7 +51,7 @@
 
 			.mycontent{
 				width: 100%; 
-				height: 150px; 
+				height: 100px; 
 				background-color:powderblue;
 				border-radius: 15px;
 			}
@@ -144,8 +144,14 @@
 								$("#myfaContent").empty();
 								for(var i in json.list){
 									
-									$("#myfaContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; background-color:red;'>"+ json.list[i].writer + "</div>" 
-											+ "<h3><span class='pull-right' style='margin-right: 5%; margin-top: 5%;'>" + decodeURIComponent(json.list[i].title.replace(Ca, " ")) +"</span></h3></div><br>");
+									$("#myfaContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; border:1px solid blue;'></div>"
+											+"<a href='/afk/infoboard/"+ json.list[i].fano +"'><h3>"
+											+decodeURIComponent(json.list[i].title.replace(Ca, " "))
+											+"</h3></a><div class='delMyfa' style='float:right; margin-right:2%; cursor:pointer;'>"
+											+"<img src='resources/images/mypage/heart4.png' title='클릭시 리스트에서 제거됩니다.'></img>"
+											+"<input type='hidden' name='delMyfa' value='"+ json.list[i].fano +"'></div>"
+											+"<div style='margin-top:2%;'>"+ json.list[i].writer
+											+"</div></div><br>");
 								}
 								
 								$('#myfaContent').each(function(){
@@ -223,6 +229,17 @@
 					    return;
 					}
 				});
+				
+				$(document).on('click', '.delMyfa',function(){
+					//즐겨찾기 삭제 이벤트
+					if (confirm("위시리스트에서 삭제하시겠습니까??") == true){    //확인
+						var fano = $(this).children('input').val();
+						/* alert(wishno); */
+					    location.href='/afk/mypage/deletefavorite?fano='+fano+'&loginId=${loginUser.mb_id}';
+					}else{   //취소
+					    return;
+					}
+				});
 			});	
 			 
 			
@@ -245,8 +262,14 @@
 								$("#myfaContent").empty();
 								for(var i in json.list){
 									if(json.list.length != 0){
-									$("#myfaContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; background-color:red;'>"+ json.list[i].writer + "</div>" 
-											+ "<h3><span class='pull-right' style='margin-right: 5%; margin-top: 5%;'>" + decodeURIComponent(json.list[i].title.replace(Ca, " ")) +"</span></h3></div><br>");
+										$("#myfaContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; border:1px solid blue;'></div>"
+												+"<a href='/afk/infoboard/"+ json.list[i].fano +"'><h3>"
+												+decodeURIComponent(json.list[i].title.replace(Ca, " "))
+												+"</h3></a><div class='delMyfa' style='float:right; margin-right:2%; cursor:pointer;'>"
+												+"<img src='resources/images/mypage/heart4.png' title='클릭시 리스트에서 제거됩니다.'></img>"
+												+"<input type='hidden' name='delMyfa' value='"+ json.list[i].fano +"'></div>"
+												+"<div style='margin-top:2%;'>"+ json.list[i].writer
+												+"</div></div><br>");
 								}
 								
 									$('#myfaContent').each(function(){
@@ -400,12 +423,13 @@
 							if(json.list.length != 0){
 								$("#mywishContent").empty();
 								for(var i in json.list){
-									$("#mywishContent").append("<div class='mycontent'>"+ json.list[i].writer + ", " 
+									$("#mywishContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; border:1px solid blue;' ></div> " 
 															+ "<a href='/afk/guide/guideDetail?itemNo="+ json.list[i].gno +"&writer="+ json.list[i].writer +"'><h3>" 
 															+ decodeURIComponent(json.list[i].title.replace(Ca, " ")) 
-															+"</h3></a><div class='delMywish' style='float:right; margin-right: 2%; cursor:pointer;'><div style='width:40%; ' ></div>"
+															+"</h3></a><div class='delMywish' style='float:right; margin-right: 2%; cursor:pointer;'>"
 															+"<img src='resources/images/mypage/heart4.png' title='클릭시 리스트에서 제거됩니다.'></img>"
-															+"<input type='hidden' name='delMyWish' value='"+ json.list[i].gno +"'></div></div><br>");
+															+"<input type='hidden' name='delMyWish' value='"+ json.list[i].gno +"'></div>"
+															+"<div style='margin-top:2%;'>"+ json.list[i].writer +"</div></div><br>");
 								}
 							}
 							else{
@@ -433,7 +457,7 @@
 						if(data.length > 0){
 							for(var i in data){	
 										$("#myGuideContent").empty();
-										str += "<div class='myguidecontent'><a href='guide/guideDetail?itemNo="+ data[i].gui_no+"&writer="+ data[i].gui_writer +"'><h4>" + data[i].gui_title +"</h4></a></div><br>"
+										str += "<ul><a href='guide/guideDetail?itemNo="+ data[i].gui_no+"&writer="+ data[i].gui_writer +"'><h4>" + data[i].gui_title +"</h4></a></ul><br>"
 							}
 							$("#myGuideContent").append(str);
 						}else{
@@ -504,10 +528,10 @@
 				
 				<div>
 					<ul class="nav nav-pills nav-stacked">
-						<li class="active" onclick="getFavorite()"><a href="#myFavorite" data-toggle="tab" id="myFa">즐겨찾기 리스트</a></li>
-						<li onclick="getmywish()"><a href="#myWish" data-toggle="tab" id="myWi">위시 리스트</a></li>
+						<li class="active" onclick="getFavorite()"><a href="#myFavorite" data-toggle="tab" id="myFa">즐겨찾기 리스트</a></li>						
 						<c:if test="${loginUser.mb_grade eq '3' }">
 						<li onclick="getmypay()"><a href="#myPay" data-toggle="tab" id="myPa">구매 리스트</a></li>
+						<li onclick="getmywish()"><a href="#myWish" data-toggle="tab" id="myWi">위시 리스트</a></li>
 						</c:if>
 						<c:if test="${loginUser.mb_grade eq '3' }">
 						<li onclick="getmymsg()"><a href="#myMessage" data-toggle="tab" id="myMe">메세지 리스트</a></li>

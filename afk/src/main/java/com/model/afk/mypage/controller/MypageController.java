@@ -60,6 +60,7 @@ public class MypageController implements ServletContextAware{
 			job.put("title", URLEncoder.encode(board.getInfo_title() , "UTF-8"));
 			job.put("writer", board.getInfo_writer());
 			job.put("content", URLEncoder.encode(board.getInfo_content() , "UTF-8"));
+			job.put("fano", board.getInfo_no());
 			
 			jarr.add(job);
 		}

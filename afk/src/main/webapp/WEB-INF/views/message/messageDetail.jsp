@@ -155,7 +155,11 @@
 													 +"<input type='hidden' name='pno' value='" + json.list[i].mes_no + "'>" 
 													 + decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) + "</div></td>" 
 													 +"<td width='25%'>"
-													 +"<div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'></div></div></div></td></tr>"
+													 +"<div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'>"
+													 +"<c:if test='${empty loginUser.mb_rename_pic}'><img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg'></c:if>"
+													 +"<c:if test='${!(loginUser.mb_rename_pic eq null)}'>"
+													 +"<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic }' style='width:100%;'>"
+													 +"</c:if></div></div></div></td></tr>"
 													 +"<tr><td><small>" + json.list[i].sendDate + "에 보냄</small></td>" 
 													 +"<td>" + json.list[i].sid + "</td></tr></table></div>");
 							}
@@ -164,8 +168,11 @@
 													 +"<table class='table'>"
 													 +"<tr><td width='25%'>"
 													 +"<input type='hidden' name='pno' value='" + json.list[i].mes_no + "'>"
-													 +"<div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/h.jpg'>"
-													 +"</div></div></div></td>"
+													 +"<div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'>"
+													 +"<c:if test='${empty loginUser.mb_rename_pic}'><img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg'></c:if>"
+													 +"<c:if test='${!(loginUser.mb_rename_pic eq null)}'>"
+													 +"<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic }' style='width:100%;'>"
+													 +"</c:if></div></div></div></td>"
 													 +"<td style='word-break:break-all'>" + decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) 
 													 +"</td></tr>"
 													 +"<tr><td>" + json.list[i].sid + "</td>"
@@ -218,7 +225,7 @@
 													 + decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) + "</div></td>" 
 													 +"<td width='25%'>"
 													 +"<div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'>"
-													 +"<c:if test='${empty loginUser.mb_rename_pic}'><img src='resources/images/mypage/jo.jpg'></c:if>"
+													 +"<c:if test='${empty loginUser.mb_rename_pic}'><img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg'></c:if>"
 													 +"<c:if test='${!(loginUser.mb_rename_pic eq null)}'>"
 													 +"<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic }' style='width:100%;'>"
 													 +"</c:if></div></div></div></td></tr>"
@@ -231,7 +238,7 @@
 													 +"<tr><td width='25%'>"
 													 +"<input type='hidden' name='pno' value='" + json.list[i].mes_no + "'>"
 													 +"<div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'>"
-													 +"<c:if test='${empty loginUser.mb_rename_pic}'><img src='resources/images/mypage/jo.jpg'></c:if>"
+													 +"<c:if test='${empty loginUser.mb_rename_pic}'><img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg'></c:if>"
 													 +"<c:if test='${!(loginUser.mb_rename_pic eq null)}'>"
 													 +"<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic }' style='width:100%;'>"
 													 +"</c:if></div></div></div></td>"
@@ -303,7 +310,12 @@
 								<div class="thumbnail-wrapper">
 									<div class="thumbnail">
 										<div class="centered">
-											<img src="img/jo.jpg">
+											<c:if test='${empty loginUser.mb_rename_pic}'>
+												<img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg'>
+											</c:if>
+											<c:if test='${!(loginUser.mb_rename_pic eq null)}'>
+												<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic }' style='width:100%;'>
+											</c:if>
 										</div>
 									</div>
 								</div>
@@ -313,7 +325,12 @@
 							</td>
 						</tr>
 						<tr>
+							<c:if test="${loginUser.mb_grade == '3'} ">
 							<td>${guideId}</td>
+							</c:if>
+							<c:if test="${loginUser.mb_grade == '2' }">
+							<td>${gId}</td>
+							</c:if>
 						</tr>
 						</table>
 					</div>
