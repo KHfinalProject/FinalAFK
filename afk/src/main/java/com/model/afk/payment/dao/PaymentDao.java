@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.member.vo.Member;
 import com.model.afk.payment.vo.Payment;
 
 @Repository
@@ -16,10 +18,10 @@ public class PaymentDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public ArrayList<Payment> getPurchasedList(int page){
+/*	public ArrayList<Payment> getPurchasedList(int page){
 		
 		return sqlSession.selectList(NAMESPACE + "getPurchasedList", page);
-	}
+	}*/
 	
 	public int insertPayment(Payment payment){
 		
@@ -34,5 +36,15 @@ public class PaymentDao {
 	public int deletePayment(int payNo){
 		
 		return sqlSession.delete(NAMESPACE + "deletePayment", payNo);
+	}
+
+	public Member getGuideInfo(String writer) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE + "getGuideInfo", writer);
+	}
+
+	public GuideItem getOneItem() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE + "getOneItem");
 	}
 }

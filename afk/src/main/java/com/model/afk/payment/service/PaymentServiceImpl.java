@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.member.vo.Member;
 import com.model.afk.payment.dao.PaymentDao;
 import com.model.afk.payment.vo.Payment;
 
@@ -14,10 +16,10 @@ public class PaymentServiceImpl implements PaymentService {
 	@Autowired
 	private PaymentDao pd;
 	
-	@Override
+	/*@Override
 	public ArrayList<Payment> getPurchasedList(int page) {
 		return pd.getPurchasedList(page);
-	}
+	}*/
 
 	@Override
 	public int insertPayment(Payment payment) {
@@ -32,6 +34,12 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public int deletePayment(int payNo) {
 		return pd.deletePayment(payNo);
+	}
+
+	@Override
+	public ArrayList<Payment> getPurchasedList(int page) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

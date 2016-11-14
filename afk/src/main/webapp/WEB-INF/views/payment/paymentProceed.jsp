@@ -224,7 +224,7 @@ function button1_click() {
 				</tr>
 				<tr>
 					<td>담당 가이드</td>
-					<td>${guide.gui_writer}</td>
+					<td>${member.mb_name}</td>
 				</tr>
 				<tr>
 					<td>회원 이름</td>
@@ -237,7 +237,7 @@ function button1_click() {
 				<tr>
 					<td>회원 연락처</td>
 					<td>${loginUser.mb_phone}</td>
-				</tr>
+				</tr>		
 				<tr>
 					<td>인원수</td>
 					<td>4</td>
