@@ -77,4 +77,23 @@
 		where info_no = #{info_no}
 	</delete>
 	
+	<!-- 즐겨찾기 불러오기, 추가, 삭제 구간 -->
+	
+	<select id="selectBoardReport" parameterType="InfoRptVO" resultType="InfoRptVO">
+		select *
+		from info_favorite
+		where fa_mb_id = #{fa_mb_id}
+		and	  fa_bd_no = #{fa_bd_no}
+	</select>
+	
+	<insert id="insertBoardReport" parameterType="InfoRptVO">
+		insert into info_favorite
+		values(info_favorite_seq.nextval, #{fa_mb_id}, #{fa_bd_no})
+	</insert>
+	
+	<delete id="deleteBoardReport" parameterType="int">
+		delete from info_favorite
+		where fa_id = #{no}
+	</delete>
+	
 </mapper>

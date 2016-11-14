@@ -149,11 +149,37 @@ public class InfoBoardController {
 		 		
 		 return "infoboard/detail";
 	 }
-	 public String insertBoardReport(InfoReportVO vo) {
-		 int result = brsvc.insertBoardReport(vo);
-		 //즐겨찾기추가
-		 return null;
+	 
+	 
+	 @RequestMapping("selectBoardReport")
+	 public @ResponseBody InfoReportVO selectBoardReport(InfoReportVO vo){
+		 //즐겨찾기 상태를 가져오는 메소드
+		 InfoReportVO report = null;
+		 report = brsvc.selectBoardReport(vo);
+		 System.out.println("그 결과는 ? : " + report);	
+		
+		 return report;
 	 }
+	 
+	 @RequestMapping("insertBoardReport")
+	 public @ResponseBody int insertBoardReport(InfoReportVO vo){
+		 //즐겨찾기 추가하는 메소드
+		 int result = 0;
+		 result = brsvc.insertBoardReport(vo);
+		 
+		 return result;
+	 }
+	 
+	 @RequestMapping("deleteBoardReport")
+	 public @ResponseBody int deleteBoardReport(@RequestParam("no") int no){
+		 //즐겨찾기를 삭제하는 메소드
+		 int result = 0;
+		 result = brsvc.deleteBoardReport(no);
+		 System.out.println(result);
+		 
+		 return result;
+	 }
+	 
 	 public String insertBoardComment(InfoCommentVO vo){
 		 int result = bcsvc.insertBoardComment(vo);
 		 //댓글추가

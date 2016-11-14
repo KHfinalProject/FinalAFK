@@ -37,7 +37,7 @@
 <div class="container">	
 <hr style="border: solid 2px red">
 <form id="frm" name="frm" action="/afk/infoboard/insertBoard" method="post" onsubmit="return writeCheck()">
-	<input type="text" id="xy" name="info_map" size="300" /> <br>
+	<input type="hidden" id="xy" name="info_map" size="300" /> <br>
 	<input type="text" id="userid" name="info_writer" value="${loginUser.mb_id}">
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2"><b>제 목</b>&nbsp;&nbsp;&nbsp;</span>
@@ -61,7 +61,10 @@
 		<option value="" selected>도시선택</option>
 	</select>
 	<br><br>
-	<input type="number" name="info_price" class="form-control">
+	<div class="input-group">
+		<span class="input-group-addon" id="sizing-addon2"><b>가 격</b>&nbsp;&nbsp;&nbsp;</span>
+		<input name="info_price" type="number" class="form-control" aria-describedby="sizing-addon2">
+	</div>
 	<br><br>
 	 <textarea name="info_content" id="smarteditor" style="width:100%; height:500px;"></textarea>
 	<br><br><br>	
