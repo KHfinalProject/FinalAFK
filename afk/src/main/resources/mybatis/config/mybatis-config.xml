@@ -9,6 +9,8 @@
   		<typeAlias type="com.model.afk.guide.vo.GuideItem" alias="gItem"/>
   		<typeAlias type="com.model.afk.guide.vo.StarPoint" alias="sPoint"/>
   		<typeAlias type="com.model.afk.guide.vo.NotifyGItem" alias="notify"/>
+  		<typeAlias type="com.model.afk.guide.vo.GuideFavorite" alias="favorite"/>
+  		
   		<!-- 얘는 지울것 -->
   		<typeAlias type="com.model.afk.guide.vo.Test" alias="Test"/>
   		

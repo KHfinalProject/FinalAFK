@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.model.afk.guide.vo.GuideFavorite;
 import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.guide.vo.NotifyGItem;
 import com.model.afk.guide.vo.StarPoint;
@@ -30,10 +31,18 @@ public class GuideBoardDao {
 		map.put("keyword", keyword);
 		return sqlSession.selectList(NAMESPACE + "getGuideMain", map);
 	}
+	
+	public List<GuideFavorite> getAllFavorList() {
+		return sqlSession.selectList(NAMESPACE + "getAllFavorList");
+	}
 
 	public List<GuideItem> getAllGuides(int page){
 		
 		return sqlSession.selectList(NAMESPACE + "getAllGuides", page);
+	}
+	
+	public List<GuideFavorite> getGuideFavoriteList(String writer) {
+		return sqlSession.selectList(NAMESPACE + "getGuideFavoriteList", writer);
 	}
 	
 	public Member getGuideInfo(String writer) {
@@ -75,6 +84,11 @@ public class GuideBoardDao {
 	public List<NotifyGItem> getNotifiedList(int itemNo) {
 		return sqlSession.selectList(NAMESPACE + "getNotifiedList", itemNo);
 	}
+	
+	public List<GuideFavorite> getOneGuideFavoriteList(int itemNo) {
+		return sqlSession.selectList(NAMESPACE + "getOneGuideFavoriteList", itemNo);
+	}
+
 	
 	public int cancelNotifyItem(int itemNo, String user) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -137,6 +151,19 @@ public class GuideBoardDao {
 		return sqlSession.selectList(NAMESPACE + "paging", map);
 	}
 
+
+	public List<GuideFavorite> getMyFavorList(String user) {
+		return sqlSession.selectList(NAMESPACE + "getMyFavorList", user);
+	}
+
+	public List<GuideItem> getSearchedList(String keyword) {
+		return sqlSession.selectList(NAMESPACE + "getSearchedList", keyword);
+	}
+
+	
+
+
+	
 
 
 

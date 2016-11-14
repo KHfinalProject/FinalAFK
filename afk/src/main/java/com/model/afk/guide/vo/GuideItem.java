@@ -23,6 +23,7 @@ public class GuideItem implements java.io.Serializable {
 	private String area_name; //지역명
 	private String country_name; //국가명
 	private String city_name; //도시명
+	private char gui_favorite; //즐겨찾기 추가 여부
 	
 	// Constructor
 	public GuideItem() {
@@ -72,6 +73,32 @@ public class GuideItem implements java.io.Serializable {
 		this.area_name = area_name;
 		this.country_name = country_name;
 		this.city_name = city_name;
+	}
+
+	public GuideItem(int gui_no, String gui_title, String gui_content, String gui_writer, Date gui_enrolldate,
+			String gui_loc_l, String gui_loc_m, String gui_loc_s, int gui_count, int gui_point, int gui_notify,
+			int gui_price, String gui_map, String gui_image, String gui_date, String area_name, String country_name,
+			String city_name, char gui_favorite) {
+		super();
+		this.gui_no = gui_no;
+		this.gui_title = gui_title;
+		this.gui_content = gui_content;
+		this.gui_writer = gui_writer;
+		this.gui_enrolldate = gui_enrolldate;
+		this.gui_loc_l = gui_loc_l;
+		this.gui_loc_m = gui_loc_m;
+		this.gui_loc_s = gui_loc_s;
+		this.gui_count = gui_count;
+		this.gui_point = gui_point;
+		this.gui_notify = gui_notify;
+		this.gui_price = gui_price;
+		this.gui_map = gui_map;
+		this.gui_image = gui_image;
+		this.gui_date = gui_date;
+		this.area_name = area_name;
+		this.country_name = country_name;
+		this.city_name = city_name;
+		this.gui_favorite = gui_favorite;
 	}
 
 	// Getter & Setter
@@ -219,6 +246,14 @@ public class GuideItem implements java.io.Serializable {
 		this.city_name = city_name;
 	}
 
+	public char getGui_favorite() {
+		return gui_favorite;
+	}
+
+	public void setGui_favorite(char gui_favorite) {
+		this.gui_favorite = gui_favorite;
+	}
+
 	@Override
 	public String toString() {
 		return "GuideItem [gui_no=" + gui_no + ", gui_title=" + gui_title + ", gui_content=" + gui_content
@@ -226,7 +261,7 @@ public class GuideItem implements java.io.Serializable {
 				+ ", gui_loc_m=" + gui_loc_m + ", gui_loc_s=" + gui_loc_s + ", gui_count=" + gui_count + ", gui_point="
 				+ gui_point + ", gui_notify=" + gui_notify + ", gui_price=" + gui_price + ", gui_map=" + gui_map
 				+ ", gui_image=" + gui_image + ", gui_date=" + gui_date + ", area_name=" + area_name + ", country_name="
-				+ country_name + ", city_name=" + city_name + "]";
+				+ country_name + ", city_name=" + city_name + ", gui_favorite=" + gui_favorite + "]";
 	}
 	
 	

@@ -2,6 +2,7 @@ package com.model.afk.guide.service;
 
 import java.util.List;
 
+import com.model.afk.guide.vo.GuideFavorite;
 import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.guide.vo.NotifyGItem;
 import com.model.afk.guide.vo.StarPoint;
@@ -12,7 +13,11 @@ public interface GuideBoardService {
 	
 	public List<GuideItem> getGuideList(int page, String code, String keyword);
 	
+	public List<GuideFavorite> getAllFavorList();
+	
 	public List<GuideItem> getAllGuides(int page);
+	
+	public List<GuideFavorite> getGuideFavoriteList(String writer);
 	
 	public List<GuideItem> getAllItems(String writerNo, int page, String code);
 	
@@ -31,6 +36,8 @@ public interface GuideBoardService {
 	public List<StarPoint> getPointList(int itemNo);
 	
 	public List<NotifyGItem> getNotifiedList(int itemNo);
+	
+	public List<GuideFavorite> getOneGuideFavoriteList(int itemNo);
 
 	public int notifyItem(int itemNo, String user);
 	
@@ -55,6 +62,18 @@ public interface GuideBoardService {
 	public List<Test> paging(int testNo);
 
 	public int getTotalCount(String writer);
+
+
+
+	public List<GuideFavorite> getMyFavorList(String user);
+
+	public List<GuideItem> getSearchedList(String keyword);
+
+	
+
+	
+
+	
 
 	
 

@@ -35,20 +35,10 @@
     async defer></script>
   
   <script>
-    
-  /*별 클릭 시 찜하기 추가, 다시 클릭하면 삭제*/
-  function add_favorite(obj){
-	  var check = $(obj).children('span').hasClass('glyphicon glyphicon-star');
-	  if(check === false){
-		$(obj).children('span').attr('class', 'glyphicon glyphicon-star');
-	  }else{
-		$(obj).children('span').attr('class', 'glyphicon glyphicon-star-empty');
-	  }
-  }
-    
+  
    /*댓글 수정하기 버튼 클릭 시 모달창 생성*/
    function update_comment(obj){
-	 
+
 	  $('#update_comment_area').empty();
 	  $('#update_comment_cm_no').empty();
 	  
@@ -160,6 +150,7 @@
 			nav.removeClass('fixing');
 		}
 	});
+		
 	
 	/*별점 출력*/
 	$(".star_point a").click(function() {
@@ -191,77 +182,94 @@
 	//별점 입력 메소드
 	$('#send_star_point').on('click', function(){
 		var selected_point = $('#selected_point').text();
-		var check = confirm("이 글에 별 " + selected_point + "개를 주시겠습니까?");
 		var gui_no = ${guideItem.gui_no};
 		var user = "${loginUser.mb_id}";
-		if(check){
-			$.ajax({
-				url : "giveStarPoint",
-				type: "post",
-				data : {itemNo : gui_no, writer : user, point : selected_point},
-				success : function(data){
-					alert("별점 등록>.ㅇ");
-					$('#avg_point').text(data);
-					
-				},
-				error : function(e){
-					alert("별점 등록 실패ㅠㅠㅠ");
-				}
-			});
+		
+		if(user == ""){
+			  var check = confirm("로그인이 필요한 기능입니다. 로그인 화면으로 이동하시겠습니까?");
+			  if(check){
+				  location.href = "../loginView";
+			  }
+		}else{
+			var check = confirm("이 글에 별 " + selected_point + "개를 주시겠습니까?");
+			if(check){
+				$.ajax({
+					url : "giveStarPoint",
+					type: "post",
+					data : {itemNo : gui_no, writer : user, point : selected_point},
+					success : function(data){
+						alert("별점 등록>.ㅇ");
+						$('#avg_point').text(data);		
+					},
+					error : function(e){
+						alert("별점 등록 실패ㅠㅠㅠ");
+					}
+				});
+			}	
 		}
 	});
 	
 	//아이콘 클릭 시 해당 글 신고 또는 신고 취소
 	$("#notify").on('click', function(){
+
 		var gui_no = ${guideItem.gui_no};
 		var user = "${loginUser.mb_id}";
-		var notified = $('#notify').hasClass('notified');
 		
-		if(notified == false){
-			var check = confirm("이 글을 신고하시겠습니까?");
-			if(check){
-				$.ajax({
-					url : "notifyGuideItem",
-					type : "post",
-					data : {itemNo : gui_no, user : user},
-					success : function(data){
-						var count = $('#print_notify').html();
-						console.log("notify success");
-						alert("신고 처리되었습니다.");
-						console.log("신고");
-						count++;
-						$('#print_notify').html(count);
-						$('#notify').removeClass('notify_default');
-						$('#notify').addClass('notified');
-					},
-					error : function(e){
-						alert("ERROR TT_TT");
-					}
-				});
-			}			
+		if(user == ""){
+			 var check = confirm("로그인이 필요한 기능입니다. 로그인 화면으로 이동하시겠습니까?");
+			  if(check){
+				  location.href = "../loginView";
+			  }
 		}else{
-			var check = confirm("이 글에 대한 신고를 취소하시겠습니까?");
-			if(check){
-				$.ajax({
-					url : "cancelNotifyItem",
-					type : "post",
-					data : {itemNo : gui_no, user : user},
-					success : function(data){
-						var count = $('#print_notify').html();
-						console.log("cancel notify success");
-						alert("신고 취소 >.ㅇ");
-						count--;
-						$('#print_notify').html(count);
-						$('#notify').removeClass('notified');
-						$('#notify').addClass('notify_default');
-					},
-					error : function(e){
-						alert("ERROR TT_TT");
-					}
-				});	
+			var notified = $('#notify').hasClass('notified');
+			
+			if(notified == false){
+				var check = confirm("이 글을 신고하시겠습니까?");
+				if(check){
+					$.ajax({
+						url : "notifyGuideItem",
+						type : "post",
+						data : {itemNo : gui_no, user : user},
+						success : function(data){
+							var count = $('#print_notify').html();
+							console.log("notify success");
+							alert("신고 처리되었습니다.");
+							console.log("신고");
+							count++;
+							$('#print_notify').html(count);
+							$('#notify').removeClass('notify_default');
+							$('#notify').addClass('notified');
+						},
+						error : function(e){
+							alert("ERROR TT_TT");
+						}
+					});
+				}			
+			}else{
+				var check = confirm("이 글에 대한 신고를 취소하시겠습니까?");
+				if(check){
+					$.ajax({
+						url : "cancelNotifyItem",
+						type : "post",
+						data : {itemNo : gui_no, user : user},
+						success : function(data){
+							var count = $('#print_notify').html();
+							console.log("cancel notify success");
+							alert("신고 취소 >.ㅇ");
+							count--;
+							$('#print_notify').html(count);
+							$('#notify').removeClass('notified');
+							$('#notify').addClass('notify_default');
+						},
+						error : function(e){
+							alert("ERROR TT_TT");
+						}
+					});	
+				}	
 			}	
-		}		
+		}	
 	});
+	
 	
 	$('#buy_btn').on('click', function(){
 		var check = confirm("이 상품을 구매하시겠습니까?");
@@ -271,6 +279,66 @@
 			var user = ${loginUser.mb_id};
 		} */
 	});
+		
+	 /*즐겨찾기 추가*/
+	$('#favorite').on('click', function(){
+		 var user = "${loginUser.mb_id}";	
+		 var itemNo = ${guideItem.gui_no};
+		 
+		 if(user == ""){
+			 var check = confirm("로그인이 필요한 기능입니다. 로그인 화면으로 이동하시겠습니까?");
+			  if(check){
+				  location.href = "../loginView";
+			  }
+		 }else{
+			 var favored = $('#favorite').hasClass('remove_favorite');
+			 
+			 if(favored == false){
+				 var check = confirm("즐겨찾기에 추가하시겠습니까?");
+				 if(check){
+					 $.ajax({
+						 url : "addFavorite",
+						 type : "post",
+						 data : {itemNo : itemNo, user : user},
+						 success : function(data){
+							 alert("즐겨찾기 리스트에 저장되었습니다");
+							 
+							 //버튼 css 변경
+							 var btn = "<span class='glyphicon glyphicon-star'></span> 보관 취소";
+							 $('#favorite').html(btn);
+							 $('#favorite').removeClass('add_favorite');
+							 $('#favorite').addClass('remove_favorite');				  
+						 },
+						 error : function(e){
+							 alert("즐겨찾기 추가 실패..ㅠ");
+						 }
+					 })
+				 }
+			 }else{
+				 var check = confirm("즐겨찾기 리스트에서 삭제하시겠습니까?");
+				  if(check){
+					  $.ajax({
+						  url : "removeFavorite",
+						  type : "post",
+						  data : {itemNo : itemNo, user : user},
+						  success : function(data){
+							  alert("즐겨찾기 리스트에서 삭제되었습니다");
+							  
+							  //버튼 css 변경
+							  var btn = "<span class='glyphicon glyphicon-star-empty'></span> 보관하기";
+							  $('#favorite').html(btn);
+							  $('#favorite').removeClass('remove_favorite');
+							  $('#favorite').addClass('add_favorite');				  
+						  },
+						  error : function(e){
+							  alert("즐겨찾기 삭제 실패..ㅠ");
+						  }
+					  })
+				  }	
+			 }
+		 } 
+	});
+	  	
 	
 	//쪽지 보내기 버튼 클릭 시 새로 form 생성하여 메시지 송수신 페이지로 이동
 	$('#send_msg').on('click', function(){
@@ -556,35 +624,42 @@
 		width : 100%;
 	}
 	
-	#add_favorite {
-		width : 150px;
-		height : 40px;
-		font-size : 14pt;
+	.add_favorite {
 		color : black;
-		background-color :white;
-		-moz-border-radius:10px;
-		-webkit-border-radius:10px;
-		border-radius:10px;
+		background-color : white;
+	}
+	
+	.remove_favorite {
+		color : white;
+		background-color : #408080;
 	}
 
-	#add_favorite span{
+	.add_favorite span, .remove_favorite span{
 		color : yellow;
 	}
 
-	#buy_btn {
+	#btns button {
 		width : 150px;
 		height : 40px;
-		color : white;
-		font-size : 14pt;
-		background-color : #04378c;
+		font-size : 14pt;	
 		-moz-border-radius:10px;
 		-webkit-border-radius:10px;
 		border-radius:10px;
 	}
 	
+	#buy_btn {
+		background-color : #04378c;
+		color : white;
+	}
+	
 	#btns button:hover {
 		background-color : #ba012b;
 		color : white;
+	}
+	
+	#guide_profile table {
+		border-spacing : 20px;
+		border-collapse : separate;
 	}
 
 	#guide_comment {
@@ -808,7 +883,6 @@
 					</td>
 					</c:if>
 				</tr>
-			
 				<tr style="font-size:12pt">
 					<td>
 						이메일 
@@ -858,10 +932,10 @@
 						<span class="glyphicon glyphicon-star" style="color:#ffcc33"></span> 
 						<span id="avg_point">${point}</span>
 					</td>
-					<td>			
+					<td>	
 					<c:choose>
 						<c:when test="${empty loginUser}">
-							<button id="notify" class="notify_default" disabled="true" title="로그인 후 신고해주세요">
+							<button id="notify" class="notify_default" title="로그인 후 신고해주세요">
 							<span class="glyphicon glyphicon-thumbs-down"></span>
 							</button>
 							&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
@@ -893,7 +967,8 @@
 								&nbsp;<span id="print_notify">${guideItem.gui_notify}</span>
 							</c:if>	
 						</c:otherwise>
-					</c:choose>					
+					</c:choose>	
+								
 					</td>
 				</tr>
 				<tr>
@@ -904,22 +979,18 @@
 							로그인 사용자 id == 구매 목록 id && 후기 목록에 없음 => 별점 입력창
 							로그인 사용자 id == 구매 목록 id && 후기 목록에 있음 => 별점 수정창 
 						</c:when>
-						<c:otherwise>
-							<h4>해당 여행상품을 이용하신 분만 별점을 남길 수 있습니다.</h4>
-						</c:otherwise>
+						
 					</c:choose>
 					
-					<c:if test="${!empty loginUser}">
-						<span class="star_point">
-							<a href="#" class="on">★</a>
-							<a href="#" class="on">★</a>
-							<a href="#" class="on">★</a>
-							<a href="#">★</a>
-							<a href="#">★</a>
-						</span>
-						<span style="font-size:12pt; margin-left:5%"><span id="selected_point">3</span>점</span>&nbsp;
-						<button class="btn btn-default" id="send_star_point">별점 주기</button>
-					</c:if>	
+					<span class="star_point">
+						<a href="#" class="on">★</a>
+						<a href="#" class="on">★</a>
+						<a href="#" class="on">★</a>
+						<a href="#">★</a>
+						<a href="#">★</a>
+					</span>
+					<span style="font-size:12pt; margin-left:5%"><span id="selected_point">3</span>점</span>&nbsp;
+					<button class="btn btn-default" id="send_star_point">별점 주기</button>
 					
 					</td>
 				</tr>
@@ -941,11 +1012,25 @@
 			<input type="text" name="" id="datepicker" value="날짜 선택">
 		</div>
 		<div class="col-md-6" id="btns">
-			<button id="add_favorite" onclick="add_favorite(this);" class"btn btn-default">
-			<span class="glyphicon glyphicon-star-empty"></span> 찜하기
+		
+		<c:choose>
+		<c:when test="${!empty favorList}">
+		<c:forEach var="f" items="${favorList}">
+			<c:if test="${loginUser.mb_id eq f.fa_mb_id}">
+				<button id="favorite" class="remove_favorite">
+					<span class="glyphicon glyphicon-star"></span> 보관 취소
+				</button>
+			</c:if>
+		</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<button id="favorite" class="add_favorite">
+				<span class="glyphicon glyphicon-star-empty"></span> 보관하기
 			</button>
-	
+		</c:otherwise>	
+		</c:choose>
 			<button id="buy_btn">구매하기</button>
+			
 		</div>
 		
 	</div>

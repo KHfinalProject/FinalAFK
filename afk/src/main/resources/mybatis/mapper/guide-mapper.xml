@@ -40,6 +40,12 @@
  	<result property="area_name" column="area_name" />
  	<result property="country_name" column="country_name" />
  	<result property="city_name" column="city_name" />
+ 
+ </resultMap>
+ 
+ <resultMap id="avgP" type="java.util.HashMap">
+ 	<result javaType="java.lang.Double" property="avg" column="avg(point)"/>
+ 	<result javaType="java.lang.String" property="board_no" column="board_no"/> 
  </resultMap>
  
  <sql id="search">
@@ -56,22 +62,43 @@
  
  <select id="getGuideMain" parameterType="map" resultMap="gItemList">
  	<![CDATA[
- 		select x.gui_no, x.gui_title, x.gui_content, x.gui_writer, 
+  		SELECT x.gui_no, x.gui_title, x.gui_content, x.gui_writer, 
  			x.gui_enrolldate, x.gui_loc_l, x.gui_loc_m, x.gui_loc_s,
  			x.gui_count, x.gui_point, x.gui_notify, x.gui_price, x.gui_map, x.gui_image
-		from(
-		    select rownum as rnum, a.gui_no, a.gui_title, a.gui_content,
+		FROM(
+		    SELECT rownum as rnum, a.gui_no, a.gui_title, a.gui_content,
 		    	a.gui_writer, a.gui_enrolldate, a.gui_loc_l, a.gui_loc_m,
 		    	a.gui_loc_s, a.gui_count, a.gui_point, a.gui_notify, 
 		    	a.gui_price, a.gui_map, a.gui_image	    	
-		    from(
-		        select *
-		        from guide_board
-		        order by #{code})a
-		    where rownum <= #{end})x
-		where x.rnum >= #{start}	
+		    FROM(
+		        SELECT *
+		        FROM guide_board
+		        ORDER BY ${code} desc
+		        )a
+		    WHERE rownum <= #{end})x
+		WHERE x.rnum >= #{start}
  	]]>
 		<include refid="search" />
+ </select> 
+ 
+ <select id="getSearchedList" resultType="gItem">
+ 	SELECT gui_no, gui_title, gui_content, gui_writer, gui_enrolldate, gui_loc_l, gui_loc_m, 
+ 		gui_loc_s, gui_count, gui_point, gui_notify, gui_price, gui_map, gui_image 
+ 	FROM guide_board
+ 	JOIN location_city on (gui_loc_s = city_no)
+ 	JOIN location_country using (country_no)
+	JOIN location_area using (area_no)
+ 	WHERE gui_title LIKE '%'||#{keyword}||'%'
+ 		OR gui_writer LIKE '%'||#{keyword}||'%'
+ 		OR gui_content LIKE '%'||#{keyword}||'%'
+ 		OR gui_loc_l LIKE '%'||#{keyword}||'%'
+ 		OR gui_loc_m LIKE '%'||#{keyword}||'%'
+ 		OR gui_loc_s LIKE '%'||#{keyword}||'%'
+ </select>
+ 
+ <select id="getAllFavorList" resultType="favorite">
+ 	SELECT * 
+ 	FROM guide_favorite
  </select>
  
  <select id="getAllItems" parameterType="map" resultMap="gItemList">
@@ -85,14 +112,21 @@
 		    	a.gui_loc_s, a.gui_count, a.gui_point, a.gui_notify, 
 		    	a.gui_price, a.gui_map, a.gui_image	    	
 		    FROM(
-		        select *
-		        from guide_board
-		        where gui_writer = #{writer}
-		        order by ${code}
+		        SELECT *
+		        FROM guide_board
+		        WHERE gui_writer = #{writer}
+		        ORDER BY ${code} desc
 		        )a
 		    WHERE rownum <= #{end})x
 		WHERE x.rnum >= #{start}
  	]]>
+ </select>
+ 
+ <select id="getGuideFavoriteList" parameterType="String" resultType="favorite">
+ 	SELECT fa_id, fa_mb_id, fa_bd_no
+ 	FROM guide_favorite
+ 	JOIN guide_board on (fa_bd_no = gui_no)
+ 	WHERE gui_writer = #{writer}
  </select>
  
  <select id="getGuideInfo" parameterType="String" resultType="Member">
@@ -122,10 +156,22 @@
  	WHERE board_no = #{itemNo} 
  </select>
  
+ <select id="getMyFavorList" resultType="favorite">
+ 	SELECT *
+ 	FROM guide_favorite
+ 	WHERE fa_mb_id = #{user}
+ </select>
+ 
  <select id="getNotifiedList" parameterType="int" resultType="notify">
  	SELECT * 
  	FROM guide_notify
  	WHERE board_no = #{itemNo}
+ </select>
+ 
+ <select id="getOneGuideFavoriteList" parameterType="int" resultType="favorite">
+ 	SELECT * 
+ 	FROM guide_favorite
+ 	WHERE fa_bd_no = #{itemNo}
  </select>
  
  <insert id="giveStarPoint" parameterType="map">

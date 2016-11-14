@@ -33,24 +33,25 @@
  </head>
  <body>
   <div id="container">
+  <jsp:include page="../header.jsp"/>
 	<div id="inner">	
 		<div id="select">
 			<div style="margin-top:50px">
 				<img src="#" width="100%" height="250px" border="1" alt="">
 			</div>
 			
-			<table>
+			<table id="guide_profile">
 				<tr>
 					<td style="font-size:22pt" id="guide_name">
 						${guide.mb_name} <input type="hidden" id="guide_id" value="${guide.mb_id}">
 					</td>
+					<c:if test="${loginUser.mb_id ne guide.mb_id}">	
 					<td>&nbsp;&nbsp;
-						<a href="/afk/msg">
-						<button type="button" class="btn btn-default">
+						<button type="button" class="btn btn-default" id="send_msg">
 							<span class="glyphicon glyphicon-envelope">쪽지보내기</span>
 						</button>
-						</a>
 					</td>
+					</c:if>
 				</tr>
 				<tr style="font-size:12pt">
 					<td align="left">
@@ -89,9 +90,11 @@
 				<tr>
 					<td>
 						<c:if test="${loginUser.mb_grade eq 2}">
+							<a href="/afk/guide/insertGuideForm">
 							<button type="button" class="btn btn-default btn-lg">
 							  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 글쓰기
 							</button>
+							</a>
 						</c:if>
 					</td>
 				</tr>
@@ -99,12 +102,6 @@
 		</div><!--end of div select-->
 		<div id="items">
 			<div id="sort_search">
-				<form action="guideMain" method="post" >
-				<input type="text" id="search_box" name="keyword" placeholder="검색어 입력">
-				<button id="search_icon" class="btn btn-default" type="submit">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-				</button>
-				</form>
 				<div id="select_order" class="btn-group" role="group">						
 					<button type="button" class="btn btn-default" onclick="load_select('gui_point')">별점순</button>	
 					<button type="button" class="btn btn-default" onclick="load_select('gui_count')">조회순</button>
@@ -126,13 +123,14 @@
 					</tr>
 					<tr>
 						<td align="left" style="text-overflow:ellipsis; overflow:hidden">
-						<nobr>${firstList.gui_title}</nobr>
-						
+						<nobr>${firstList.gui_title}</nobr>	
 						</td>
-						<td rowspan="2" align="right">
-							<button id="wish" onclick="add_favorite(this)">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+						<td id="info_td" rowspan="2" align="right">
+							<input type="hidden" id="favored" value="${firstList.gui_favorite }" />
+							<button id="favorite">
+								<span class="glyphicon glyphicon-star-empty"></span>
 							</button>
+							<input type="hidden" id="gui_no" value="${firstList.gui_no}"/>
 						</td>
 					</tr>
 					<tr>
@@ -142,6 +140,11 @@
 			</section>
 			</c:forEach>
 			</div><!-- end of loaded_item_list -->
+			
+			<div class="when_load_data">
+				<div class="spin"></div>
+				<h4>loading...</h4>
+			</div><!-- end of when_load_data -->
 			
 			<c:if test="${total > 4}"> 
 				<br>
@@ -158,6 +161,54 @@
 
  </body>
   <script>
+  /*별 클릭 시 즐겨찾기 추가 또는 삭제*/
+  function add_favorite(obj){
+	  var favored = $(obj).children('span').hasClass('glyphicon glyphicon-star');
+	  var itemNo = $(obj).next('input').val();
+	  var user = "${loginUser.mb_id}";
+	  
+	  if(user == ""){
+		  var check = confirm("로그인이 필요한 기능입니다. 로그인 화면으로 이동하시겠습니까?");
+		  if(check){
+			  location.href = "../loginView";
+		  }
+	  }else{
+		  if(favored === false){
+			  var check = confirm("즐겨찾기 리스트에 추가하시겠습니까?");
+			  if(check){
+				  $.ajax({
+					  url : "addFavorite",
+					  type : "post",
+					  data : {itemNo : itemNo, user : user},
+					  success : function(data){
+						  alert("즐겨찾기 리스트에 저장되었습니다");
+						  $(obj).children('span').attr('class', 'glyphicon glyphicon-star');
+					  },
+					  error : function(e){
+						  alert("즐겨찾기 추가 실패..ㅠ");
+					  }
+				  }) 
+			  } 
+		  }else{
+			  var check = confirm("즐겨찾기 리스트에서 삭제하시겠습니까?");
+			  if(check){
+				  $.ajax({
+					  url : "removeFavorite",
+					  type : "post",
+					  data : {itemNo : itemNo, user : user},
+					  success : function(data){
+						  alert("즐겨찾기 리스트에서 삭제되었습니다");
+						  $(obj).children('span').attr('class', 'glyphicon glyphicon-star-empty');
+					  },
+					  error : function(e){
+						  alert("즐겨찾기 삭제 실패..ㅠ");
+					  }
+				  }) 
+			  }
+		  }  
+	  }
+  }   
+  
   /*달력용*/
 	  var dates = new Array();
   	  //테스트용 
@@ -238,36 +289,6 @@
 	      });
 	  });
   
-  
-  /*별 클릭 시 찜하기 추가, 다시 클릭하면 삭제*/
-  function add_favorite(obj){
-	  var check = $(obj).children('span').hasClass('glyphicon glyphicon-star');
-	  if(check === false){
-		$(obj).children('span').attr('class', 'glyphicon glyphicon-star');
-		
-		$.ajax({
-			url : "addFavorite",
-			type : "post",
-			data : {user : user, itemNo : itemNo},
-			success : function(data){
-				alert("즐겨찾기에 보관되었습니다!");
-			}
-		});
-		
-	  }else{
-		$(obj).children('span').attr('class', 'glyphicon glyphicon-star-empty');
-		
-		$.ajax({
-			url : "removeFavorite",
-			type : "post",
-			data : {user : user, itemNo : itemNo},
-			success : function(data){
-				alert("즐겨찾기에서 삭제되었습니다!");
-			}
-		});
-	  }
-  }
-  
   var code = "gui_no";
   function load_select(cmd){
 	 
@@ -279,11 +300,14 @@
 			type : "post",
 			data : {code : code, writer : writer},
 			dataType : "json",
+			beforeSend : function(){
+				$(".when_load_data").css('display', 'block');
+			},
 			success : function(data){
+				$(".when_load_data").css('display', 'none');
 				console.log("success");
 				var result = "";
-				//var old = $("#loaded_item_list").html();
-				
+								
 				if(data.length > 0){
 					for(var i in data){
 						result += "<section id='item_box'>";
@@ -293,9 +317,11 @@
 						result += "<img src='" + data[i].gui_image+ "' width='400px' height='450px' class='img-rounded'>";
 						result += "</a></td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
 						result += "<nobr>" + data[i].gui_title + "</nobr></td><td rowspan='2' align='right'>";
-						result += "<button id='wish' onclick='add_favorite(this)'>";
+						result += "<input type='hidden' id='favored' value='" + data[i].gui_favorite + "'/>";
+						result += "<button id='favorite' onclick='add_favorite(this)'>";
 						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
-						result += "</button></td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
+						result += "</button><input type='hidden' id='gui_no' value='" + data[i].gui_no + "'/>";
+						result += "</td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
 						result += "</tr></table></section>";
 					}
 					
@@ -307,6 +333,15 @@
 				$('#loaded_item_list').html(result);
 				$('#paging_count').val(1);
 				$('#paging_code').val(code);
+				
+				$('#item_info #favored').each(function(){
+					var favored = $(this).val();
+					
+					if(favored == 'y'){
+						var span = $(this).next('button').children('span');
+						span.attr('class', 'glyphicon glyphicon-star');
+					}
+				});
 								
 			},
 			error : function(e){
@@ -331,7 +366,11 @@
 			type : "post",
 			data : {page : count, code : code, writer : writer},
 			dataType : "json",
+			beforeSend : function(){
+				$(".when_load_data").css('display', 'block');
+			},
 			success : function(data){
+				$(".when_load_data").css('display', 'none');
 				console.log("success");
 				var result = "";
 				var old = $("#loaded_item_list").html();
@@ -345,9 +384,11 @@
 						result += "<img src='" + data[i].gui_image+ "' width='400px' height='450px' class='img-rounded'>";
 						result += "</a></td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
 						result += "<nobr>" + data[i].gui_title + "</nobr></td><td rowspan='2' align='right'>";
-						result += "<button id='wish' onclick='add_favorite(this)'>";
+						result += "<input type='hidden' id='favored' value='" + data[i].gui_favorite + "'/>";
+						result += "<button id='favorite' onclick='add_favorite(this)'>";
 						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
-						result += "</button></td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
+						result += "</button><input type='hidden' id='gui_no' value='" + data[i].gui_no + "'/>";
+						result += "</td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
 						result += "</tr></table></section>";
 					}
 					
@@ -357,7 +398,16 @@
 				}
 				
 				$('#loaded_item_list').html(old + result);
-								
+				$('#paging_count').val(count);	
+				
+				$('#item_info #favored').each(function(){
+					var favored = $(this).val();
+					
+					if(favored == 'y'){
+						var span = $(this).next('button').children('span');
+						span.attr('class', 'glyphicon glyphicon-star');
+					}
+				});								
 			},
 			error : function(e){
 				console.log("error");
@@ -366,6 +416,49 @@
 		});
 	});
 	
+	//쪽지 보내기 버튼 클릭 시 새로 form 생성하여 메시지 송수신 페이지로 이동
+	$('#send_msg').on('click', function(){
+		var guide_id = $('#guide_id').val();
+		var loginUser = "${loginUser.mb_id}";
+		
+		if(loginUser == ""){
+			  var check = confirm("로그인이 필요한 기능입니다. 로그인 화면으로 이동하시겠습니까?");
+			  if(check){
+				  location.href = "../loginView";
+			  }
+		}else{
+			var form = document.createElement("form");
+			form.method = 'get';
+			form.action = '/afk/msg';
+			
+			var input = document.createElement("input");
+			input.type = "hidden";
+			input.name = "guideId";
+			input.value = guide_id;
+			$(form).append(input);
+			
+			var input = document.createElement("input");
+			input.type = "hidden";
+			input.name = "loginId";
+			input.value = loginUser;
+			$(form).append(input);
+			
+			$('#body').append(form);
+			form.submit();
+			
+		}		
+	});
+	
+	/*각 아이템 박스마다 체크하여 로그인한 사용자가 즐겨찾기한 아이템이면 다른 클래스 적용 */
+	$('#item_info #favored').each(function(){
+		var favored = $(this).val();
+		
+		if(favored == 'y'){
+			var span = $(this).next('button').children('span');
+			span.attr('class', 'glyphicon glyphicon-star');
+		}
+	});		  
+		
   });
   
   </script>
@@ -440,6 +533,11 @@
 		text-align : center;
 		transition : top 0.2s ease-in-out;
 	}
+	
+	#guide_profile {
+		border-spacing : 20px;
+		border-collapse : separate;
+	}
 
 	.select_top {
 		position : absolute;
@@ -480,17 +578,17 @@
 		font-size : 20px;
 	}
 	
-	#wish{
+	#favorite{
 		background-color: Transparent;
 	    background-repeat:no-repeat;
 	    border: none;
 	    cursor:pointer;
 	    overflow: hidden;
 	    outline:none;
-	    color: #ffcc66
+	    color: #ffcc66;
 	}
 	
-	#wish .glyphicon {
+	#favorite .glyphicon {
 		font-size : 30px;
 	}
 
@@ -508,6 +606,47 @@
 	#search_box {
 		border : none;
 		border-bottom : 1px solid #000066;
+	}
+
+	/*ajax로 데이터 추가 로딩에 시간 지연 시 로딩 화면 보임*/
+	.when_load_data{ 
+	  border:0;
+	  width:300px;
+	  height : 200px; 
+	  padding:0px;
+	  text-align : center;
+	  position : relative;
+	  bottom : 500px;
+	  z-index : 99999;
+	  background-color : rgb(182, 182, 182);
+	  opacity : 0.95;
+	  display : none;
+	}
+	
+	.spin {
+		position : absolute;
+		top : -10px;
+		height: 70px;
+	 	width: 70px;
+	  	margin-top : 70px;
+	  	margin-left : 115px;
+	  	border-radius: 50%;
+	  	border:dashed 5px white;
+	  	-webkit-animation-name: spin;
+	  	-webkit-animation-duration: 1.5s;
+	  	-webkit-animation-iteration-count: infinite;
+	  	-webkit-animation-timing-function: linear;
+	}
+	
+	.when_load_data h4 {
+		position : absolute;
+		top : 130px;
+		left : 115px;
+	}
+	
+	@-webkit-keyframes spin {
+		  from   {  -webkit-transform: rotate(0deg); }
+		  to   {  -webkit-transform: rotate(360deg); }
 	}
 
 	/*달력용*/

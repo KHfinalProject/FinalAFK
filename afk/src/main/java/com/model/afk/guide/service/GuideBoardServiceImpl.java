@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model.afk.guide.dao.GuideBoardDao;
+import com.model.afk.guide.vo.GuideFavorite;
 import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.guide.vo.NotifyGItem;
 import com.model.afk.guide.vo.StarPoint;
@@ -26,6 +27,11 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	}
 	
 	@Override
+	public List<GuideFavorite> getAllFavorList() {
+		return guideBoardDao.getAllFavorList();
+	}
+	
+	@Override
 	public List<GuideItem> getAllGuides(int page) {
 		return null ;
 	}
@@ -33,6 +39,11 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	@Override
 	public List<GuideItem> getAllItems(String writerNo, int page, String code) {
 		return guideBoardDao.getAllItems(writerNo, page, code);
+	}
+	
+	@Override
+	public List<GuideFavorite> getGuideFavoriteList(String writer) {
+		return guideBoardDao.getGuideFavoriteList(writer);
 	}
 
 	@Override
@@ -74,6 +85,11 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 	@Override
 	public List<NotifyGItem> getNotifiedList(int itemNo) {
 		return guideBoardDao.getNotifiedList(itemNo);
+	}
+	
+	@Override
+	public List<GuideFavorite> getOneGuideFavoriteList(int itemNo) {
+		return guideBoardDao.getOneGuideFavoriteList(itemNo);
 	}
 	
 	@Override
@@ -137,6 +153,21 @@ public class GuideBoardServiceImpl implements GuideBoardService{
 		map.put("end", testNo + 4);
 		return guideBoardDao.paging(map);
 	}
+
+	@Override
+	public List<GuideFavorite> getMyFavorList(String user) {	
+		return guideBoardDao.getMyFavorList(user);
+	}
+
+	@Override
+	public List<GuideItem> getSearchedList(String keyword) {
+		return guideBoardDao.getSearchedList(keyword);
+	}
+
+	
+	
+
+	
 
 
 

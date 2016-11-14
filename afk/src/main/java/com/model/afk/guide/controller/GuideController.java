@@ -23,6 +23,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import com.model.afk.guide.service.GuideBoardService;
 import com.model.afk.guide.service.GuideCommentService;
 import com.model.afk.guide.vo.GuideComment;
+import com.model.afk.guide.vo.GuideFavorite;
 import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.guide.vo.NotifyGItem;
 import com.model.afk.guide.vo.StarPoint;
@@ -44,42 +45,53 @@ public class GuideController {
 	
 	//가이드 메인 페이지의 틀 로딩
 	@RequestMapping("/guideMain")
-	public String getGuideMain(Model model, 
+	public String getGuideMain(Model model, HttpSession session, 
 			@RequestParam(value="page", defaultValue="1") int page,
 			@RequestParam(value="code", defaultValue="gui_no") String code, String keyword){
 		System.out.println("======================guideMain=============");
 		
 		//DB에서 GuideItem list 가져옴 
 		List<GuideItem> list = guideBoardService.getGuideList(page, code, keyword);
-		list = getImagePath(list); //GuideItem 객체의 gui_content 중 이미지를 찾아 대표이미지로 만들고, 없으면 임의 사진을 넣어 리스트 재정비
+		list = getImageAndFavor(session, list); //GuideItem 객체의 gui_content 중 이미지를 찾아 대표이미지로 만들고, 없으면 임의 사진을 넣어 리스트 재정비
 		
 		model.addAttribute("list", list);
-			
-		System.out.println(list.toString());
+		
+		System.out.println("list : " + list.toString());
 			
 		return "guide/main";
 	}
 	
 	//가이드 메인 페이지에서 더보기 클릭 시 추가 데이터 로딩
 	@RequestMapping("/guideMore")
-	public @ResponseBody List<GuideItem> getMoreGuideItems(@RequestParam(value="page", defaultValue="1") int page,
+	public @ResponseBody List<GuideItem> getMoreGuideItems(HttpSession session, 
+			@RequestParam(value="page", defaultValue="1") int page,
 			@RequestParam(value="code", defaultValue="gui_no") String code, String keyword) throws Exception{
 		System.out.println("======================guideMore====================");
 		List<GuideItem> list = guideBoardService.getGuideList(page, code, keyword);
-		list = getImagePath(list);		
+		list = getImageAndFavor(session, list);		
+		
+		return list;
+	}
+	
+	@RequestMapping("/guideSearch")
+	public @ResponseBody List<GuideItem> getSearchedList(HttpSession session, 
+			@RequestParam String keyword) throws Exception{
+		System.out.println("======================guideSearch");
+		List<GuideItem> list = guideBoardService.getSearchedList(keyword);
+		list = getImageAndFavor(session, list);
 		
 		return list;
 	}
 	
 	//가이드 아이디 클릭 시 해당 가이드의 페이지로 이동
 	@RequestMapping("/guideSub")
-	public String getAllItems(Model model, @RequestParam String writer, 
+	public String getAllItems(Model model, HttpSession session, @RequestParam String writer, 
 			@RequestParam(value="page", defaultValue="1") int page,
 			@RequestParam(value="code", defaultValue="gui_no") String code){
 		System.out.println("=====================guideSub======================");
 			
 		List<GuideItem> list = guideBoardService.getAllItems(writer, page, code); 
-		list = getImagePath(list);
+		list = getImageAndFavor(session, list);
 		Member guide = guideBoardService.getGuideInfo(writer); //해당 페이지의 가이드 기본 정보 가져옴(Member 타입)
 		int total = guideBoardService.getTotalCount(writer); //해당 가이드가 등록한 상품의 총수량 카운트
 					
@@ -94,19 +106,22 @@ public class GuideController {
 
 	//서브 페이지에서 더보기 클릭 시 추가 데이터 로딩
 	@RequestMapping("/subMore")
-	public @ResponseBody List<GuideItem> getMoreSub(@RequestParam String writer, 
+	public @ResponseBody List<GuideItem> getMoreSub(HttpSession session, 
+			@RequestParam String writer, 
 			@RequestParam(value="page", defaultValue="1") int page,
 			@RequestParam(value="code", defaultValue="gui_no") String code){
 		System.out.println("===========================subMore============================");
 		
 		List<GuideItem> list = guideBoardService.getAllItems(writer, page, code);
-		list = getImagePath(list);	
+		list = getImageAndFavor(session, list);	
 		
 		return list;		
 	}	
 	
-	//gui_content 중 첨부된 이미지가 있을 시 대표 이미지로 사용하게 하는 메소드
-	public List<GuideItem> getImagePath(List<GuideItem> list){
+	//대표 이미지 및 즐겨찾기 추가 여부 추가해서 가이드 상품 목록 리턴
+	public List<GuideItem> getImageAndFavor(HttpSession session, List<GuideItem> list){
+		
+		//gui_content 중 첨부된 이미지가 있을 시 대표 이미지로 사용
 		String img_path = "";
 		for(GuideItem g : list){
 			String e = g.getGui_content();
@@ -120,8 +135,36 @@ public class GuideController {
 				g.setGui_image("../resources/images/guide/tempthumb.jpg");
 			}				
 		}
+		
+		//로그인한 사용자가 추가한 즐겨찾기가 있는지 체크하여 객체에 추가
+		Member user = (Member) session.getAttribute("loginUser");
+		List<GuideFavorite> myFavorList = null; 
+		
+		if(user != null){
+			
+			//로그인한 아이디를 DB에서 조회, 해당 사용자의 즐겨찾기 목록 가져옴
+			myFavorList = guideBoardService.getMyFavorList(user.getMb_id());
+			System.out.println("myFavorList : " + myFavorList.toString());
+			
+			if(myFavorList != null){
+				for(int i = 0; i < list.size(); i++){
+					for(int j = 0; j < myFavorList.size(); j++){
+						if(list.get(i).getGui_no() == myFavorList.get(j).getFa_bd_no()){
+							list.get(i).setGui_favorite('y');
+						}else
+							list.get(i).setGui_favorite('n');
+					}//end of inner for
+				}//end of outer for
+			}
+		}else{
+			for(GuideItem g : list){
+				g.setGui_favorite('n');
+			}
+		}
+		
 		return list;
 	}
+	
 
 	//상품 사진 클릭 시 해당 상품 상세 페이지로 이동
 	@RequestMapping("/guideDetail")
@@ -137,6 +180,7 @@ public class GuideController {
 		Member guide = null;
 		List<StarPoint> pointList = null;
 		List<NotifyGItem> notifiedList = null;
+		List<GuideFavorite> favorList = null;
 		
 		double avgPoint = 0;
 				
@@ -149,6 +193,7 @@ public class GuideController {
 			pointList = guideBoardService.getPointList(itemNo); //해당 상품에 매겨진 별점 목록
 			avgPoint = getAvgStarPoint(itemNo); //해당 상품의 별점 평균
 			notifiedList = guideBoardService.getNotifiedList(itemNo); //해당 상품을 신고한 유저 목록
+			favorList = guideBoardService.getOneGuideFavoriteList(itemNo);
 		}			
 		
 		System.out.println("guide : " + guide.toString());
@@ -161,7 +206,7 @@ public class GuideController {
 		model.addAttribute("guide", guide);
 		model.addAttribute("pointList", pointList);
 		model.addAttribute("notifiedList", notifiedList);
-		System.out.println("notifiedList : " + notifiedList.toString());
+		model.addAttribute("favorList", favorList);
 		model.addAttribute("point", avgPoint);
 				
 		return "guide/detail";
@@ -252,14 +297,25 @@ public class GuideController {
 	}	
 	
 	@RequestMapping("/addFavorite")
-	public void addFavoriteGI(String user, int itemNo){
+	public @ResponseBody int addFavoriteGI(@RequestParam String user, @RequestParam int itemNo){
+		System.out.println("====================addFavorite==================");
 		int result = guideBoardService.addFavoriteGI(user, itemNo);
+		
+		if(result > 0)
+			System.out.println("즐겨찾기 추가 성공");
+		
+		return result;
 	}
 	
 	@RequestMapping("/removeFavorite")
-	public void removeFavoriteGI(String user, int itemNo){
+	public @ResponseBody int removeFavoriteGI(@RequestParam String user, @RequestParam int itemNo){
+		System.out.println("====================removeFavorite==================");
 		int result = guideBoardService.removeFavoriteGI(user, itemNo);
 		
+		if(result > 0)
+			System.out.println("즐겨찾기 해제 성공");
+		
+		return result;
 	}
 	
 	public String searchGuide(Model model, String keyword){
