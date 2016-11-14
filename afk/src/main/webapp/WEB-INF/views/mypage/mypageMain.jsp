@@ -403,7 +403,7 @@
 									$("#mywishContent").append("<div class='mycontent'>"+ json.list[i].writer + ", " 
 															+ "<a href='/afk/guide/guideDetail?itemNo="+ json.list[i].gno +"&writer="+ json.list[i].writer +"'><h3>" 
 															+ decodeURIComponent(json.list[i].title.replace(Ca, " ")) 
-															+"</h3></a><div class='delMywish' style='float:right; margin-right: 2%; cursor:pointer;'>"
+															+"</h3></a><div class='delMywish' style='float:right; margin-right: 2%; cursor:pointer;'><div style='width:40%; ' ></div>"
 															+"<img src='resources/images/mypage/heart4.png' title='클릭시 리스트에서 제거됩니다.'></img>"
 															+"<input type='hidden' name='delMyWish' value='"+ json.list[i].gno +"'></div></div><br>");
 								}
