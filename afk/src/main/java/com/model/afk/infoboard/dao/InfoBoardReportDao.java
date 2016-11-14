@@ -17,7 +17,6 @@ public class InfoBoardReportDao {
 	}
 
 	public InfoReportVO selectBoardReport(InfoReportVO vo) {
-		System.out.println(vo);
 		return sql.selectOne(NAMESPACE + "selectBoardReport", vo);
 	}
 

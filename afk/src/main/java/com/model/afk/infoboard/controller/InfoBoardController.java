@@ -156,7 +156,8 @@ public class InfoBoardController {
 		 //즐겨찾기 상태를 가져오는 메소드
 		 InfoReportVO report = null;
 		 report = brsvc.selectBoardReport(vo);
-		 System.out.println("그 결과는 ? : " + report);	
+		 System.out.println("그 결과는 ? : " + report);
+		 System.out.println("그런거 없구요");
 		
 		 return report;
 	 }

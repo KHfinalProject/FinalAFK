@@ -86,7 +86,7 @@
 		</div>
 		<div class="detail-board">
 			<div class="detail-content">
-				내용<br> 내용<br> 내용<br>
+				내용 이것도 내용이다<br> 내용<br> 내용<br>
 				<br> 내용<br> 내용<br> 내용<br> 내용<br> 내용<br>
 				내용<br> 내용<br> 내용<br> 내용<br> 내용<br>
 			</div>
@@ -167,16 +167,16 @@
        			type : "post",
        			dataType : "json",
        			success : function(data){
-       				if(data != null){
-       					$(".report").html("<img src='/afk/resources/images/favorite_check.png' onclick='favDelete(" + data.fa_id + ")'>");
-       				}else{
-       					$(".report").html("<img src='/afk/resources/images/favorite_none.png' onclick='favInsert()'>");
-       				}
+       				//값이 null이 아닐 시
+       				$(".report").html("<img src='/afk/resources/images/favorite_check.png' onclick='favDelete(" + data.fa_id + ")'>");
+        		},error : function(data){
+        			//값이 null일 시
+       				$(".report").html("<img src='/afk/resources/images/favorite_none.png' onclick='favInsert()'>");
         		}		
         	})
         }
         
-        //즐겨찾기 아이콘을 클릭시 이 자바스크립트가 발동
+        //즐겨찾기 아이콘을 클릭시 즐겨찾기 추가 ajax발동
         function favInsert(){
         	$.ajax({
         		url : "/afk/infoboard/insertBoardReport",
@@ -184,7 +184,6 @@
         		type : "post",
         		dataType : "json",
         		success : function(data){
-        			console.log(data);
         			if(data > 0){
         				$(".report").empty();
         				favselect();
@@ -193,6 +192,7 @@
         	})
         }
         
+      //즐겨찾기 아이콘을 클릭시 즐겨찾기 삭제 ajax발동
         function favDelete(no){
         	$.ajax({
         		url : "/afk/infoboard/deleteBoardReport",
@@ -200,7 +200,6 @@
         		type : "post",
         		dataType : "json",
         		success : function(data){
-        			console.log(data);
         			if(data > 0){
         				$(".report").empty();
         				favselect();
