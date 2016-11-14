@@ -156,7 +156,7 @@
 													 + decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) + "</div></td>" 
 													 +"<td width='25%'>"
 													 +"<div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'></div></div></div></td></tr>"
-													 +"<tr><td>" + json.list[i].rid + "에게  <samll>" + json.list[i].sendDate + "</small> 보냄</td>" 
+													 +"<tr><td><small>" + json.list[i].sendDate + "에 보냄</small></td>" 
 													 +"<td>" + json.list[i].sid + "</td></tr></table></div>");
 							}
 							else{
@@ -169,7 +169,7 @@
 													 +"<td style='word-break:break-all'>" + decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) 
 													 +"</td></tr>"
 													 +"<tr><td>" + json.list[i].sid + "</td>"
-													 +"<td style='float:right'><small>view date<small></td></tr></table></div>");
+													 +"<td style='float:right'><small>"+ json.list[i].sendDate +"에 보냄<small></td></tr></table></div>");
 							}
 						}
 					}
@@ -217,8 +217,12 @@
 													 +"<input type='hidden' name='pno' value='" + json.list[i].mes_no + "'>" 
 													 + decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) + "</div></td>" 
 													 +"<td width='25%'>"
-													 +"<div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'></div></div></div></td></tr>"
-													 +"<tr><td>" + json.list[i].rid + "에게  <samll>" + json.list[i].sendDate + "</small> 보냄</td>" 
+													 +"<div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'>"
+													 +"<c:if test='${empty loginUser.mb_rename_pic}'><img src='resources/images/mypage/jo.jpg'></c:if>"
+													 +"<c:if test='${!(loginUser.mb_rename_pic eq null)}'>"
+													 +"<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic }' style='width:100%;'>"
+													 +"</c:if></div></div></div></td></tr>"
+													 +"<tr><td><small>" + json.list[i].sendDate + "</small>에 보냄</td>" 
 													 +"<td>" + json.list[i].sid + "</td></tr></table></div>");
 							}
 							else if(json.list[i].rid == askId){
@@ -226,12 +230,15 @@
 													 +"<table class='table'>"
 													 +"<tr><td width='25%'>"
 													 +"<input type='hidden' name='pno' value='" + json.list[i].mes_no + "'>"
-													 +"<div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/h.jpg'>"
-													 +"</div></div></div></td>"
+													 +"<div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'>"
+													 +"<c:if test='${empty loginUser.mb_rename_pic}'><img src='resources/images/mypage/jo.jpg'></c:if>"
+													 +"<c:if test='${!(loginUser.mb_rename_pic eq null)}'>"
+													 +"<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic }' style='width:100%;'>"
+													 +"</c:if></div></div></div></td>"
 													 +"<td style='word-break:break-all'>" + decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) 
 													 +"</td></tr>"
 													 +"<tr><td>" + json.list[i].sid + "</td>"
-													 +"<td style='float:right'><small>view date<small></td></tr></table></div>");
+													 +"<td style='float:right'><small>"+ json.list[i].sendDate +"에 보냄<small></td></tr></table></div>");
 							}
 						}
 					}
@@ -253,16 +260,16 @@
 			var grade = '${loginUser.mb_grade}';
 			if(grade == 3){
 				msglist();
-				alert('3');
+				//alert('3');
 			}else if(grade == 2){
 				msglistGuide();
-				alert('2');
+				//alert('2');
 			}
 		});
 	</script>
  </head>
  <body>
-<jsp:include page="../header.jsp" flush="true"/>
+<jsp:include page="../header.jsp" flush="false"/>
 	<div class="container">
 		<div class="row" >
 			<h2><span class="page-header">문의하기</span><small> &nbsp; 궁금한 점을 직접 물어보세요! </small></h2><br>
@@ -321,7 +328,6 @@
 		
 	<!-- <div class="container"> -->
 	</div>
-  <hr>
-  footer
+<jsp:include page="../footer.jsp" flush="false"/>
  </body>
 </html>

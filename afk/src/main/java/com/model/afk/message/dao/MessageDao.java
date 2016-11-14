@@ -22,11 +22,6 @@ public class MessageDao {
 		
 	}
 	
-	public MessageVO getMsgDetail(MessageVO mvo){
-		return mvo;
-		
-	}
-	
 	public int deleteMsgR(int msgNo){
 		return sqlSession.delete(NAMESPACE + "deletemsgR", msgNo);
 		
@@ -44,11 +39,6 @@ public class MessageDao {
 	
 	public int insertMsgG(MessageVO mvo){
 		return sqlSession.insert(NAMESPACE + "insertmsg", mvo);
-		
-	}
-	
-	public int updateOpen(MessageVO mvo){
-		return 0;
 		
 	}
 

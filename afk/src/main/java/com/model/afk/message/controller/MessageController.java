@@ -57,32 +57,14 @@ public class MessageController {
 		//마이페이지에서 메시지 리스트 보이게
 		List<MessageVO> msglist = ms.getMsgList(id);
 		System.out.println(msglist.toString());
-		/*JSONObject json = new JSONObject();
-		JSONArray jarr = new JSONArray();
-		
-		for(MessageVO list : msglist){
-			
-			JSONObject job = new JSONObject();
-			job.put("rid", list.getRecieve_id());
-			job.put("sid", list.getSend_id());
-			job.put("msgcontent", URLEncoder.encode(list.getMes_content(), "UTF-8"));
-			job.put("msgno", list.getMes_no());
-			job.put("rdel", list.getR_delyn());
-			job.put("sdel", list.getS_delyn());
-			
-			jarr.add(job);
-		}
-		
-		json.put("list", jarr);
-		System.out.println(json.toJSONString());
-		response.setContentType("application/json"); 
-		PrintWriter out = response.getWriter();
-		out.print(json.toJSONString());
-		out.flush();
-		out.close();*/
-		
-		//return msglist;
-		//return "redirect:/msg/messageDetail";
+		return msglist;
+	}
+	
+	@RequestMapping(value="/msglistG")
+	public @ResponseBody List<MessageVO> getMsgListG(@RequestParam("loginId") String id, HttpServletResponse response) throws Exception{
+		//마이페이지에서 메시지 리스트 보이게
+		List<MessageVO> msglist = ms.getMsgListG(id);
+		System.out.println(msglist.toString());
 		return msglist;
 	}
 	

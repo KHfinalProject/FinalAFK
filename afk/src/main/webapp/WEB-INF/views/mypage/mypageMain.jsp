@@ -51,7 +51,7 @@
 
 			.mycontent{
 				width: 100%; 
-				height: 200px; 
+				height: 150px; 
 				background-color:powderblue;
 				border-radius: 15px;
 			}
@@ -287,7 +287,7 @@
 					});
 			}
 			
-			//메시지 리스트
+			//일반 유저가 로그인시, 마이페이지에서 메시지 보낸 것만 보이게
 			function getmymsg(){
 				var loginId = "${loginUser.mb_id}";
 				$.ajax({
@@ -299,127 +299,86 @@
 						var str = "";
 						if(data.length > 0){
 							for(var i in data){
-								if(loginId == data[i].send_id){
-									if(data[i].s_delyn == "N"){	
-										$("#mymsgdiv").empty();
-										str += "<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" 
-										+ data[i].mes_content + "</div></td>" +
-										"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'>" +
-										"</div></div></div></td></tr><tr><td>" + data[i].recieve_id + "에게 보냄</td>" +
-										"<td>" + data[i].send_id + "</td></tr><tr><td colspan='2' style='text-align:center'>"
-										+"<c:if test='${loginUser.mb_grade == 3}'><a href='/afk/msg?guideId="+ data[i].recieve_id +"&loginId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a></c:if>"
-										+"<c:if test='${loginUser.mb_grade == 2}'><a href='/afk/msg/list?askId="+ data[i].send_id +"&gId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a></c:if>"
-										+" &nbsp; &nbsp; <button type='button' class='btn btn-default btn-lg' id='btnMsgDel'>삭제하기</button>"
-										+"<input type='hidden' id='msgno' value='"+data[i].mes_no +"'>"
-										+"<input type='hidden' id='rid' value='"+ data[i].recieve_id +"'>"
-										+"<input type='hidden' id='sid' value='"+ data[i].send_id +"'>"
-										+"</tr></table></div><hr><p></p>"
-									}else{
-										$("#mymsgdiv").empty();
-										$("#mymsgdiv").append("<br><center><h3><span>주고받은 메세지가 없습니다.</span></h3></center>");
-									}
-								}else if(loginId == data[i].recieve_id){
-									if(data[i].r_delyn == "N"){
-										$("#mymsgdiv").empty();
-										str += "<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" 
-										+ data[i].mes_content + "</div></td>" +
-										"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'>" +
-										"</div></div></div></td></tr><tr><td>" + data[i].recieve_id + "에게 보냄</td>" +
-										"<td>" + data[i].send_id + "</td></tr><tr><td colspan='2' style='text-align:center'>"
-										+"<c:if test='${loginUser.mb_grade == 3}'><a href='/afk/msg?guideId="+ data[i].recieve_id +"&loginId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a></c:if>"
-										+"<c:if test='${loginUser.mb_grade == 2}'><a href='/afk/msg/list?askId="+ data[i].send_id +"&gId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a></c:if>"
-										+" &nbsp; &nbsp; <button type='button' class='btn btn-default btn-lg' id='btnMsgDel'>삭제하기</button>"
-										+"<input type='hidden' id='msgno' value='"+data[i].mes_no +"'>"
-										+"<input type='hidden' id='rid' value='"+ data[i].recieve_id +"'>"
-										+"<input type='hidden' id='sid' value='"+ data[i].send_id +"'>"
-										+"</tr></table></div><hr><p></p>"
-									}else{
-										$("#mymsgdiv").empty();
-										$("#mymsgdiv").append("<br><center><h3><span>주고받은 메세지가 없습니다.</span></h3></center>");
-									}
+								if(data[i].send_id == loginId){
+								if(data[i].s_delyn == "N"){	
+									$("#mymsgdiv").empty();
+									str += "<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" 
+									+ data[i].mes_content + "</div></td>" +
+									"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'>"
+									+"<c:if test='${empty loginUser.mb_rename_pic}'><img src='resources/images/mypage/jo.jpg'></c:if>"
+									+"<c:if test='${!(loginUser.mb_rename_pic eq null)}'>"
+									+"<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic }' style='width:100%;'></c:if>"
+									+"</div></div></div></td></tr><tr><td>TO. " + data[i].recieve_id + "</td>" 
+									+"<td>FROM. " + data[i].send_id + "</td></tr><tr><td colspan='2' style='text-align:center'>"
+									+"<c:if test='${loginUser.mb_grade == 3}'><a href='/afk/msg?guideId="+ data[i].recieve_id +"&loginId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a></c:if>"
+									+"<c:if test='${loginUser.mb_grade == 2}'><a href='/afk/msg/list?askId="+ data[i].send_id +"&gId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a></c:if>"
+									+" &nbsp; &nbsp; <button type='button' class='btn btn-default btn-lg' id='btnMsgDel'>삭제하기</button>"
+									+"<input type='hidden' id='msgno' value='"+data[i].mes_no +"'>"
+									+"<input type='hidden' id='rid' value='"+ data[i].recieve_id +"'>"
+									+"<input type='hidden' id='sid' value='"+ data[i].send_id +"'>"
+									+"</tr></table></div><hr><p></p>"
 								}
 							}
-							
-							$("#mymsgdiv").append(str);
-						//alert("list");
-						/* if(data != null){	
-							var jsonStr = JSON.stringify(data);  //객체를 문자열로 변환
-							console.log(jsonStr);
-							var json = JSON.parse(jsonStr); //문자열을 배열 객체로 바꿈
-							console.log(json);
-							var Ca = /\+/g;
-							
-							if(json.list.length != 0){
-								$("#mymsgdiv").empty();
-								for(var i in json.list){
-									
-									/* for(var j = 1; j<json.list.length; j++){ */
-										/* if((json.list[i].sid == json.list[j].rid) && (json.list[i].rid == json.list[j].sid)){
-											if(json.list[i].msgno > json.list[j].msgno){ */
-											 /*if(("${loginUser.mb_id}" == json.list[i].sid) && (json.list[i].sdel == 'N')){
-												if("${loginUser.mb_grade}" == '3'){
-												$("#mymsgdiv").append("<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" 
-													+ decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) + "</div></td>" +
-													"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'>" +
-													"</div></div></div></td></tr><tr><td>" + json.list[i].rid + "에게 보냄</td>" +
-													"<td>" + json.list[i].sid + "</td></tr><tr><td colspan='2' style='text-align:center'>"+
-													"<a href='/afk/msg?guideId="+ json.list[i].rid +"&loginId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a>"
-													+" &nbsp; &nbsp; <button type='button' class='btn btn-default btn-lg' id='btnMsgDel'>삭제하기</button><input type='hidden' id='msgno' value='"+ json.list[i].msgno +"'></tr></table></div><hr><p></p>");
-												
-												}else if("${loginUser.mb_grade}" == '2'){
-													$("#mymsgdiv").append("<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" 
-															+ decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) + "</div></td>" +
-															"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'>" +
-															"</div></div></div></td></tr><tr><td>" + json.list[i].sid + "가 보냄</td>" +
-															"<td>" + json.list[i].rid + "</td></tr><tr><td colspan='2' style='text-align:center'>"+
-															"<a href='/afk/msg/list?askId="+ json.list[i].sid +"&guideId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a>"
-															+" &nbsp; &nbsp; <button type='button' class='btn btn-default btn-lg' id='btnMsgDel'>삭제하기</button><input type='hidden' id='msgno' value='"+ json.list[i].msgno +"'></tr></table></div><hr><p></p>");
-													
-												}
-											}else if(("${loginUser.mb_id}" == json.list[i].rid) && (json.list[i].rdel == 'N')){
-												if("${loginUser.mb_grade}" == '3'){
-													$("#mymsgdiv").append("<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" 
-														+ decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) + "</div></td>" +
-														"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'>" +
-														"</div></div></div></td></tr><tr><td>" + json.list[i].rid + "에게 보냄</td>" +
-														"<td>" + json.list[i].sid + "</td></tr><tr><td colspan='2' style='text-align:center'>"+
-														"<a href='/afk/msg?guideId="+ json.list[i].rid +"&loginId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a>"
-														+" &nbsp; &nbsp; <button type='button' class='btn btn-default btn-lg' id='btnMsgDel'>삭제하기</button><input type='hidden' id='msgno' value='"+ json.list[i].msgno +"'></tr></table></div><hr><p></p>");
-													
-													}else if("${loginUser.mb_grade}" == '2'){
-														$("#mymsgdiv").append("<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" 
-																+ decodeURIComponent(json.list[i].msgcontent.replace(Ca, " ")) + "</div></td>" +
-																"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'>" +
-																"</div></div></div></td></tr><tr><td>" + json.list[i].sid + "가 보냄</td>" +
-																"<td>" + json.list[i].rid + "</td></tr><tr><td colspan='2' style='text-align:center'>"+
-																"<a href='/afk/msg/list?askId="+ json.list[i].sid +"&guideId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a>"
-																+" &nbsp; &nbsp; <button type='button' class='btn btn-default btn-lg' id='btnMsgDel'>삭제하기</button><input type='hidden' id='msgno' value='"+ json.list[i].msgno +"'></tr></table></div><hr><p></p>");
-														
-													}
-												}
-												/*}  else{
-												
-												$("#mymsgdiv").append("<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" 
-														+ decodeURIComponent(json.list[j].msgcontent.replace(Ca, " ")) + "</div></td>" +
-														"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'><img src='img/p.jpg'>" +
-														"</div></div></div></td></tr><tr><td>" + json.list[j].rid + "에게 보냄</td>" +
-														"<td>" + json.list[j].sid + "</td></tr><tr><td colspan='2' style='text-align:center'>"+
-														"<a href='/afk/msg?guideId="+ json.list[j].rid +"&loginId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a>"
-														+" &nbsp; &nbsp; <button type='button' class='btn btn-default btn-lg' id='btnMsgDel'>삭제하기</button></tr></table></div><hr><p></p>");
-											} 
-											
-										}*/
-									/* } */ 
-									
-								/* } */ 	
-							}else{
-								$("#mymsgdiv").empty();
-								$("#mymsgdiv").append("<br><center><h3><span>주고받은 메세지가 없습니다.</span></h3></center>");
 							}
-						/* } */	
+							$("#mymsgdiv").append(str);
+							if($('#mymsgdiv').children().length == 0){
+								$("#mymsgdiv").empty();
+								str = "<br><center><h3><span>주고받은 메세지가 없습니다.</span></h3></center>"
+								$("#mymsgdiv").append(str);
+							}
+						}else{
+							$("#mymsgdiv").empty();
+							str = "<br><center><h3><span>주고받은 메세지가 없습니다.</span></h3></center>"
+						}		
 					}
-					
-				});		
+				});
+			}
+			
+			function getmymsgG(){
+				//가이드 로그인시 마이페이지에서 받은 메세지만 보이게
+				var loginId = "${loginUser.mb_id}";
+				$.ajax({
+					url : "msg/msglistG",
+					data : { loginId : loginId},
+					type: "post",
+					dataType : "json",
+					success : function(data){
+						var str = "";
+						if(data.length > 0){
+							for(var i in data){
+							if(data[i].recieve_id == loginId){
+								if(data[i].r_delyn == "N"){	
+									$("#mymsgdiv").empty();
+									str += "<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" 
+									+ data[i].mes_content + "</div></td>" +
+									"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'>"
+									+"<c:if test='${empty loginUser.mb_rename_pic}'><img src='resources/images/mypage/jo.jpg'></c:if>"
+									+"<c:if test='${!(loginUser.mb_rename_pic eq null)}'>"
+									+"<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic }' style='width:100%;'></c:if>"
+									+"</div></div></div></td></tr><tr><td>TO. " + data[i].recieve_id + "</td>" 
+									+"<td>FROM. " + data[i].send_id + "</td></tr><tr><td colspan='2' style='text-align:center'>"
+									+"<c:if test='${loginUser.mb_grade == 3}'><a href='/afk/msg?guideId="+ data[i].recieve_id +"&loginId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a></c:if>"
+									+"<c:if test='${loginUser.mb_grade == 2}'><a href='/afk/msg/list?askId="+ data[i].send_id +"&gId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a></c:if>"
+									+" &nbsp; &nbsp; <button type='button' class='btn btn-default btn-lg' id='btnMsgDel'>삭제하기</button>"
+									+"<input type='hidden' id='msgno' value='"+data[i].mes_no +"'>"
+									+"<input type='hidden' id='rid' value='"+ data[i].recieve_id +"'>"
+									+"<input type='hidden' id='sid' value='"+ data[i].send_id +"'>"
+									+"</tr></table></div><hr><p></p>"
+								}
+							}
+							}
+							$("#mymsgdiv").append(str);
+							if($('#mymsgdiv').children().length == 0){
+								$("#mymsgdiv").empty();
+								str = "<br><center><h3><span>주고받은 메세지가 없습니다.</span></h3></center>"
+								$("#mymsgdiv").append(str);
+							}
+						}else{
+							$("#mymsgdiv").empty();
+							str = "<br><center><h3><span>주고받은 메세지가 없습니다.</span></h3></center>"
+						}		
+					}
+				});
 			}
 			
 			function getmywish(){
@@ -444,7 +403,7 @@
 									$("#mywishContent").append("<div class='mycontent'>"+ json.list[i].writer + ", " 
 															+ "<a href='/afk/guide/guideDetail?itemNo="+ json.list[i].gno +"&writer="+ json.list[i].writer +"'><h3>" 
 															+ decodeURIComponent(json.list[i].title.replace(Ca, " ")) 
-															+"</h3></a><div class='delMywish' style='float:right; margin-right: 3%; cursor:pointer;'>"
+															+"</h3></a><div class='delMywish' style='float:right; margin-right: 2%; cursor:pointer;'>"
 															+"<img src='resources/images/mypage/heart4.png' title='클릭시 리스트에서 제거됩니다.'></img>"
 															+"<input type='hidden' name='delMyWish' value='"+ json.list[i].gno +"'></div></div><br>");
 								}
@@ -489,7 +448,7 @@
 		</script>
  </head>
  <body>
-<jsp:include page="../header.jsp" flush="true"/>
+<jsp:include page="../header.jsp" flush="false"/>
 <br>
 	<div class="container">
 		<div class="row" style=" background-color: rgba( 210, 210, 255, 0.3 ); border-radius:10px;">
@@ -550,8 +509,12 @@
 						<c:if test="${loginUser.mb_grade eq '3' }">
 						<li onclick="getmypay()"><a href="#myPay" data-toggle="tab" id="myPa">구매 리스트</a></li>
 						</c:if>
-						<li onclick="getReview()"><a href="#myReview" data-toggle="tab" id="myRe">후기 리스트</a></li>
+						<c:if test="${loginUser.mb_grade eq '3' }">
 						<li onclick="getmymsg()"><a href="#myMessage" data-toggle="tab" id="myMe">메세지 리스트</a></li>
+						</c:if>
+						<c:if test="${loginUser.mb_grade eq '2' }">
+						<li onclick="getmymsgG()"><a href="#myMessage" data-toggle="tab" id="myMe">메세지 리스트</a></li>
+						</c:if>
 						<c:if test="${loginUser.mb_grade eq '2' }">
 						<br>
 						<li onclick="getmymatching()"><a href="#myMatching" data-toggle="tab" id="myMa">매칭 리스트</a></li>
@@ -601,15 +564,14 @@
 						</div>
 						<br><br>
 					</div>
-					
-					<div class="tab-pane" id="myReview">
-						<h2><span class="page-header">내가 작성한 후기</span></h2><br>
-						<br><br>
-
-					</div>	
 
 					<div class="tab-pane" id="myMessage">
-						<h2><span class="page-header">나의 메세지</span></h2><br>
+						<c:if test="${loginUser.mb_grade eq '3' }">
+						<h2><span class="page-header">나의 메세지</span><small> &nbsp; 최근에 보낸 메세지만 보입니다. </small></h2><br>
+						</c:if>
+						<c:if test="${loginUser.mb_grade eq '2' }">
+						<h2><span class="page-header">나의 메세지</span><small> &nbsp; 최근에 받은 메세지만 보입니다. </small></h2><br>
+						</c:if>
 						<div class="mymessage" id="mymsgdiv">	
 						</div>
 						<br><br>
@@ -623,5 +585,6 @@
 		</div>
 	<!-- </div class="container"> -->
 	</div>
+<jsp:include page="../footer.jsp" flush="false"/>
 </body>
 </html>
