@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
@@ -99,10 +102,9 @@ public class MypageController implements ServletContextAware{
 		out.close();
 	}
 	
-	//@RequestMapping("")
-	public String getMyReviewList(Model model, HttpSession session){
+	@RequestMapping("/reviewlist")
+	public void getMyReviewList(Model model, HttpSession session){
 		//내가 쓴 후기 리스트 불러오는 기능
-		return null;
 	}
  
 	@RequestMapping(value="/updateMyProfile")
@@ -124,6 +126,7 @@ public class MypageController implements ServletContextAware{
 			mvo = ms.updateViewMember((Member)session.getAttribute("loginUser"));
 			mvo.setMb_original_pic(orgname);
 			mvo.setMb_rename_pic(newname);
+			session.setAttribute("loginUser", mvo);
 			mpgs.updateMyProfile(mvo);
 			f.transferTo(file);
 		}
@@ -132,15 +135,45 @@ public class MypageController implements ServletContextAware{
 
 	@RequestMapping("/deleteprofile")
 	public String deleteMyProfile(Member mvo, HttpSession session){
+		//프로필 사진 삭제
 		mvo = ms.updateViewMember((Member)session.getAttribute("loginUser"));
-		/*System.out.println(mvo);*/
-		int result = mpgs.deleteMyProfile(mvo);
-		/*if(result > 0 ){
-			System.out.println(result);
-			//mainMyPage();
-		}*/
+		mvo.setMb_original_pic(null);
+		mvo.setMb_rename_pic(null);
+		session.setAttribute("loginUser", mvo);
+		mpgs.deleteMyProfile(mvo);
 		
 		return "redirect:/mypage";
+	}
+	
+	@RequestMapping("/paylist")
+	public void getmyPaylist(){
+		//결제한 리스트 불러오기
+		
+	}
+	
+	@RequestMapping("/matchinglist")
+	public void getmyMatchinglist(){
+		//매칭된 목록 불러오기
+		
+	}
+	
+	@RequestMapping("/deletewish")
+	public String deleteMyWish(@RequestParam ("wishno") int gui_no, @RequestParam ("loginId") String id, HashMap<String, Object> map){
+		System.out.println(gui_no + ", " + id);
+		map.put("fa_mb_id", id);
+		map.put("fa_bd_no", gui_no);
+		int result = mpgs.deleteMyWish(map);
+		if(result > 0){
+			System.out.println("delete");
+		}
+		return "redirect:/mypage";
+	}
+	
+	@RequestMapping("/guidelist")
+	public @ResponseBody List<GuideItem> getmyGuideList(@RequestParam ("loginId") String gid){
+		List<GuideItem> glist = mpgs.selectmyGuide(gid); 
+		return glist;
+		
 	}
 	
 	@Override

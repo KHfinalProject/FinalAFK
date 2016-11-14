@@ -31,9 +31,17 @@ public class MessageController {
 	private MessageService ms;
 	
 	@RequestMapping("")
-	public String getMsgList(@RequestParam("guideId") String guideId, @RequestParam("loginId") String loginId, Model model){
+	public String getMsgList(@RequestParam("guideId") String guideId, Model model){
 		//문의 작성페이지로 이동
 		model.addAttribute("guideId", guideId);
+		return "message/messageDetail";
+	}
+	
+	@RequestMapping("/list")
+	public String getMsgListGuide(@RequestParam("gId") String gId, @RequestParam("askId") String askId, Model model){
+		//문의 작성페이지로 이동
+		model.addAttribute("gId", gId);
+		model.addAttribute("askId", askId);
 		return "message/messageDetail";
 	}
 	
@@ -44,12 +52,12 @@ public class MessageController {
 		return "message/messageDetail";
 	}*/
 	
-	@RequestMapping(value="/msglist", produces = "text/json; charset=UTF-8")
-	public String getMsgList(@RequestParam("loginId") String id, HttpServletResponse response) throws Exception{
+	@RequestMapping(value="/msglist")
+	public @ResponseBody List<MessageVO> getMsgList(@RequestParam("loginId") String id, HttpServletResponse response) throws Exception{
 		//마이페이지에서 메시지 리스트 보이게
 		List<MessageVO> msglist = ms.getMsgList(id);
 		System.out.println(msglist.toString());
-		JSONObject json = new JSONObject();
+		/*JSONObject json = new JSONObject();
 		JSONArray jarr = new JSONArray();
 		
 		for(MessageVO list : msglist){
@@ -58,6 +66,9 @@ public class MessageController {
 			job.put("rid", list.getRecieve_id());
 			job.put("sid", list.getSend_id());
 			job.put("msgcontent", URLEncoder.encode(list.getMes_content(), "UTF-8"));
+			job.put("msgno", list.getMes_no());
+			job.put("rdel", list.getR_delyn());
+			job.put("sdel", list.getS_delyn());
 			
 			jarr.add(job);
 		}
@@ -68,14 +79,16 @@ public class MessageController {
 		PrintWriter out = response.getWriter();
 		out.print(json.toJSONString());
 		out.flush();
-		out.close();
+		out.close();*/
 		
-		return "redirect:/msg/messageDetail";
+		//return msglist;
+		//return "redirect:/msg/messageDetail";
+		return msglist;
 	}
 	
 	@RequestMapping("/msgdetailList")
 	public List<MessageVO> msgDetailList(@RequestParam("loginId") String id, @RequestParam("guideId") String gid, HttpServletResponse response) throws Exception{
-		//주고받은 메세지 다 보이게
+		//일반 유저인 경우, 주고받은 메세지 다 보이게
 		MessageVO msgVO = new MessageVO(id, gid);
 		
 		List<MessageVO> msgdetailList = ms.getMsgDetailList(msgVO);
@@ -115,23 +128,90 @@ public class MessageController {
 		
 	}
 	
-	@RequestMapping("/msgdelete")
-	public String deleteMsg(@RequestParam("mesno") int mesNo, HttpSession session){
-		//해당 메세지 삭제하는 기능
-		return null;
+	@RequestMapping("/msgdetailListGuide")
+	public List<MessageVO> msgDetailListGuide(@RequestParam("askId") String id, @RequestParam("gId") String gid, HttpServletResponse response) throws Exception{
+		//가이드인 경우, 주고받은 메세지 다 보이게
+		MessageVO msgVO = new MessageVO(id, gid);
+		
+		List<MessageVO> msgdetailListR = ms.getMsgDetailList(msgVO);
+		System.out.println("메세지 디테일 리스트 가이드 : "+msgdetailListR.toString());
+		JSONObject json = new JSONObject();
+		JSONArray jarr = new JSONArray();
+		
+		DateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		
+		for(MessageVO list : msgdetailListR){
+			JSONObject job = new JSONObject();
+			job.put("rid", list.getRecieve_id());
+			job.put("sid", list.getSend_id());
+			job.put("msgcontent", URLEncoder.encode(list.getMes_content(), "UTF-8"));
+			job.put("mes_no", list.getMes_no());
+			
+			Date send = list.getSend_date();
+			String sendDate = sdFormat.format(send);			
+			job.put("sendDate", sendDate);
+			
+			Date view = list.getSend_date();
+			String viewDate = sdFormat.format(view);
+			job.put("viewDate", viewDate);
+			
+			jarr.add(job);
+		}
+		
+		json.put("list", jarr);
+		System.out.println(json.toJSONString());
+		response.setContentType("application/json"); 
+		PrintWriter out = response.getWriter();
+		out.print(json.toJSONString());
+		out.flush();
+		out.close();
+		
+		return msgdetailListR;
+		
+	}
+	
+	@RequestMapping("/msgdeleteR")
+	public String deleteMsgR(@RequestParam("mesno") int mesNo){
+		//로그인유저와 받는사람이 같은 경우, 해당 메세지 삭제하는 기능
+		ms.deleteMsgR(mesNo);
+		return "redirect:/mypage";
+	}
+	
+	@RequestMapping("/msgdeleteS")
+	public String deleteMsgS(@RequestParam("mesno") int mesNo){
+		//로그인유저와 보낸 사람이 같은 경우, 해당 메세지 삭제하는 기능
+		ms.deleteMsgS(mesNo);
+		return "redirect:/mypage";
 	}
 	
 	@RequestMapping("/sendmsg")
-	public @ResponseBody int insertMsg(@RequestParam("sendid") String sender, @RequestParam("msgcontent") String msgcontent, @RequestParam("recieveid") String receiver){
+	public @ResponseBody int insertMsg(@RequestParam("parentno") int parentno, @RequestParam("sendid") String sender, @RequestParam("msgcontent") String msgcontent, @RequestParam("recieveid") String receiver){
 		//메세지 보내는 기능
 		MessageVO msg = new MessageVO();
 		msg.setSend_id(sender);
 		msg.setMes_content(msgcontent);
 		msg.setRecieve_id(receiver);
+		msg.setMes_no(parentno);
 		
 		int result = ms.insertMsg(msg);
 		if(result > 0){
-			System.out.println("msgController : " + sender + "가 " + receiver + "에게 " + msgcontent);
+			System.out.println("msgController : " + sender + "가 " + receiver + "에게 " + msgcontent +parentno);
+		}
+		return result;
+	}
+	
+	@RequestMapping("/sendmsgG")
+	public @ResponseBody int insertMsgG(@RequestParam("parentno") int parentno, @RequestParam("sendid") String sender, @RequestParam("msgcontent") String msgcontent, @RequestParam("recieveid") String receiver){
+		//메세지 보내는 기능
+		MessageVO msg = new MessageVO();
+		msg.setSend_id(sender);
+		msg.setMes_content(msgcontent);
+		msg.setRecieve_id(receiver);
+		msg.setMes_no(parentno);
+		
+		int result = ms.insertMsg(msg);
+		if(result > 0){
+			System.out.println("msgController : " + sender + "가 " + receiver + "에게 " + msgcontent +parentno);
 		}
 		return result;
 	}

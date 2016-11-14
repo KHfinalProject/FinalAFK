@@ -1,6 +1,8 @@
 package com.model.afk.mypage.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +39,13 @@ public class MypageDao {
 
 	public int deleteMyProfile(Member mvo) {
 		return sqlSession.delete(NAMESPACE + "deleteMyProfile", mvo);
+	}
+
+	public int deleteMyWish(HashMap<String, Object> map) {
+		return sqlSession.delete(NAMESPACE + "deleteMyWish", map);
+	}
+
+	public List<GuideItem> selectmyGuide(String gid) {
+		return sqlSession.selectList(NAMESPACE + "selectmyGuide", gid);
 	}
 }

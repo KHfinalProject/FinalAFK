@@ -47,9 +47,11 @@
 					</td>
 					<c:if test="${loginUser.mb_id ne guide.mb_id}">	
 					<td>&nbsp;&nbsp;
+						<a href="/afk/msg?guideId=${guide.mb_id}&loginId=${loginUser.mb_id}">
 						<button type="button" class="btn btn-default" id="send_msg">
 							<span class="glyphicon glyphicon-envelope">쪽지보내기</span>
 						</button>
+						</a>
 					</td>
 					</c:if>
 				</tr>

@@ -27,12 +27,22 @@ public class MessageDao {
 		
 	}
 	
-	public int deleteMsg(int mesNo, HttpSession session){
-		return mesNo;
+	public int deleteMsgR(int msgNo){
+		return sqlSession.delete(NAMESPACE + "deletemsgR", msgNo);
+		
+	}
+	
+	public int deleteMsgS(int msgNo){
+		return sqlSession.delete(NAMESPACE + "deletemsgS", msgNo);
 		
 	}
 	
 	public int insertMsg(MessageVO mvo){
+		return sqlSession.insert(NAMESPACE + "insertmsg", mvo);
+		
+	}
+	
+	public int insertMsgG(MessageVO mvo){
 		return sqlSession.insert(NAMESPACE + "insertmsg", mvo);
 		
 	}
