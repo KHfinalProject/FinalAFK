@@ -156,8 +156,6 @@ public class InfoBoardController {
 		 //즐겨찾기 상태를 가져오는 메소드
 		 InfoReportVO report = null;
 		 report = brsvc.selectBoardReport(vo);
-		 System.out.println("그 결과는 ? : " + report);
-		 System.out.println("그런거 없구요");
 		
 		 return report;
 	 }
@@ -181,21 +179,38 @@ public class InfoBoardController {
 		 return result;
 	 }
 	 
-	 public String insertBoardComment(InfoCommentVO vo){
-		 int result = bcsvc.insertBoardComment(vo);
-		 //댓글추가
-		 return null;
+	 @RequestMapping("selectBoardComment")
+	 public @ResponseBody List<InfoCommentVO> selectBoardComment(
+			 @RequestParam("bno") int bno){
+		 //댓글 목록을 불러오는 메소드
+		 System.out.println(bno);
+		 List<InfoCommentVO> list = null;
+		 list = bcsvc.selectBoardComment(bno);
+		 System.out.println(list);
+		 
+		 return list;
 	 }
-	 public String deleteBoardComment(int cno) {
-		 int result = bcsvc.deleteBoardComment(cno);
+	 
+	 @RequestMapping("insertBoardComment")
+	 public @ResponseBody int insertBoardComment(InfoCommentVO vo){
+		 //댓글 삽입하는 메소드
+		 System.out.println(vo);
+		 int result = 0;
+		 result = bcsvc.insertBoardComment(vo);
+		 System.out.println(result);
+		 
+		 return result;
+	 }
+	 
+	 @RequestMapping("deleteBoardComment")
+	 public @ResponseBody int deleteBoardComment(@RequestParam("cno") int cno) {
 		 //댓글삭제
-		 return null;
+		 int result = 0;
+		 result = bcsvc.deleteBoardComment(cno);
+		 
+		 return result;
 	 }
-	 public String updateBoardComment(InfoCommentVO vo){
-		 int result = bcsvc.updateBoardComment(vo);
-		 //댓글수정
-		 return null;
-	 }
+
 	 public String insertBoardPoint(InfoPointVO vo){
 		 int result = bpsvc.insertBoardPoint(vo);
 		 //평점주기

@@ -1,5 +1,7 @@
 package com.model.afk.infoboard.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,20 +14,16 @@ public class InfoBoardCommentServicImpl implements InfoBoardCommentService{
 	
 	@Override
 	public int insertBoardComment(InfoCommentVO vo) {
-		// TODO Auto-generated method stub
 		return dao.insertBoardComment(vo);
 	}
 
 	@Override
 	public int deleteBoardComment(int cno) {
-		// TODO Auto-generated method stub
 		return dao.deleteBoardComment(cno);
 	}
 
 	@Override
-	public int updateBoardComment(InfoCommentVO vo) {
-		// TODO Auto-generated method stub
-		return dao.updateBoardComment(vo);
+	public List<InfoCommentVO> selectBoardComment(int bno) {
+		return dao.selectBoardComment(bno);
 	}
-
 }

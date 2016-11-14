@@ -96,4 +96,20 @@
 		where fa_id = #{no}
 	</delete>
 	
+	<!-- 댓글 불러오기, 추가, 삭제 구간 -->
+	<select id="selectBoardComment" parameterType="InfoCmtVO" resultType="InfoCmtVO">
+		select *
+		from info_comment
+		where cm_board_no = #{bno}
+	</select>
+	
+	<insert id="insertBoardComment" parameterType="InfoCmtVO">
+		insert into info_comment
+		values(info_comment_seq.nextval, #{cm_writer}, #{cm_board_no}, #{cm_content}, sysdate)
+	</insert>
+	
+	<delete id="deleteBoardComment" parameterType="int">
+		delete from info_comment
+		where cm_no = #{cno}
+	</delete>
 </mapper>

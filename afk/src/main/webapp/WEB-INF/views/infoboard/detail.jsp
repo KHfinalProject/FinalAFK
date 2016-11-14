@@ -5,6 +5,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+#commentContent{
+	width: 980px;
+	background-color: #99cccc;
+	margin: 0 auto;
+	border-top: 1px solid #ccc;
+}
+#commentContent th{
+	padding: 10px;
+}
+#commentContent td{
+	text-align: left;
+	border-bottom: 1px solid #ccc;
+}
+</style>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css"
 	href="/afk/resources/css/boarddetail.css" />
@@ -95,11 +110,9 @@
 			<div class="detail-review">
 				<textarea class="comment" name="cm_content"
 					style="width: 700px; height: 80px; display: inline-block;"></textarea>
-				<input type="button" style="float: right" value="등록">
-			</div>
-			<table id="commentContent">
-
-			</table>
+				<input type="button" style="float: right" value="등록" onclick="cmInsert()">
+			</div><br>
+				<table id="commentContent"></table>
 			<br>
 			<br>
 			<br>
@@ -108,7 +121,7 @@
 					onclick="location.href='/afk/infoboard/updateInfoBoardForm?info_no=${boardDetail.info_no}'"
 					style="float: right; margin-left: 7px;"> <input
 					type="button" value="삭제하기"
-					onclick="infoDelete(${boardDetail.info_no})" style="float: right">
+					onclick="infoDelete(${boardDetail.info_no})">
 			</div>
 		</div>
 
@@ -135,27 +148,76 @@
                 scrollSpeed: 1200,
                 easingType: 'linear'
             }; */
-			favselect();
+				favselect(); //페이지 로딩되자마자 즐겨찾기 상태 불러오기
+            	cmList(); //페이지 로딩되자마자 댓글 목록 불러오기
 			
             $().UItoTop({ easingType: 'easeOutQuart' });
 
         });
         
-        //댓글 삽입 ajax
-        /* function cmInsert(){
-        	var content = $('.comment').val();
-        	
+        //댓글 목록을 불러옴
+        function cmList(){
         	$.ajax({
-        		url:"",
+        		url:"/afk/infoboard/selectBoardComment",
+        		data:{bno: "${boardDetail.info_no}"},
+        		type:"post",
+        		dataType:"json",
+        		success: function(data){
+        			var user = "${loginUser.mb_id}"; //로그인유저 아이디를 뽑아 변수로만듬
+        			var result = "";
+        			if(data.length > 0){       				
+        				for(var i in data){
+        					result += "<tr><td width='10%'>" + data[i].cm_writer + "</td>";
+        					result += "<td width='75%'>"+ data[i].cm_content + "</td>";
+        					result += "<td width='15%'>" + data[i].cm_date;
+        					if(data[i].cm_writer == user){
+        					result += "&nbsp;<input type='button' value='X' onclick='cmDelete("+ data[i].cm_no +")'>";
+        					}
+        					result += "</td></tr>";
+        				}
+        				$('#commentContent').append(result);
+        			}
+        		}
+        	})
+        }
+        
+        //댓글 삽입 ajax
+        function cmInsert(){
+        	var content = $('.comment').val(); //textarea의 값 가져오기
+    
+        	$.ajax({
+        		url:"/afk/infoboard/insertBoardComment",
         		data:{cm_writer:"${loginUser.mb_id}",
         			  cm_board_no:"${boardDetail.info_no}",
         			  cm_content: content},
         		type:"post",
-        		
-        		
-        		
+        		dataType:"json",
+        		success: function(data){
+        			if(data > 0){
+        				$("#commentContent").empty();
+        				cmList();
+        			}
+        		}
         	})
-        } */
+        }
+        
+        //댓글 삭제 ajax
+        function cmDelete(cno){
+        	var content = $('.comment').val(); //textarea의 값 가져오기
+    
+        	$.ajax({
+        		url:"/afk/infoboard/deleteBoardComment",
+        		data:{cno: cno},
+        		type:"post",
+        		dataType:"json",
+        		success: function(data){
+        			if(data > 0){
+        				$("#commentContent").empty();
+        				cmList();
+        			}
+        		}
+        	})
+        }
         
         //즐겨찾기 상태 확인 ajax
         //사용자가 페이지에 들어가는순간 즐겨찾기를 했는지 안했는지를 판단해 즐겨찾기 아이콘 상태를 변경해줌

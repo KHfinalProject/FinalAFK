@@ -1,5 +1,7 @@
 package com.model.afk.infoboard.service;
 
+import java.util.List;
+
 import com.model.afk.infoboard.vo.InfoCommentVO;
 
 public interface InfoBoardCommentService { 
@@ -8,6 +10,5 @@ public interface InfoBoardCommentService {
 
 	int deleteBoardComment(int cno);
 
-	int updateBoardComment(InfoCommentVO vo);
-
+	List<InfoCommentVO> selectBoardComment(int bno);
 }
