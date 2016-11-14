@@ -1,6 +1,8 @@
 package com.model.afk.mypage.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.infoboard.vo.InfoBoardVO;
@@ -18,4 +20,8 @@ public interface MypageService {
 	List<GuideItem> selectmyWish(String mbid);
 
 	int deleteMyProfile(Member mvo);
+
+	int deleteMyWish(HashMap<String, Object> map);
+
+	List<GuideItem> selectmyGuide(String gid);
 }

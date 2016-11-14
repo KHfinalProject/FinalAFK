@@ -1,6 +1,8 @@
 package com.model.afk.mypage.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,16 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public int deleteMyProfile(Member mvo) {
 		return mpgDao.deleteMyProfile(mvo);
+	}
+
+	@Override
+	public int deleteMyWish(HashMap<String, Object> map) {
+		return mpgDao.deleteMyWish(map);
+	}
+
+	@Override
+	public List<GuideItem> selectmyGuide(String gid) {
+		return mpgDao.selectmyGuide(gid);
 	}
 
 }

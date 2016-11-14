@@ -25,9 +25,13 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 	@Override
-	public int deleteMsg(MessageVO mvo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteMsgR(int msgNo) {
+		return msgDao.deleteMsgR(msgNo);
+	}
+	
+	@Override
+	public int deleteMsgS(int msgNo) {
+		return msgDao.deleteMsgS(msgNo);
 	}
 
 	@Override
@@ -35,6 +39,11 @@ public class MessageServiceImpl implements MessageService{
 		return msgDao.insertMsg(mvo);
 	}
 
+	@Override
+	public int insertMsgG(MessageVO mvo) {
+		return msgDao.insertMsgG(mvo);
+	}
+	
 	@Override
 	public int updateOpen(MessageVO mvo) {
 		// TODO Auto-generated method stub
@@ -45,5 +54,6 @@ public class MessageServiceImpl implements MessageService{
 	public List<MessageVO> getMsgDetailList(MessageVO msgVO) {
 		return msgDao.getMsgDetailList(msgVO);
 	}
+
 
 }

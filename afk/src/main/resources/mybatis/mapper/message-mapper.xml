@@ -6,20 +6,39 @@
 	<insert id="insertmsg" parameterType="Message">
 		INSERT INTO MESSAGE VALUES(MESSAGE_SEQ.NEXTVAL, #{send_id}, #{recieve_id}, 
 									DEFAULT, SYSDATE, NULL, #{mes_content}, 
-									DEFAULT, DEFAULT, NULL)
+									DEFAULT, DEFAULT, <if test="mes_no != 0">#{mes_no}</if>
+													  <if test="mes_no == 0">NULL</if>)
 	</insert>
 	
 	<select id="selectmsgList" parameterType="String" resultType="Message">
-		SELECT MSG.RECIEVE_ID, MSG.MES_NO, MSG.MES_CONTENT
-		FROM ( SELECT MSG.RECIEVE_ID, MSG.MES_NO, ROW_NUMBER() OVER (PARTITION BY MSG.RECIEVE_ID ORDER BY MSG.MES_NO DESC) NO, MES_CONTENT
+		SELECT RECIEVE_ID, MES_NO, SEND_ID, MES_CONTENT, VIEW_DATE, SEND_DATE, R_DELYN, S_DELYN
+      	FROM ( SELECT MSG.RECIEVE_ID, MSG.MES_NO, ROW_NUMBER() OVER (PARTITION BY MSG.SEND_ID ORDER BY MSG.MES_NO DESC) NO, MES_CONTENT, MSG.SEND_ID, MSG.VIEW_DATE, MSG.SEND_DATE, MSG.R_DELYN, MSG.S_DELYN
        			FROM MESSAGE MSG
-      			WHERE MSG.SEND_ID = #{id}) MSG
-       WHERE MSG.NO=1
+      			WHERE (MSG.SEND_ID = #{id} OR MSG.RECIEVE_ID = #{id})) MSG
+       	WHERE MSG.NO=1
+		UNION
+		SELECT RECIEVE_ID, MES_NO, SEND_ID, MES_CONTENT, VIEW_DATE, SEND_DATE, R_DELYN, S_DELYN
+		FROM ( SELECT MSG.RECIEVE_ID, MSG.MES_NO, ROW_NUMBER() OVER (PARTITION BY MSG.RECIEVE_ID ORDER BY MSG.MES_NO DESC) NO, MES_CONTENT, MSG.SEND_ID, MSG.VIEW_DATE, MSG.SEND_DATE, MSG.R_DELYN, MSG.S_DELYN
+		       FROM MESSAGE MSG
+		       WHERE (MSG.SEND_ID = #{id} OR MSG.RECIEVE_ID = #{id})) MSG
+		WHERE MSG.NO=1
 	</select>
 	
 	<select id="selectMsgDetailList" parameterType="Message" resultType="Message">
-		SELECT MES_NO, SEND_ID, RECIEVE_ID, VIEW_YN, SEND_DATE, VIEW_DATE, MES_CONTENT, S_DELYN, R_DELYN, PARENT_MGSNO FROM MESSAGE
+		SELECT MES_NO, SEND_ID, RECIEVE_ID, VIEW_YN, SEND_DATE, VIEW_DATE, MES_CONTENT, S_DELYN, R_DELYN, PARENT_MSGNO FROM MESSAGE
 		WHERE (RECIEVE_ID IN (#{recieve_id}, #{send_id})) AND (SEND_ID IN (#{send_id}, #{recieve_id}))
 		ORDER BY MES_NO DESC
 	</select>
+	
+	<delete id="deletemsgR" parameterType="Int">
+		UPDATE MESSAGE
+		SET R_DELYN = 'Y'
+		WHERE MES_NO = #{mesNo}
+	</delete>
+	
+	<delete id="deletemsgS" parameterType="Int">
+		UPDATE MESSAGE
+		SET S_DELYN = 'Y'
+		WHERE MES_NO = #{mesNo}
+	</delete>
 </mapper>

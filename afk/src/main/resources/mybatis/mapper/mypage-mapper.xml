@@ -29,4 +29,14 @@
 		AND GF.FA_MB_ID = #{mbid} 
 		ORDER BY FA_BD_NO DESC
 	</select>
+	
+	<delete id="deleteMyWish" parameterType="java.util.Map">
+		DELETE FROM GUIDE_FAVORITE WHERE FA_MB_ID = #{fa_mb_id} AND FA_BD_NO = #{fa_bd_no} 
+	</delete>
+	
+	<select id="selectmyGuide" parameterType="String" resultType="gItem">
+		SELECT *
+		FROM GUIDE_BOARD
+		WHERE GUI_WRITER = #{gid}
+	</select>
 </mapper>
