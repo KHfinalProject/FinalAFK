@@ -10,11 +10,11 @@ import com.model.afk.member.vo.Member;
 import com.model.afk.payment.dao.PaymentDao;
 import com.model.afk.payment.vo.Payment;
 
-@Service
+@Service("paymentService")
 public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired
-	private PaymentDao pd;
+	private PaymentDao paymentDao;
 	
 	/*@Override
 	public ArrayList<Payment> getPurchasedList(int page) {
@@ -23,17 +23,17 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public int insertPayment(Payment payment) {
-		return pd.insertPayment(payment);
+		return paymentDao.insertPayment(payment);
 	}
 
 	@Override
 	public int updatePayment(int payNo) {
-		return pd.updatePayment(payNo);
+		return paymentDao.updatePayment(payNo);
 	}
 
 	@Override
 	public int deletePayment(int payNo) {
-		return pd.deletePayment(payNo);
+		return paymentDao.deletePayment(payNo);
 	}
 
 	@Override

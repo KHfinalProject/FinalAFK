@@ -40,9 +40,9 @@ function button1_click() {
 		+ new Date().getTime(),
 		name : '주문번호 : 결제테스트',
 		amount : 160,
-		buyer_email : $(".mEmail").val(),
-		buyer_name : $(".mName").val(),
-		buyer_tel : $(".mTel").val(),
+		buyer_email : $("#email").val(),
+		buyer_name : $("#userName").val(),
+		buyer_tel : $("#phone").val(),
 		}, function(rsp) {
 			if (rsp.success) {
 				msg = '결제가 완료되었습니다.';
@@ -53,7 +53,62 @@ function button1_click() {
 				
 				alert('결제가 성공하였습니다.');
 				
-				location.replace("/afk/paymentComplete");
+				//location.replace("/afk/paymentComplete");
+				
+				var form = document.createElement('form');
+				form.method = 'post';
+				form.action = '/afk/paymentComplete';
+				
+				var input = document.createElement('input');
+				input.type = 'hidden';
+				input.name = 'userId';
+				input.value = "${loginUser.mb_id}";
+				$(form).append(input);
+				
+				var input = document.createElement('input');
+				input.type = 'hidden';
+				input.name = 'userName';
+				input.value = "${loginUser.mb_name}";
+				$(form).append(input);
+				
+				var input = document.createElement('input');
+				input.type = 'hidden';
+				input.name = 'email';
+				input.value = $('#email').val();
+				$(form).append(input);
+				
+				var input = document.createElement('input');
+				input.type = 'hidden';
+				input.name = 'phone';
+				input.value = $('#phone').val();
+				$(form).append(input);
+				
+				var input = document.createElement('input');
+				input.type = 'hidden';
+				input.name = 'date';
+				input.value = ${date};
+				$(form).append(input);
+				
+				var input = document.createElement('input');
+				input.type = 'hidden';
+				input.name = 'itemNo';
+				input.value = ${item.gui_no};
+				$(form).append(input);
+				
+				var input = document.createElement('input');
+				input.type = 'hidden';
+				input.name = 'price';
+				input.value = ${item.gui_price};
+				$(form).append(input);
+				
+				var input = document.createElement('input');
+				input.type = 'hidden';
+				input.name = 'guideId';
+				input.value = "${guideId}";
+				$(form).append(input);
+				
+				$('#body').append(form);
+				form.submit();
 				
 			} else {
 				msg = '결제에 실패하였습니다.';
@@ -72,18 +127,23 @@ function button1_click() {
 	
 	#img {
 		float : left;
+		margin-top : 50px;
+		margin-bottom : 50px;
 	}
 
 	#info {
 		padding-left : 30px;
+		margin-top : 50px;
+		margin-bottom : 50px;
 	}
 
 	#info table{
-		height : 200px;
+		height : 300px;
 	}
 
 	#amount {
 		margin-top : 30px;
+		padding-top : 20px;
 		border-top : 1px solid #c1c1c1;
 		margin-bottom : 40px;
 		font-size : 18pt;
@@ -96,8 +156,8 @@ function button1_click() {
 		font-size : 18pt;
 		background-color : #04378c;
 		-moz-border-radius:10px;
-	-webkit-border-radius:10px;
-	border-radius:10px;
+		-webkit-border-radius:10px;
+		border-radius:10px;
 	}
 
 	#cancel_btn {
@@ -106,12 +166,13 @@ function button1_click() {
 		font-size : 18pt;
 		background-color : white;
 		-moz-border-radius:10px;
-	-webkit-border-radius:10px;
-	border-radius:10px;
+		-webkit-border-radius:10px;
+		border-radius:10px;
 	}
 
 	#btns {
 		text-align : center;
+		margin-bottom : 50px;
 	}
 
 	#btns button:hover {
@@ -119,90 +180,22 @@ function button1_click() {
 		color : white;
 	}
 	
-	/* body {margin:0; padding:0;} */
-
-.navi {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-}
-
-.navi li {
-    float: left;
-}
-
-.navi li a, .dropbtn {
-    display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-.navi li a:hover, .dropdown:hover .dropbtn {
-    background-color: red;
-}
-
-.navi li.dropdown {
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 2px;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-
-.navi .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-}
-
-.dropdown-content a:hover {background-color: #f1f1f1}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
+	.pay {
+		
+		border-spacing : 20px;
+		border-collapse : separate;
+		font-size : 13pt;
+	}
+	
+	input {
+		border : none;
+		border-bottom : 1px solid #000066;
+	}
+	
 </style>
 
 <body>
-
-<ul class="navi">
-  <li><a href="#home">로고</a></li>
-  
-  <c:if test="${loginUser eq null}">
-	  <li style="float:right"><a href="/afk/joinInsertView">회원가입</a></li>
-	  <li style="float:right"><a href="/afk/loginView">로그인</a></li> 
-  </c:if>
-  
-  <c:if test="${!(loginUser eq null)}">
-  <li style="float: right;"class="dropdown">
-    <a href="#" class="dropbtn">${loginUser.mb_id}님 좋은여행!</a>
-    <div class="dropdown-content">
-      <a href="/afk/mypage">마이페이지</a>
-      <a href="customer">고객센터</a>
-   	  <a href="paymentProceed">결제창</a>
-     <c:if test="${loginUser.mb_grade eq '1'}">
-      <a href="memberListView">관리자(회원관리)</a>
-      <a href="matching">관리자(매칭관리)</a>
-      <a href="test">페이징테스트</a>
-      <a href="guide/guideM ain">가이드메인</a>
-     </c:if>
-	  <a href="logout">로그아웃</a>
-    </div>
-  </li>
-  </c:if>
-</ul>
-
+<jsp:include page="../header.jsp"/>
 <div class="container">
 	<div class="jumbotron">
 		<h1>상품 결제</h1>
@@ -210,37 +203,43 @@ function button1_click() {
 
 	<div id="detail">
 		<div class="row" style="padding-left:5%">
-			<div id="img" class="col-md-4" style="width:200px; height:200px; background-color:#333399">
-				이미지 넣기
+			<div id="img" class="col-md-4" style="width=350px; height=400px;">
+				<a href="/afk/guide/guideDetail?itemNo=${item.gui_no}&writer=${guideId}">
+				<img src="${item.gui_image }" width=350px; height=400px; />
+				</a>
 			</div><!--end of img-->
 			<div id="info" class="col-md-8">
 				<table class="pay">
 				<tr>
-					<td colspan="2"><h3>상품명: ${guide.gui_title}</h3></td>
+					<td>상품명: </td>
+					<td><h4><b>${item.gui_title}</b></h4></td>
 				</tr>
 				<tr>
-					<td width="70%">출발일</td>
-					<td>2016-11-10</td>
-				</tr>
-				<tr>
-					<td>담당 가이드</td>
-					<td>${member.mb_name}</td>
+					<td width="50%">출발일</td>
+					<td>${date }</td>
 				</tr>
 				<tr>
 					<td>회원 이름</td>
-					<td>${loginUser.mb_name}</td>
+					<td>
+						${loginUser.mb_name}
+						<input type="hidden" id="userName" value="${loginUser.mb_name }">
+					</td>
 				</tr>
 				<tr>
 					<td>회원 이메일</td>
-					<td>${loginUser.mb_email}</td>
+					<td><input type="text" id="email" value="${loginUser.mb_email}" required/></td>
 				</tr>
 				<tr>
 					<td>회원 연락처</td>
-					<td>${loginUser.mb_phone}</td>
-				</tr>		
+					<td><input type="text" id="phone" value="${loginUser.mb_phone}" required/></td>
+				</tr>	
+				<tr>
+					<td>담당 가이드</td>
+					<td><a href="/afk/guide/guideSub?writer=${guideId}">${guideName}</a></td>
+				</tr>
 				<tr>
 					<td>인원수</td>
-					<td>4</td>
+					<td><input type="number" id="num" value="${num}" required/></td>
 				</tr>
 				<tr>
 					<td>결제방식</td>
@@ -259,8 +258,8 @@ function button1_click() {
 		
 		<div id="amount">
 			<div class="row">
-				<div class="col-md-3 col-sm-offset-1"><span>결제금액 : <span></div>
-				<div class="col-md-3 col-md-offset-2"><span id="total_amount">${guide.gui_price}</span><span>원</span></div>
+				<div class="col-md-3 col-sm-offset-1" style="float:left"><span>결제금액 : <span></div>
+				<div class="col-md-3 col-md-offset-2" style="float:right"><span id="total_amount">${item.gui_price}</span><span>원</span></div>
 			</div>
 		</div>
 
@@ -269,16 +268,12 @@ function button1_click() {
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				<button type="button" id="buy_btn" onclick="button1_click();">결제</button>
 			</div><!--end of btns-->
-			
- 				<%-- <input type="hidden" class="gNo" value="${guide.guide_no}">
-				<input type="hidden" class="gPrice" value="${guide.guide_price }"> --%>
-				<input type="hidden" class="mEmail" value="${loginUser.mb_email}">
-				<input type="hidden" class="mName" value="${loginUser.mb_name}">
-				<input type="hidden" class="mTel" value="${loginUser.mb_phone}">
 
 	</div><!--end of detail-->
 
 </div><!--end of container-->
+
+<jsp:include page="../footer.jsp"/>
 
 </body>
 </html>

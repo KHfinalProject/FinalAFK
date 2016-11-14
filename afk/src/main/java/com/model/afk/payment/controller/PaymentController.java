@@ -1,5 +1,6 @@
 package com.model.afk.payment.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,25 +26,60 @@ import com.model.afk.payment.vo.Payment;
 public class PaymentController {
 
 	@Autowired
-	private PaymentService ps;
+	private PaymentService paymentService;
 	@Autowired
-	private GuideBoardService gbs;
+	private GuideBoardService guideBoardService;
 	@Autowired
 	private AdminMemberService ams;
 	
 	
 	// 결제페이지 이동
 	@RequestMapping("/paymentProceed")
-	public String paymentProceed(Model model){
+	public String paymentProceed(Model model, @RequestParam String date,
+			@RequestParam int num, @RequestParam int itemNo, @RequestParam String guideName,
+			@RequestParam String guideId){
 		
+		System.out.println("===============paymentProceed=======================");
+		GuideItem item = guideBoardService.getOneItem(itemNo);
+		
+		model.addAttribute("item", item);
+		model.addAttribute("date", date);
+		model.addAttribute("num", num);
+		model.addAttribute("guideName", guideName);
+		model.addAttribute("guideId", guideId);
+				
 		return "payment/paymentProceed";
 	}
 	
 	// 결제 완료 페이지 이동
 	@RequestMapping("/paymentComplete")
-	public String getPurchasedList(Model model, int page){
+	public String getPurchasedList(Model model, @RequestParam String userId,
+			@RequestParam String userName, @RequestParam int price, @RequestParam String date,
+			@RequestParam String email, @RequestParam String phone,
+			@RequestParam String guideId, @RequestParam int itemNo){
 		
-		return "payment/paymentComplete";
+		Payment payment = new Payment();
+		payment.setPay_id(userId);
+		payment.setPay_name(userName);
+		payment.setPay_phone(phone);
+		payment.setPay_email(email);
+		payment.setGui_no(itemNo);
+		payment.setGuide_id(guideId);
+		payment.setPrice(price);
+		
+		int result = paymentService.insertPayment(payment);
+		String view = "";
+		
+		if (result > 0){
+			System.out.println("결제 DB 입력 성공");
+			view = "payment/paymentComplete";
+			
+		}else{
+			System.out.println("결제 DB 입력 실패");
+			view = "payment/paymentError";
+		}
+		
+		return view;
 	}
 	
 	

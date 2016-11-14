@@ -137,7 +137,71 @@
 	});  
   }
   google.maps.event.addDomListener(window, 'load', initialize);
-
+  
+  /*구매 버튼 클릭 시 정보 담아서 결제 진행 시작*/
+  function purchase(){
+	  var user = "${loginUser.mb_id}";
+	  
+	  if(user == ""){
+			var check = confirm("로그인이 필요한 기능입니다. 로그인 화면으로 이동하시겠습니까?");
+		  	if(check)
+				  location.href = "../loginView";
+		}else{
+			var guideId = "${guide.mb_id}";
+			var guideName = "${guide.mb_name}";
+			var itemNo = ${guideItem.gui_no};
+			var numOfPeople = $('#select_num_people option:selected').val();
+			if(numOfPeople == "default"){
+				alert("함께 여행하는 사람들의 숫자를 선택해주세요");
+			}else{
+				var date = $('#datepicker').val();
+				if(date == "날짜 선택"){
+					alert("여행을 시작할 날짜를 선택해주세요");
+				}else{
+					var buy = confirm("이 여행으로 정하시겠습니까?");
+					if(buy){
+						
+						var form1 = document.createElement("form");
+						form1.method = "post";
+						form1.action = "/afk/paymentProceed";
+						
+						var input = document.createElement("input");
+						input.type = "hidden";
+						input.name = "guideId";
+						input.value = guideId;
+						$(form1).append(input);
+						
+						var input = document.createElement("input");
+						input.type = "hidden";
+						input.name = "guideName";
+						input.value = guideName;
+						$(form1).append(input);
+						
+						var input = document.createElement("input");
+						input.type = "hidden";
+						input.name = "itemNo";
+						input.value = itemNo;
+						$(form1).append(input);
+						
+						var input = document.createElement("input");
+						input.type = "hidden";
+						input.name = "num";
+						input.value = numOfPeople;
+						$(form1).append(input);
+						
+						var input = document.createElement("input");
+						input.type = "hiddden";
+						input.name = "date";
+						input.value = date;
+						$(form1).append(input);
+						
+						$('#body').append(form1);
+						form1.submit();
+					}
+				}
+			}	
+		}
+  }
 
   
   $(function(){
@@ -270,16 +334,6 @@
 		}	
 	});
 	
-	
-	$('#buy_btn').on('click', function(){
-		var check = confirm("이 상품을 구매하시겠습니까?");
-		/* if(check){
-			/* var guide = ${guide}; 
-			var guideItem = ${guideItem};
-			var user = ${loginUser.mb_id};
-		} */
-	});
-		
 	 /*즐겨찾기 추가*/
 	$('#favorite').on('click', function(){
 		 var user = "${loginUser.mb_id}";	
@@ -339,31 +393,35 @@
 		 } 
 	});
 	  	
-	
 	//쪽지 보내기 버튼 클릭 시 새로 form 생성하여 메시지 송수신 페이지로 이동
 	$('#send_msg').on('click', function(){
 		var guide_id = $('#guide_id').val();
 		var loginUser = "${loginUser.mb_id}";
-		alert("login : " + loginUser + "guide : " + guide_id);
 		
-		var form = document.createElement("form");
-		form.method = 'get';
-		form.action = '/afk/msg';
-		
-		var input = document.createElement("input");
-		input.type = "hidden";
-		input.name = "guideId";
-		input.value = guide_id;
-		$(form).append(input);
-		
-		var input = document.createElement("input");
-		input.type = "hidden";
-		input.name = "loginId";
-		input.value = loginUser;
-		$(form).append(input);
-		
-		$('#body').append(form);
-		form.submit();		
+		if(loginUser == ""){
+			var check = confirm("로그인이 필요한 기능입니다. 로그인 화면으로 이동하시겠습니까?");
+			  if(check)
+				  location.href = "../loginView";
+		}else{
+			var form = document.createElement("form");
+			form.method = 'get';
+			form.action = '/afk/msg';
+			
+			var input = document.createElement("input");
+			input.type = "hidden";
+			input.name = "guideId";
+			input.value = guide_id;
+			$(form).append(input);
+			
+			var input = document.createElement("input");
+			input.type = "hidden";
+			input.name = "loginId";
+			input.value = loginUser;
+			$(form).append(input);
+			
+			$('#body').append(form);
+			form.submit();				
+		}	
 	});
 	
 	//댓글 입력
@@ -839,7 +897,7 @@
   </style>
  </head>
  <body>
-  <jsp:include page="../header.jsp"/>
+  
   <div id="container">
 	<div id="guide_detail_main">
 		<img src="${guideItem.gui_image}" width="100%" height="500px" style="opacity:0.7">
@@ -998,18 +1056,20 @@
 			</div><!--end of intro-->
 			</div>
 	</div><!--end of guide_detail_top-->
+	
 	<div id="sub_nav">
 	<div class="row">
 		<div class="col-md-6">
-			<select name="select_num_people" id="select_num_people">
+			<select name="num" id="select_num_people">
 				<option value="default" selected>인원 선택
 				<option value="1">1명
 				<option value="2">2명
 				<option value="3">3명
 				<option value="4">4명
+				<option value="5">5명 이상
 			</select>
 			&nbsp;&nbsp;
-			<input type="text" name="" id="datepicker" value="날짜 선택">
+			<input type="text" id="datepicker" name="date" value="날짜 선택">
 		</div>
 		<div class="col-md-6" id="btns">
 		
@@ -1021,16 +1081,22 @@
 					<span class="glyphicon glyphicon-star"></span> 보관 취소
 				</button>
 			</c:if>
+			<c:if test="${loginUser.mb_id ne f.fa_mb_id }">
+				<button id="favorite" class="add_favorite">
+					<span class="glyphicon glyphicon-star-empty"></span> 보관하기
+				</button>
+			</c:if>
 		</c:forEach>
 		</c:when>
-		<c:otherwise>
+		
+		<c:when test="${empty favorList }">
 			<button id="favorite" class="add_favorite">
 				<span class="glyphicon glyphicon-star-empty"></span> 보관하기
 			</button>
-		</c:otherwise>	
+		</c:when>	
 		</c:choose>
-			<button id="buy_btn">구매하기</button>
-			
+			<input type="hidden" name="itemNo" value="${guideItem.gui_no }"/>
+			<button id="buy_btn" onclick="purchase();">구매하기</button>
 		</div>
 		
 	</div>
