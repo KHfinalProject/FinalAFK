@@ -24,9 +24,15 @@
 
 <script type="text/javascript">
    
+   
+   
     $(function(){
       showNotice();
+      customerInit();
    });
+   function customerInit(currentPage){
+   	 	$("#pageNum_" + currentPage).css("font-weight","bold");
+   }
    function showNotice(){
          $("#notice").show();
          $("#faq").hide();
@@ -47,14 +53,12 @@
       $(document).on("click",".question", function(){
          $(this).next().slideToggle();
       });
-      function checkDelete(){
+      function checkDelete(currentPage){
     	  if(confirm("체크된 항목의 글을 삭제하시겠습니까?") == true){
-    			chekDelete();
-    		}else{
-    			location.replace("/afk/customer")
+    			chekDelete(currentPage);
     		}
       }
-      function chekDelete(){
+      function chekDelete(currentPage){
     	
     	  chk = document.getElementsByName("deleteChk")
     	  var chek = new Array();
@@ -66,7 +70,7 @@
     		  }
     	  }
     	
-    	  location.replace("/afk/checkDelete?chek="+chek) 
+    	  location.replace("/afk/checkDelete?chek="+chek+"&currentPage="+currentPage) 
     	 
       }
 </script>
@@ -287,8 +291,7 @@
 
 </style>
 
-<body>
-
+<body onload="customerInit(${currentPage})">
 <!-- 고객센터 시작 -->
 
 <div class="container">
@@ -322,18 +325,22 @@
          <tr>
             <td align="center"><input type="checkbox" class="cb1" name="deleteChk" value = "${n.notice_no}"></td>
             <td align="center">${n.notice_no }</td>
-            <td align="center"><a href="/afk/noticeDetailView?notice_no=${n.notice_no}">${n.notice_title}</a></td>
+            <td align="center"><a href="/afk/noticeDetailView?notice_no=${n.notice_no}&currentPage=${currentPage}">${n.notice_title}</a></td>
             <td align="center">${n.notice_enrolldate }</td>
             <td align="right">${n.notice_count}</td>
          </tr>
          </c:forEach>
-       
-        </table>
-  
+        
+        </table><br>
+  		<center> <div><a href="customer?currentPage=${currentPage}&nextBlock=S">[◀◀]</a><a href="customer?currentPage=${currentPage}&nextBlock=P">[◀]</a>
+  		<c:forEach var="i" begin="${map.forBegin }" end="${map.forEnd  }" step="1">
+  		<a id="pageNum_${i}" href="customer?currentPage=${i}&nextBlock=">[${i}]</a>&nbsp;
+  		</c:forEach> 
+  		<a href="customer?currentPage=${currentPage}&nextBlock=N">[▶]</a><a href="customer?currentPage=${currentPage}&nextBlock=E">[▶▶]</a> </div></center>
    <!-- 글쓰기 버튼 -->
      <c:if test="${loginUser.mb_grade eq '1'}">
         <div id="insert_notice" align="right">
-         <br><input type="button" value="삭제하기" onclick="checkDelete()"/> &nbsp;<input type="button" value="글쓰기" onclick="location.href='/afk/noticeWrite'"/>
+         <br><input type="button" value="삭제하기" onclick="checkDelete(${currentPage})"/> &nbsp;<input type="button" value="글쓰기" onclick="location.href='/afk/noticeWrite?currentPage=${currentPage}'"/>
       </div> <!--  글쓰기 버튼 끝 -->
       </c:if>
 </div><!-- 공지사항 끝-->

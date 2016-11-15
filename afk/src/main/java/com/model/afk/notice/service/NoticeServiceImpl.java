@@ -33,9 +33,9 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public List<Notice> getNoticeList() {
+	public List<Notice> getNoticeList(Map map) {
 		// TODO Auto-generated method stub
-		return ndo.getNoticeList();
+		return ndo.getNoticeList(map);
 	}
 
 	@Override
@@ -68,6 +68,14 @@ public class NoticeServiceImpl implements NoticeService {
 	public int noticeDelete(int notice_no) {
 		
 		return ndo.noticeDelete(notice_no);
+	}
+
+
+
+	@Override
+	public int allNoticeCount() {
+		
+		return ndo.allNoticeCount();
 	}
 
 

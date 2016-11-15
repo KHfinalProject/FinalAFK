@@ -17,7 +17,7 @@ public interface NoticeService {
 
 	public int noticeInsert(Notice notice);
 
-	public List<Notice> getNoticeList();
+	public List<Notice> getNoticeList(Map map);
 
 	
 
@@ -30,6 +30,9 @@ public interface NoticeService {
 	public Notice noticeUpdateView(int notice_no);
 
 	public int noticeUpdate(Notice notice);
+
+
+	public int allNoticeCount();
 	
 	
 

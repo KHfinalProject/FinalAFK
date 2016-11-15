@@ -1,6 +1,8 @@
 package com.model.afk.customer;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import com.model.afk.admin.Service.AdminMemberService;
 import com.model.afk.admin.vo.AdminMember;
 import com.model.afk.notice.service.NoticeService;
 import com.model.afk.notice.vo.Notice;
+import com.model.afk.paging.Paging;
 
 
 @Controller
@@ -31,14 +34,38 @@ public class CustomerController {
 	
 	// 고객센터 폼 호출
 	@RequestMapping(value="/customer")
-	public String customerForm(HttpSession se,Model model){
-		List<Notice> NoticeList = ns.getNoticeList();
+	public String customerForm(HttpSession se,Model model, int currentPage,String nextBlock){
+		if(currentPage  == 0){
+			currentPage = 1;
+		}
+		int pageBlock = 10;
+		int blockCount = 5;
+		int AllNoticeCount = ns.allNoticeCount();
+		if(nextBlock != null && !nextBlock.equals("")){
+		}
+		Paging paging = new Paging();
+		Map<String, Integer> map = new HashMap<String,Integer>();
+		if(nextBlock.equals("")){
+			map = paging.Paging(currentPage, pageBlock,blockCount);
+			
+		}else if(nextBlock != null && ! nextBlock.equals("")){
+			map = paging.Paging(currentPage, pageBlock, blockCount,nextBlock,AllNoticeCount);
+			currentPage = map.get("currentPage");
+		}
+		
+		
+		if(AllNoticeCount > 0){
+		List<Notice> NoticeList = ns.getNoticeList(map);
+		
+		
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("NoticeList",  NoticeList);
+		model.addAttribute("map",  map);
 		
-		
+		}
 		return "admin/customer";
-		
 	}
+	
 	
 	
 	// 문의하기  클릭할시
@@ -73,9 +100,9 @@ public class CustomerController {
 }
 	// 글쓰기 폼 호출
 	@RequestMapping(value="/noticeWrite")
-	public String noticeWriteForm(HttpSession se){
+	public String noticeWriteForm(HttpSession se,int currentPage,Model model){
 		
-		
+		model.addAttribute("currentPage", currentPage);
 		return "admin/noticeWrite";
 		
 	}

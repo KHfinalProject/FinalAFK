@@ -74,7 +74,7 @@ body {margin:0; padding:0;}
     <a href="#" class="dropbtn">${loginUser.mb_id}님 좋은여행!</a>
     <div class="dropdown-content">
       <a href="/afk/mypage">마이페이지</a>
-      <a href="customer">고객센터</a>
+      <a href="customer?currentPage=1&nextBlock=">고객센터</a>
      <c:if test="${loginUser.mb_grade eq '1'}">
       <a href="memberListView">관리자(회원관리)</a>
       <a href="matching">관리자(매칭관리)</a>

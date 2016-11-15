@@ -44,6 +44,7 @@ function checking(){
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2"><b>제 목</b>&nbsp;&nbsp;&nbsp;</span>
 		<input name="notice_title" type="text" class="form-control" aria-describedby="sizing-addon2">
+		<input type=hidden name = "currentPage" value="${1}">
 	</div>
 	<br><br>
 	 <textarea name="notice_content" id="smarteditor" style="width:100%; height:500px;"></textarea>
@@ -51,7 +52,7 @@ function checking(){
 </form>
 <br>
 	<div align="right">
-		<input class="btn btn-default btn-lg " type="button" value="취소">&nbsp;&nbsp;&nbsp;
+		<input class="btn btn-default btn-lg " type="button" value="취소" onclick="history.go(-1)">&nbsp;&nbsp;&nbsp;
 		<input class="btn btn-default btn-lg" type="button" value="저장" id="save">
 	</div>
 <hr style="border: solid 2px red">

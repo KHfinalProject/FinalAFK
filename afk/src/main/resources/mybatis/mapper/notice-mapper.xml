@@ -9,8 +9,10 @@
 		INSERT INTO NOTICE(NOTICE_NO,NOTICE_TITLE, NOTICE_CONTENT,NOTICE_ENROLLDATE,NOTICE_COUNT) VALUES ( NOTICE_SEQ.NEXTVAL, #{notice_title}, #{notice_content}, sysdate,0)
 	</insert>
 	
-	<select id="getNoticeList" parameterType="Notice" resultType="Notice">
-		SELECT * FROM NOTICE  
+	<select id="getNoticeList" parameterType="java.util.Map" resultType="Notice">
+		SELECT * FROM
+		(SELECT ROWNUM AS RN,A.* FROM NOTICE  A ORDER BY NOTICE_NO DESC)
+		WHERE RN BETWEEN #{startRn} AND #{endRn}
 	</select>
 	<select id="noticeDetailView" parameterType="Integer" resultType="Notice">
 		SELECT * FROM NOTICE WHERE NOTICE_NO = #{notice_no}
@@ -27,4 +29,7 @@
 	<delete id="noticeDelete" parameterType="Integer">
 		DELETE  FROM NOTICE WHERE NOTICE_NO = #{notice_no}
 	</delete>
+	<select id="allNoticeCount" resultType="Integer">
+		SELECT COUNT(*) FROM NOTICE
+	</select>
 </mapper> 

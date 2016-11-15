@@ -30,14 +30,14 @@ public class NoticeController {
 
 	public void noticeInsert(@RequestParam("notice_title") String title,
 							   @RequestParam("notice_content")String content,
-								Model model, HttpServletResponse response) throws IOException{
+								int currentPage,Model model, HttpServletResponse response) throws IOException{
 		Notice notice = new Notice('0',title,content,'0',null);
 		System.out.println(": :::::::::::::::::controller ::"+notice+":::::::::::::");
 		int result = ns.noticeInsert(notice);
 		
 		System.out.println("result :: " + result);
 		if(result > 0)
-		response.sendRedirect("customer"); 
+		response.sendRedirect("customer?currentPage="+currentPage+"&nextBlock="); 
 		
 		
 	}
@@ -65,20 +65,22 @@ public class NoticeController {
 		
 	}
 	@RequestMapping(value="/noticeDetailView", method= RequestMethod.GET )
-	public String noticeDetailView(int notice_no,Model model){
+	public String noticeDetailView(int notice_no,int currentPage ,Model model){
 		     /* Map<String,Integer> map = new HashMap<String, Integer>();
 		      map.put("notice_no",notice_no);*/
 		      Notice notice = ns.noticeDetailView(notice_no);
 		      int result = ns.noticeCount(notice_no);
 		      model.addAttribute("temp",result);
+		      model.addAttribute("currentPage", currentPage);
 		      model.addAttribute("temp",notice);
 		return "admin/noticeDetailView";
 	}
 	
 	@RequestMapping(value="/noticeUpdateView", method= RequestMethod.GET )
-	public String noticUpdateView(int notice_no, Model model){
+	public String noticUpdateView(int notice_no,int currentPage, Model model){
 		Notice notice = ns.noticeUpdateView(notice_no);
 		model.addAttribute("temp",notice);
+		model.addAttribute("currentPage", currentPage);
 		System.out.println("::::::::::::::::"+notice_no+"::::::::::::");
 		return "admin/noticeUpdateView";
 	}
@@ -86,23 +88,23 @@ public class NoticeController {
 	public void noticeUpdate(  @RequestParam("notice_no") int no,
 							   @RequestParam("notice_title") String title,
 							   @RequestParam("notice_content")String content,
-								Model model, HttpServletResponse response) throws IOException{
+								int currentPage,Model model, HttpServletResponse response) throws IOException{
 		Notice notice = new Notice(no,title,content,'0',null);
 		
 		int result = ns.noticeUpdate(notice);
 		
 		System.out.println("result :: " + result);
 		if(result > 0)
-		response.sendRedirect("customer"); 
+		response.sendRedirect("customer?currentPage="+currentPage+"&nextBlock="); 
 	}
 	@RequestMapping(value="/noticeDelete", method= RequestMethod.GET )
-	public void noticeDelete(int notice_no, HttpServletResponse response ) throws IOException{
+	public void noticeDelete(int notice_no,int currentPage, HttpServletResponse response ) throws IOException{
 		int result = ns.noticeDelete(notice_no);
 		if(result>0)
-		response.sendRedirect("customer");
+		response.sendRedirect("customer?currentPage="+currentPage+"&nextBlock=");
 	}
 	@RequestMapping(value="/checkDelete",method= RequestMethod.GET)
-	public void noticeDelete(int[] chek, HttpServletResponse response ) throws IOException{
+	public void noticeDelete(int[] chek,int currentPage, HttpServletResponse response ) throws IOException{
 		System.out.println("::::::::::::cont"+chek+"::::::::::::");
 		 int result = 0;
 		  for( int i = 0; i < chek.length; i++ ){
@@ -110,7 +112,7 @@ public class NoticeController {
 			   result = ns.noticeDelete(chek[i]);
     		  }
 		if(result>0)
-		response.sendRedirect("customer");
+		response.sendRedirect("customer?currentPage="+currentPage+"&nextBlock=");
 	
 	}
 }

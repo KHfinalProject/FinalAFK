@@ -23,9 +23,9 @@ public class NoticeDao {
 	}
 
 
-	public List<Notice> getNoticeList() {
+	public List<Notice> getNoticeList(Map map) {
 		
-		return sqlSession.selectList(NAMESPACE+"getNoticeList");
+		return sqlSession.selectList(NAMESPACE+"getNoticeList",map);
 	}
 
 
@@ -69,9 +69,18 @@ public class NoticeDao {
 
 
 	public int noticeDelete(int[] chek) {
-		// TODO Auto-generated method stub
+	
 		return 0;
 	}
+
+
+	public int allNoticeCount() {
+		
+		return sqlSession.selectOne(NAMESPACE+"allNoticeCount");
+	}
+
+
+
 
 
 
