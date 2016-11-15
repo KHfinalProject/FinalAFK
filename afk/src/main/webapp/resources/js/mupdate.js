@@ -111,7 +111,7 @@ function updateResult(){
 			
 			if( xmldoc > 0){
 				alert("회원정보수정이 성공했습니다.")
-				location.replace("/afk/loginView");   
+				location.replace("/afk/mypage");   
 			} else {
 				alert("회원정보 수정이 실패했습니다.")
 			}
@@ -153,8 +153,6 @@ function pwdCheck1(){
 function realDelete(){
 	if(confirm("정말로 탈퇴하시겠습니까?") == true){
 		location.replace("/afk/memberDelete");   
-	}else{
-		location.replace("/afk/loginView");
 	}
 }
 function NDelete(notice_no, currentPage){
