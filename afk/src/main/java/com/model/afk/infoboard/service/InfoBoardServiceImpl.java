@@ -55,12 +55,14 @@ public class InfoBoardServiceImpl implements InfoBoardService{
 		return dao.getBoardSelectList(map);
 	}
 	
+	// 디테일 페이지
 	@Override
 	public InfoBoardVO boardDetail(int info_no) {
 		// TODO Auto-generated method stub
 		return dao.boardDetail(info_no);
 	}
 	
+	// 디테일 페이지 카운트
 	@Override
 	public int addCount(int info_no) {
 		// TODO Auto-generated method stub

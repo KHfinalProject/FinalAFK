@@ -141,7 +141,7 @@ public class InfoBoardController {
 		 return null;
 	 }
 	 
-	// 디테일 페이지 조회수 증가 처리
+	// 디테일 페이지 조회수 증가 처리이
 		 @RequestMapping(value="/{info_no}", method=RequestMethod.GET)
 		 public String getInfoDetail(Model model, @PathVariable(value="info_no") int info_no,
 				 @RequestParam(value="page", defaultValue="1") int page){

@@ -49,10 +49,11 @@ public class InfoBoardDao {
 	}
 
 	public InfoBoardVO boardDetail(int info_no) {
+		// 디테일 페이지
 		// TODO Auto-generated method stub
 		return sqlsession.selectOne(NAMESPACE + "detail", info_no);
 	}
-
+		// 디테일 페이지 조회 카운트
 	public int addCount(int info_no) {
 		// TODO Auto-generated method stub
 		return sqlsession.update(NAMESPACE + "addCount", info_no);

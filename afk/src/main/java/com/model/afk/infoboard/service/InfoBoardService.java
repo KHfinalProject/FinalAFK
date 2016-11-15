@@ -18,8 +18,10 @@ public interface InfoBoardService {
 
 	List<InfoBoardVO> getBoardSelectList(int page, String code);
 	
+	// 디테일 페이지
 	public InfoBoardVO boardDetail(int info_no);
 	
+	// 카운트
 	int addCount(int info_no);
 
 

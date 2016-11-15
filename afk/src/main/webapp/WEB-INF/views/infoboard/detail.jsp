@@ -99,6 +99,7 @@
 				<div class="pay">가격</div>
 			</div>
 		</div>
+		<!-- 카운트 -->
 		<div id="count">
 		조회수: ${board.info_count }, 작성자: ${board.info_writer}
 		</div>

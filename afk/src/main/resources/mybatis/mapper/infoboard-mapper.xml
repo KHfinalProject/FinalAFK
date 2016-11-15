@@ -113,6 +113,7 @@
 		where cm_no = #{cno}
 	</delete>
 	
+	<!-- 카운트 -->
 	<update id="addCount" parameterType="int">
  	UPDATE info_board 
  	SET info_count = (SELECT info_count 
