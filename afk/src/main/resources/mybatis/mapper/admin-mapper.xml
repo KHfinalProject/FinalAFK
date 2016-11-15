@@ -23,9 +23,6 @@
 		<result property="memberGrade" column="mb_grade" />
 	</resultMap>
 	
-	<select id="memberAll" parameterType="List" resultMap="memberResult">
-	select * from final.member
-	</select>
 	
 	<delete id="deleteMember" parameterType="aMember">
 		DELETE FROM 
@@ -44,5 +41,42 @@
 		where mb_id like '%'||#{keyword}||'%'
 		or mb_name like '%'||#{keyword}||'%'
 		or mb_grade like '%'||#{keyword}||'%'
+	</select>
+	
+	<select id="memberAll" parameterType="List" resultMap="memberResult">
+	<![CDATA[
+	select x.mb_id, x.mb_pwd, x.mb_name, x.mb_email, x.mb_phone, x.mb_joindate,
+		   x.mb_original_pic, x.mb_rename_pic, x.mb_bank, x.mb_loc_phone,
+		   x.mb_address, x.mb_grade
+	from(
+		select rownum as rnum, a.mb_id, a.mb_pwd, a.mb_name, a.mb_email, a.mb_phone, a.mb_joindate,
+		   a.mb_original_pic, a.mb_rename_pic, a.mb_bank, a.mb_loc_phone,
+		   a.mb_address, a.mb_grade
+		from(
+			select *
+			from member
+			order by #{code})a
+		where rownum <= #{end})x
+	where x.rnum >= #{start}
+	]]>
+	<!-- <include refid="search" /> -->
+	
+	</select>
+	
+	<select id="memberMore" parameterType="java.util.HashMap" resultMap="memberResult">
+		<![CDATA[
+		select x.mb_id, x.mb_pwd, x.mb_name, x.mb_email, x.mb_phone, x.mb_joindate, x.mb_original_pic,
+				x.mb_rename_pic, x.mb_bank, x.mb_loc_phone, x.mb_address, x.mb_grade
+		from(
+			select rownum as rnum, a.mb_id, a.mb_pwd, a.mb_name, a.mb_email, a.mb_phone, a.mb_joindate, a.mb_original_pic,
+				a.mb_rename_pic, a.mb_bank, a.mb_loc_phone, a.mb_address, a.mb_grade
+			from(
+				select * 
+				from member
+				order by #{code})a
+				where rownum <= #{end})x
+			where x.rnum >= #{start}
+			]]>
+						
 	</select>
   </mapper>
