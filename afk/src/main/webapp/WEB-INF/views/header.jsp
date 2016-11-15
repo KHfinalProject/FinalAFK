@@ -39,7 +39,8 @@ body { margin: 0; }
 }
 .head{
 	position: relative;
-	left: 32%
+	left: 32%;
+	top: 2px;
 }
 .search{
 	outline: none;
@@ -52,6 +53,9 @@ body { margin: 0; }
 }
 li.head label{
 	color: white;
+}
+.searchForm{
+	margin: 0;
 }
 .zeta-menu ul li { float: none; }
 .zeta-menu ul li:hover { background: #ddd; }
@@ -84,7 +88,7 @@ $(function(){
   <ul class="zeta-menu">
     <li><a href="#">홈</a></li>
 
-  <form>
+  <form class="searchForm">
 	<li class="head">
 		<label for="chk1"><input type="radio" id="chk1" value="1" name="board" checked>정보</label>
 		<label for="chk2"><input type="radio" id="chk2" value="2" name="board">가이드</label>
