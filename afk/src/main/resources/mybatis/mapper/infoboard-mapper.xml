@@ -112,4 +112,14 @@
 		delete from info_comment
 		where cm_no = #{cno}
 	</delete>
+	
+	<update id="addCount" parameterType="int">
+ 	UPDATE info_board 
+ 	SET info_count = (SELECT info_count 
+ 					FROM info_board 
+ 					WHERE info_no = #{info_no}) + 1
+ 	WHERE info_no = #{info_no}
+
+ 	</update>
+	
 </mapper>

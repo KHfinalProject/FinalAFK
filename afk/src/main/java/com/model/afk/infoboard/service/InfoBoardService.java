@@ -17,6 +17,10 @@ public interface InfoBoardService {
 	InfoBoardVO getBoardDetail(int info_no);
 
 	List<InfoBoardVO> getBoardSelectList(int page, String code);
+	
+	public InfoBoardVO boardDetail(int info_no);
+	
+	int addCount(int info_no);
 
 
 }

@@ -141,14 +141,22 @@ public class InfoBoardController {
 		 return null;
 	 }
 	 
-	 @RequestMapping(value="/{info_no}", method=RequestMethod.GET)
-	 public String getBoardDetail(@PathVariable int info_no, Model model) {
-		 /*InfoBoardVO board = bsvc.getBoardDetail(bno);*/
-		 //게시물디테일
-		 model.addAttribute("boardDetail", bsvc.getBoardDetail(info_no));
-		 		
-		 return "infoboard/detail";
-	 }
+	// 디테일 페이지 조회수 증가 처리
+		 @RequestMapping(value="/{info_no}", method=RequestMethod.GET)
+		 public String getInfoDetail(Model model, @PathVariable(value="info_no") int info_no,
+				 @RequestParam(value="page", defaultValue="1") int page){
+			 int result = bsvc.addCount(info_no);
+			 System.out.println(";;;;;;;;;;;;" + info_no);
+			 InfoBoardVO board = null;
+			 
+			 if(result > 0){
+				 board = bsvc.boardDetail(info_no);
+			 }
+			 
+			 model.addAttribute("board",board);
+			 
+			 return "infoboard/detail";
+		 }
 	 
 	 
 	 @RequestMapping("selectBoardReport")

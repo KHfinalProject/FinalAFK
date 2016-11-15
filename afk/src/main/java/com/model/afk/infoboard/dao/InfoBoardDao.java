@@ -48,4 +48,14 @@ public class InfoBoardDao {
 		return sqlsession.selectList(NAMESPACE + "selectBoard", map);
 	}
 
+	public InfoBoardVO boardDetail(int info_no) {
+		// TODO Auto-generated method stub
+		return sqlsession.selectOne(NAMESPACE + "detail", info_no);
+	}
+
+	public int addCount(int info_no) {
+		// TODO Auto-generated method stub
+		return sqlsession.update(NAMESPACE + "addCount", info_no);
+	}
+
 }

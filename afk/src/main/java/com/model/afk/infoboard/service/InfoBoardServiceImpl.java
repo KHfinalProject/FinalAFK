@@ -54,6 +54,18 @@ public class InfoBoardServiceImpl implements InfoBoardService{
 		map.put("code", code);
 		return dao.getBoardSelectList(map);
 	}
+	
+	@Override
+	public InfoBoardVO boardDetail(int info_no) {
+		// TODO Auto-generated method stub
+		return dao.boardDetail(info_no);
+	}
+	
+	@Override
+	public int addCount(int info_no) {
+		// TODO Auto-generated method stub
+		return dao.addCount(info_no);
+	}
 
 
 
