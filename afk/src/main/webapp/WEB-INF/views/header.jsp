@@ -5,92 +5,91 @@
 <head>
 <meta charset="UTF-8">
 <title>home</title>
-<style type="text/css">
-body {margin:0; padding:0;}
-
-.navi {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
+<style>
+body { margin: 0; }
+.zeta-menu-bar {
+  background: hotpink;
+  display: inline-block;
+  width: 100%;
 }
-
-.navi li {
-    float: left;
+.zeta-menu { margin: 0; padding: 0; }
+.zeta-menu li {
+  float: left;
+  list-style:none;
+  position: relative;
 }
-
-.navi li a, .dropbtn {
-    display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+.zeta-menu li:hover:not(.head) { background: white; }
+.zeta-menu li:hover>a { color: hotpink; }
+.zeta-menu a {
+  color: white;
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
 }
-
-.navi li a:hover, .dropdown:hover .dropbtn {
-    background-color: red;
-}
-
-.navi li.dropdown {
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-	margin: 0 20px;
-	right: 5px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index:10;
-}
-
-.navi .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-}
-
-.dropdown-content a:hover {background-color: #f1f1f1}
-
-.dropdown:hover .dropdown-content {
-    display: block;
+.zeta-menu ul {
+  background: #eee;
+  border: 1px solid silver;
+  display: none;
+  padding: 0;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 180px;
+  z-index: 1;
 }
 .head{
 	position: relative;
-	top: 10px;
 	left: 32%
 }
 .search{
 	outline: none;
-	background:  #333;
+	background:  hotpink;
 	box-sizing: border-box;
 	border: none;
 	border-bottom: white 2px solid;
 	color: white;
 	font-size: 16px;
-	transition: border 2s;
 }
 li.head label{
 	color: white;
 }
+.zeta-menu ul li { float: none; }
+.zeta-menu ul li:hover { background: #ddd; }
+.zeta-menu ul li:hover a { color: black; }
+.zeta-menu ul a { color: black; }
+.zeta-menu ul ul { left: 100%; top: 0; }
+.zeta-menu ul ul li {float:left; margin-right:10px;}
 </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(function(){
+  $(".zeta-menu li").hover(function(){
+    $('ul:first',this).show();
+  }, function(){
+    $('ul:first',this).hide();
+  });
+  $(".zeta-menu>li:has(ul)>a").each( function() {
+    $(this).html( $(this).html()+' &or;' );
+  });
+  $(".zeta-menu ul li:has(ul)")
+    .find("a:first")
+    .append("<p style='float:right;margin:-3px'>&#9656;</p>");
+});
+</script>
 </head>
 <body>
 
-<ul class="navi">
-  <li><a href="#home">로고</a></li>
-	
+<div class='zeta-menu-bar'>
+  <ul class="zeta-menu">
+    <li><a href="#">홈</a></li>
+
   <form>
 	<li class="head">
-	<label for="chk1"><input type="radio" id="chk1" value="1" name="board" checked>정보</label>
-	<label for="chk2"><input type="radio" id="chk2" value="2" name="board">가이드</label>
-	<input type="text" size="20" class="search">
-	<img src="/afk/resources/images/search.png" width="24" height="24" border="0" alt="">
+		<label for="chk1"><input type="radio" id="chk1" value="1" name="board" checked>정보</label>
+		<label for="chk2"><input type="radio" id="chk2" value="2" name="board">가이드</label>
+		<input type="text" size="20" class="search">
+		<img src="/afk/resources/images/search.png" width="24" height="24" border="0" alt="">
 	</li>
   </form>	
 
@@ -101,17 +100,18 @@ li.head label{
   <c:if test="${!(loginUser eq null)}">
 	  <li style="float: right;"class="dropdown">
 		<a href="#" class="dropbtn"><b>${loginUser.mb_id }</b>님 환영합니다.</a>
-		<div class="dropdown-content">
-		  <a href="/afk/mypage">마이페이지</a>
-          <a href="customer?currentPage=1&nextBlock=">고객센터</a>
-	  <c:if test="${loginUser.mb_grade eq '1'}">
-          <a href="memberListView">관리자 회원관리</a>
-          <a href="matching">관리자(매칭관리)</a>
+		<ul>
+		  <li><a href="/afk/mypage">마이페이지</a></li>
+          <li><a href="customer?currentPage=1&nextBlock=">고객센터</a></li>
+	  <c:if test="${loginUser.mb_grade eq '1'}"></li>
+          <li><a href="memberListView">관리자 회원관리</a></li>
+          <li><a href="matching">관리자(매칭관리)</a></li>
       </c:if>
-		  <a href="logout">로그아웃</a>
-		</div>
+		  <li><a href="logout">로그아웃</a></li>
+		</ul>
 	  </li>
   </c:if>
 </ul>
+</div>
 </body>
 </html>
