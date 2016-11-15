@@ -39,9 +39,9 @@
 
  </head>
  <body>
- <div>header</div>
+
  <div class="container">
- <div class="gong" align="center"><h1>공&nbsp;&nbsp;지&nbsp;&nbsp;사&nbsp;항<small><img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></small></h1></div>
+ <div class="gong" align="center"><h1>공&nbsp;&nbsp;지&nbsp;&nbsp;사&nbsp;&nbsp;항<small><img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></small></h1></div>
  <hr style="border: solid 1px #0000ff">
  <div class="title"><h2>${temp.notice_title}<h2></div>
  <table width="764">
@@ -83,7 +83,9 @@
 						<input type="button" value="목록으로" onclick="location.href='/afk/customer?currentPage=${currentPage}&nextBlock='">
 			</div>
 </div>
-	
+	<footer>
+   <c:import url="../footer.jsp"></c:import>
+   </footer>
  </body>
 </html>
  

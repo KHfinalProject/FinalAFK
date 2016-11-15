@@ -188,7 +188,7 @@ public class MemberController {
 			result = 0;
 		}
 		model.addAttribute("result", result);
-		return "idSearchView";
+		return "member/idSearchView";
 	}
 	// 패스워드 찾기 폼 호출
 	@RequestMapping(value="/pwSearch", method=RequestMethod.GET)

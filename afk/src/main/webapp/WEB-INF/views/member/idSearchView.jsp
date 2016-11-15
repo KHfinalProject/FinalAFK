@@ -50,6 +50,9 @@
 
 </head>
 <body>
+<header>
+<c:import url="../header.jsp"></c:import>
+</header>
 <div>
    <article class="container">
 	<div class="page-header">
@@ -94,6 +97,9 @@
 	</c:if>
    </article>
    </div>
+   <footer>
+   <c:import url="../footer.jsp"></c:import>
+   </footer>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/afk/resources/js/bootstrap.min.js"></script>
