@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.model.afk.admin.Service.AdminMemberService;
 import com.model.afk.admin.vo.AdminMember;
@@ -29,15 +31,28 @@ public class AdminMemberController {
 	
 	// 회원 전체 출력 컨트롤러
 	@RequestMapping("/memberListView")
-	public String memberListAll(Model model, HttpServletRequest request, HttpServletResponse response){
+	public String memberListAll(Model model, @RequestParam(value="page", defaultValue="1") int page, 
+			 @RequestParam(value="code", defaultValue="mb_id") String code, String keyword){
 		
-		String keyword = request.getParameter("keyword");
 		
-		List<AdminMember> memberList = ams.getMemberList();
+		List<AdminMember> memberList = ams.getMemberList(page, code, keyword);
 		model.addAttribute("memberList", memberList);
 		return "admin/memberListView";
 		
 	}
+	
+	// 더보기 클릭시
+			@RequestMapping("/memberMore")
+			 public @ResponseBody List<AdminMember> memberpaging(@RequestParam(value="page", defaultValue="1") int page, 
+					 @RequestParam(value="code", defaultValue="mb_id") String code, String keyword) throws Exception{
+				 System.out.println("================= MEMBERMORE ======================");
+				 List<AdminMember> list = ams.getMemberSelectList(page, code, keyword);
+				 
+				 System.out.println("=================" + list);
+				 		 
+				 return list;
+				 
+			 }
 	
 	
 	 //회원 삭제 컨트롤러(삭제 클릭)

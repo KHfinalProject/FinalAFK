@@ -8,7 +8,7 @@ import com.model.afk.admin.vo.AdminMember;
 
 public interface AdminMemberService {
 	
-	public List<AdminMember> getMemberList();
+	public List<AdminMember> getMemberList(int page, String code, String keyword);
 
 	public int memberDelete(String memberId);
 
@@ -16,5 +16,6 @@ public interface AdminMemberService {
 
 	public List<AdminMember> memberSearch(String memberId, String keyword, String memberGrade, String memberName);
 
+	List<AdminMember> getMemberSelectList(int page, String code, String keyword);
 
 }

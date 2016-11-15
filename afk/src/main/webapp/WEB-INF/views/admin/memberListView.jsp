@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="kr">
 <head>
@@ -8,7 +9,7 @@
 <title>회원관리</title>
 
 <script>
-    function searchCheck(frm){
+    function searchCheck(form){
         //검색
        
         if(frm.keyWord.value ==""){
@@ -16,8 +17,12 @@
             frm.keyWord.focus();
             return;
         }
-        frm.submit();      
+        form.submit();      
     }
+</script>
+
+<script>
+    
 </script>
 
 <meta charset="UTF-8">
@@ -35,7 +40,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
  <style type="text/css">
-	.member {
+	.membertable {
 		margin:0 auto;
 		BORDER-TOP: 2px solid black;
 		BORDER-BOTTOM: 2px solid black;
@@ -44,17 +49,19 @@
 		width : 80%;
 	}
 	
-	.member tr th{
+	.membertable tr th{
 		BORDER-BOTTOM: 1px solid #d9d9d9;
 		padding : 10px;
+		width : 10%;
 	}
-	.member tr th {
+	.membertable tr th {
 		text-align : center;
 	}
-	.member tr td {
+	.membertable tr td {
 		width: 20px nowrap
+		width : 10%;
 	}
-	.member tr td:nth-child(2n+1), .member tr th:nth-child(2n+1){
+	.membertable tr td:nth-child(2n+1), .membertable tr th:nth-child(2n+1){
 		background: #ebebeb;
 	}
 
@@ -67,66 +74,144 @@
 		border:1px solid #3333cc;
 		background: #ebebeb;
 	}
+	
+	div {
+		/*border : 1px solid red;*/
+	}
+	
+	#img {
+		float : left;
+	}
 
- </style>
+	#info {
+		padding-left : 30px;
+	}
+
+	#info table{
+		height : 200px;
+	}
+
+	#amount {
+		margin-top : 30px;
+		border-top : 1px solid #c1c1c1;
+		margin-bottom : 40px;
+		font-size : 18pt;
+	}
+
+	#buy_btn {
+		width : 150px;
+		height : 40px;
+		color : white;
+		font-size : 18pt;
+		background-color : #04378c;
+		-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	}
+
+	#cancel_btn {
+		width : 150px;
+		height : 40px;
+		font-size : 18pt;
+		background-color : white;
+		-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	}
+
+	#btns {
+		text-align : center;
+	}
+
+	#btns button:hover {
+		background-color : #e64928;
+		color : white;
+	}
+	
+	/* body {margin:0; padding:0;} */
+
+.navi {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.navi li {
+    float: left;
+}
+
+.navi li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navi li a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+}
+
+.navi li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 2px;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.navi .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+</style>
  	
 </head>
 <body>
 
 	<!-- 헤더부분 -->
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-	  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">
-        <img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand">
-      </a>
+<ul class="navi">
+  <li><a href="#home">로고</a></li>
+  
+  <c:if test="${loginUser eq null}">
+	  <li style="float:right"><a href="/afk/joinInsertView">회원가입</a></li>
+	  <li style="float:right"><a href="/afk/loginView">로그인</a></li> 
+  </c:if>
+  
+  <c:if test="${!(loginUser eq null)}">
+  <li style="float: right;"class="dropdown">
+    <a href="#" class="dropbtn">${loginUser.mb_id}님 좋은여행!</a>
+    <div class="dropdown-content">
+      <a href="/afk/mypage">마이페이지</a>
+      <a href="customer">고객센터</a>
+   	  <a href="paymentProceed">결제창</a>
+     <c:if test="${loginUser.mb_grade eq '1'}">
+      <a href="memberListView">관리자(회원관리)</a>
+      <a href="matching">관리자(매칭관리)</a>
+      <a href="test">페이징테스트</a>
+      <a href="guide/guideM ain">가이드메인</a>
+     </c:if>
+	  <a href="logout">로그아웃</a>
     </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right">
-      <!-- <c:if test="${loginUser eq null}"> -->
-      	<li><a href="#"><span class="glyphicon glyphicon-log-in" aria-hidden="true"> 로그인</span></a></li>
-      	<li><a href="#">회원가입</a></li>
-     <!--  </c:if> -->
-     <!--  <c:if test="${!(loginUser eq null)}"> -->
-        <li><a href="#"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-		</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><!--${loginUser.mb_id}--><span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">마이페이지</a></li>
-            <li><a href="#">마이플래너</a></li>
-            <li><a href="#">공지사항</a></li>
-            <li class="divider"></li>
-            <li><a href="#">로그아웃</a></li>
-     <!--  </c:if> -->
-          </ul>
-        </li>
-      </ul>
-	  <center>
-	  <form class="navbar-form" role="search">
-        <div class="form-group">
-        <select class="selectpicker" data-width="130px">
-        	<option>정보게시글</option>
-        	<option>가이드게시글</option>
-        </select>
-          <input type="text" class="form-control" placeholder="Search" size="30">
-        </div>
-        <button type="submit" class="btn btn-default">검색</button>
-      </form>
-	  </center>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
+  </li>
+  </c:if>
+</ul>
 <!-- 헤더 끝 -->
 
   <center><div class="container">
@@ -164,19 +249,200 @@
   <br>
 <br>
 
-<div id = "member">
 
+<script>
+var code = "mb_id";
+function load_select(cmd){
+	var code = cmd;
+	
+ 	$('.member table').each(function(){
+		$('.member table:eq(0)').remove();
+	})
+		
+	$.ajax({
+		url : "/afk/memberMore",
+		data : {code : code},
+		type : "post",
+		dataType : "json",
+		success : function(data){
+			console.log("success");
+			var result = "";
+			var old = $('.member').html();
+		
+		if(data.length > 0) {
+			for(var i in data){
+				result += "<table class='membertable'>";
+				result += "<tr>";
+				result += "<th>" + '아이디' + "</th>";
+				result += "<th>" + '이름'  + "</th>";
+				result += "<th>" + '이메일'  + "</th>";
+				result += "<th>" + '연락처'  + "</th>";
+				result += "<th>" + '회원등급'  + "</th>";
+				result += "<th>" + '가입일' + "</th>";			
+				result += "<th'>" +'계좌번호'  + "</th>";
+				result += "<th>" + '가이드현지연락처'  + "</th>";
+				result += "<th>" + '가이드현지주소'  + "</th>";
+				result += "<th>" + '옵션'  + "</th></tr>";
+				
+		
+				result += "<tr>";
+				result += "<td>";
+				result += "<input value='" + data[i].memberId +"' size='5'></td>";
+				result += "<td>" + data[i].memberName + "</td>";
+				result += "<td>" + data[i].memberEmail + "</td>";
+				result += "<td>" + data[i].memberPhone + "</td>";
+				result += "<td align='center'>";
+				result += "<select>";
+				
+				console.log(data[i].memberGrade);
+				if(data[i].memberGrade == "1"){
+				     result += "<option class='j' value='1' selected>관리자</option>";
+				}else if(data[i].memberGrade = "2"){
+					 result += "<option class='j' value='2' selected>가이드</option>";	
+				}else{
+					if(data[i].memberGrade = "3"){
+						result += "<option class='j' value='3' selected>일반회원</option>";	
+					}
+				}
+				result += "<option value='1'>관리자</option>";
+				result += "<option value='2'>가이드</option>";
+				result += "<option value='3'>일반회원</option>";
+				result += "</select>";
+				result += "<input class='btn btn btn-info' value='등급수정'>";
+				result += "</td>";
+				result += "<td>" + data[i].memberJoinDate + "</td>";
+				result += "<td>" + data[i].memberBank + "</td>";
+				result += "<td>" + data[i].memberLocPhone + "</td>";
+				result += "<td>" + data[i].memberAddress + "</td>";
+				
+				result += "<td>";
+				result += "<a href='${md}' target='_self'>" +'삭제하기'+ "</a>";
+				result += "</td></tr></form></table></div>";
+				
+				
+				 
+			}
+			console.log("데이터 길이 : " + data.length);
+			
+			
+		}else {
+			result = "<h3>더이상 불러올 회원이 없습니다.<h3>";
+			/* $('#more').remove(); */
+		}
+		$('.member').html(old + result);
+		$('#afk').val(code);
+		$('#afkk').val('1');
+		}
+});
+	
+}
+	
+$(function(){
+	
+	
+	var count = Number($('#afk').val());
 
+	$('#more').click(function(){
+		
+		
+		count += 5;
+		console.log("count :" + count);
+		var code = $('#afkk').val();
+		var keyword = $('#keyword').val();
+	
+	$.ajax({
+		
+		url : "/afk/memberMore",
+		type : "post",
+		data : {page : count , code : code, keyword : keyword},
+		dataType : "json",
+		success : function(data){
+			console.log("success");
+			var result = "";
+			var old = $('.member').html();
+			
+			if(data.length > 0){
+				for(var i in data){
+					result += "<table class='membertable'>";
+					result += "<tr>";
+					result += "<th>" + '아이디' + "</th>";
+					result += "<th>" + '이름'  + "</th>";
+					result += "<th>" + '이메일'  + "</th>";
+					result += "<th>" + '연락처'  + "</th>";
+					result += "<th>" + '회원등급'  + "</th>";
+					result += "<th>" + '가입일' + "</th>";			
+					result += "<th'>" +'계좌번호'  + "</th>";
+					result += "<th>" + '가이드현지연락처'  + "</th>";
+					result += "<th>" + '가이드현지주소'  + "</th>";
+					result += "<th>" + '옵션'  + "</th></tr>";
+					
+			
+					result += "<tr>";
+					result += "<td>";
+					result += "<input value='" + data[i].memberId +"' size='5'></td>";
+					result += "<td>" + data[i].memberName + "</td>";
+					result += "<td>" + data[i].memberEmail + "</td>";
+					result += "<td>" + data[i].memberPhone + "</td>";
+					result += "<td align='center'>";
+					result += "<select>";
+					
+					console.log(data[i].memberGrade);
+					if(data[i].memberGrade == "1"){
+					     result += "<option class='j' value='1' selected>관리자</option>";
+					}else if(data[i].memberGrade = "2"){
+						 result += "<option class='j' value='2' selected>가이드</option>";	
+					}else{
+						if(data[i].memberGrade = "3"){
+							result += "<option class='j' value='3' selected>일반회원</option>";	
+						}
+					}
+					result += "<option value='1'>관리자</option>";
+					result += "<option value='2'>가이드</option>";
+					result += "<option value='3'>일반회원</option>";
+					result += "</select>";
+					result += "<input class='btn btn btn-info' value='등급수정'>";
+					result += "</td>";
+					result += "<td>" + data[i].memberJoinDate + "</td>";
+					result += "<td>" + data[i].memberBank + "</td>";
+					result += "<td>" + data[i].memberLocPhone + "</td>";
+					result += "<td>" + data[i].memberAddress + "</td>";
+					
+					result += "<td>";
+					result += "<a href='${md}' target='_self'>" +'삭제하기'+ "</a>";
+					result += "</td></tr></form></table></div>";
+					
+					
+					 
+				}
+				console.log("데이터 길이 : " + data.length);
+				/* $('.member').html(old + result); */
+			}else{
+				result = "<h3>더이상 불러올 회원이 없습니다.<h3>";
+				/* $('#more').remove(); */
+			}
+			$('.member').html(old + result);
+			
+		}
 
-<table class ="member"  cellspacing ="0">
+	})
+});
+});
+
+</script>
+
+<div class="member">
+
+<table class ="membertable"  cellspacing ="0">
 <c:forEach var="m" items="${memberList}" varStatus="status">
   <tr>
 		<th>아이디</th><th>이름</th><th>이메일</th><th>연락처</th><th>회원등급</th><th>가입일</th>
-		<th>가이드 <br>계좌번호</th><th>가이드<br>현지연락처</th><th>가이드현지주소</th><th>옵션</th>
+		<th>계좌번호</th><th>가이드현지연락처</th><th>가이드현지주소</th><th>옵션</th>
   </tr>
   <form action="admemberUpdate" method="get">
 		<tr>
-			<td><input type="text" name="id" value="${m.memberId}" size="5"></td>
+			<td>
+			<input type="text" name="id" value="${m.memberId}" size="5">
+			</td>
 			<td>${m.memberName}</td>
 			<td>${m.memberEmail}</td>
 			<td>${m.memberPhone}</td>
@@ -197,7 +463,7 @@
 			<input class="btn btn btn-info" type="submit" value="등급수정">
 		
 			</td>
-			 <td>${m.memberJoinDate}</td>
+			<td>${m.memberJoinDate}</td>
 			<td>${m.memberBank}</td>
 			<td>${m.memberLocPhone}</td>
 			<td>${m.memberAddress}</td>
@@ -205,14 +471,14 @@
 			<c:url var="md" value="admemberDelete">
 			<c:param name="memberId" value="${m.memberId}"/>
 			</c:url>
-				<td><a href="${md}" target="_self">삭제하기</a></td>
-			<!-- <td><input class="btn btn btn-info" type="submit" value="삭제"></td> -->
+				<td>
+				<a href="${md}" target="_self">삭제하기</a>
+				</td>
 		</tr>
 	</form>
 				</c:forEach>
 	</table>
 
-<!-- </form> -->
 </div>
 <br>
 
@@ -228,8 +494,15 @@
 </form>
 
 </div>
+<div class="but">
+	<button id="more">더보기</button>
+</div>
 </center>
 
 <br>
+<input id="afk" type="hidden" />
+<input id="afkk" type="hidden" />
+<input id="keyword" type="hidden" />
+
 </body>
 </html>

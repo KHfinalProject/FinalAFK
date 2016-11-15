@@ -19,11 +19,6 @@ public class AdminMemberDao {
 	
 	private static final String NAMESPACE = "AdminMemberMapper.";
 
-	public List<AdminMember> getMemberList() {
-		
-		return sqlSession.selectList(NAMESPACE + "memberAll");
-	}
-
 	public int memberDelete(String memberId) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete(NAMESPACE + "deleteMember", memberId);
@@ -41,6 +36,20 @@ public class AdminMemberDao {
 		map.put("memberName", memberName);
 		map.put("memberGrade", memberGrade);
 		return sqlSession.selectList(NAMESPACE + "select", map);
+	}
+	
+	public List<AdminMember> getMemberList(int page, String code, String keyword) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", page);
+		map.put("end", page + 4);
+		map.put("code", code);
+		map.put("keyword", keyword);
+		return sqlSession.selectList(NAMESPACE + "memberAll", map);
+	}
+	
+	public List<AdminMember> getMemberSelectList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + "memberMore", map);
 	}
 
 }
