@@ -13,7 +13,7 @@ public class Payment implements java.io.Serializable {
 	private int gui_no; //결제한 상품번호
 	private String guide_id; //결제한 상품의 담당 가이드 ID
 	private int price; //결제가격
-	private Date departure_date; //사용자가 선택한 출발일
+	private String departure_date; //사용자가 선택한 출발일
 	private Date pay_date; //결제일
 	private char paid; //결제여부
 	
@@ -21,7 +21,7 @@ public class Payment implements java.io.Serializable {
 	public Payment(){}
 
 	public Payment(int pay_no, String pay_id, String pay_name, String pay_phone, String pay_email, int gui_no,
-			String guide_id, int price, Date departure_date, Date pay_date, char paid) {
+			String guide_id, int price, String departure_date, Date pay_date, char paid) {
 		super();
 		this.pay_no = pay_no;
 		this.pay_id = pay_id;
@@ -101,11 +101,11 @@ public class Payment implements java.io.Serializable {
 		this.price = price;
 	}
 
-	public Date getDeparture_date() {
+	public String getDeparture_date() {
 		return departure_date;
 	}
 
-	public void setDeparture_date(Date departure_date) {
+	public void setDeparture_date(String departure_date) {
 		this.departure_date = departure_date;
 	}
 

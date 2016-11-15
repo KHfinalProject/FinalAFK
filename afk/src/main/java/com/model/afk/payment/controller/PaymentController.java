@@ -1,7 +1,8 @@
 package com.model.afk.payment.controller;
 
-import java.sql.Date;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.model.afk.admin.Service.AdminMemberService;
-import com.model.afk.admin.vo.AdminMember;
 import com.model.afk.guide.service.GuideBoardService;
 import com.model.afk.guide.vo.GuideItem;
-import com.model.afk.member.vo.Member;
 import com.model.afk.payment.service.PaymentService;
 import com.model.afk.payment.vo.Payment;
 
@@ -56,8 +55,8 @@ public class PaymentController {
 	public String getPurchasedList(Model model, @RequestParam String userId,
 			@RequestParam String userName, @RequestParam int price, @RequestParam String date,
 			@RequestParam String email, @RequestParam String phone,
-			@RequestParam String guideId, @RequestParam int itemNo){
-		
+			@RequestParam String guideId, @RequestParam int itemNo) throws ParseException{
+					
 		Payment payment = new Payment();
 		payment.setPay_id(userId);
 		payment.setPay_name(userName);
@@ -66,6 +65,7 @@ public class PaymentController {
 		payment.setGui_no(itemNo);
 		payment.setGuide_id(guideId);
 		payment.setPrice(price);
+		payment.setDeparture_date(date);
 		
 		int result = paymentService.insertPayment(payment);
 		String view = "";

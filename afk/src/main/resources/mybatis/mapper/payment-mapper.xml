@@ -8,10 +8,9 @@
  
  <insert id="insertPayment" parameterType="Payment">
  	INSERT INTO payment
- 	VALUES (payment_seq.nextval, #{payment.pay_id}, #{payment.pay_name}, 
- 	#{payment.pay_phone}, #{payment.pay_email}, #{payment.gui_no},
- 	#{payment.guide_id}, #{payment.price}, #{payment.departure_date},
- 	sysdate, 'Y'); 
+ 	VALUES (payment_seq.nextval, #{pay_id}, #{pay_name}, 
+ 	#{pay_phone}, #{pay_email}, #{gui_no},
+ 	#{guide_id}, #{price}, #{departure_date}, sysdate, 'Y')
  </insert>
  
  
