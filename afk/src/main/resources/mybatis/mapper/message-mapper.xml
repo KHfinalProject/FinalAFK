@@ -10,17 +10,39 @@
 													  <if test="mes_no == 0">NULL</if>)
 	</insert>
 	
+	<!-- 일반유저일 경우 메세지리스트에서 받는사람의 사진보이게 -->
 	<select id="selectmsgList" parameterType="String" resultType="Message">
-		SELECT RECIEVE_ID, MES_NO, SEND_ID, MES_CONTENT, VIEW_DATE, SEND_DATE, R_DELYN, S_DELYN
+		SELECT RECIEVE_ID, MES_NO, SEND_ID, MES_CONTENT, VIEW_DATE, SEND_DATE, R_DELYN, S_DELYN, MB_RENAME_PIC
       	FROM ( SELECT MSG.RECIEVE_ID, MSG.MES_NO, ROW_NUMBER() OVER (PARTITION BY MSG.RECIEVE_ID ORDER BY MSG.MES_NO DESC) NO, MES_CONTENT, MSG.SEND_ID, MSG.VIEW_DATE, MSG.SEND_DATE, MSG.R_DELYN, MSG.S_DELYN
        			FROM MESSAGE MSG
-      			WHERE MSG.SEND_ID = #{id} or msg.recieve_id = #{id}) MSG
-       	WHERE MSG.NO=1
+      			WHERE MSG.SEND_ID = #{id} OR MSG.RECIEVE_ID = #{id}) MSG, MEMBER M
+		WHERE MSG.NO=1
+		AND MSG.RECIEVE_ID = M.MB_ID
+	</select>
+	
+	<!-- 가이드유저일 경우 메세지리스트에서 보낸사람의 사진보이게 -->
+	<select id="selectmsgListG" parameterType="String" resultType="Message">
+		SELECT RECIEVE_ID, MES_NO, SEND_ID, MES_CONTENT, VIEW_DATE, SEND_DATE, R_DELYN, S_DELYN, MB_RENAME_PIC
+      	FROM ( SELECT MSG.RECIEVE_ID, MSG.MES_NO, ROW_NUMBER() OVER (PARTITION BY MSG.RECIEVE_ID ORDER BY MSG.MES_NO DESC) NO, MES_CONTENT, MSG.SEND_ID, MSG.VIEW_DATE, MSG.SEND_DATE, MSG.R_DELYN, MSG.S_DELYN
+       			FROM MESSAGE MSG
+      			WHERE MSG.SEND_ID = #{id} OR MSG.RECIEVE_ID = #{id}) MSG, MEMBER M
+		WHERE MSG.NO=1
+		AND MSG.SEND_ID = M.MB_ID
 	</select>
 	
 	<select id="selectMsgDetailList" parameterType="Message" resultType="Message">
-		SELECT MES_NO, SEND_ID, RECIEVE_ID, VIEW_YN, SEND_DATE, VIEW_DATE, MES_CONTENT, S_DELYN, R_DELYN, PARENT_MSGNO FROM MESSAGE
+		SELECT MES_NO, SEND_ID, RECIEVE_ID, VIEW_YN, SEND_DATE, VIEW_DATE, MES_CONTENT, S_DELYN, R_DELYN, PARENT_MSGNO, MB_RENAME_PIC
+		FROM MESSAGE MSG, MEMBER M
 		WHERE (RECIEVE_ID IN (#{recieve_id}, #{send_id})) AND (SEND_ID IN (#{send_id}, #{recieve_id}))
+		AND MSG.RECIEVE_ID = M.MB_ID
+		ORDER BY MES_NO DESC
+	</select>
+	
+	<select id="selectMsgDetailListG" parameterType="Message" resultType="Message">
+		SELECT MES_NO, SEND_ID, RECIEVE_ID, VIEW_YN, SEND_DATE, VIEW_DATE, MES_CONTENT, S_DELYN, R_DELYN, PARENT_MSGNO, MB_RENAME_PIC
+		FROM MESSAGE MSG, MEMBER M
+		WHERE (RECIEVE_ID IN (#{recieve_id}, #{send_id})) AND (SEND_ID IN (#{send_id}, #{recieve_id}))
+		AND MSG.SEND_ID = M.MB_ID
 		ORDER BY MES_NO DESC
 	</select>
 	

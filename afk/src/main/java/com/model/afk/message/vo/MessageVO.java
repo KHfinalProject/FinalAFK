@@ -15,13 +15,14 @@ public class MessageVO implements java.io.Serializable{
 	private int parent_msgno;	//부모 메세지 번호
 	private char s_delyn;		//보낸사람 삭제여부
 	private char r_delyn;		//받는사람 삭제여부
+	private String mb_rename_pic;
 	
 	public MessageVO() {
 		super();
 	}
 
 	public MessageVO(int mes_no, String send_id, String recieve_id, char view_yn, Date send_date, Date view_date,
-			String mes_content, int parent_msgno, char s_delyn, char r_delyn) {
+			String mes_content, int parent_msgno, char s_delyn, char r_delyn, String mb_rename_pic) {
 		super();
 		this.mes_no = mes_no;
 		this.send_id = send_id;
@@ -33,6 +34,7 @@ public class MessageVO implements java.io.Serializable{
 		this.parent_msgno = parent_msgno;
 		this.s_delyn = s_delyn;
 		this.r_delyn = r_delyn;
+		this.mb_rename_pic = mb_rename_pic;
 	}
 
 	public MessageVO(String send_id, String recieve_id) {
@@ -119,13 +121,21 @@ public class MessageVO implements java.io.Serializable{
 	public void setR_delyn(char r_delyn) {
 		this.r_delyn = r_delyn;
 	}
+	
+	public String getMb_rename_pic() {
+		return mb_rename_pic;
+	}
+
+	public void setMb_rename_pic(String mb_rename_pic) {
+		this.mb_rename_pic = mb_rename_pic;
+	}
 
 	@Override
 	public String toString() {
 		return "MessageVO [mes_no=" + mes_no + ", send_id=" + send_id + ", recieve_id=" + recieve_id + ", view_yn="
 				+ view_yn + ", send_date=" + send_date + ", view_date=" + view_date + ", mes_content=" + mes_content
-				+ ", parent_msgno=" + parent_msgno + ", s_delyn=" + s_delyn + ", r_delyn=" + r_delyn + "]";
+				+ ", parent_msgno=" + parent_msgno + ", s_delyn=" + s_delyn + ", r_delyn=" + r_delyn
+				+ ", mb_rename_pic=" + mb_rename_pic + "]";
 	}
-
 	
 }

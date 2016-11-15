@@ -46,7 +46,12 @@ public class MessageServiceImpl implements MessageService{
 
 	@Override
 	public List<MessageVO> getMsgListG(String id) {
-		return msgDao.getMsgList(id);
+		return msgDao.getMsgListG(id);
+	}
+
+	@Override
+	public List<MessageVO> getMsgDetailListG(MessageVO msgVO) {
+		return msgDao.getMsgDetailListG(msgVO);
 	}
 
 

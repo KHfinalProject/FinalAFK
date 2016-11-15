@@ -102,11 +102,6 @@ public class MypageController implements ServletContextAware{
 		out.flush();
 		out.close();
 	}
-	
-	@RequestMapping("/reviewlist")
-	public void getMyReviewList(Model model, HttpSession session){
-		//내가 쓴 후기 리스트 불러오는 기능
-	}
  
 	@RequestMapping(value="/updateMyProfile")
 	public String updateMyProfile(Member mvo, @RequestParam("loginid") String id, HttpServletRequest request, HttpSession session) throws Exception{

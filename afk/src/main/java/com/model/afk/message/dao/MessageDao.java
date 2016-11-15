@@ -45,4 +45,13 @@ public class MessageDao {
 	public List<MessageVO> getMsgDetailList(MessageVO msgVO) {
 		return sqlSession.selectList(NAMESPACE + "selectMsgDetailList", msgVO);
 	}
+	
+	public List<MessageVO> getMsgDetailListG(MessageVO msgVO) {
+		return sqlSession.selectList(NAMESPACE + "selectMsgDetailListG", msgVO);
+	}
+	
+	public List<MessageVO>getMsgListG(String id){
+		return sqlSession.selectList(NAMESPACE + "selectmsgListG", id);
+		
+	}
 }

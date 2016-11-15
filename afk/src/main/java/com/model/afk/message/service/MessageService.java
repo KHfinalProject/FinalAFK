@@ -12,4 +12,5 @@ public interface MessageService {
 	int insertMsgG(MessageVO mvo);
 	List<MessageVO> getMsgDetailList(MessageVO msgVO);
 	List<MessageVO> getMsgListG(String id);
+	List<MessageVO> getMsgDetailListG(MessageVO msgVO);
 }

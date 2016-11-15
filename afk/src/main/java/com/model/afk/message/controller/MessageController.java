@@ -86,6 +86,7 @@ public class MessageController {
 			job.put("sid", list.getSend_id());
 			job.put("msgcontent", URLEncoder.encode(list.getMes_content(), "UTF-8"));
 			job.put("mes_no", list.getMes_no());
+			job.put("rpic", list.getMb_rename_pic());
 			
 			Date send = list.getSend_date();
 			String sendDate = sdFormat.format(send);			
@@ -115,19 +116,20 @@ public class MessageController {
 		//가이드인 경우, 주고받은 메세지 다 보이게
 		MessageVO msgVO = new MessageVO(id, gid);
 		
-		List<MessageVO> msgdetailListR = ms.getMsgDetailList(msgVO);
-		System.out.println("메세지 디테일 리스트 가이드 : "+msgdetailListR.toString());
+		List<MessageVO> msgdetailListG = ms.getMsgDetailListG(msgVO);
+		System.out.println("메세지 디테일 리스트 가이드 : "+msgdetailListG.toString());
 		JSONObject json = new JSONObject();
 		JSONArray jarr = new JSONArray();
 		
 		DateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		
-		for(MessageVO list : msgdetailListR){
+		for(MessageVO list : msgdetailListG){
 			JSONObject job = new JSONObject();
 			job.put("rid", list.getRecieve_id());
 			job.put("sid", list.getSend_id());
 			job.put("msgcontent", URLEncoder.encode(list.getMes_content(), "UTF-8"));
 			job.put("mes_no", list.getMes_no());
+			job.put("spic", list.getMb_rename_pic());
 			
 			Date send = list.getSend_date();
 			String sendDate = sdFormat.format(send);			
@@ -148,7 +150,7 @@ public class MessageController {
 		out.flush();
 		out.close();
 		
-		return msgdetailListR;
+		return msgdetailListG;
 		
 	}
 	

@@ -201,7 +201,7 @@
 					    if(rid == "${loginUser.mb_id}"){
 							location.href='/afk/msg/msgdeleteR?mesno='+msgno;
 					    }else if (sid == "${loginUser.mb_id}"){
-					    	alert(sid);
+					    	//alert(sid);
 		
 					    	location.href='/afk/msg/msgdeleteS?mesno='+msgno;
 					    }
@@ -328,10 +328,16 @@
 									str += "<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" 
 									+ data[i].mes_content + "</div></td>" +
 									"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'>"
-									+"<c:if test='${empty loginUser.mb_rename_pic}'><img src='resources/images/mypage/jo.jpg'></c:if>"
-									+"<c:if test='${!(loginUser.mb_rename_pic eq null)}'>"
-									+"<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic }' style='width:100%;'></c:if>"
-									+"</div></div></div></td></tr><tr><td>TO. " + data[i].recieve_id + "</td>" 
+									
+									if(data[i].mb_rename_pic == null){
+										str += "<img src='resources/images/mypage/jo.jpg'>";
+									}
+									else{
+										path = data[i].mb_rename_pic
+										str += "<img src='${pageContext.request.contextPath}/resources/images/mypage/"+ path +"' style='width:100%;'>";
+									}
+									
+									str += "</div></div></div></td></tr><tr><td>TO. " + data[i].recieve_id + "</td>" 
 									+"<td>FROM. " + data[i].send_id + "</td></tr><tr><td colspan='2' style='text-align:center'>"
 									+"<c:if test='${loginUser.mb_grade == 3}'><a href='/afk/msg?guideId="+ data[i].recieve_id +"&loginId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a></c:if>"
 									+"<c:if test='${loginUser.mb_grade == 2}'><a href='/afk/msg/list?askId="+ data[i].send_id +"&gId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a></c:if>"
@@ -352,6 +358,7 @@
 						}else{
 							$("#mymsgdiv").empty();
 							str = "<br><center><h3><span>주고받은 메세지가 없습니다.</span></h3></center>"
+							$("#mymsgdiv").append(str);
 						}		
 					}
 				});
@@ -375,10 +382,16 @@
 									str += "<div class='table-responsive'><table class='table'><tr><td style='word-break:break-all; color:blue'>" 
 									+ data[i].mes_content + "</div></td>" +
 									"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'>"
-									+"<c:if test='${empty loginUser.mb_rename_pic}'><img src='resources/images/mypage/jo.jpg'></c:if>"
-									+"<c:if test='${!(loginUser.mb_rename_pic eq null)}'>"
-									+"<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic }' style='width:100%;'></c:if>"
-									+"</div></div></div></td></tr><tr><td>TO. " + data[i].recieve_id + "</td>" 
+									
+									if(data[i].mb_rename_pic == null){
+										str += "<img src='resources/images/mypage/jo.jpg'>";
+									}
+									else{
+										path = data[i].mb_rename_pic
+										str += "<img src='${pageContext.request.contextPath}/resources/images/mypage/"+ path +"' style='width:100%;'>";
+									}
+									
+									str += "</div></div></div></td></tr><tr><td>TO. " + data[i].recieve_id + "</td>" 
 									+"<td>FROM. " + data[i].send_id + "</td></tr><tr><td colspan='2' style='text-align:center'>"
 									+"<c:if test='${loginUser.mb_grade == 3}'><a href='/afk/msg?guideId="+ data[i].recieve_id +"&loginId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a></c:if>"
 									+"<c:if test='${loginUser.mb_grade == 2}'><a href='/afk/msg/list?askId="+ data[i].send_id +"&gId=${loginUser.mb_id}'><button type='button' class='btn btn-default btn-lg'>상세보기</button></a></c:if>"
@@ -399,6 +412,7 @@
 						}else{
 							$("#mymsgdiv").empty();
 							str = "<br><center><h3><span>주고받은 메세지가 없습니다.</span></h3></center>"
+							$("#mymsgdiv").append(str);
 						}		
 					}
 				});
@@ -463,6 +477,58 @@
 						}else{
 							$("#myGuideContent").empty();
 							$("#myGuideContent").append("<br><center><h3><span>올린 게시물이 없습니다.</span></h3><br><br>" +
+							"<a href='/afk/guide/guideMain'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 가이드 게시물 올리기 </button></a></center>");
+						}
+					}
+				});
+			}
+			
+			function getmypay(){
+				//구매 목록 불러오기
+				//alert("pay");
+				var loginId = "${loginUser.mb_id}";
+				$.ajax({
+					url : "mypage/paylist",
+					data : { loginId : loginId},
+					type: "post",
+					dataType : "json",
+					success : function(data){
+						var str = "";
+						if(data.length > 0){
+							for(var i in data){	
+										$("#mypayContent").empty();
+										str += "<ul><a href='guide/guideDetail?itemNo="+ data[i].gui_no+"&writer="+ data[i].gui_writer +"'><h4>" + data[i].gui_title +"</h4></a></ul><br>"
+							}
+							$("#mypayContent").append(str);
+						}else{
+							$("#mypayContent").empty();
+							$("#mypayContent").append("<br><center><h3><span>올린 게시물이 없습니다.</span></h3><br><br>" +
+							"<a href='/afk/guide/guideMain'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 가이드 게시물 올리기 </button></a></center>");
+						}
+					}
+				});
+			}
+			
+			function getmymatching(){
+				//매칭 리스트 불러오기
+				//alert("matching");
+				var loginId = "${loginUser.mb_id}";
+				$.ajax({
+					url : "mypage/matchinglist",
+					data : { loginId : loginId},
+					type: "post",
+					dataType : "json",
+					success : function(data){
+						var str = "";
+						if(data.length > 0){
+							for(var i in data){	
+										$("#mymatchingContent").empty();
+										str += "<ul><a href='guide/guideDetail?itemNo="+ data[i].gui_no+"&writer="+ data[i].gui_writer +"'><h4>" + data[i].gui_title +"</h4></a></ul><br>"
+							}
+							$("#mymatchingContent").append(str);
+						}else{
+							$("#mymatchingContent").empty();
+							$("#mymatchingContent").append("<br><center><h3><span>올린 게시물이 없습니다.</span></h3><br><br>" +
 							"<a href='/afk/guide/guideMain'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 가이드 게시물 올리기 </button></a></center>");
 						}
 					}
