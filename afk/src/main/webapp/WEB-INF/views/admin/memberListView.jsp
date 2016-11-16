@@ -58,8 +58,7 @@
 		text-align : center;
 	}
 	.membertable tr td {
-		width: 20px nowrap
-		width : 10%;
+		width: 20px nowrap;
 	}
 	.membertable tr td:nth-child(2n+1), .membertable tr th:nth-child(2n+1){
 		background: #ebebeb;
@@ -273,16 +272,16 @@ function load_select(cmd){
 			for(var i in data){
 				result += "<table class='membertable'>";
 				result += "<tr>";
-				result += "<th>" + '아이디' + "</th>";
-				result += "<th>" + '이름'  + "</th>";
-				result += "<th>" + '이메일'  + "</th>";
-				result += "<th>" + '연락처'  + "</th>";
-				result += "<th>" + '회원등급'  + "</th>";
-				result += "<th>" + '가입일' + "</th>";			
-				result += "<th'>" +'계좌번호'  + "</th>";
-				result += "<th>" + '가이드현지연락처'  + "</th>";
-				result += "<th>" + '가이드현지주소'  + "</th>";
-				result += "<th>" + '옵션'  + "</th></tr>";
+				result += "<th>아이디</th>";
+				result += "<th>이름</th>";
+				result += "<th>이메일</th>";
+				result += "<th>연락처</th>";
+				result += "<th>회원등급</th>";
+				result += "<th>가입일</th>";			
+				result += "<th>계좌번호</th>";
+				result += "<th>가이드현지연락처</th>";
+				result += "<th>가이드현지주소</th>";
+				result += "<th>옵션</th></tr>";
 				
 		
 				result += "<tr>";
@@ -308,7 +307,7 @@ function load_select(cmd){
 				result += "<option value='2'>가이드</option>";
 				result += "<option value='3'>일반회원</option>";
 				result += "</select>";
-				result += "<input class='btn btn btn-info' value='등급수정'>";
+				result += "<input class='btn btn btn-info' value='등급수정' submi'>";
 				result += "</td>";
 				result += "<td>" + data[i].memberJoinDate + "</td>";
 				result += "<td>" + data[i].memberBank + "</td>";
@@ -365,16 +364,16 @@ $(function(){
 				for(var i in data){
 					result += "<table class='membertable'>";
 					result += "<tr>";
-					result += "<th>" + '아이디' + "</th>";
-					result += "<th>" + '이름'  + "</th>";
-					result += "<th>" + '이메일'  + "</th>";
-					result += "<th>" + '연락처'  + "</th>";
-					result += "<th>" + '회원등급'  + "</th>";
-					result += "<th>" + '가입일' + "</th>";			
-					result += "<th'>" +'계좌번호'  + "</th>";
-					result += "<th>" + '가이드현지연락처'  + "</th>";
-					result += "<th>" + '가이드현지주소'  + "</th>";
-					result += "<th>" + '옵션'  + "</th></tr>";
+					result += "<th>아이디</th>";
+					result += "<th>이름</th>";
+					result += "<th>이메일</th>";
+					result += "<th>연락처</th>";
+					result += "<th>회원등급</th>";
+					result += "<th>가입일</th>";			
+					result += "<th>계좌번호</th>";
+					result += "<th>가이드현지연락처</th>";
+					result += "<th>가이드현지주소</th>";
+					result += "<th>옵션</th></tr>";
 					
 			
 					result += "<tr>";
@@ -384,7 +383,7 @@ $(function(){
 					result += "<td>" + data[i].memberEmail + "</td>";
 					result += "<td>" + data[i].memberPhone + "</td>";
 					result += "<td align='center'>";
-					result += "<select>";
+					result += "<select name='grade' style='width:100px'>";
 					
 					console.log(data[i].memberGrade);
 					if(data[i].memberGrade == "1"){
@@ -400,7 +399,7 @@ $(function(){
 					result += "<option value='2'>가이드</option>";
 					result += "<option value='3'>일반회원</option>";
 					result += "</select>";
-					result += "<input class='btn btn btn-info' value='등급수정'>";
+					result += "<input class='btn btn btn-info' value='등급수정' type='submit'>";
 					result += "</td>";
 					result += "<td>" + data[i].memberJoinDate + "</td>";
 					result += "<td>" + data[i].memberBank + "</td>";

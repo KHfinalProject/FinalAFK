@@ -31,6 +31,8 @@ public interface InfoBoardService {
 		public int notifyCencel(int info_no, String user);
 
 		public List<InfoNotifyVO> getNotifyList(int info_no);
+		
+		public List<InfoBoardVO> infoSearch(String keyword);
 
 
 }

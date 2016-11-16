@@ -79,5 +79,10 @@ public class InfoBoardDao {
 		// TODO Auto-generated method stub
 		return sqlsession.selectList(NAMESPACE + "notifyList", info_no);
 	}
+	
+	public List<InfoBoardVO> infoSearch(String keyword) {
+		// TODO Auto-generated method stub
+		return sqlsession.selectList(NAMESPACE + "infoSearch", keyword);
+	}
 
 }

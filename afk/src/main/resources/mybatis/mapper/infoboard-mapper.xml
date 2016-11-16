@@ -140,5 +140,15 @@
  		from info_notify
  		where info_no = #{info_no}
  	</select>
+ 	
+ 	<select id="infoSearch" resultType="InfoBoardVO">
+ 		select info_no, info_title, info_content, info_writer, info_enrolldate,
+ 			   info_loc_l, info_loc_m, info_loc_s, info_count, info_point, info_notify,
+ 			   info_price, info_map
+ 	    from info_board
+ 	    where info_title LIKE '%'||#{keyword}||'%'
+ 	    	OR info_writer LIKE '%'||#{keyword}||'%'
+ 	    	OR info_price LIKE '%'||#{keyword}||'%'
+ 	</select>
 	
 </mapper>

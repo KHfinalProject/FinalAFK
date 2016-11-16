@@ -87,6 +87,12 @@ public class InfoBoardServiceImpl implements InfoBoardService{
 		// TODO Auto-generated method stub
 		return dao.notifyList(info_no);
 	}
+	
+	@Override
+	public List<InfoBoardVO> infoSearch(String keyword) {
+		// TODO Auto-generated method stub
+		return dao.infoSearch(keyword);
+	}
 
 
 

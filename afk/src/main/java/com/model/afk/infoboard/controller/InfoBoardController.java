@@ -265,4 +265,12 @@ public class InfoBoardController {
 		 return result;
 	 }
 	 
+	// 인포 메인 검색 컨트롤러
+		 @RequestMapping("/infoSearch")
+		 public @ResponseBody List<InfoBoardVO> infoSearch(@RequestParam String keyword){
+			 List<InfoBoardVO> list = bsvc.infoSearch(keyword);
+			 
+			 return list;
+		 }
+	 
 }

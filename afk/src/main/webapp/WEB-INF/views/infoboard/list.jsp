@@ -96,11 +96,22 @@
 			</div>
 		</div>
 		</div>
+		<br>
 		<!-- img content end -->
+		<center>
+		<div id="sort_search">
+				<input type="text" id="search_box" name="keyword" placeholder="검색어 입력">
+				<button id="search_icon" class="btn btn-default">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+		</div>
+		</center>
 		<h1  style="text-align:center">여행지를 구경해 보세요</h1>
 		<!-- select bar start -->
 		<div class="infoinput">
+			
 			<input type="button" value="글쓰기" onclick="location.href='/afk/infoboard/insertForm'">
+			
 		</div>
 		<div class="bselect">			
 			<input type="button" value="인기순" onclick="load_select('popular')">
@@ -234,6 +245,67 @@ $(function(){
 		
 	});
 	
+//검색 기능
+$(function(){
+$('#search_icon').on('click', function(){
+	var keyword = $('#search_box').val();
+	
+	$.ajax({
+		url : "/afk/infoboard/infoSearch",
+		type : "post",
+		data : {keyword : keyword},
+		dataType : "json",
+		beforeSend : function(){
+			$(".when_load_data").css('display', 'block');
+		},
+		success : function(data){
+			$(".when_load_data").css('display', 'none');
+			console.log("success");
+			var result = "";
+			
+			if(data.length > 0){
+				for(var i in data){
+					result += "<div class='boardmain kcol-lg-3'>";
+					result += "<div class='bt'>";
+					result += "<div class='boardtop'>";
+					result += "<div class='boardreport'>";
+					result += "<img src=/afk/resources/images/favorite2.png></div></div>";
+					result += "<div class='boardphoto'>";
+					result += "<a href=/afk/infoboard/"+ data[i].info_no + ">";
+					result += "<img src=/afk/resources/images/infoboard/Hong_Kong_China_09.jpg></a></div>";
+					result += "<div class='boardfoot'>";
+					result += "<div class= 'boardstar "+ data[i].info_no + "'></div>";
+					result += "<div class='board1'>";
+					result += "<div class='boardinfo'>";
+					result += "<img src='/afk/resources/images/infoboard/top.jpg' /></div>";
+					result += "<div class='boardname'>" + data[i].info_writer + "</div>";
+					result += "<div class='boardtitle'> " + data[i].info_title + "</div>";
+					result += "<div class='boardpay'>" + data[i].info_price + "</div>";
+					result += "</div></div></div></div>";
+				}
+			
+				$('.kcol-lg-12').html(result);
+				$('#ppap').val(1);
+				$('#pppp').val(code);
+				
+			}
+			if(data.length < 8){
+				$('#read_more').remove();
+				var new_button = "<br><a href='/afk/infoboard'><button id='to_main'>";
+				new_button += "목록으로</button></a>";
+				var old = $('.kcol-lg-12').html();
+				$('.kcol-lg-12').html(old + new_button);
+			}
+				
+		},
+		error : function(e){
+			console.log("error");
+		}
+	})
+});
+  
+});
+	
 	</script>
 		
 		<div class="kcol-lg-12">
@@ -289,6 +361,11 @@ $(function(){
 	<div>
 		<h1></h1>
 	</div>
+	
+	<div class="when_load_data">
+				<div class="spin"></div>
+				<h4>loading...</h4>
+			</div><!-- end of when_load_data -->
 
 	<div class="but">
 		<button id="paging" >더보기
