@@ -45,9 +45,7 @@
 	  cmNo = $(obj).parent().parent().siblings('td:first').children('input').val();
 	  //수정하기 버튼을 누른 행의 댓글 내용 가져옴
 	  content = $(obj).parent().parent().prev().text();
-	 	  
-	  alert(cmNo + ", " + content);
-	  
+	 	  	  
 	  $('#comment_modal').css('display', 'block'); //모달 영역 보이도록 css 변경
 	  $('.close_modal').on('click', function(){
 		  $('#comment_modal').css('display', 'none'); //모달 영역 내의 x 누르면 창 안보이게 함
@@ -516,7 +514,6 @@
 		var cmNo =  $('#update_comment_cm_no').text();
 		var content = $('#update_comment_area').val();
 		var itemNo = ${guideItem.gui_no};
-		alert(cmNo + ", " + content);
 		
 		$.ajax({
 			url : "updateComment",
@@ -535,6 +532,7 @@
 	
 	/*달력용*/
 	$('#datepicker').datepicker({
+		minDate : "+2d",
 		dateFormat : 'yy-mm-dd',
 		showAnim : "slide",
 		showMonthAfterYear : true,

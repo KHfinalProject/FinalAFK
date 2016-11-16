@@ -302,7 +302,7 @@
       <h1 id="which">고객센터</h1>
    </div><!--end of jumbotron-->
 
-
+	<br><br>
    <div id="wrapper">
    <div id = "cs_menu">
       <ul class = "cs_navi">
@@ -354,12 +354,19 @@
    <tr>
       <th width = "10%">No.</th><th>FAQ</th>
    </tr>
-   <tr class = "question"><td>1</td><td>자주하는질문1</td></tr>
-   <tr class = "answer"><td></td><td>만들어진답변1</td></tr>
-   <tr class = "question"><td>2</td><td>자주하는질문2</td></tr>
-   <tr class = "answer"><td></td><td>만들어진답변2</td></tr>
-   <tr class = "question"><td>3</td><td>자주하는질문3</td></tr>
-   <tr class = "answer"><td></td><td>만들어진답변3</td></tr>
+   <tr class = "question"><td>1</td><td>회원 탈퇴 관련</td></tr>
+   <tr class = "answer"><td></td><td>탈퇴를 원하신다면 <br>
+   									마이페이지 → 정보 수정하기 로 가시면 회원 탈퇴 가능합니다</td></tr>
+   <tr class = "question"><td>2</td><td>환불 관련</td></tr>
+   <tr class = "answer"><td></td><td>그런 것은 있을 수가 없습니다</td></tr>
+   <tr class = "question"><td>3</td><td>가이드 글에 별점 입력</td></tr>
+   <tr class = "answer"><td></td><td>해당 상품을 구매하신 분만 별점을 남길 수 있답니다 하하</td></tr>
+   <tr class = "question"><td>4</td><td>글 작성 시 지역 선택</td></tr>
+   <tr class = "answer"><td></td><td>글 하나 당 3개의 지역을 입력할 수 있습니다. 그 이상 입력하려면 새로 글을 써 주시길..</td></tr>
+   <tr class = "question"><td>5</td><td>가이드 여행상품 출발인원 선택 관련</td></tr>
+   <tr class = "answer"><td></td><td>5명 이상의 인원이 여행을 가셔도 인원 선택란에서 5명을 선택하시면 알아서 처리됩니다 걱정 ㄴㄴ</td></tr>
+   <tr class = "question"><td>6</td><td>이미지가 깨지는 현상</td></tr>
+   <tr class = "answer"><td></td><td>기분 탓입니다 마음을 열고 보시면 보입니다</td></tr>
    </table>
    </div>
 <!-- FAQ 탭 끝 -->
@@ -401,6 +408,7 @@
    <!-- </div>end of tab-content
 </div>
 </div>end of container -->
+<br><br>
 <footer>
 <c:import url="../footer.jsp"></c:import>
 </footer>

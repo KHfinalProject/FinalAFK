@@ -142,7 +142,7 @@
 	<div id="buttons">
 		<a href="/afk/guide/guideMain"><button onclick="location='guide/guideMain'">메인으로</button></a>
 		&nbsp;&nbsp;
-		<button>지난 구매내역</button>
+		<a href="/afk/mypage"><button>마이 페이지</button></a>
 	</div>
 
 </div><!--end of container-->

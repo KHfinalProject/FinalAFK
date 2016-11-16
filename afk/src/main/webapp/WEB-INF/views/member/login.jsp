@@ -46,6 +46,7 @@
 <c:import url="../header.jsp"></c:import>
 </header>
 <div>
+<br><br><br><br><br><br><br>
    <article class="container">
 	<div class="page-header">
     	    <h1 class="h1">로그인 <small><img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></small></h1>
@@ -79,10 +80,11 @@
 	</form>
    </article>
    </div>
-   <br><br><br>
-   <footer>
+   <br><br><br><br><br><br><br><br><br><br><br>
+ <%--   <footer>
    <c:import url="../footer.jsp"></c:import>
-   </footer>
+   </footer> --%>
+   <jsp:include page="../footer.jsp"/>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/afk/resources/js/bootstrap.min.js"></script>
