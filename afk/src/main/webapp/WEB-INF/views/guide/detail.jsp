@@ -401,6 +401,17 @@
 		}	
 	});
 	
+	/*댓글 글자 입력 수 제한*/
+	$("textarea").keyup(function(){
+	      var input = $(this).val().length;
+	      var max = 490;
+	      if (input > max){
+	         alert("입력 가능한 글자수를 초과하였습니다.");
+	         this.value = this.value.substring(0, max);
+	         this.focus();
+	      }
+	});
+	
 	//댓글 입력
 	$('#comment_submit').on('click', function(){
 		var user = "${loginUser.mb_id}";
@@ -423,7 +434,7 @@
 							result += "<img src='" + data[i].mb_rename_pic + "' class='img-circle' width='70px' height='70px'>";
 							result += "<p>" + data[i].cm_writer + "</p>";
 							result += "<input type='hidden' id='cmNo' value='" + data[i].cm_no + "'/>";
-							result += "</td><td width='70%' height='auto'>" + data[i].cm_content;
+							result += "</td><td width='70%' height='auto' style='word-break:break-all;'>" + data[i].cm_content;
 							result += "</td><td>";
 							result += "<span id='revise_remove'><button class='btn btn-default' onclick='update_comment(this)'>";
 							result += "<span class='glyphicon glyphicon-pencil'></span></button>";
@@ -1222,7 +1233,7 @@
 							<p>${comment.cm_writer }</p>
 							<input type="hidden" id="cmNo" name="cmNo" value="${comment.cm_no}"/>
 						</td>
-						<td width="70%" height="auto">
+						<td width="70%" height="auto" style="word-break:break-all;">
 							${comment.cm_content}
 						</td>
 						<td>
@@ -1254,6 +1265,10 @@
 	</div><!--end of item_detail-->
 
   </div><!--end of container-->
+  
+  </div>
+  </div>
+  <jsp:include page="../footer.jsp"/>
   <script>
 
 // In the following example, markers appear when the user clicks on the map.

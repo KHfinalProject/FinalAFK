@@ -64,17 +64,7 @@
 				}else{
 					result = "<h3>더 이상 불러올 글이 없습니다!</h3>";
 					$('#read_more').remove();
-				}		
-				
-				$('#item_info #favored').each(function(){
-					var favored = $(this).val();
-					
-					if(favored == 'y'){
-						var span = $(this).next('button').children('span');
-						span.attr('class', 'glyphicon glyphicon-star');
-					}
-				});
-								
+				}					
 			},
 			error : function(e){
 				console.log("error");
@@ -87,7 +77,7 @@
 		var count = Number($('#paging_count').val());
 		$('#read_more').click(function(){
 			
-			count += 5;
+			count += 7;
 			console.log("count : " + count);
 			var code = $('#paging_code').val();
 			
@@ -166,16 +156,8 @@
 					
 						$('#loaded_item_list').html(result);						
 						
-						$('#item_info #favored').each(function(){
-							var favored = $(this).val();
-							
-							if(favored == 'y'){
-								var span = $(this).next('button').children('span');
-								span.attr('class', 'glyphicon glyphicon-star');
-							}
-						});
 					}
-					if(data.length < 8){
+					if(data.length < 5){
 						$('#read_more').remove();
 						var new_button = "<br><a href='/afk/guide/guideMain'><button id='to_main'>";
 						new_button += "목록으로</button></a>";
@@ -445,7 +427,7 @@
 				<h4>loading...</h4>
 			</div><!-- end of when_load_data -->
 			
-			<c:if test="${list.size() > 7}">
+			<c:if test="${list.size() > 5}">
 			<br>
 			<button id="read_more" class="btn btn-default btn-block">더보기</button>
 			</c:if>

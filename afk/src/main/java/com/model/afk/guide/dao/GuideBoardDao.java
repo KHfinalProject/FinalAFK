@@ -27,7 +27,7 @@ public class GuideBoardDao {
 	public List<GuideItem> getGuideMain(int page, String code, String keyword) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", page);
-		map.put("end", page + 7);
+		map.put("end", page + 5);
 		map.put("code", code);
 		map.put("keyword", keyword);
 		return sqlSession.selectList(NAMESPACE + "getGuideMain", map);

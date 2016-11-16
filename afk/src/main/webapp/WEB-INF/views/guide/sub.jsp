@@ -108,7 +108,7 @@
 					</tr>
 					<tr>
 						<td align="left" style="text-overflow:ellipsis; overflow:hidden">
-						<nobr>${firstList.gui_title}</nobr>	
+						<nobr><b>${firstList.gui_title}</b></nobr>	
 						</td>
 					</tr>
 					<tr>
@@ -136,7 +136,7 @@
 <input type="hidden" id="paging_count">
 <input type="hidden" id="paging_code">
 <input type="hidden" id="paging_keyword">
-
+<jsp:include page="../footer.jsp"/>
  </body>
   <script>
   
@@ -164,16 +164,12 @@
 					for(var i in data){
 						result += "<section id='item_box'>";
 						result += "<table id='item_info' style='width:100% table-layout:fixed;'>";
-						result += "<tr><td colspan='2'>";
+						result += "<tr><td>";
 						result += "<a href='guideDetail?itemNo=" + data[i].gui_no + "&writer=" + data[i].gui_writer + "'>";
 						result += "<img src='" + data[i].gui_image+ "' width='400px' height='450px' class='img-rounded'>";
 						result += "</a></td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
-						result += "<nobr>" + data[i].gui_title + "</nobr></td><td rowspan='2' align='right'>";
-						result += "<input type='hidden' id='favored' value='" + data[i].gui_favorite + "'/>";
-						result += "<button id='favorite' onclick='add_favorite(this)'>";
-						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
-						result += "</button><input type='hidden' id='gui_no' value='" + data[i].gui_no + "'/>";
-						result += "</td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
+						result += "<nobr><b>" + data[i].gui_title + "</b></nobr></td>";
+						result += "</tr><tr><td align='left'>" + data[i].gui_price + "</td>";
 						result += "</tr></table></section>";
 					}
 					
@@ -185,15 +181,6 @@
 				$('#loaded_item_list').html(result);
 				$('#paging_count').val(1);
 				$('#paging_code').val(code);
-				
-				$('#item_info #favored').each(function(){
-					var favored = $(this).val();
-					
-					if(favored == 'y'){
-						var span = $(this).next('button').children('span');
-						span.attr('class', 'glyphicon glyphicon-star');
-					}
-				});
 								
 			},
 			error : function(e){
@@ -231,16 +218,12 @@
 					for(var i in data){
 						result += "<section id='item_box'>";
 						result += "<table id='item_info' style='width:100% table-layout:fixed;'>";
-						result += "<tr><td colspan='2'>";
+						result += "<tr><td>";
 						result += "<a href='guideDetail?itemNo=" + data[i].gui_no + "&writer=" + data[i].gui_writer + "'>";
 						result += "<img src='" + data[i].gui_image+ "' width='400px' height='450px' class='img-rounded'>";
 						result += "</a></td></tr><tr><td align='left' style='text-overflow:ellipsis; overflow:hidden'>";
-						result += "<nobr>" + data[i].gui_title + "</nobr></td><td rowspan='2' align='right'>";
-						result += "<input type='hidden' id='favored' value='" + data[i].gui_favorite + "'/>";
-						result += "<button id='favorite' onclick='add_favorite(this)'>";
-						result += "<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
-						result += "</button><input type='hidden' id='gui_no' value='" + data[i].gui_no + "'/>";
-						result += "</td></tr><tr><td align='left'>" + data[i].gui_price + "</td>";
+						result += "<nobr><b>" + data[i].gui_title + "</b></nobr></td>";
+						result += "</tr><tr><td align='left'>" + data[i].gui_price + "</td>";
 						result += "</tr></table></section>";
 					}
 					
@@ -251,15 +234,7 @@
 				
 				$('#loaded_item_list').html(old + result);
 				$('#paging_count').val(count);	
-				
-				$('#item_info #favored').each(function(){
-					var favored = $(this).val();
-					
-					if(favored == 'y'){
-						var span = $(this).next('button').children('span');
-						span.attr('class', 'glyphicon glyphicon-star');
-					}
-				});								
+										
 			},
 			error : function(e){
 				console.log("error");
@@ -402,6 +377,12 @@
 		max-width : 1000px;
 		padding : 1%;
 		margin-left : auto;
+	}
+	
+	#item_info {
+		font-size : 13pt;
+		border-spacing : 3px;
+		border-collapse : separate;
 	}
 
 	#sort_search {

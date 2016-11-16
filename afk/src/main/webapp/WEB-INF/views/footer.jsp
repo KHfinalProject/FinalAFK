@@ -8,7 +8,7 @@
 
  <style type="text/css">
  
- #footer {
+ footer {
  	margin-top : 50px;
  	padding-top : 10px;
  	padding-bottom : 10px;
@@ -17,6 +17,8 @@
  	background-color : #3a3a3a;
  	display : table;
  	color : white;
+ 	position : relative;
+ 	bottom : 0;
  }
  
  #fwrap{
@@ -58,12 +60,11 @@
 </head>
 <body>
 
-<div id="footer">
+<footer>
 <div id="fwrap">
 	<div class="flink">
 		<ul id="fmenu">
-			<li class="footMenu"><a href="#"><h4>고객센터</h4></a></li>
-			<li class="footMenu"><a href="#"><h4>공지사항</h4></a></li>
+			<li class="footMenu"><a href="/afk/customer?currentPage=1&nextBlock="><h4>고객센터</h4></a></li>
 		</ul>
 	</div>
 	
@@ -76,11 +77,11 @@
 	
 	<div class = "fd">
 		<h4>AFK <br>
-		All right reserved<br>
+		All rights reserved<br>
 		</h4>
 	</div>
 
 </div>
-</div>
+</footer>
 </body>
 </html>
