@@ -111,7 +111,7 @@ $(function(){
           <li><a href="memberListView">관리자 회원관리</a></li>
           <li><a href="matching">관리자(매칭관리)</a></li>
       </c:if>
-		  <li><a href="logout">로그아웃</a></li>
+		  <li><a href="/afk/logout">로그아웃</a></li>
 		</ul>
 	  </li>
   </c:if>
