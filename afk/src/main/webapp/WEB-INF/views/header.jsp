@@ -114,7 +114,7 @@ $(function(){
 		  <li><a href="/afk/logout">로그아웃</a></li>
 		</ul>
 	  </li>
-  </c:if>
+  </c:if>  
 </ul>
 </div>
 </body>
