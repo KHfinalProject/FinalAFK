@@ -18,12 +18,13 @@ public class InfoBoardVO implements java.io.Serializable{
 	private int info_notify;
 	private int info_price;
 	private String info_map;
+	private String info_image;
 	
 	public InfoBoardVO(){}
 
 	public InfoBoardVO(int info_no, String info_title, String info_content, String info_writer, Date info_enrolldate,
 			String info_loc_l, String info_loc_m, String info_loc_s, int info_count, int info_point, int info_notify,
-			int info_price, String info_map) {
+			int info_price, String info_map, String info_image) {
 		super();
 		this.info_no = info_no;
 		this.info_title = info_title;
@@ -38,6 +39,7 @@ public class InfoBoardVO implements java.io.Serializable{
 		this.info_notify = info_notify;
 		this.info_price = info_price;
 		this.info_map = info_map;
+		this.info_image = info_image;
 	}
 
 	public int getInfo_no() {
@@ -144,13 +146,21 @@ public class InfoBoardVO implements java.io.Serializable{
 		this.info_map = info_map;
 	}
 
+	public String getInfo_image() {
+		return info_image;
+	}
+
+	public void setInfo_image(String info_image) {
+		this.info_image = info_image;
+	}
+
 	@Override
 	public String toString() {
 		return "InfoBoardVO [info_no=" + info_no + ", info_title=" + info_title + ", info_content=" + info_content
 				+ ", info_writer=" + info_writer + ", info_enrolldate=" + info_enrolldate + ", info_loc_l=" + info_loc_l
 				+ ", info_loc_m=" + info_loc_m + ", info_loc_s=" + info_loc_s + ", info_count=" + info_count
 				+ ", info_point=" + info_point + ", info_notify=" + info_notify + ", info_price=" + info_price
-				+ ", info_map=" + info_map + "]";
+				+ ", info_map=" + info_map + ", info_image=" + info_image + "]";
 	}
 	
 } 

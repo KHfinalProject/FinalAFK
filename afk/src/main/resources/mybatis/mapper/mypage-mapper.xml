@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mypageMapper">
 	<select id="selectmyFavorite" parameterType="String" resultType="InfoBoardVO">
-		SELECT b.INFO_NO, b.INFO_TITLE, b.INFO_CONTENT, b.INFO_WRITER, b.INFO_ENROLLDATE, b.INFO_LOC_L, b.INFO_LOC_M, b.INFO_LOC_S, b.INFO_COUNT, b.INFO_POINT, b.INFO_NOTIFY, b.INFO_PRICE, b.INFO_MAP 
+		SELECT b.INFO_NO, b.INFO_TITLE, b.INFO_CONTENT, b.INFO_WRITER, b.INFO_IMAGE
 		FROM INFO_FAVORITE f, INFO_BOARD b 
 		WHERE f.FA_BD_NO = b.INFO_NO 
 		AND f.FA_MB_ID = #{mbid} ORDER BY FA_BD_NO DESC	

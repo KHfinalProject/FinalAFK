@@ -62,7 +62,7 @@
 	<insert id="insertBoard" parameterType="infoBoardVO">
 		insert into info_board
 		values (info_board_seq.nextval, #{info_title}, #{info_content}, #{info_writer}, sysdate,
-				#{info_loc_l}, #{info_loc_m}, #{info_loc_s}, 0, 0, 0, #{info_price}, #{info_map})
+				#{info_loc_l}, #{info_loc_m}, #{info_loc_s}, 0, 0, 0, #{info_price}, #{info_map}, #{info_image})
 	</insert>
 	
 	<update id="updateBoard" parameterType="infoBoardVO">

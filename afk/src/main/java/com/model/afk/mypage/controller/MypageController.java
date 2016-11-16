@@ -66,6 +66,7 @@ public class MypageController implements ServletContextAware{
 			job.put("writer", board.getInfo_writer());
 			job.put("content", URLEncoder.encode(board.getInfo_content() , "UTF-8"));
 			job.put("fano", board.getInfo_no());
+			job.put("image", board.getInfo_image());
 			
 			jarr.add(job);
 		}
@@ -239,12 +240,7 @@ public class MypageController implements ServletContextAware{
 	public String deletepay(@RequestParam("payno") int payno, @RequestParam("loginId") String id, HashMap<String, Object> map){
 		map.put("payno", payno);
 		map.put("id", id);
-		int result = mpgs.deleteMyPay(map);
-		if(result > 0){
-			System.out.println("pay delete");
-		}else{
-			System.out.println("삭제 x");
-		}
+		mpgs.deleteMyPay(map);
 		return "redirect:/mypage";
 	}
 	

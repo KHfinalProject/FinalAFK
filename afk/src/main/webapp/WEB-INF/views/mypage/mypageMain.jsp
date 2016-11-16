@@ -51,7 +51,7 @@
 
 			.mycontent{
 				width: 100%; 
-				height: 100px; 
+				height: 130px; 
 				background-color:powderblue;
 				border-radius: 15px;
 			}
@@ -151,8 +151,9 @@
 								$("#myfaContent").empty();
 								for(var i in json.list){
 									
-									$("#myfaContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; border:1px solid blue;'></div>"
-											+"<a href='/afk/infoboard/"+ json.list[i].fano +"'><h3>"
+									$("#myfaContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; overflow:hidden;'>"
+											+"<img src='"+ json.list[i].image +"' style='width:100%; heigth:100%;'></img></div> " 
+											+"<br><a href='/afk/infoboard/"+ json.list[i].fano +"'><h3>"
 											+decodeURIComponent(json.list[i].title.replace(Ca, " "))
 											+"</h3></a><div class='delMyfa' style='float:right; margin-right:2%; cursor:pointer;'>"
 											+"<img src='resources/images/mypage/heart4.png' title='클릭시 리스트에서 제거됩니다.'></img>"
@@ -292,7 +293,7 @@
 								for(var i in json.list){
 									if(json.list.length != 0){
 										$("#myfaContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; border:1px solid blue;'></div>"
-												+"<a href='/afk/infoboard/"+ json.list[i].fano +"'><h3>"
+												+"<br><a href='/afk/infoboard/"+ json.list[i].fano +"'><h3>"
 												+decodeURIComponent(json.list[i].title.replace(Ca, " "))
 												+"</h3></a><div class='delMyfa' style='float:right; margin-right:2%; cursor:pointer;'>"
 												+"<img src='resources/images/mypage/heart4.png' title='클릭시 리스트에서 제거됩니다.'></img>"
@@ -466,8 +467,8 @@
 							if(json.list.length != 0){
 								$("#mywishContent").empty();
 								for(var i in json.list){
-									$("#mywishContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; border:1px solid blue;' ></div> " 
-															+ "<a href='/afk/guide/guideDetail?itemNo="+ json.list[i].gno +"&writer="+ json.list[i].writer +"'><h3>" 
+									$("#mywishContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; overflow:hidden;' ><img src='"+ json.list[i].image.substring(1, json.list[i].image.length) +"' style='width:100%; heigth:100%;'></img></div> " 
+															+ "<br><a href='/afk/guide/guideDetail?itemNo="+ json.list[i].gno +"&writer="+ json.list[i].writer +"'><h3>" 
 															+ decodeURIComponent(json.list[i].title.replace(Ca, " ")) 
 															+"</h3></a><div class='delMywish' style='float:right; margin-right: 2%; cursor:pointer;'>"
 															+"<img src='resources/images/mypage/heart4.png' title='클릭시 리스트에서 제거됩니다.'></img>"

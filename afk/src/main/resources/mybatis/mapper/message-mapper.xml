@@ -30,6 +30,7 @@
 		AND MSG.SEND_ID = M.MB_ID
 	</select>
 	
+	<!-- 일반유저가 메세지 디테일보는 경우 -->
 	<select id="selectMsgDetailList" parameterType="Message" resultType="Message">
 		SELECT MES_NO, SEND_ID, RECIEVE_ID, VIEW_YN, SEND_DATE, VIEW_DATE, MES_CONTENT, S_DELYN, R_DELYN, PARENT_MSGNO, MB_RENAME_PIC
 		FROM MESSAGE MSG, MEMBER M
@@ -38,6 +39,7 @@
 		ORDER BY MES_NO DESC
 	</select>
 	
+	<!-- 가이드가 메세지 디테일보는 경우 -->
 	<select id="selectMsgDetailListG" parameterType="Message" resultType="Message">
 		SELECT MES_NO, SEND_ID, RECIEVE_ID, VIEW_YN, SEND_DATE, VIEW_DATE, MES_CONTENT, S_DELYN, R_DELYN, PARENT_MSGNO, MB_RENAME_PIC
 		FROM MESSAGE MSG, MEMBER M
