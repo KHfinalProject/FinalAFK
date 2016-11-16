@@ -8,7 +8,7 @@
 <style>
 body { margin: 0; }
 .zeta-menu-bar {
-  background: hotpink;
+  background: #7bbdff;
   display: inline-block;
   width: 100%;
 }
@@ -19,7 +19,7 @@ body { margin: 0; }
   position: relative;
 }
 .zeta-menu li:hover:not(.head) { background: white; }
-.zeta-menu li:hover>a { color: hotpink; }
+.zeta-menu li:hover>a { color: #7bbdff; }
 .zeta-menu a {
   color: white;
   display: block;
@@ -44,7 +44,7 @@ body { margin: 0; }
 }
 .search{
 	outline: none;
-	background:  hotpink;
+	background:  #7bbdff;
 	box-sizing: border-box;
 	border: none;
 	border-bottom: white 2px solid;
@@ -86,7 +86,7 @@ $(function(){
 
 <div class='zeta-menu-bar'>
   <ul class="zeta-menu">
-    <li><a href="#">홈</a></li>
+    <li><a href="/afk/"><img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></a></li>
 
   <form class="searchForm">
 	<li class="head">
