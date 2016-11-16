@@ -11,17 +11,23 @@ function nextWin()
 {location = "/afk/pagemove"}
 </script>
 <style type="text/css">
-.box{
+.box1{
 	margin:0 auto;
- 
+ 	height:500px;
+ 	line-height: 100px;
 }
 </style>
 </head>
-<body onLoad="setTimeout('nextWin()', 5000)">
+<body onLoad="setTimeout('nextWin()', 1000)">
+<header>
+<c:import url="../header.jsp"></c:import>
+</header>
 <div class="box1">
+<br>
 <center><h1>A.F.K에  회원가입을 성공했습니다.<img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></h1></center>
-<center><h1>즐거운 여행 되세요~!<h1></h1></div></center>
-</div>
+<center><h1>즐거운 여행 되세요~!<h1></h1></center>
+<center><h2>메인페이지로 자동 이동합니다.</h2></center>
+</div><br><br><br>
 <footer>
 <c:import url="../footer.jsp"></c:import>
 </footer>

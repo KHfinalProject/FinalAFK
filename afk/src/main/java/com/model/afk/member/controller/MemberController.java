@@ -47,10 +47,10 @@ public class MemberController {
 		Member member = ms.loginMember(new Member(Id,pwd,null,null,null));
 		if(member != null){
 			session.setAttribute("loginUser", member);
-			return "header";
+			return "home";
 		}else{
 			
-			return "fail";
+			return "member/joinFail";
 		}
 }
 	// 로그인페이지 호출
@@ -64,7 +64,7 @@ public class MemberController {
 		if(session != null) {
 			session.invalidate();
 		}
-		return "header";
+		return "home";
 	}
 	// 회원가입폼 호출
 	@RequestMapping(value="/joinInsertView",method=RequestMethod.GET)
@@ -165,7 +165,7 @@ public class MemberController {
 	// 페이지이동 
 	@RequestMapping(value="/pagemove", method=RequestMethod.GET)
 	public String pageMove(){
-		return "header";
+		return "home";
 	}
 	// 아이디 찾기 폼 호출
 	@RequestMapping(value="/idSearch", method=RequestMethod.GET)
