@@ -200,7 +200,7 @@
             <button class="btn btn-primary" type="button"  onclick="updateCheck1()">수정하기<i class="fa fa-check spaceLeft"></i></button>
             <button class="btn btn-danger" type="button" onclick="realDelete()">회원탈퇴<i class="fa fa-times spaceLeft"></i></button>
           </div>
-        </div>
+        </div> 
         </form>
           <hr>
         </div>

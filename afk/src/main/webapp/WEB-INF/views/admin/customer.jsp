@@ -292,7 +292,7 @@
 </style>
 
 <body onload="customerInit(${currentPage})">
-<!-- 고객센터 시작 -->
+<!-- 고객센터 시작 --> 
 <header>
 <c:import url="../header.jsp"></c:import>
 </header>
