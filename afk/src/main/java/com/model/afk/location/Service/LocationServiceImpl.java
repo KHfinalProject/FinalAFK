@@ -1,6 +1,7 @@
 package com.model.afk.location.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,11 @@ public class LocationServiceImpl implements LocationService {
 	public List<LocationCity> loadCity(String code) {
 		
 		return dao.loadCity(code);
+	}
+
+	@Override
+	public Map<String,String> city(String code) {
+		return dao.city(code);
 	}
 
 }

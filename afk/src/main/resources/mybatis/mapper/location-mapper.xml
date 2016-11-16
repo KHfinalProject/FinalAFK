@@ -14,5 +14,16 @@
 		WHERE COUNTRY_NO = #{code}
 	</select> 	
 	
+	<resultMap type="java.util.HashMap" id="locationS">
+		<result javaType="java.lang.String" property="sName" column="city" />
+		<result javaType="java.lang.String" property="mName" column="country" />
+	</resultMap>
+	
+	<select id="getCity" parameterType="String" resultMap="locationS">
+		select s.CITY_NAME city, m.COUNTRY_NAME country
+		from location_city s join location_country m
+     		 on s.COUNTRY_NO = m.COUNTRY_NO
+		where s.CITY_NO = #{code}
+	</select>
 
 </mapper>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.model.afk.location.Service.LocationService;
 import com.model.afk.location.vo.LocationCity;
@@ -53,5 +54,16 @@ public class LocationController {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		out.print(json.toString()); 
+	}
+	
+	//도시코드를 이용해 특정도시의 정보를 뽑아오는 메소드
+	@RequestMapping("/location/city")
+	public @ResponseBody Map<String,String> city(@RequestParam("loc") String code){
+		System.out.println(code);
+		Map<String,String> map = locs.city(code);
+		
+		System.out.println(map);
+		
+		return map;
 	}
 }

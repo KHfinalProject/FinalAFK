@@ -156,8 +156,8 @@ $("#notify").on('click', function(){
 					<div class="text-lg item-inline">${board.info_title }</div>
 				</div>
 				<div class="info-box">
-					<div class="text-xs label">지역</div>
-					<div class="text-xs label">세부지역</div>
+					<div id="loc_m" class="text-xs label"></div>
+					<div id="loc_s" class="text-xs label"></div>
 				</div>
 			</div>
 		</div>
@@ -256,6 +256,7 @@ $("#notify").on('click', function(){
             }; */
 				favselect(); //페이지 로딩되자마자 즐겨찾기 상태 불러오기
             	cmList(); //페이지 로딩되자마자 댓글 목록 불러오기
+            	loadCountry(); //페이지 메인에있는 국가명 불러오기
 			
             $().UItoTop({ easingType: 'easeOutQuart' });
 
@@ -379,6 +380,20 @@ $("#notify").on('click', function(){
 	        		}
 	        	})
         	}
+        }
+      //페이지열때 국가명 갖고오기
+        function loadCountry(){
+      	  $.ajax({
+      		  url : "/afk/location/city",
+      		  data : {loc : '${board.info_loc_s}'},
+      	  	  type : "post",
+      	  	  dataType : "json",
+      	  	  success : function(data){
+      	  		  console.log(data);
+      	  		  $('#loc_m').html(data.mName);
+      	  		  $('#loc_s').html(data.sName);
+      	  	  }
+      	  })
         }
     </script>
 <script>
