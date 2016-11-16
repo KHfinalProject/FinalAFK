@@ -61,6 +61,71 @@
 <meta name="author" content="www.mattvarone.com">
 <link rel="stylesheet" media="screen,projection"
 	href="/afk/resources/flag/sksmatt-UItoTop-jQuery-Plugin-14d6f09/css/ui.totop.css" />
+	
+	<script>
+//아이콘 클릭 시 해당 글 신고 또는 신고 취소
+$("#notify").on('click', function(){
+	console.log("버튼클릭 되나?")
+	var gui_no = ${board.info_no};
+	var user = "${loginUser.mb_id}";
+	
+	if(user == ""){
+		 var check = confirm("로그인이 필요한 기능입니다. 로그인 화면으로 이동하시겠습니까?");
+		  if(check){
+			  location.href = "../loginView";
+			  console.log("버튼클릭 되나?")
+		  }
+	}else{
+		var notified = $('#notify').hasClass('notified');
+		
+		if(notified == false){
+			var check = confirm("이 글을 신고하시겠습니까?");
+			console.log("버튼클릭 되나?")
+			if(check){
+				$.ajax({
+					url : "/afk/notify",
+					type : "post",
+					data : {info_no : info_no, user : user},
+					success : function(data){
+						var count = $('#print_notify').html();
+						console.log("notify success");
+						alert("신고 처리되었습니다.");
+						console.log("신고");
+						count++;
+						$('#print_notify').html(count);
+						$('#notify').removeClass('notify_default');
+						$('#notify').addClass('notified');
+					},
+					error : function(e){
+						alert("에러에러에러에러에러에러에러");
+					}
+				});
+			}			
+		}else{
+			var check = confirm("이 글에 대한 신고를 취소하시겠습니까?");
+			if(check){
+				$.ajax({
+					url : "afk/notifyCencel",
+					type : "post",
+					data : {info_no : info_no, user : user},
+					success : function(data){
+						var count = $('#print_notify').html();
+						console.log("cancel notify success");
+						alert("신고 취소 >.ㅇ");
+						count--;
+						$('#print_notify').html(count);
+						$('#notify').removeClass('notified');
+						$('#notify').addClass('notify_default');
+					},
+					error : function(e){
+						alert("신고취소에러에러에러에러에러에러에러");
+					}
+				});	
+			}	
+		}	
+	}	
+});
+</script>
 </head>
 
 <body>
@@ -100,8 +165,44 @@
 			</div>
 		</div>
 		<!-- 카운트 -->
-		<div id="count">
-		조회수: ${board.info_count }, 작성자: ${board.info_writer}
+		<!-- 카운트 -->
+		<div id="notifyCount">
+		조회수: ${board.info_count }, &nbsp;&nbsp;&nbsp; 작성자: ${board.info_writer} &nbsp;&nbsp;&nbsp;
+		<c:choose>
+		<c:when test="${empty loginUser}">
+							<button id="notify" class="notify_default" title="로그인 후 신고해주세요">
+							<span class="glyphicon glyphicon-thumbs-down"></span>
+							</button>
+							&nbsp;<span id="print_notify">${board.info_notify}</span>
+						</c:when>
+						<c:otherwise>	
+							<c:if test="${!empty notify}">
+							<c:forEach var="n" items="${notify}">
+								<c:choose>
+								<c:when test="${n.mb_id eq loginUser.mb_id}">
+									<button id="notify" class="notified">
+									<span class="glyphicon glyphicon-thumbs-down"></span>
+									</button>
+									&nbsp;<span id="print_notify">${board.info_notify}</span>
+								</c:when>
+								<c:otherwise>
+									<button id="notify" class="notify_default">
+									<span class="glyphicon glyphicon-thumbs-down"></span>
+									</button>
+									&nbsp;<span id="print_notify">${board.info_notify}</span>
+								</c:otherwise>
+								</c:choose>	
+							</c:forEach>
+							</c:if>
+								
+							<c:if test="${empty notify}">
+								<button id="notify" class="notify_default">
+								<span class="glyphicon glyphicon-thumbs-down"></span>
+								</button>
+								&nbsp;<span id="print_notify">${board.info_notify}</span>
+							</c:if>	
+						</c:otherwise>
+					</c:choose>	
 		</div>
 		<div class="detail-board">
 			<div class="detail-content">

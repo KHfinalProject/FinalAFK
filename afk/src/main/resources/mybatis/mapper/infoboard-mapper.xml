@@ -122,5 +122,23 @@
  	WHERE info_no = #{info_no}
 
  	</update>
+ 	
+ 	<delete id="notifyCencel" parameterType="map">
+ 		delete from info_board
+ 		where info_no = #{info_no}
+ 		and mb_id = #{user}
+ 	</delete>
+ 	
+ 	<insert id="notify" parameterType="map">
+ 	
+ 	INSERT INTO info_board
+ 	VALUES (#{info_no}, #{user})
+ </insert>
+ 	
+ 	<select id="notifyList" parameterType="int" resultType="InfoNotifyVO">
+ 		Select *
+ 		from info_notify
+ 		where info_no = #{info_no}
+ 	</select>
 	
 </mapper>

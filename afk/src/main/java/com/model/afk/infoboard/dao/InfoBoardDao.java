@@ -1,5 +1,6 @@
 package com.model.afk.infoboard.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.model.afk.infoboard.vo.InfoBoardVO;
+import com.model.afk.infoboard.vo.InfoNotifyVO;
 
 @Repository
 public class InfoBoardDao {
@@ -57,6 +59,25 @@ public class InfoBoardDao {
 	public int addCount(int info_no) {
 		// TODO Auto-generated method stub
 		return sqlsession.update(NAMESPACE + "addCount", info_no);
+	}
+	
+	public int notify(int info_no, String user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("info_no", info_no);
+		map.put("user", user);
+		return sqlsession.insert(NAMESPACE + "notify", map);
+	}
+
+	public int notifyCencel(int info_no, String user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("info_no", info_no);
+		map.put("user", user);
+		return sqlsession.delete(NAMESPACE + "notifyCencel", map);
+	}
+
+	public List<InfoNotifyVO> notifyList(int info_no) {
+		// TODO Auto-generated method stub
+		return sqlsession.selectList(NAMESPACE + "notifyList", info_no);
 	}
 
 }

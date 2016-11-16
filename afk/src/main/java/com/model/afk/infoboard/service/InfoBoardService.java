@@ -3,6 +3,7 @@ package com.model.afk.infoboard.service;
 import java.util.List;
 
 import com.model.afk.infoboard.vo.InfoBoardVO;
+import com.model.afk.infoboard.vo.InfoNotifyVO;
 
 public interface InfoBoardService { 
 
@@ -23,6 +24,13 @@ public interface InfoBoardService {
 	
 	// 카운트
 	int addCount(int info_no);
+	
+	// 신고
+		public int notify(int info_no, String user);
+		// 신고취소
+		public int notifyCencel(int info_no, String user);
+
+		public List<InfoNotifyVO> getNotifyList(int info_no);
 
 
 }

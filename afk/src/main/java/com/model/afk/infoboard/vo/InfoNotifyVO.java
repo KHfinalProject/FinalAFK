@@ -7,30 +7,27 @@ public class InfoNotifyVO implements Serializable{
 	
 	public InfoNotifyVO(){}
 	
-	private int nbno;
-	private String nwriter;
-	public int getNbno() {
-		return nbno;
+	private int info_no;
+	private String mb_id;
+	
+	public int getInfo_no() {
+		return info_no;
 	}
-	public void setNbno(int nbno) {
-		this.nbno = nbno;
+	public void setInfo_no(int info_no) {
+		this.info_no = info_no;
 	}
-	public String getNwriter() {
-		return nwriter;
+	public String getMb_id() {
+		return mb_id;
 	}
-	public void setNwriter(String nwriter) {
-		this.nwriter = nwriter;
+	public void setMb_id(String mb_id) {
+		this.mb_id = mb_id;
 	}
+	
 	@Override
 	public String toString() {
-		return "InfoNotify [nbno=" + nbno + ", nwriter=" + nwriter + "]";
-	}
-	public InfoNotifyVO(int nbno, String nwriter) {
-		super();
-		this.nbno = nbno;
-		this.nwriter = nwriter;
+		return "InfoNotifyVO [info_no=" + info_no + ", mb_id=" + mb_id + "]";
 	}
 	
 	
-
-} 
+	
+}

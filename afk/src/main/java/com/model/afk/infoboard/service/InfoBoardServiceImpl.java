@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.model.afk.infoboard.dao.InfoBoardDao;
 import com.model.afk.infoboard.vo.InfoBoardVO;
+import com.model.afk.infoboard.vo.InfoNotifyVO;
 
 @Service
 public class InfoBoardServiceImpl implements InfoBoardService{
@@ -67,6 +68,24 @@ public class InfoBoardServiceImpl implements InfoBoardService{
 	public int addCount(int info_no) {
 		// TODO Auto-generated method stub
 		return dao.addCount(info_no);
+	}
+	
+	@Override
+	public int notify(int info_no, String user) {
+		// TODO Auto-generated method stub
+		return dao.notify(info_no, user);
+	}
+
+	@Override
+	public int notifyCencel(int info_no, String user) {
+		// TODO Auto-generated method stub
+		return dao.notifyCencel(info_no, user);
+	}
+
+	@Override
+	public List<InfoNotifyVO> getNotifyList(int info_no) {
+		// TODO Auto-generated method stub
+		return dao.notifyList(info_no);
 	}
 
 
