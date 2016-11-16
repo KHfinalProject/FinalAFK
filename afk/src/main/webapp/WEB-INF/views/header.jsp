@@ -11,6 +11,7 @@ body { margin: 0; }
   background: #7bbdff;
   display: inline-block;
   width: 100%;
+  box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.5);
 }
 .zeta-menu { margin: 0; padding: 0; }
 .zeta-menu li {
@@ -63,6 +64,21 @@ li.head label{
 .zeta-menu ul a { color: black; }
 .zeta-menu ul ul { left: 100%; top: 0; }
 .zeta-menu ul ul li {float:left; margin-right:10px;}
+
+@font-face{font-family:'nanum'; src:url('/afk/resources/fonts/NanumGothic.ttf') format('truetype');}
+
+
+h1{
+		font-size: 3em;
+		font-family: nanum;
+		color: #fff;
+		margin:0;
+		padding:0;
+	}
+.dropbtn{
+	font-family: nanum;
+		color: #fff;
+}
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -88,15 +104,17 @@ $(function(){
   <ul class="zeta-menu">
     <li><a href="/afk/"><img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></a></li>
 
-  <form class="searchForm">
+<!--   <form class="searchForm">
 	<li class="head">
 		<label for="chk1"><input type="radio" id="chk1" value="1" name="board" checked>정보</label>
 		<label for="chk2"><input type="radio" id="chk2" value="2" name="board">가이드</label>
 		<input type="text" size="20" class="search">
 		<img src="/afk/resources/images/search.png" width="24" height="24" border="0" alt="">
 	</li>
-  </form>	
+  </form> -->	
+	
 
+	
 	<c:if test="${loginUser eq null}">
         <li style="float: right;"><a href="/afk/joinInsertView">회원가입</a></li>
     	<li style="float: right;"><a href="/afk/loginView">로그인</a></li>
@@ -116,6 +134,7 @@ $(function(){
 	  </li>
   </c:if>  
 </ul>
+
 </div>
 </body>
 </html>
