@@ -39,7 +39,9 @@
 
  </head>
  <body>
-
+<header>
+<c:import url="../header.jsp"></c:import>
+</header>
  <div class="container">
  <div class="gong" align="center"><h1>공&nbsp;&nbsp;지&nbsp;&nbsp;사&nbsp;&nbsp;항<small><img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></small></h1></div>
  <hr style="border: solid 1px #0000ff">

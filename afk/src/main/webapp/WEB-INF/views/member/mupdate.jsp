@@ -47,8 +47,7 @@
 </head>
 <body>
 <c:set value ="${temp.mb_grade}" var ="grade"/>
-${grade }
-<%-- ${grade eq "B"} --%>${temp.mb_grade}
+
 				    	
 <c:if test="${grade eq 3}">
  <article class="container">

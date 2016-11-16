@@ -293,6 +293,9 @@
 
 <body onload="customerInit(${currentPage})">
 <!-- 고객센터 시작 -->
+<header>
+<c:import url="../header.jsp"></c:import>
+</header>
 
 <div class="container">
    <div class="jumbotron">
@@ -340,7 +343,7 @@
    <!-- 글쓰기 버튼 -->
      <c:if test="${loginUser.mb_grade eq '1'}">
         <div id="insert_notice" align="right">
-         <br><input type="button" value="삭제하기" onclick="checkDelete(${currentPage})"/> &nbsp;<input type="button" value="글쓰기" onclick="location.href='/afk/noticeWrite?currentPage=${currentPage}'"/>
+   <br><input type="button" value="삭제하기" onclick="checkDelete(${currentPage})"/> &nbsp;<input type="button" value="글쓰기" onclick="location.href='/afk/noticeWrite?currentPage=${currentPage}'"/>
       </div> <!--  글쓰기 버튼 끝 -->
       </c:if>
 </div><!-- 공지사항 끝-->
@@ -398,6 +401,8 @@
    <!-- </div>end of tab-content
 </div>
 </div>end of container -->
-
+<footer>
+<c:import url="../footer.jsp"></c:import>
+</footer>
 </body>
 </html>
