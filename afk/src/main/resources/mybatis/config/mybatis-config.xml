@@ -11,7 +11,7 @@
   		<typeAlias type="com.model.afk.guide.vo.NotifyGItem" alias="notify"/>
   		<typeAlias type="com.model.afk.guide.vo.GuideFavorite" alias="favorite"/>
   		<typeAlias type="com.model.afk.infoboard.vo.InfoNotifyVO" alias="InfoNotifyVO"/>
-  		
+  		<typeAlias type="com.model.afk.matching.vo.Matching" alias="Matching" />
   		<!-- 얘는 지울것 -->
   		<typeAlias type="com.model.afk.guide.vo.Test" alias="Test"/>
   		
@@ -19,7 +19,6 @@
   		<typeAlias type="com.model.afk.infoboard.vo.InfoCommentVO" alias="InfoCmtVO"/>
   		<typeAlias type="com.model.afk.infoboard.vo.InfoPointVO" alias="InfoPntVO"/>
   		<typeAlias type="com.model.afk.infoboard.vo.InfoReportVO" alias="InfoRptVO"/>
-  		<typeAlias type="com.model.afk.matching.vo.Matching" alias="Matching"/>
   		<typeAlias type="com.model.afk.member.vo.Member" alias="Member"/>
   		<typeAlias type="com.model.afk.message.vo.MessageVO" alias="Message"/>
   		<!-- <typeAlias type="com.model.afk.mypage.vo.MypageVO" alias="Mypage"/> -->

@@ -38,6 +38,33 @@
 	});
 	
 </script>
+<style type="text/css">
+.when_load_data{ 
+	  border:0;
+	  width:300px;
+	  height : 200px; 
+	  padding:0px;
+	  text-align : center;
+	  position : relative;
+	  bottom : 500px;
+	  z-index : 99999;
+	  background-color : rgb(182, 182, 182);
+	  opacity : 0.95;
+	  display : none;
+	}
+	
+	#to_main {
+		width : 100px;
+		height : 50px;
+		font-size : 13pt;
+		-moz-border-radius:10px;
+		-webkit-border-radius:10px;
+		border-radius:10px;
+		background-color : white;
+	}
+
+</style>
+
   <body>
 	<!-- Start -->
 	<div>
@@ -110,15 +137,15 @@
 		<!-- select bar start -->
 		<div class="infoinput">
 			
-			<input type="button" value="글쓰기" onclick="location.href='/afk/infoboard/insertForm'">
+			<input type="button" value="글쓰기" onclick="location.href='/afk/infoboard/insertForm'" class="btn btn-success">
 			
 		</div>
-		<div class="bselect">			
-			<input type="button" value="인기순" onclick="load_select('popular')">
-			<input type="button" value="별점순" onclick="load_select('info_point')">
-			<input type="button" value="조회순" onclick="load_select('info_count')">
-			<input type="button" value="최신순" onclick="load_select('info_enrolldate')">
-			<input type="button" value="가격순" onclick="load_select('info_price')">
+		<div class="bselect">		
+			<input type="button" value="인기순" onclick="load_select('popular')" class="btn btn btn-info">
+			<input type="button" value="별점순" onclick="load_select('info_point')" class="btn btn btn-info">
+			<input type="button" value="조회순" onclick="load_select('info_count')" class="btn btn btn-info">
+			<input type="button" value="최신순" onclick="load_select('info_enrolldate')" class="btn btn btn-info">
+			<input type="button" value="가격순" onclick="load_select('info_price')" class="btn btn btn-info">
 		</div>
 		<!-- select bar end -->
 		
@@ -337,17 +364,10 @@ $('#search_icon').on('click', function(){
 			</div>
 		</div>
 		</div>
-			<%-- <c:choose>
-			<c:when test="${empty boardlist }">
-				</div>
-			</c:when>
-			
-			<c:when test="${boardlist.size%4 == 0 }">
-				</div>
-				<div class="kcol-lg-12">
-			</c:when>
-			</c:choose> --%>
 		</c:forEach>
+		</div>
+
+		</div>
 		
 		<!-- content end -->
 		
@@ -355,26 +375,30 @@ $('#search_icon').on('click', function(){
 		<div style="text-align:center">
 			<h1></h1>
 		</div>
-		<!-- footer end 이상하다이거 -->
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- footer end 이상하다이거 --> 
 	</div>
-	<!-- 이게푸터일듯 -->
-	<div>
-		<h1></h1>
+	
+	<!-- <div class="when_load_data">
+				<div class="spin"></div>
+				<h4>loading...</h4>
+			</div> -->
+
+	<div class="but">
+		<button id="paging" class="btn btn-success">더보기
+			<input id="ppap" type="hidden" />
+			<input id="pppp" type="hidden" />
+		</button>
 	</div>
 	
 	<div class="when_load_data">
 				<div class="spin"></div>
 				<h4>loading...</h4>
-			</div><!-- end of when_load_data -->
+			</div>
 
-	<div class="but">
-		<button id="paging" >더보기
-			<input id="ppap" type="hidden" />
-			<input id="pppp" type="hidden" />
-		</button>
-	</div>
-
-	<div>foot</div>
+	<%-- <footer>
+	
+   <c:import url="../footer.jsp"></c:import>
+   </footer> --%>
 	<!-- end -->
 	<script>
 	$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';		
@@ -383,11 +407,6 @@ $('#search_icon').on('click', function(){
 		<c:forEach items="${boardlist}" var="i">
 			$('.' + '${i.info_no}').raty({readOnly:true, score:'${i.info_point}' });
 		</c:forEach>
-		
-		
-		
-		
-		
 		
 		
 	</script>
