@@ -120,6 +120,10 @@ function checking(){
 
 		alert("전화번호를 입력하세요")
 		document.inputform.mb_phone.focus()
+	} else if(document.inputform.captchar.value =="0"){
+		alert("이미지의 글자를 입력하고 확인을 누르세요.")
+		document.inputform.captchar.focus()
+		return false;
 	}
 	
 	
