@@ -45,7 +45,7 @@
 					<td style="font-size:22pt" id="guide_name">
 						${guide.mb_name} <input type="hidden" id="guide_id" value="${guide.mb_id}">
 					</td>
-					<c:if test="${loginUser.mb_id ne guide.mb_id}">	
+					<c:if test="${loginUser.mb_grade eq 3}">	
 					<td>&nbsp;&nbsp;
 						<a href="/afk/msg?guideId=${guide.mb_id}&loginId=${loginUser.mb_id}">
 						<button type="button" class="btn btn-default" id="send_msg">
@@ -71,24 +71,6 @@
 						${guide.mb_loc_phone}
 					</td>
 				</tr>
-			</table>
-			<br>
-			<table>
-				<tr>
-					<td>
-						<div id="datepicker">
-							 <!--달력 출력되는 부분-->
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<span>출발일 기준 최소 2일 전까지만 선택 가능합니다.</span>
-					</td>
-				</tr>
-				<tr>
-					<td><div id="print_date"></div></td>
-				</tr>
 				<tr>
 					<td>
 						<c:if test="${loginUser.mb_grade eq 2}">
@@ -101,6 +83,7 @@
 					</td>
 				</tr>
 			</table>
+			
 		</div><!--end of div select-->
 		<div id="items">
 			<div id="sort_search">
@@ -117,7 +100,7 @@
 			<section id="item_box">
 				<table id="item_info" style="width : 100%; table-layout: fixed;">
 					<tr>
-						<td colspan="2">
+						<td>
 						<a href="guideDetail?itemNo=${firstList.gui_no}&writer=${firstList.gui_writer}">
 							<img src="${firstList.gui_image}" width="400px" height="450px" class="img-rounded">
 						</a>
@@ -126,13 +109,6 @@
 					<tr>
 						<td align="left" style="text-overflow:ellipsis; overflow:hidden">
 						<nobr>${firstList.gui_title}</nobr>	
-						</td>
-						<td id="info_td" rowspan="2" align="right">
-							<input type="hidden" id="favored" value="${firstList.gui_favorite }" />
-							<button id="favorite">
-								<span class="glyphicon glyphicon-star-empty"></span>
-							</button>
-							<input type="hidden" id="gui_no" value="${firstList.gui_no}"/>
 						</td>
 					</tr>
 					<tr>
@@ -163,133 +139,7 @@
 
  </body>
   <script>
-  /*별 클릭 시 즐겨찾기 추가 또는 삭제*/
-  function add_favorite(obj){
-	  var favored = $(obj).children('span').hasClass('glyphicon glyphicon-star');
-	  var itemNo = $(obj).next('input').val();
-	  var user = "${loginUser.mb_id}";
-	  
-	  if(user == ""){
-		  var check = confirm("로그인이 필요한 기능입니다. 로그인 화면으로 이동하시겠습니까?");
-		  if(check){
-			  location.href = "../loginView";
-		  }
-	  }else{
-		  if(favored === false){
-			  var check = confirm("즐겨찾기 리스트에 추가하시겠습니까?");
-			  if(check){
-				  $.ajax({
-					  url : "addFavorite",
-					  type : "post",
-					  data : {itemNo : itemNo, user : user},
-					  success : function(data){
-						  alert("즐겨찾기 리스트에 저장되었습니다");
-						  $(obj).children('span').attr('class', 'glyphicon glyphicon-star');
-					  },
-					  error : function(e){
-						  alert("즐겨찾기 추가 실패..ㅠ");
-					  }
-				  }) 
-			  } 
-		  }else{
-			  var check = confirm("즐겨찾기 리스트에서 삭제하시겠습니까?");
-			  if(check){
-				  $.ajax({
-					  url : "removeFavorite",
-					  type : "post",
-					  data : {itemNo : itemNo, user : user},
-					  success : function(data){
-						  alert("즐겨찾기 리스트에서 삭제되었습니다");
-						  $(obj).children('span').attr('class', 'glyphicon glyphicon-star-empty');
-					  },
-					  error : function(e){
-						  alert("즐겨찾기 삭제 실패..ㅠ");
-					  }
-				  }) 
-			  }
-		  }  
-	  }
-  }   
   
-  /*달력용*/
-	  var dates = new Array();
-  	  //테스트용 
-  	  dates.push("2016-11-16");
-  	  dates.push("2016-11-17");
-	
-	  function addDate(date) {
-	      if (jQuery.inArray(date, dates) < 0) 
-	          dates.push(date);
-	  }
-	
-	  function removeDate(index) {
-	      dates.splice(index, 1);
-	  }
-	
-	  function printArray(){
-	  	var printArr = new String;
-	  	dates.forEach(function(val){
-	  		printArr += val + ", ";
-	  	});
-	  	$('#print_date').html(printArr);
-	  }
-	
-	  //이미 선택된 날짜면 배열에서 제거
-	  function addOrRemoveDate(date) {
-	      var index = jQuery.inArray(date, dates); //날짜 배열(dates)에 선택한 날짜(date)가 있는지 확인
-	      if (index >= 0) //있다면 배열에서 제거
-	          removeDate(index);
-	      else 
-	          addDate(date);
-	      printArray();
-	  }
-	
-	  // Takes a 1-digit number and inserts a zero before it
-	  function padNumber(number) {
-	      var ret = new String(number);
-	      if (ret.length == 1) 
-	          ret = "0" + ret;
-	      return ret;
-	  }
-	
-	  jQuery(function () {
-	      jQuery("#datepicker").datepicker({
-	      	minDate : "+2d",
-	      	dateFormat : "yy-mm-dd",
-	      	showAnim : "slide",
-	      	showMonthAfterYear : true,
-	      	yearRange : 'c-0:c+2',
-	      	yearSuffix : '년 ',
-	      	changeYear : true,
-	      	changeMonth : true,
-	      	monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-	  		dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-	          onSelect: function (dateText, inst) {
-	              addOrRemoveDate(dateText);
-	          },
-	          beforeShowDay: function (date) {
-	        	  
-	        	  if(date.length > 0){
-	        		  for (var i in dates)
-		        		  selected += dates[i] + ", ";
-		        	  
-		        	  $('#print_date').html(selected);
-	        	  }
-	        	  
-	              var year = date.getFullYear();
-	              var month = padNumber(date.getMonth() + 1);
-	              var day = padNumber(date.getDate());
-	            
-	              var dateString = year + "-" + month + "-" + day;
-	              
-	              var gotDate = jQuery.inArray(dateString, dates);
-	              if (gotDate >= 0) {
-	                return [true, "ui-state-highlight"];
-	              }
-	              return [true, ""];
-	          }
-	      });
-	  });
   
   var code = "gui_no";
   function load_select(cmd){
@@ -450,16 +300,7 @@
 			
 		}		
 	});
-	
-	/*각 아이템 박스마다 체크하여 로그인한 사용자가 즐겨찾기한 아이템이면 다른 클래스 적용 */
-	$('#item_info #favored').each(function(){
-		var favored = $(this).val();
-		
-		if(favored == 'y'){
-			var span = $(this).next('button').children('span');
-			span.attr('class', 'glyphicon glyphicon-star');
-		}
-	});		  
+	  
 		
   });
   
@@ -575,25 +416,6 @@
 		display : inline-block;
 	}
 
-	#item_info td button {
-		border : none;
-		font-size : 20px;
-	}
-	
-	#favorite{
-		background-color: Transparent;
-	    background-repeat:no-repeat;
-	    border: none;
-	    cursor:pointer;
-	    overflow: hidden;
-	    outline:none;
-	    color: #ffcc66;
-	}
-	
-	#favorite .glyphicon {
-		font-size : 30px;
-	}
-
 	#items a {
 		text-decoration : none;
 		color : #000066;
@@ -649,30 +471,6 @@
 	@-webkit-keyframes spin {
 		  from   {  -webkit-transform: rotate(0deg); }
 		  to   {  -webkit-transform: rotate(360deg); }
-	}
-
-	/*달력용*/
-	.ui-datepicker {
-		width : 300px;
-	}
-
-	.ui-datepicker-header {
-		background : #04378c;
-	}
- 
-	.ui-datepicker-calendar {
-		background : white;
-		color : #000066;
-	}
-
-	.ui-datepicker-calendar > tbody td.ui-datepicker-week-end:first-child a, .ui-datepicker-calendar > tbody td.ui-datepicker-week-end:last-child a
-	{ color: red; }
-
-	.ui-datepicker select.ui-datepicker-month, 
-	.ui-datepicker select.ui-datepicker-year {
-		width : 30%;
-		font-size : 13px;
-		color : black;
 	}
 
 

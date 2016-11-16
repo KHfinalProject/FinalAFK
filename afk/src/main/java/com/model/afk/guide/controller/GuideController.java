@@ -52,7 +52,6 @@ public class GuideController {
 		
 		//DB에서 GuideItem list 가져옴 
 		List<GuideItem> list = guideBoardService.getGuideList(page, code, keyword);
-		list = getImageAndFavor(session, list); //GuideItem 객체의 gui_content 중 이미지를 찾아 대표이미지로 만들고, 없으면 임의 사진을 넣어 리스트 재정비
 		
 		model.addAttribute("list", list);
 		
@@ -68,7 +67,7 @@ public class GuideController {
 			@RequestParam(value="code", defaultValue="gui_no") String code, String keyword) throws Exception{
 		System.out.println("======================guideMore====================");
 		List<GuideItem> list = guideBoardService.getGuideList(page, code, keyword);
-		list = getImageAndFavor(session, list);		
+				
 		
 		return list;
 	}
@@ -78,7 +77,6 @@ public class GuideController {
 			@RequestParam String keyword) throws Exception{
 		System.out.println("======================guideSearch");
 		List<GuideItem> list = guideBoardService.getSearchedList(keyword);
-		list = getImageAndFavor(session, list);
 		
 		return list;
 	}
@@ -91,7 +89,7 @@ public class GuideController {
 		System.out.println("=====================guideSub======================");
 			
 		List<GuideItem> list = guideBoardService.getAllItems(writer, page, code); 
-		list = getImageAndFavor(session, list);
+		
 		Member guide = guideBoardService.getGuideInfo(writer); //해당 페이지의 가이드 기본 정보 가져옴(Member 타입)
 		int total = guideBoardService.getTotalCount(writer); //해당 가이드가 등록한 상품의 총수량 카운트
 					
@@ -113,13 +111,12 @@ public class GuideController {
 		System.out.println("===========================subMore============================");
 		
 		List<GuideItem> list = guideBoardService.getAllItems(writer, page, code);
-		list = getImageAndFavor(session, list);	
 		
 		return list;		
 	}	
 	
 	//대표 이미지 및 즐겨찾기 추가 여부 추가해서 가이드 상품 목록 리턴
-	public List<GuideItem> getImageAndFavor(HttpSession session, List<GuideItem> list){
+	/*public List<GuideItem> getImageAndFavor(HttpSession session, List<GuideItem> list){
 		
 		//gui_content 중 첨부된 이미지가 있을 시 대표 이미지로 사용
 		String img_path = "";
@@ -163,7 +160,7 @@ public class GuideController {
 		}
 		
 		return list;
-	}
+	}*/
 	
 
 	//상품 사진 클릭 시 해당 상품 상세 페이지로 이동
@@ -282,6 +279,20 @@ public class GuideController {
 	
 	@RequestMapping("/insertItem")
 	public String insertItem(GuideItem gi, HttpServletResponse response){
+		
+		//gui_content 중 첨부된 이미지가 있을 시 대표 이미지로 사용
+		String img_path = "";
+		String content = gi.getGui_content();
+		if(content.indexOf("/afk/resources/upload") != -1){ //gui_content 중 첨부이미지 있을 시
+			//img_path 변수에 이미지 저장 경로만 추출하여 저장
+			img_path = content.substring(content.indexOf("/afk/resources/upload"), content.indexOf(" title") -1);
+			System.out.println("img_path : " + img_path);
+			//GuideItem 객체에 이미지 저장 경로 공백을 제거하여 저장
+			gi.setGui_image(img_path.trim());
+		}else{//첨부 이미지가 없을 경우 임의로 대표 이미지 설정
+			gi.setGui_image("../resources/images/guide/tempthumb.jpg");
+		}
+		
 		//가이드 글 등록하는 메소드
 		int result = guideBoardService.insertItem(gi);
 		

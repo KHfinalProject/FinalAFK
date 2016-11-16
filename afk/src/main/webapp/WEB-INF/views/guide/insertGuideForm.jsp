@@ -95,14 +95,20 @@
 	<br><br>
 	
 	<div class="input-group">
-		<span class="input-group-addon" id="sizing-addon2"><b>날짜 선택</b>&nbsp;&nbsp;&nbsp;</span>
-		<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu">
-         <div id="datepicker"> &nbsp; </div>
-        </div>
-		<input type="text" id="print_date" name="gui_date" />
+	  <div class="input-group-btn">
+	    <!-- Button and dropdown menu -->
+	    <button type="button" class="btn btn-default">날짜 선택</button>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="height:34px;">
+	        <span class="caret"></span>  <!-- caret -->
+	        <span class="sr-only">Toggle Dropdown</span>
+	      </button>
+	  
+      <ul class="dropdown-menu" role="menu"> <!-- class dropdown-menu -->
+        <li><div id="datepicker"></div></li>
+      </ul>
+	    
+	  </div>
+	  <input type="text" id="print_date" name="gui_date" class="form-control" aria-label="...">
 	</div>
 	
 	<br><br>
