@@ -68,7 +68,7 @@
 <body>
 <div class="container">	
 <hr style="border: solid 2px red">
-<form id="frm" name="frm" action="/afk/guide/insertItem" method="post" onsubmit="return writeCheck()">
+<form id="frm" name="frm" action="/afk/guide/insertItem" method="post" onsubmit="return writeCheckGui()">
 	<input type="text" id="xy" name="gui_map" size="300" />
 	<input type="text" id="guideid" name="gui_writer" value="${loginUser.mb_id }" size="50" /> 
 	<div class="input-group">
