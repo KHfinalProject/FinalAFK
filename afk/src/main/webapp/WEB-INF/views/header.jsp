@@ -107,7 +107,7 @@ $(function(){
 		<ul>
 		  <li><a href="/afk/mypage">마이페이지</a></li>
           <li><a href="customer?currentPage=1&nextBlock=">고객센터</a></li>
-	  <c:if test="${loginUser.mb_grade eq '1'}"></li>
+	  <c:if test="${loginUser.mb_grade eq '1'}">
           <li><a href="memberListView">관리자 회원관리</a></li>
           <li><a href="matching">관리자(매칭관리)</a></li>
       </c:if>
