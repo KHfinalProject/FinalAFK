@@ -49,7 +49,7 @@ public class MemberController {
 			session.setAttribute("loginUser", member);
 			return "home";
 		}else{
-			
+			  
 			return "member/joinFail";
 		}
 }

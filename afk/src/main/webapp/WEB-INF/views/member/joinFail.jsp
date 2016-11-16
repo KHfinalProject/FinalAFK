@@ -9,7 +9,7 @@
 <script language="JavaScript">
 function nextWin()
 {location = "/afk/pagemove"}
-</script>
+</script> 
 
 
 <style type="text/css">

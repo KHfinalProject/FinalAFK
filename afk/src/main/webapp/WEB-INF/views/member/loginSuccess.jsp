@@ -15,7 +15,7 @@ function nextWin()
 	margin:0 auto;
  	height:500px;
  	line-height: 100px;
-}
+} 
 </style>
 </head>
 <body onLoad="setTimeout('nextWin()', 1000)">
