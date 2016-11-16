@@ -72,6 +72,16 @@
 		text-align : center;
 		margin-bottom : 200px;
 	}
+	#buttons button {
+		width : 150px;
+		height : 40px;
+		font-size : 12pt;
+		background-color : #ebf7fc;
+		-moz-border-radius:10px;
+		-webkit-border-radius:10px;
+		border-radius:10px;
+		/* border : none; */
+	}
 
 </style>
 
@@ -130,9 +140,9 @@
 	</div><!-- end of ticket -->
 
 	<div id="buttons">
-		<a href="/afk/guide/guideMain"><button class="btn btn-default" onclick="location='guide/guideMain'">메인으로</button></a>
+		<a href="/afk/guide/guideMain"><button onclick="location='guide/guideMain'">메인으로</button></a>
 		&nbsp;&nbsp;
-		<button class="btn btn-default">지난 구매내역 보기</button>
+		<button>지난 구매내역</button>
 	</div>
 
 </div><!--end of container-->

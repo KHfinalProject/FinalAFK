@@ -114,7 +114,7 @@
 				if(date == "날짜 선택"){
 					alert("여행을 시작할 날짜를 선택해주세요");
 				}else{
-					var buy = confirm("이 여행으로 정하시겠습니까?");
+					var buy = confirm("이 여행을 떠나시겠습니까?");
 					if(buy){
 						
 						var form1 = document.createElement("form");
