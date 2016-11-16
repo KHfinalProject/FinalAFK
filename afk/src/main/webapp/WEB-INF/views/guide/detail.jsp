@@ -30,10 +30,6 @@
    <!--jQuery ui js파일(달력용)-->
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   
-  <link rel="stylesheet" href="/maps/documentation/javascript/demos/demos.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3m6vYQoQmgfby10NojiU1GxgorAr6cH0&callback=initMap"
-    async defer></script>
-  
   <script>
   
    /*댓글 수정하기 버튼 클릭 시 모달창 생성*/
@@ -97,46 +93,6 @@
 		  });  
 	  }
   }
-  
-  /*DB에 저장된 좌표를 지도에 출력*/
-  function initialize(){
-	var temp = "${guideItem.gui_map}"; //DB에 저장된 좌표값 불러옴
-	
-	//필요한 좌표값만 1차로 꺼내줌
-	var location = temp.substring(temp.indexOf("(") + 1, temp.indexOf(")"));
-	
-	//1차로 꺼낸 좌표에서 x값과 y값을 분리하여 변수에 저장
-	var x = location.substring(0, location.indexOf(", "));
-	var y = location.substring(location.indexOf(", ") + 1, location.length);
-	
-	var mapLocation = new google.maps.LatLng(x, y); 
-	var markLocation = new google.maps.LatLng(x, y);
-	  
-	var mapOptions = {
-		  center : mapLocation,
-		  zoom : 11,
-		  mapTypeId : google.maps.MapTypeId.ROADMAP
-	};
-	  
-	var map = new google.maps.Map(document.getElementById('print_map'), mapOptions);
-	  
-	var size_x = 60;
-	var size_y = 60;
-	  
-	var image = new google.maps.MarkerImage( 'http://www.larva.re.kr/home/img/boximage3.png',
-              new google.maps.Size(size_x, size_y),
-              '',
-              '',
-              new google.maps.Size(size_x, size_y));
-
-	var marker;
-	marker = new google.maps.Marker({
-			 position: markLocation, // 마커가 위치할 위도와 경도(변수)
-			 map: map,
-			 icon: image // 마커로 사용할 이미지(변수)
-	});  
-  }
-  google.maps.event.addDomListener(window, 'load', initialize);
   
   /*구매 버튼 클릭 시 정보 담아서 결제 진행 시작*/
   function purchase(){
@@ -604,6 +560,10 @@
 	.notified {
 		background-color : #b7b7b7;
 		
+	}
+	#print_map{
+		width: 600px;
+		height: 450px;
 	}
 
 	/*별점 부분*/
@@ -1110,10 +1070,9 @@
 		<div id="item_maps" align="center">
 			<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				<div id="print_map"  style="width: 600px; height: 450px;">
+				<div id="print_map">
 				<!-- 지도 출력되는 부분 -->
 				</div>
-			
 			</div>
 			</div>
 		</div><!--end of item_maps-->
@@ -1191,7 +1150,55 @@
 	</div><!--end of item_detail-->
 
   </div><!--end of container-->
+  <script>
+
+// In the following example, markers appear when the user clicks on the map.
+// The markers are stored in an array.
+// The user can then click an option to hide, show or delete the markers.
+
+//map에서 문자열 추출
+var loadMap = "${guideItem.gui_map}"; //불러온 map 정보 변수에 삽입
+var maplist = loadMap.split('/');	//map '/'을 기준으로 분할해 배열에 삽입
+var mapX = new Array;
+var mapY = new Array;	//x, y 좌표들을 집어넣을 빈 배열 변수 생성
+
+for(var i = 0 ; i<maplist.length-1; i++){ //x좌표 y좌표 분리해서 각 배열에 삽입
+	mapX.push(maplist[i].substring(maplist[i].indexOf("(") + 1, maplist[i].indexOf(",")));
+	mapY.push(maplist[i].substring(maplist[i].indexOf(",") + 1, maplist[i].indexOf(")")));
+};
+
+var map;
+var markers = [];
+var xy = [];
+
+var positions = "";
+
+function initMap() {
+  //Number타입으로 형변환 후 가장 첫번째 x,y좌표를 이용해  지도생성
+  var haightAshbury = {lat: Number(mapX[0]), lng: Number(mapY[0])}; 
+
+  map = new google.maps.Map(document.getElementById('print_map'), {
+    zoom: 16,
+    center: haightAshbury,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
   
+  for(var i = 0 ; i<maplist.length-1; i++){ //불러온 좌표들 마커 찍어주기
+	  	addMarker({lat: Number(mapX[i]) , lng: Number(mapY[i])});
+	};
+}
+
+// Adds a marker to the map and push to the array.
+function addMarker(location) {
+  var marker = new google.maps.Marker({
+    position: location,
+    map: map
+  });
+  markers.push(marker);
+}
+
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmEzr7dLdGc9EOPrEgBKFkcbT04TLZtSU&callback=initMap"></script>
  </body>
 </html>
 

@@ -85,7 +85,7 @@
 						</div>
 						<span>후기 한 개</span>
 					</div>
-					<div class="text-lg item-inline">${boardDetail.info_title }</div>
+					<div class="text-lg item-inline">${board.info_title }</div>
 				</div>
 				<div class="info-box">
 					<div class="text-xs label">지역</div>
@@ -105,11 +105,9 @@
 		</div>
 		<div class="detail-board">
 			<div class="detail-content">
-				내용 이것도 내용이다<br> 내용<br> 내용<br>
-				<br> 내용<br> 내용<br> 내용<br> 내용<br> 내용<br>
-				내용<br> 내용<br> 내용<br> 내용<br> 내용<br>
+				${board.info_content}
 			</div>
-			<div class="detail-view">지도</div>
+			<div id="map" class="detail-view">지도</div>
 			<div class="detail-star">별점주기</div>
 			<div class="detail-review">
 				<textarea class="comment" name="cm_content"
@@ -122,10 +120,10 @@
 			<br>
 			<div class="debutton">
 				<input type="button" value="수정하기"
-					onclick="location.href='/afk/infoboard/updateInfoBoardForm?info_no=${boardDetail.info_no}'"
+					onclick="location.href='/afk/infoboard/updateInfoBoardForm?info_no=${board.info_no}'"
 					style="float: right; margin-left: 7px;"> <input
 					type="button" value="삭제하기"
-					onclick="infoDelete(${boardDetail.info_no})">
+					onclick="infoDelete(${board.info_no})">
 			</div>
 		</div>
 
@@ -163,7 +161,7 @@
         function cmList(){
         	$.ajax({
         		url:"/afk/infoboard/selectBoardComment",
-        		data:{bno: "${boardDetail.info_no}"},
+        		data:{bno: "${board.info_no}"},
         		type:"post",
         		dataType:"json",
         		success: function(data){
@@ -192,7 +190,7 @@
         	$.ajax({
         		url:"/afk/infoboard/insertBoardComment",
         		data:{cm_writer:"${loginUser.mb_id}",
-        			  cm_board_no:"${boardDetail.info_no}",
+        			  cm_board_no:"${board.info_no}",
         			  cm_content: content},
         		type:"post",
         		dataType:"json",
@@ -228,7 +226,7 @@
         function favselect(){
         	$.ajax({
         		url : "/afk/infoboard/selectBoardReport",
-        		data : {fa_bd_no :"${boardDetail.info_no}", 
+        		data : {fa_bd_no :"${board.info_no}", 
         				fa_mb_id : "${loginUser.mb_id}"},
        			type : "post",
        			dataType : "json",
@@ -244,35 +242,89 @@
         
         //즐겨찾기 아이콘을 클릭시 즐겨찾기 추가 ajax발동
         function favInsert(){
-        	$.ajax({
-        		url : "/afk/infoboard/insertBoardReport",
-        		data : {fa_bd_no :"${boardDetail.info_no}", fa_mb_id : "${loginUser.mb_id}"},
-        		type : "post",
-        		dataType : "json",
-        		success : function(data){
-        			if(data > 0){
-        				$(".report").empty();
-        				favselect();
-        			}
-        		}
-        	})
+        	if(confirm("이 글을 찜목록에 추가하시겠습니까?")== true){	
+	        	$.ajax({
+	        		url : "/afk/infoboard/insertBoardReport",
+	        		data : {fa_bd_no :"${board.info_no}", 
+	        				fa_mb_id : "${loginUser.mb_id}"},
+	        		type : "post",
+	        		dataType : "json",
+	        		success : function(data){
+	        			if(data > 0){
+	        				$(".report").empty();
+	        				favselect();
+	        			}
+	        		}
+	        	})
+        	}
         }
         
       //즐겨찾기 아이콘을 클릭시 즐겨찾기 삭제 ajax발동
         function favDelete(no){
-        	$.ajax({
-        		url : "/afk/infoboard/deleteBoardReport",
-        		data : {no: no},
-        		type : "post",
-        		dataType : "json",
-        		success : function(data){
-        			if(data > 0){
-        				$(".report").empty();
-        				favselect();
-        			}
-        		}
-        	})
+        	if(confirm("이 글을 찜목록에서 삭제하시겠습니까?")== true){
+	        	$.ajax({
+	        		url : "/afk/infoboard/deleteBoardReport",
+	        		data : {no: no},
+	        		type : "post",
+	        		dataType : "json",
+	        		success : function(data){
+	        			if(data > 0){
+	        				$(".report").empty();
+	        				favselect();
+	        			}
+	        		}
+	        	})
+        	}
         }
     </script>
+<script>
+
+// In the following example, markers appear when the user clicks on the map.
+// The markers are stored in an array.
+// The user can then click an option to hide, show or delete the markers.
+
+//map에서 문자열 추출
+var loadMap = "${board.info_map}"; //불러온 map 정보 변수에 삽입
+var maplist = loadMap.split('/');	//map '/'을 기준으로 분할해 배열에 삽입
+var mapX = new Array;
+var mapY = new Array;	//x, y 좌표들을 집어넣을 빈 배열 변수 생성
+
+for(var i = 0 ; i<maplist.length-1; i++){ //x좌표 y좌표 분리해서 각 배열에 삽입
+	mapX.push(maplist[i].substring(maplist[i].indexOf("(") + 1, maplist[i].indexOf(",")));
+	mapY.push(maplist[i].substring(maplist[i].indexOf(",") + 1, maplist[i].indexOf(")")));
+};
+
+var map;
+var markers = [];
+var xy = [];
+
+var positions = "";
+
+function initMap() {
+  //Number타입으로 형변환 후 가장 첫번째 x,y좌표를 이용해  지도생성
+  var haightAshbury = {lat: Number(mapX[0]), lng: Number(mapY[0])}; 
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 16,
+    center: haightAshbury,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+  
+  for(var i = 0 ; i<maplist.length-1; i++){ //불러온 좌표들 마커 찍어주기
+	  	addMarker({lat: Number(mapX[i]) , lng: Number(mapY[i])});
+	};
+}
+
+// Adds a marker to the map and push to the array.
+function addMarker(location) {
+  var marker = new google.maps.Marker({
+    position: location,
+    map: map
+  });
+  markers.push(marker);
+}
+
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmEzr7dLdGc9EOPrEgBKFkcbT04TLZtSU&callback=initMap"></script>
 </body>
 </html>
