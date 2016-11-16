@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.infoboard.vo.InfoBoardVO;
+import com.model.afk.matching.vo.Matching;
 import com.model.afk.member.vo.Member;
 import com.model.afk.mypage.dao.MypageDao;
 import com.model.afk.myplanner.vo.MyPlanner;
+import com.model.afk.payment.vo.Payment;
 
 @Service
 public class MypageServiceImpl implements MypageService{
@@ -21,12 +23,7 @@ public class MypageServiceImpl implements MypageService{
 	public List<InfoBoardVO> selectmyFavorite(String mbid) {
 		return mpgDao.selectmyFavorite(mbid);
 	}
-
-	@Override
-	public List<MyPlanner> selectmyPlan(String mbid) {
-		return mpgDao.selectmyPlan(mbid);
-	}
-
+	
 	@Override
 	public int updateMyProfile(Member mvo) {
 		return mpgDao.updateMyProfile(mvo);
@@ -50,6 +47,26 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public List<GuideItem> selectmyGuide(String gid) {
 		return mpgDao.selectmyGuide(gid);
+	}
+
+	@Override
+	public List<Matching> selectmypay(String id) {
+		return mpgDao.selectmyPay(id);
+	}
+
+	@Override
+	public List<Matching> selectmyMatching(String id) {
+		return mpgDao.selectmyMatching(id);
+	}
+
+	@Override
+	public int deleteMyPay(HashMap<String, Object> map) {
+		return mpgDao.deleteMyPay(map);
+	}
+
+	@Override
+	public int deleteMyMatching(int matchingno) {
+		return mpgDao.deleteMyMatching(matchingno);
 	}
 
 }

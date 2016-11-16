@@ -10,8 +10,10 @@ import org.springframework.stereotype.Repository;
 
 import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.infoboard.vo.InfoBoardVO;
+import com.model.afk.matching.vo.Matching;
 import com.model.afk.member.vo.Member;
 import com.model.afk.myplanner.vo.MyPlanner;
+import com.model.afk.payment.vo.Payment;
 
 @Repository
 public class MypageDao {
@@ -23,10 +25,6 @@ public class MypageDao {
 	
 	public List<InfoBoardVO> selectmyFavorite(String mbid) {
 		return sqlSession.selectList(NAMESPACE + "selectmyFavorite", mbid);
-	}
-
-	public List<MyPlanner> selectmyPlan(String mbid) {
-		return sqlSession.selectList(NAMESPACE + "selectmyPlan", mbid);
 	}
 
 	public int updateMyProfile(Member mvo) {
@@ -47,5 +45,21 @@ public class MypageDao {
 
 	public List<GuideItem> selectmyGuide(String gid) {
 		return sqlSession.selectList(NAMESPACE + "selectmyGuide", gid);
+	}
+
+	public List<Matching> selectmyPay(String id) {
+		return sqlSession.selectList(NAMESPACE + "selectmyPay", id);
+	}
+
+	public List<Matching> selectmyMatching(String id) {
+		return sqlSession.selectList(NAMESPACE + "selectmyMatching", id);
+	}
+
+	public int deleteMyPay(HashMap<String, Object> map) {
+		return sqlSession.delete(NAMESPACE + "deletemyPay", map);
+	}
+
+	public int deleteMyMatching(int matchingno) {
+		return sqlSession.delete(NAMESPACE + "deletemyMatching", matchingno);
 	}
 }

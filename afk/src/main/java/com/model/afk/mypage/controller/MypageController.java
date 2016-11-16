@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +31,12 @@ import org.springframework.web.multipart.MultipartRequest;
 
 import com.model.afk.guide.vo.GuideItem;
 import com.model.afk.infoboard.vo.InfoBoardVO;
+import com.model.afk.matching.vo.Matching;
 import com.model.afk.member.service.MemberService;
 import com.model.afk.member.vo.Member;
 import com.model.afk.mypage.service.MypageService;
 import com.model.afk.myplanner.vo.MyPlanner;
+import com.model.afk.payment.vo.Payment;
 
 @Controller
 @RequestMapping("/mypage")
@@ -89,7 +94,6 @@ public class MypageController implements ServletContextAware{
 			job.put("title", URLEncoder.encode(gItem.getGui_title() , "UTF-8"));
 			job.put("writer", gItem.getGui_writer());
 			job.put("image", gItem.getGui_image());
-			//job.put("content", URLEncoder.encode(gItem.getInfo_content() , "UTF-8"));
 			
 			jarr.add(job);
 		}
@@ -118,7 +122,6 @@ public class MypageController implements ServletContextAware{
 			//System.out.println("path : " + path);
 			File file = new File(path + File.separator + newname);	//지정된 경로에 새로운 이름으로 저장해주기
 			
-			/*mvo.setMb_id(id);*/
 			mvo = ms.updateViewMember((Member)session.getAttribute("loginUser"));
 			mvo.setMb_original_pic(orgname);
 			mvo.setMb_rename_pic(newname);
@@ -142,20 +145,80 @@ public class MypageController implements ServletContextAware{
 	}
 	
 	@RequestMapping("/paylist")
-	public void getmyPaylist(){
-		//결제한 리스트 불러오기
+	public void getmyPaylist(@RequestParam ("loginId") String id, HttpServletResponse response) throws Exception{
+		//구매한 리스트 불러오기
+		List<Matching> paylist = mpgs.selectmypay(id);
+		JSONObject json = new JSONObject();
+		JSONArray jarr = new JSONArray();
 		
+		DateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		
+		for(Matching list : paylist){
+			JSONObject job = new JSONObject();
+			job.put("gno", list.getGui_no());
+			job.put("title", URLEncoder.encode(list.getGui_title() , "UTF-8"));
+			job.put("gname", URLEncoder.encode(list.getMb_name(), "UTF-8"));
+			job.put("phone", list.getMb_phone());
+			job.put("price", list.getPrice());
+			job.put("tnum", list.getTravel_num());		
+			job.put("departureDate", list.getDeparture_date());
+			job.put("gid", list.getGuide_id());
+			job.put("payno", list.getPay_no());
+			
+			Date pay = list.getPay_date();
+			String payDate = sdFormat.format(pay);			
+			job.put("payDate", payDate);
+			
+			jarr.add(job);
+		}
+		
+		json.put("list", jarr);
+		System.out.println(json.toJSONString());
+		response.setContentType("application/json"); 
+		PrintWriter out = response.getWriter();
+		out.print(json.toJSONString());
+		out.flush();
+		out.close();
 	}
 	
 	@RequestMapping("/matchinglist")
-	public void getmyMatchinglist(){
+	public void getmyMatchinglist(@RequestParam ("loginId") String id, HttpServletResponse response) throws Exception{
 		//매칭된 목록 불러오기
+		List<Matching> matchinglist = mpgs.selectmyMatching(id);
+		JSONObject json = new JSONObject();
+		JSONArray jarr = new JSONArray();
 		
+		DateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		
+		for(Matching list : matchinglist){
+			JSONObject job = new JSONObject();
+			job.put("gno", list.getGui_no());
+			job.put("title", URLEncoder.encode(list.getGui_title() , "UTF-8"));
+			job.put("uname", URLEncoder.encode(list.getMb_name(), "UTF-8"));
+			job.put("phone", list.getMb_phone());
+			job.put("price", list.getPrice());
+			job.put("tnum", list.getTravel_num());
+			job.put("departureDate", list.getDeparture_date());
+			job.put("matchingno", list.getMat_no());
+			
+			Date pay = list.getPay_date();
+			String payDate = sdFormat.format(pay);			
+			job.put("payDate", payDate);
+			
+			jarr.add(job);
+		}
+		
+		json.put("list", jarr);
+		System.out.println(json.toJSONString());
+		response.setContentType("application/json"); 
+		PrintWriter out = response.getWriter();
+		out.print(json.toJSONString());
+		out.flush();
+		out.close();
 	}
 	
 	@RequestMapping("/deletewish")
 	public String deleteMyWish(@RequestParam ("wishno") int gui_no, @RequestParam ("loginId") String id, HashMap<String, Object> map){
-		System.out.println(gui_no + ", " + id);
 		map.put("fa_mb_id", id);
 		map.put("fa_bd_no", gui_no);
 		int result = mpgs.deleteMyWish(map);
@@ -170,6 +233,25 @@ public class MypageController implements ServletContextAware{
 		List<GuideItem> glist = mpgs.selectmyGuide(gid); 
 		return glist;
 		
+	}
+	
+	@RequestMapping("/deletepay")
+	public String deletepay(@RequestParam("payno") int payno, @RequestParam("loginId") String id, HashMap<String, Object> map){
+		map.put("payno", payno);
+		map.put("id", id);
+		int result = mpgs.deleteMyPay(map);
+		if(result > 0){
+			System.out.println("pay delete");
+		}else{
+			System.out.println("삭제 x");
+		}
+		return "redirect:/mypage";
+	}
+	
+	@RequestMapping("/deletematching")
+	public String deletematching(@RequestParam("matchingno") int matchingno){
+		mpgs.deleteMyMatching(matchingno);
+		return "redirect:/mypage";
 	}
 	
 	@Override

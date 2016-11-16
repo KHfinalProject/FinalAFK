@@ -39,4 +39,34 @@
 		FROM GUIDE_BOARD
 		WHERE GUI_WRITER = #{gid}
 	</select>
+	
+	<select id="selectmyPay" parameterType="String" resultType="Matching">
+		SELECT M.MB_NAME, M.MB_PHONE, P.DEPARTURE_DATE, P.TRAVEL_NUM, P.PRICE, P.PAY_DATE, GB.GUI_TITLE, GB.GUI_NO, P.GUIDE_ID, P.PAY_NO
+		FROM PAYMENT P, GUIDE_BOARD GB, MEMBER M
+		WHERE P.GUI_NO = GB.GUI_NO
+		AND P.GUIDE_ID = M.MB_ID
+		AND P.PAY_ID = #{id}
+	</select>
+	
+	<select id="selectmyMatching" parameterType="String" resultType="Matching">
+		SELECT M.MB_NAME, M.MB_PHONE, P.DEPARTURE_DATE, P.TRAVEL_NUM, P.PRICE, P.PAY_DATE, GB.GUI_TITLE, GB.GUI_NO, MC.MAT_NO
+		FROM PAYMENT P, GUIDE_BOARD GB, MEMBER M, MATCHING MC
+		WHERE P.GUI_NO = GB.GUI_NO
+		AND P.PAY_ID = M.MB_ID
+		AND P.PAY_ID = MC.MAT_MB_ID
+		AND P.GUIDE_ID = #{id}
+		AND P.PAID = 'Y'
+	</select>
+	
+	<delete id="deletemyPay" parameterType="java.util.Map">
+		DELETE FROM PAYMENT
+		WHERE PAY_ID = #{id}
+		AND PAY_NO = #{payno}
+	</delete>
+	
+	<delete id="deletemyMatching" parameterType="Integer">
+		DELETE FROM MATCHING
+		WHERE MAT_NO = #{matchingno}
+	
+	</delete>
 </mapper>

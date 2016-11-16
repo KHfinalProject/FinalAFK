@@ -121,6 +121,13 @@
 				background-color:powderblue;
 				border-radius: 15px;
 			}
+			
+			.mycontentP{
+				width: 100%; 
+				height: 160px; 
+				background-color:powderblue;
+				border-radius: 15px;
+			}
 		</style>
 		<script>
 			 $(function(){
@@ -236,6 +243,28 @@
 						var fano = $(this).children('input').val();
 						/* alert(wishno); */
 					    location.href='/afk/mypage/deletefavorite?fano='+fano+'&loginId=${loginUser.mb_id}';
+					}else{   //취소
+					    return;
+					}
+				});
+				
+				$(document).on('click', '.delMyPay',function(){
+					//구매내역 삭제 이벤트
+					if (confirm("구매 내역에서 삭제하시겠습니까??") == true){    //확인
+						var payno = $(this).children('input').val();
+						//alert(payno);
+					    location.href='/afk/mypage/deletepay?payno='+payno+'&loginId=${loginUser.mb_id}';
+					}else{   //취소
+					    return;
+					}
+				});
+				
+				$(document).on('click', '.delMyMatching',function(){
+					//매칭리스트 삭제 이벤트
+					if (confirm("매칭리스트에서 삭제하시겠습니까??") == true){    //확인
+						var matchingno = $(this).children('input').val();
+						/* alert(wishno); */
+					    location.href='/afk/mypage/deletematching?matchingno='+matchingno;
 					}else{   //취소
 					    return;
 					}
@@ -452,8 +481,6 @@
 								"<a href='/afk/guide/guideMain'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 가이드 게시물 보러가기 </button></a></center>");
 							}
 						}	
-						/* var wishno = $('div.delMywish > input[name="delMyWish"]').val();
-						alert(wishno); */
 					}
 				});	
 			}
@@ -477,7 +504,7 @@
 						}else{
 							$("#myGuideContent").empty();
 							$("#myGuideContent").append("<br><center><h3><span>올린 게시물이 없습니다.</span></h3><br><br>" +
-							"<a href='/afk/guide/guideMain'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 가이드 게시물 올리기 </button></a></center>");
+							"<a href='/afk/guide/guideMain'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span> 가이드 게시물 올리기 </button></a></center>");
 						}
 					}
 				});
@@ -485,33 +512,45 @@
 			
 			function getmypay(){
 				//구매 목록 불러오기
-				//alert("pay");
+				
 				var loginId = "${loginUser.mb_id}";
-				$.ajax({
+				 $.ajax({
 					url : "mypage/paylist",
 					data : { loginId : loginId},
 					type: "post",
 					dataType : "json",
 					success : function(data){
-						var str = "";
-						if(data.length > 0){
-							for(var i in data){	
-										$("#mypayContent").empty();
-										str += "<ul><a href='guide/guideDetail?itemNo="+ data[i].gui_no+"&writer="+ data[i].gui_writer +"'><h4>" + data[i].gui_title +"</h4></a></ul><br>"
-							}
-							$("#mypayContent").append(str);
+						 var str = "";
+						 if(data != null){
+							var jsonStr = JSON.stringify(data);  //객체를 문자열로 변환
+							console.log(jsonStr);
+							var json = JSON.parse(jsonStr); //문자열을 배열 객체로 바꿈
+							console.log(json);
+							var Ca = /\+/g;
+								
+							if(json.list.length != 0){
+								$("#mypayContent").empty();
+								for(var i in json.list){
+									str += "<div class='mycontentP'><br><span style='margin-left:3%; font-size:16pt;'><a href='/afk/guide/guideDetail?itemNo="+ json.list[i].gno +"&writer="+ json.list[i].gid +"'>"+ decodeURIComponent(json.list[i].title.replace(Ca, " ")) +"<a/></span>"
+										+"<br><br><div style='margin-left:2%; width: 85%; float:left; font-size:12pt;'>가이드이름 : "+ decodeURIComponent(json.list[i].gname) +" &nbsp; &nbsp; 가이드연락처 : "+ json.list[i].phone 
+										+"<br>출발일 : "+ json.list[i].departureDate +" &nbsp; &nbsp; 인원수 : "+ json.list[i].tnum +"명"
+										+"<br>결제 금액 : "+ json.list[i].price +"원 &nbsp; &nbsp; 결제일 : "+ json.list[i].payDate +"</div>"
+										+"<button type='button' class='btn btn-default pull-right delMyPay' style='margin-right:5%;'>"
+										+"<input type='hidden' value='"+ json.list[i].payno +"'><span class='glyphicon glyphicon-trash' aria-hidden='true' title='삭제하기'></span></button></div><br>"  
+								}
+								$("#mypayContent").append(str);
 						}else{
 							$("#mypayContent").empty();
-							$("#mypayContent").append("<br><center><h3><span>올린 게시물이 없습니다.</span></h3><br><br>" +
-							"<a href='/afk/guide/guideMain'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 가이드 게시물 올리기 </button></a></center>");
+							$("#mypayContent").append("<br><center><h3><span>구매한 내역이 없습니다.</span></h3><br><br>");
 						}
-					}
+					} 
+				}
 				});
 			}
 			
 			function getmymatching(){
-				//매칭 리스트 불러오기
-				//alert("matching");
+				//매칭 리스트 불러오기				
+											
 				var loginId = "${loginUser.mb_id}";
 				$.ajax({
 					url : "mypage/matchinglist",
@@ -520,18 +559,31 @@
 					dataType : "json",
 					success : function(data){
 						var str = "";
-						if(data.length > 0){
-							for(var i in data){	
-										$("#mymatchingContent").empty();
-										str += "<ul><a href='guide/guideDetail?itemNo="+ data[i].gui_no+"&writer="+ data[i].gui_writer +"'><h4>" + data[i].gui_title +"</h4></a></ul><br>"
+						if(data != null){
+							var jsonStr = JSON.stringify(data);  //객체를 문자열로 변환
+							console.log(jsonStr);
+							var json = JSON.parse(jsonStr); //문자열을 배열 객체로 바꿈
+							console.log(json);
+							var Ca = /\+/g;
+							
+							if(json.list.length != 0){
+								$("#mymatchingContent").empty();
+								for(var i in json.list){
+									str += "<div class='mycontentP'><br><span style='margin-left:3%; font-size:16pt;'><a href='/afk/guide/guideDetail?itemNo="+ json.list[i].gno +"&writer=${loginUser.mb_id}'>"+ decodeURIComponent(json.list[i].title.replace(Ca, " ")) +"<a/></span>"
+										+"<br><br><div style='margin-left:2%; width: 85%; float:left; font-size:12pt;'>회원이름: "+ decodeURIComponent(json.list[i].uname) +" &nbsp; &nbsp; 회원연락처 : "+ json.list[i].phone 
+										+"<br>출발일 : "+ json.list[i].departureDate +" &nbsp; &nbsp; 인원수 : "+ json.list[i].tnum +"명"
+										+"<br>결제 금액 : "+ json.list[i].price +"원  &nbsp; &nbsp; 결제일 : "+ json.list[i].payDate +"</div>"
+										+"<button type='button' class='btn btn-default pull-right delMyMatching' style='margin-right:5%;'>"
+										+"<input type='hidden' value='"+ json.list[i].matchingno +"'><span class='glyphicon glyphicon-trash' aria-hidden='true' title='삭제하기'></span></button></div><br>"
 							}
-							$("#mymatchingContent").append(str);
+								$("#mymatchingContent").append(str);
 						}else{
 							$("#mymatchingContent").empty();
-							$("#mymatchingContent").append("<br><center><h3><span>올린 게시물이 없습니다.</span></h3><br><br>" +
-							"<a href='/afk/guide/guideMain'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 가이드 게시물 올리기 </button></a></center>");
+							$("#mymatchingContent").append("<br><center><h3><span>매칭목록이 존재하지 않습니다.</span></h3><br><br>");
+							
 						}
 					}
+				}
 				});
 			}
 			 
