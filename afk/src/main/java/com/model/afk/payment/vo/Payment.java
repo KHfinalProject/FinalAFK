@@ -14,6 +14,7 @@ public class Payment implements java.io.Serializable {
 	private String guide_id; //결제한 상품의 담당 가이드 ID
 	private int price; //결제가격
 	private String departure_date; //사용자가 선택한 출발일
+	private int travel_num; //출발인원
 	private Date pay_date; //결제일
 	private char paid; //결제여부
 	
@@ -21,7 +22,7 @@ public class Payment implements java.io.Serializable {
 	public Payment(){}
 
 	public Payment(int pay_no, String pay_id, String pay_name, String pay_phone, String pay_email, int gui_no,
-			String guide_id, int price, String departure_date, Date pay_date, char paid) {
+			String guide_id, int price, String departure_date, int travel_num, Date pay_date, char paid) {
 		super();
 		this.pay_no = pay_no;
 		this.pay_id = pay_id;
@@ -32,6 +33,7 @@ public class Payment implements java.io.Serializable {
 		this.guide_id = guide_id;
 		this.price = price;
 		this.departure_date = departure_date;
+		this.travel_num = travel_num;
 		this.pay_date = pay_date;
 		this.paid = paid;
 	}
@@ -109,6 +111,14 @@ public class Payment implements java.io.Serializable {
 		this.departure_date = departure_date;
 	}
 
+	public int getTravel_num() {
+		return travel_num;
+	}
+
+	public void setTravel_num(int travel_num) {
+		this.travel_num = travel_num;
+	}
+
 	public Date getPay_date() {
 		return pay_date;
 	}
@@ -129,8 +139,8 @@ public class Payment implements java.io.Serializable {
 	public String toString() {
 		return "Payment [pay_no=" + pay_no + ", pay_id=" + pay_id + ", pay_name=" + pay_name + ", pay_phone="
 				+ pay_phone + ", pay_email=" + pay_email + ", gui_no=" + gui_no + ", guide_id=" + guide_id + ", price="
-				+ price + ", departure_date=" + departure_date + ", pay_date=" + pay_date + ", paid=" + paid + "]";
+				+ price + ", departure_date=" + departure_date + ", travel_num=" + travel_num + ", pay_date="
+				+ pay_date + ", paid=" + paid + "]";
 	}	
-
 
 }

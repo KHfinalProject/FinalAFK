@@ -30,6 +30,11 @@
 		
 	}
 	
+	#ticket {
+		margin-top : 100px;
+		margin-bottom : 100px;
+	}
+	
 	#ticket_header {
 		background-color : #04378c;
 		color : white;
@@ -50,9 +55,22 @@
 		font-weight : bold;
 		font-size : 15pt;
 	}
-
+	
 	#detail2 {
 		border-left: 1px dashed gray;
+	}
+	
+	@media all and (max-width : 991px){
+	
+		#detail2 {
+			border-left : 1px solid black;
+		}
+	}
+	
+	#buttons {
+		margin-top : 30px; 
+		text-align : center;
+		margin-bottom : 200px;
 	}
 
 </style>
@@ -63,7 +81,8 @@
 	<div class="jumbotron">
 		<h1>결제 완료</h1>
 	</div><!--end of jumbotron-->
-
+	
+	<div id="ticket">
 	<div class="row" id="ticket_header">
 		<div class="col-md-3 col-md-offset-3">
 			AFK
@@ -74,19 +93,19 @@
 	</div><!--end of ticket_header-->
 
 	<div class="row" id="ticket_detail">
-		<div class="col-md-4 col-md-offset-2">
+		<div class="col-md-4 col-md-offset-2" id="detail1">
 			<table>
 			<tr>
 				<td>NAME </td>
-				<td>ㅎㅎㅎ</td>
+				<td>${userName}</td>
 			</tr>
 			<tr>
 				<td>FLIGHT TO </td>
-				<td>지역이름출력</td>
+				<td>${city }</td>
 			</tr>
 			<tr>
 				<td>DEPT DATE</td>
-				<td>2016-10-23</td>
+				<td>${payment.departure_date}</td>
 			</tr>
 			</table>
 		</div>
@@ -95,27 +114,29 @@
 			<table>
 			<tr>
 				<td>담당 가이드</td>
-				<td>ㅋㅋㅋ</td>
+				<td>${guide }</td>
 			</tr>
 			<tr>
 				<td>인원수</td>
-				<td>3</td>
+				<td>${payment.travel_num }</td>
 			</tr>
 			<tr>
 				<td>금액</td>
-				<td>10000</td>
+				<td>${payment.price }</td>
 			</tr>
 			</table>
 		</div>
 	</div><!--end of ticket_detail-->
+	</div><!-- end of ticket -->
 
-	<div style="margin-top : 30px; text-align:center">
-		<button class="btn btn-default" onclick="location='guide/guideMain'">메인으로</button>
+	<div id="buttons">
+		<a href="/afk/guide/guideMain"><button class="btn btn-default" onclick="location='guide/guideMain'">메인으로</button></a>
 		&nbsp;&nbsp;
 		<button class="btn btn-default">지난 구매내역 보기</button>
 	</div>
 
 </div><!--end of container-->
+<jsp:include page="../footer.jsp"/>
 
 </body>
 </html>

@@ -10,7 +10,7 @@
  	INSERT INTO payment
  	VALUES (payment_seq.nextval, #{pay_id}, #{pay_name}, 
  	#{pay_phone}, #{pay_email}, #{gui_no},
- 	#{guide_id}, #{price}, #{departure_date}, sysdate, 'Y')
+ 	#{guide_id}, #{price}, #{departure_date}, #{travel_num}, sysdate, 'Y')
  </insert>
  
  

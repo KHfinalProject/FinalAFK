@@ -1,8 +1,6 @@
 package com.model.afk.payment.controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import com.model.afk.admin.Service.AdminMemberService;
 import com.model.afk.guide.service.GuideBoardService;
 import com.model.afk.guide.vo.GuideItem;
+import com.model.afk.member.vo.Member;
 import com.model.afk.payment.service.PaymentService;
 import com.model.afk.payment.vo.Payment;
 
@@ -39,6 +38,7 @@ public class PaymentController {
 			@RequestParam String guideId){
 		
 		System.out.println("===============paymentProceed=======================");
+		System.out.println("date : " + date);
 		GuideItem item = guideBoardService.getOneItem(itemNo);
 		
 		model.addAttribute("item", item);
@@ -46,14 +46,15 @@ public class PaymentController {
 		model.addAttribute("num", num);
 		model.addAttribute("guideName", guideName);
 		model.addAttribute("guideId", guideId);
-				
+						
 		return "payment/paymentProceed";
 	}
 	
 	// 결제 완료 페이지 이동
-	@RequestMapping("/paymentComplete")
-	public String getPurchasedList(Model model, @RequestParam String userId,
-			@RequestParam String userName, @RequestParam int price, @RequestParam String date,
+	@RequestMapping("/insertPayment")
+	public String insertPayment(Model model, @RequestParam String userId,
+			@RequestParam String userName, @RequestParam int price, 
+			@RequestParam String depart_date, @RequestParam int travel_num,
 			@RequestParam String email, @RequestParam String phone,
 			@RequestParam String guideId, @RequestParam int itemNo) throws ParseException{
 					
@@ -65,30 +66,36 @@ public class PaymentController {
 		payment.setGui_no(itemNo);
 		payment.setGuide_id(guideId);
 		payment.setPrice(price);
-		payment.setDeparture_date(date);
+		payment.setDeparture_date(depart_date);
+		payment.setTravel_num(travel_num);
+		
+		System.out.println(payment.toString());
+		System.out.println("date 어케 저장했지 : " + payment.getDeparture_date());
 		
 		int result = paymentService.insertPayment(payment);
 		String view = "";
 		
 		if (result > 0){
 			System.out.println("결제 DB 입력 성공");
-			view = "payment/paymentComplete";
 			
+			Member guide = guideBoardService.getGuideInfo(guideId);
+			GuideItem g = guideBoardService.getOneItem(itemNo);
+						
+			model.addAttribute("payment", payment);
+			model.addAttribute("userName", userName);
+			model.addAttribute("guide", guide.getMb_name());
+			model.addAttribute("city", g.getCity_name());
+			
+			view = "payment/paymentComplete";	
 		}else{
 			System.out.println("결제 DB 입력 실패");
-			view = "payment/paymentError";
+			
 		}
 		
 		return view;
 	}
 	
 	
-	
-	public String insertPayment(Model model, HttpSession session, GuideItem gi,
-			 SessionStatus sessionStatus, BindingResult result){
-		
-		return "payment/purchaseProceed";
-	}
 	
 	public String updatePayment(Model model, Payment payment, BindingResult result,
 			SessionStatus sessionStatus, HttpServletRequest request){
@@ -100,4 +107,6 @@ public class PaymentController {
 		
 		return "payment/purchasedList";
 	}
+	
+	
 }

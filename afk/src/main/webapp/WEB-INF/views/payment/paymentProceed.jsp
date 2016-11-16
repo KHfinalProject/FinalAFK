@@ -51,13 +51,13 @@ function button1_click() {
 				msg += '결제 금액 : ' + rsp.paid_amount;
 				msg += '카드 승인번호 : ' + rsp.apply_num;
 				
-				alert('결제가 성공하였습니다.');
+				//alert('결제가 성공하였습니다.');
 				
 				//location.replace("/afk/paymentComplete");
 				
 				var form = document.createElement('form');
 				form.method = 'post';
-				form.action = '/afk/paymentComplete';
+				form.action = '/afk/insertPayment';
 				
 				var input = document.createElement('input');
 				input.type = 'hidden';
@@ -85,8 +85,14 @@ function button1_click() {
 				
 				var input = document.createElement('input');
 				input.type = 'hidden';
-				input.name = 'date';
-				input.value = ${date};
+				input.name = 'depart_date';
+				input.value = $('#dDate').val();
+				$(form).append(input);
+				
+				var input = document.createElement('input');
+				input.type = 'hidden';
+				input.name = 'travel_num';
+				input.value = $('#num').val();
 				$(form).append(input);
 				
 				var input = document.createElement('input');
@@ -216,7 +222,9 @@ function button1_click() {
 				</tr>
 				<tr>
 					<td width="50%">출발일</td>
-					<td>${date }</td>
+					<td>${date}
+					<input type="hidden" id="dDate" value="${date }">
+					</td>
 				</tr>
 				<tr>
 					<td>회원 이름</td>
