@@ -124,14 +124,14 @@
  	</update>
  	
  	<delete id="notifyCencel" parameterType="map">
- 		delete from info_board
+ 		delete from info_notify
  		where info_no = #{info_no}
  		and mb_id = #{user}
  	</delete>
  	
  	<insert id="notify" parameterType="map">
  	
- 	INSERT INTO info_board
+ 	INSERT INTO info_notify
  	VALUES (#{info_no}, #{user})
  </insert>
  	

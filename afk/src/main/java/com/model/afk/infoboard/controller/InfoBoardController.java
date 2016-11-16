@@ -150,6 +150,7 @@ public class InfoBoardController {
 				 InfoBoardVO board = null;
 				 List<InfoNotifyVO> notify = null;
 				 
+				 System.out.println("mmmmmmmmmmmmmmmmm" + notify);
 				 if(result > 0){
 					 board = bsvc.boardDetail(info_no);
 					 notify = bsvc.getNotifyList(info_no);
@@ -227,9 +228,28 @@ public class InfoBoardController {
 		 //평점주기
 		 return null;
 	 }
-	 public String insertBoardNotify(InfoNotifyVO vo) {
+	 /*public String insertBoardNotify(InfoNotifyVO vo) {
 		 int result = bnsvc.insertBoardNotify(vo);
 		 //신고하기
 		 return null;
+	 }*/
+	 
+	 @RequestMapping("/notify")
+	 public @ResponseBody int notify(@RequestParam int info_no, @RequestParam String user){
+		 int result = bsvc.notify(info_no, user);
+		 if(result > 0)
+			 System.out.println("신고 성공");
+		 
+		 return result;
 	 }
+	 
+	 @RequestMapping("/notifyCencel")
+	 public @ResponseBody int notifyCencel(@RequestParam int info_no, @RequestParam String user){
+		 int result = bsvc.notifyCencel(info_no, user);
+		 if(result > 0)
+			 System.out.println("신고 취소");
+		 
+		 return result;
+	 }
+	 
 }

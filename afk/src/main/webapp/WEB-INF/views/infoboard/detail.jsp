@@ -64,16 +64,18 @@
 	
 	<script>
 //아이콘 클릭 시 해당 글 신고 또는 신고 취소
+
+$(function(){
 $("#notify").on('click', function(){
 	console.log("버튼클릭 되나?")
-	var gui_no = ${board.info_no};
+	
+	var info_no = ${board.info_no};
 	var user = "${loginUser.mb_id}";
 	
 	if(user == ""){
 		 var check = confirm("로그인이 필요한 기능입니다. 로그인 화면으로 이동하시겠습니까?");
 		  if(check){
 			  location.href = "../loginView";
-			  console.log("버튼클릭 되나?")
 		  }
 	}else{
 		var notified = $('#notify').hasClass('notified');
@@ -83,7 +85,7 @@ $("#notify").on('click', function(){
 			console.log("버튼클릭 되나?")
 			if(check){
 				$.ajax({
-					url : "/afk/notify",
+					url : "notify",
 					type : "post",
 					data : {info_no : info_no, user : user},
 					success : function(data){
@@ -105,7 +107,7 @@ $("#notify").on('click', function(){
 			var check = confirm("이 글에 대한 신고를 취소하시겠습니까?");
 			if(check){
 				$.ajax({
-					url : "afk/notifyCencel",
+					url : "notifyCencel",
 					type : "post",
 					data : {info_no : info_no, user : user},
 					success : function(data){
@@ -124,6 +126,7 @@ $("#notify").on('click', function(){
 			}	
 		}	
 	}	
+});
 });
 </script>
 </head>
