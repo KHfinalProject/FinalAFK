@@ -151,7 +151,6 @@ $("#notify").on('click', function(){
 						<span class="icon">별</span>
 						<span class="icon">별</span> -->
 						</div>
-						<span>후기 한 개</span>
 					</div>
 					<div class="text-lg item-inline">${board.info_title }</div>
 				</div>
@@ -223,11 +222,10 @@ $("#notify").on('click', function(){
 			<br>
 			<br>
 			<div class="debutton">
-				<input type="button" value="수정하기"
-					onclick="location.href='/afk/infoboard/updateInfoBoardForm?info_no=${board.info_no}'"
-					style="float: right; margin-left: 7px;"> <input
-					type="button" value="삭제하기"
-					onclick="infoDelete(${board.info_no})">
+				<button type="button" class="btn btn-default" style="float: left;" onclick="location.href='/afk/infoboard'">목록보기</button>
+				<button class="btn btn-danger" style="float: right;" type="button" onclick="infoDelete(${board.info_no})">삭제하기</button>
+				<button type="button" class="btn btn-default" onclick="location.href='/afk/infoboard/updateInfoBoardForm?info_no=${board.info_no}'"
+					 style="float: right;" margin-left:"7px;">수정하기</button>
 			</div>
 		</div>
 
