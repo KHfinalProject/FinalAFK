@@ -128,6 +128,14 @@
 				background-color:powderblue;
 				border-radius: 15px;
 			}
+			
+			.mine{
+				margin: 0 auto;
+				width: 90%; 
+				height: 100px; 
+				background-color:powderblue;
+				border-radius: 15px;
+			}
 		</style>
 		<script>
 			 $(function(){
@@ -147,20 +155,29 @@
 								var json = JSON.parse(jsonStr); //문자열을 배열 객체로 바꿈
 								console.log(json);
 								var Ca = /\+/g;
-								
+								var str = "";
 								$("#myfaContent").empty();
 								for(var i in json.list){
+									if(json.list.length != 0){
+									str += "<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; overflow:hidden;'>"
+											
 									
-									$("#myfaContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; overflow:hidden;'>"
-											+"<img src='"+ json.list[i].image +"' style='width:100%; heigth:100%;'></img></div> " 
-											+"<br><a href='/afk/infoboard/"+ json.list[i].fano +"'><h3>"
+										if(json.list[i].image.substring(0,1) != '/'){
+											str += "<img src='"+ json.list[i].image.substring(1, json.list[i].image.length) +"' style='width:100%; height:100%;'></img></div>"
+										}else{
+											str += "<img src='"+ json.list[i].image +"' style='width:100%; height:100%;'></img></div>"
+										} 
+											
+									str += "<br><a href='/afk/infoboard/"+ json.list[i].fano +"'><h3>"
 											+decodeURIComponent(json.list[i].title.replace(Ca, " "))
 											+"</h3></a><div class='delMyfa' style='float:right; margin-right:2%; cursor:pointer;'>"
 											+"<img src='resources/images/mypage/heart4.png' title='클릭시 리스트에서 제거됩니다.'></img>"
 											+"<input type='hidden' name='delMyfa' value='"+ json.list[i].fano +"'></div>"
 											+"<div style='margin-top:2%;'>"+ json.list[i].writer
-											+"</div></div><br>");
+											+"</div></div><br>"
 								}
+								}
+								$('#myfaContent').append(str);
 								
 								$('#myfaContent').each(function(){
 									var currentPage = 0;
@@ -240,7 +257,7 @@
 				
 				$(document).on('click', '.delMyfa',function(){
 					//즐겨찾기 삭제 이벤트
-					if (confirm("위시리스트에서 삭제하시겠습니까??") == true){    //확인
+					if (confirm("즐겨찾기에서 삭제하시겠습니까??") == true){    //확인
 						var fano = $(this).children('input').val();
 						/* alert(wishno); */
 					    location.href='/afk/mypage/deletefavorite?fano='+fano+'&loginId=${loginUser.mb_id}';
@@ -288,19 +305,29 @@
 								var json = JSON.parse(jsonStr); //문자열을 배열 객체로 바꿈
 								console.log(json);
 								var Ca = /\+/g;
-								
+								var str = "";
 								$("#myfaContent").empty();
 								for(var i in json.list){
 									if(json.list.length != 0){
-										$("#myfaContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; border:1px solid blue;'></div>"
-												+"<br><a href='/afk/infoboard/"+ json.list[i].fano +"'><h3>"
-												+decodeURIComponent(json.list[i].title.replace(Ca, " "))
-												+"</h3></a><div class='delMyfa' style='float:right; margin-right:2%; cursor:pointer;'>"
-												+"<img src='resources/images/mypage/heart4.png' title='클릭시 리스트에서 제거됩니다.'></img>"
-												+"<input type='hidden' name='delMyfa' value='"+ json.list[i].fano +"'></div>"
-												+"<div style='margin-top:2%;'>"+ json.list[i].writer
-												+"</div></div><br>");
+									str += "<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; overflow:hidden;'>"
+											
+									
+										if(json.list[i].image.substring(0,1) != '/'){
+											str += "<img src='"+ json.list[i].image.substring(1, json.list[i].image.length) +"' style='width:100%; height:100%;'></img></div>"
+										}else{
+											str += "<img src='"+ json.list[i].image +"' style='width:100%; height:100%;'></img></div>"
+										} 
+											
+									str += "<br><a href='/afk/infoboard/"+ json.list[i].fano +"'><h3>"
+											+decodeURIComponent(json.list[i].title.replace(Ca, " "))
+											+"</h3></a><div class='delMyfa' style='float:right; margin-right:2%; cursor:pointer;'>"
+											+"<img src='resources/images/mypage/heart4.png' title='클릭시 리스트에서 제거됩니다.'></img>"
+											+"<input type='hidden' name='delMyfa' value='"+ json.list[i].fano +"'></div>"
+											+"<div style='margin-top:2%;'>"+ json.list[i].writer
+											+"</div></div><br>"
 								}
+								}
+								$('#myfaContent').append(str);
 								
 									$('#myfaContent').each(function(){
 										var currentPage = 0;
@@ -336,7 +363,7 @@
 									"<a href='/afk/infoboard'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> 여행 정보 게시물 보러가기 </button></a></center>");
 								}
 							}	
-						}
+						
 					});
 			}
 			
@@ -467,7 +494,7 @@
 							if(json.list.length != 0){
 								$("#mywishContent").empty();
 								for(var i in json.list){
-									$("#mywishContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; overflow:hidden;' ><img src='"+ json.list[i].image.substring(1, json.list[i].image.length) +"' style='width:100%; heigth:100%;'></img></div> " 
+									$("#mywishContent").append("<div class='mycontent'><div class='pull-left' style='width:30%; height:100%; overflow:hidden;' ><img src='"+ json.list[i].image.substring(1, json.list[i].image.length) +"' style='width:100%; height:100%;'></img></div> " 
 															+ "<br><a href='/afk/guide/guideDetail?itemNo="+ json.list[i].gno +"&writer="+ json.list[i].writer +"'><h3>" 
 															+ decodeURIComponent(json.list[i].title.replace(Ca, " ")) 
 															+"</h3></a><div class='delMywish' style='float:right; margin-right: 2%; cursor:pointer;'>"
@@ -475,6 +502,7 @@
 															+"<input type='hidden' name='delMyWish' value='"+ json.list[i].gno +"'></div>"
 															+"<div style='margin-top:2%;'>"+ json.list[i].writer +"</div></div><br>");
 								}
+								$("#mywishContent").append(str);
 							}
 							else{
 								$("#mywishContent").empty();
@@ -484,6 +512,40 @@
 						}	
 					}
 				});	
+			}
+			
+			function getmyinfo(){
+				//일반유저 아이디인 경우, 내가 올린 가이드 게시물 불러옴
+				var loginId = "${loginUser.mb_id}";
+				$.ajax({
+					url : "mypage/myInfolist",
+					data : { loginId : loginId},
+					type: "post",
+					dataType : "json",
+					success : function(data){
+						var str = "";
+						if(data.length > 0){
+							for(var i in data){	
+								$("#myInfoContent").empty();
+								str += "<div class='mine'><div class='pull-left' style='width:30%; height:100%; overflow:hidden;'>"
+								
+								if(data[i].info_image.substring(0,1) != '/'){
+									str += "<img src='"+ data[i].info_image.substring(1, data[i].info_image.length) +"' style='width:100%; height:100%;'></img></div>"
+								}else{
+									str += "<img src='"+ data[i].info_image +"' style='width:100%; height:100%;'></img></div>"
+								}
+								
+								
+								str += "<a href='/afk/infoboard/"+data[i].info_no+"'><br><h3>" + data[i].info_title +"</h3></a></div><br>"
+							}
+							$("#myInfoContent").append(str);
+						}else{
+							$("#myInfoContent").empty();
+							$("#myInfoContent").append("<br><center><h3><span>올린 게시물이 없습니다.</span></h3><br><br>" +
+							"<a href='/afk/infoboard/insertForm'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span> 여행 정보 게시물 올리기 </button></a></center>");
+						}
+					}
+				});
 			}
 			
 			function getmyguide(){
@@ -498,14 +560,22 @@
 						var str = "";
 						if(data.length > 0){
 							for(var i in data){	
-										$("#myGuideContent").empty();
-										str += "<ul><a href='guide/guideDetail?itemNo="+ data[i].gui_no+"&writer="+ data[i].gui_writer +"'><h4>" + data[i].gui_title +"</h4></a></ul><br>"
+								$("#myGuideContent").empty();
+								str += "<div class='mine'><div class='pull-left' style='width:30%; height:100%; overflow:hidden;'>"
+								
+									if(data[i].gui_image.substring(0,1) != '/'){
+										str += "<img src='"+ data[i].gui_image.substring(1, data[i].gui_image.length) +"' style='width:100%; height:100%;'></img></div>"
+									}else{
+										str += "<img src='"+ data[i].gui_image +"' style='width:100%; height:100%;'></img></div>"
+									}
+								
+								str += "<a href='guide/guideDetail?itemNo="+ data[i].gui_no+"&writer="+ data[i].gui_writer +"'><h4>" + data[i].gui_title +"</h4></a></div><br>"
 							}
 							$("#myGuideContent").append(str);
 						}else{
 							$("#myGuideContent").empty();
 							$("#myGuideContent").append("<br><center><h3><span>올린 게시물이 없습니다.</span></h3><br><br>" +
-							"<a href='/afk/guide/guideMain'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span> 가이드 게시물 올리기 </button></a></center>");
+							"<a href='/afk/guide/insertGuideForm'><button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span> 가이드 게시물 올리기 </button></a></center>");
 						}
 					}
 				});
@@ -651,9 +721,8 @@
 						<c:if test="${loginUser.mb_grade eq '3' }">
 						<li onclick="getmypay()"><a href="#myPay" data-toggle="tab" id="myPa">구매 리스트</a></li>
 						<li onclick="getmywish()"><a href="#myWish" data-toggle="tab" id="myWi">위시 리스트</a></li>
-						</c:if>
-						<c:if test="${loginUser.mb_grade eq '3' }">
 						<li onclick="getmymsg()"><a href="#myMessage" data-toggle="tab" id="myMe">메세지 리스트</a></li>
+						<li onclick="getmyinfo()"><a href="#myInfo" data-toggle="tab" id="myIn">내가 올린 게시물</a></li>
 						</c:if>
 						<c:if test="${loginUser.mb_grade eq '2' }">
 						<li onclick="getmymsgG()"><a href="#myMessage" data-toggle="tab" id="myMe">메세지 리스트</a></li>
@@ -697,6 +766,13 @@
 					<div class="tab-pane" id="myMatching">
 						<h2><span class="page-header">나의 매칭 목록</span></h2><br>
 						<div id="mymatchingContent">
+						</div>
+						<br><br>
+					</div>
+					
+					<div class="tab-pane" id="myInfo">
+						<h2><span class="page-header">내가 올린 가이드 게시물</span></h2><br>
+						<div id="myInfoContent">
 						</div>
 						<br><br>
 					</div>

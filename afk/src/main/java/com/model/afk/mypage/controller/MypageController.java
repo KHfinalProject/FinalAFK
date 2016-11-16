@@ -231,6 +231,7 @@ public class MypageController implements ServletContextAware{
 	
 	@RequestMapping("/guidelist")
 	public @ResponseBody List<GuideItem> getmyGuideList(@RequestParam ("loginId") String gid){
+		//내가 올린 가이드정보 불러오기
 		List<GuideItem> glist = mpgs.selectmyGuide(gid); 
 		return glist;
 		
@@ -249,6 +250,14 @@ public class MypageController implements ServletContextAware{
 		mpgs.deleteMyMatching(matchingno);
 		return "redirect:/mypage";
 	}
+	
+	@RequestMapping("/myInfolist")
+	public @ResponseBody List<InfoBoardVO> selectmyInfo(@RequestParam("loginId") String id){
+		//내가 올린 여행정보 목록불러오기
+		List<InfoBoardVO> list = mpgs.selectmyInfo(id);
+		return list;
+	}
+	
 	
 	@Override
 	public void setServletContext(ServletContext arg0) {

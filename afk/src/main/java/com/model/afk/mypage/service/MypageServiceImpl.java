@@ -69,4 +69,9 @@ public class MypageServiceImpl implements MypageService{
 		return mpgDao.deleteMyMatching(matchingno);
 	}
 
+	@Override
+	public List<InfoBoardVO> selectmyInfo(String id) {
+		return mpgDao.selectmyInfo(id);
+	}
+
 }

@@ -62,4 +62,8 @@ public class MypageDao {
 	public int deleteMyMatching(int matchingno) {
 		return sqlSession.delete(NAMESPACE + "deletemyMatching", matchingno);
 	}
+
+	public List<InfoBoardVO> selectmyInfo(String id) {
+		return sqlSession.selectList(NAMESPACE + "selectmyInfo", id);
+	}
 }

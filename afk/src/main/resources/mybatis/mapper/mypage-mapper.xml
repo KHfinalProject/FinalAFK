@@ -67,6 +67,12 @@
 	<delete id="deletemyMatching" parameterType="Integer">
 		DELETE FROM MATCHING
 		WHERE MAT_NO = #{matchingno}
-	
 	</delete>
+	
+	<select id="selectmyInfo" parameterType="String" resultType="InfoBoardVO">
+		SELECT *
+		FROM INFO_BOARD
+		WHERE INFO_WRITER = #{id}
+		ORDER BY INFO_NO DESC
+	</select>
 </mapper>

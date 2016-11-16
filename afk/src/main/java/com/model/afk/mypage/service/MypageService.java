@@ -32,4 +32,6 @@ public interface MypageService {
 	int deleteMyPay(HashMap<String, Object> map);
 
 	int deleteMyMatching(int matchingno);
+
+	List<InfoBoardVO> selectmyInfo(String id);
 }
