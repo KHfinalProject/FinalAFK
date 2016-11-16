@@ -43,6 +43,7 @@
  
  </resultMap>
  
+ <!-- 미사용 -->
  <resultMap id="avgP" type="java.util.HashMap">
  	<result javaType="java.lang.Double" property="avg" column="avg(point)"/>
  	<result javaType="java.lang.String" property="board_no" column="board_no"/> 
@@ -178,6 +179,12 @@
  	INSERT INTO guide_point
  	VALUES (#{itemNo}, #{point}, #{writer}) 
  </insert>
+ 
+ <update id="reviseStarPoint" parameterType="sPoint">
+ 	UPDATE guide_point
+ 	SET point = #{point}
+ 	WHERE board_no = #{board_no} and mb_id = #{mb_id} 
+ </update>
  
  <update id="addCount" parameterType="int">
  	UPDATE guide_board 

@@ -13,6 +13,11 @@
  	#{guide_id}, #{price}, #{departure_date}, #{travel_num}, sysdate, 'Y')
  </insert>
  
+ <select id="getPurchasedList" resultType="Payment">
+ 	SELECT *
+ 	FROM payment
+ 	WHERE gui_no = #{itemNo} 
+ </select>
  
  </mapper>
  

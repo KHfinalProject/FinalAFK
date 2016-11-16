@@ -8,6 +8,7 @@ import com.model.afk.guide.vo.NotifyGItem;
 import com.model.afk.guide.vo.StarPoint;
 import com.model.afk.guide.vo.Test;
 import com.model.afk.member.vo.Member;
+import com.model.afk.payment.vo.Payment;
 
 public interface GuideBoardService {
 	
@@ -69,9 +70,8 @@ public interface GuideBoardService {
 
 	public List<GuideItem> getSearchedList(String keyword);
 
-	
+	public int reviseStarPoint(StarPoint star);
 
-	
 
 	
 

@@ -14,6 +14,7 @@ import com.model.afk.guide.vo.NotifyGItem;
 import com.model.afk.guide.vo.StarPoint;
 import com.model.afk.guide.vo.Test;
 import com.model.afk.member.vo.Member;
+import com.model.afk.payment.vo.Payment;
 
 @Repository("guideBoardDao")
 public class GuideBoardDao {
@@ -159,6 +160,11 @@ public class GuideBoardDao {
 	public List<GuideItem> getSearchedList(String keyword) {
 		return sqlSession.selectList(NAMESPACE + "getSearchedList", keyword);
 	}
+
+	public int reviseStarPoint(StarPoint star) {
+		return sqlSession.update(NAMESPACE + "reviseStarPoint", star);
+	}
+
 
 	
 

@@ -1,12 +1,10 @@
 package com.model.afk.payment.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.model.afk.guide.vo.GuideItem;
-import com.model.afk.member.vo.Member;
 import com.model.afk.payment.dao.PaymentDao;
 import com.model.afk.payment.vo.Payment;
 
@@ -37,9 +35,8 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public ArrayList<Payment> getPurchasedList(int page) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Payment> getPurchasedList(int itemNo) {
+		return paymentDao.getPurchasedList(itemNo);
 	}
 
 }

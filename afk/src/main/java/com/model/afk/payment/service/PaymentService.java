@@ -9,7 +9,7 @@ import com.model.afk.payment.vo.Payment;
 
 public interface PaymentService {
 
-	public ArrayList<Payment> getPurchasedList(int page);
+	public List<Payment> getPurchasedList(int page);
 	
 	public int insertPayment(Payment payment);
 	

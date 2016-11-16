@@ -14,11 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.support.SessionStatus;
 
 import com.model.afk.guide.service.GuideBoardService;
 import com.model.afk.guide.service.GuideCommentService;
@@ -29,6 +27,8 @@ import com.model.afk.guide.vo.NotifyGItem;
 import com.model.afk.guide.vo.StarPoint;
 import com.model.afk.guide.vo.Test;
 import com.model.afk.member.vo.Member;
+import com.model.afk.payment.service.PaymentService;
+import com.model.afk.payment.vo.Payment;
 
 
 @RequestMapping("/guide")
@@ -42,6 +42,10 @@ public class GuideController {
 	@Autowired
 	@Qualifier("guideCommentService")
 	private GuideCommentService guideCommentService;
+	
+	@Autowired
+	@Qualifier("paymentService")
+	private PaymentService paymentService;
 	
 	//가이드 메인 페이지의 틀 로딩
 	@RequestMapping("/guideMain")
@@ -118,20 +122,6 @@ public class GuideController {
 	//대표 이미지 및 즐겨찾기 추가 여부 추가해서 가이드 상품 목록 리턴
 	/*public List<GuideItem> getImageAndFavor(HttpSession session, List<GuideItem> list){
 		
-		//gui_content 중 첨부된 이미지가 있을 시 대표 이미지로 사용
-		String img_path = "";
-		for(GuideItem g : list){
-			String e = g.getGui_content();
-			if(e.indexOf("/afk/resources/upload") != -1){ //gui_content 중 첨부이미지 있을 시
-				//img_path 변수에 이미지 저장 경로만 추출하여 저장
-				img_path = e.substring(e.indexOf("/afk/resources/upload"), e.indexOf(" title") -1);
-				System.out.println("img_path : " + img_path);
-				//GuideItem 객체에 이미지 저장 경로 공백을 제거하여 저장
-				g.setGui_image(img_path.trim());
-			}else{//첨부 이미지가 없을 경우 임의로 대표 이미지 설정
-				g.setGui_image("../resources/images/guide/tempthumb.jpg");
-			}				
-		}
 		
 		//로그인한 사용자가 추가한 즐겨찾기가 있는지 체크하여 객체에 추가
 		Member user = (Member) session.getAttribute("loginUser");
@@ -167,10 +157,12 @@ public class GuideController {
 	@RequestMapping("/guideDetail")
 	public String getOneItem(Model model, @RequestParam int itemNo, 
 			@RequestParam(value="page", defaultValue="1") int page, 
-			@RequestParam String writer){
+			@RequestParam String writer, HttpSession session){
 		System.out.println("==============guideDetail==================");
 		
 		int result = guideBoardService.addCount(itemNo); //조회수 증가처리 메소드
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
 		
 		List<GuideComment> commentList = null;
 		GuideItem guideItem = null;
@@ -178,6 +170,10 @@ public class GuideController {
 		List<StarPoint> pointList = null;
 		List<NotifyGItem> notifiedList = null;
 		List<GuideFavorite> favorList = null;
+		List<Payment> purchasedList = null;
+		boolean purchased = false;
+		boolean rated = false;
+		int stars = 0;
 		
 		double avgPoint = 0;
 				
@@ -190,13 +186,37 @@ public class GuideController {
 			pointList = guideBoardService.getPointList(itemNo); //해당 상품에 매겨진 별점 목록
 			avgPoint = getAvgStarPoint(itemNo); //해당 상품의 별점 평균
 			notifiedList = guideBoardService.getNotifiedList(itemNo); //해당 상품을 신고한 유저 목록
-			favorList = guideBoardService.getOneGuideFavoriteList(itemNo);
-		}			
+			favorList = guideBoardService.getOneGuideFavoriteList(itemNo); //해당 상품에 대한 즐겨찾기 목록
+			purchasedList = paymentService.getPurchasedList(itemNo); //해당 상품의 구매목록
+			
+			//로그인 상태이고 구매 목록도 있다면
+			if(purchasedList != null && loginUser != null){
+				for(Payment p : purchasedList){
+					if(p.getPay_id().equals(loginUser.getMb_id())) //로그인 유저가 해당 상품을 구매했는지 확인
+						purchased = true; //구매했다면 purchased 변수에 true 저장
+				}
+			}
+			
+			//구매한 적이 있고 해당 상품에 대한 별점 리스트도 있다면
+			if(pointList != null && purchased == true){
+				for(StarPoint s : pointList){
+					if(s.getMb_id().equals(loginUser.getMb_id())){ //로그인한 유저가 이미 별점을 준 적이 있는지 확인
+						rated = true; //이미 별점을 준 유저라면 rated 변수에 true 저장
+						if(rated) //이미 별점 준 내역이 있다면
+							stars = s.getPoint(); //stars 변수에 해당 유저가 남긴 별점을 저장
+						
+					}//end of if
+				}//end of for
+			}//end of outer if
+		}//end of if result			
 		
 		System.out.println("guide : " + guide.toString());
 		System.out.println("commentList : " + commentList.toString());
 		System.out.println("guideItem : " + guideItem.toString());
 		System.out.println("point : " + avgPoint);
+		System.out.println("purchased : " + purchased);
+		System.out.println("rated : " + rated);
+		System.out.println("stars : " + stars);
 		
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("guideItem", guideItem);
@@ -205,6 +225,8 @@ public class GuideController {
 		model.addAttribute("notifiedList", notifiedList);
 		model.addAttribute("favorList", favorList);
 		model.addAttribute("point", avgPoint);
+		model.addAttribute("stars", stars);
+		model.addAttribute("purchased", purchased);
 				
 		return "guide/detail";
 	}
@@ -234,7 +256,6 @@ public class GuideController {
 	public @ResponseBody double giveStarPoint(@RequestParam String writer,
 			@RequestParam int itemNo, @RequestParam int point){
 		System.out.println("=================giveStarPoint=================");
-		System.out.println("itemNo : " + itemNo);
 		int result = guideBoardService.giveStarPoint(writer, itemNo, point);
 		
 		double avgPoint = 0;
@@ -245,6 +266,27 @@ public class GuideController {
 		
 		return avgPoint;
 	}
+	
+	//별점 수정
+	@RequestMapping("/reviseStarPoint")
+	public @ResponseBody double reviseStarPoint(@RequestParam String writer,
+			@RequestParam int itemNo, @RequestParam int point){
+		System.out.println("==================reviseStarPoint==============");
+		
+		double avgPoint = 0;
+		StarPoint star = new StarPoint();
+		star.setBoard_no(itemNo);
+		star.setMb_id(writer);
+		star.setPoint(point);
+		
+		int result = guideBoardService.reviseStarPoint(star);
+		
+		if(result > 0)
+			avgPoint = getAvgStarPoint(itemNo);
+			
+		return avgPoint;
+	}
+	
 	
 	//별점 평균 계산하여 반환
 	@RequestMapping("/getAvgStarPoint")

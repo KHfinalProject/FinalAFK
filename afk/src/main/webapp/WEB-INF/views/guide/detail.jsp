@@ -199,11 +199,12 @@
 		$("#selected_point").text(point);
 	});
 	
-	//별점 입력 메소드
+	//별점 입력 or 수정 메소드
 	$('#send_star_point').on('click', function(){
 		var selected_point = $('#selected_point').text();
 		var gui_no = ${guideItem.gui_no};
 		var user = "${loginUser.mb_id}";
+		var rated = $(this).hasClass('rated');
 		
 		if(user == ""){
 			  var check = confirm("로그인이 필요한 기능입니다. 로그인 화면으로 이동하시겠습니까?");
@@ -211,21 +212,41 @@
 				  location.href = "../loginView";
 			  }
 		}else{
-			var check = confirm("이 글에 별 " + selected_point + "개를 주시겠습니까?");
-			if(check){
-				$.ajax({
-					url : "giveStarPoint",
-					type: "post",
-					data : {itemNo : gui_no, writer : user, point : selected_point},
-					success : function(data){
-						alert("별점 등록>.ㅇ");
-						$('#avg_point').text(data);		
-					},
-					error : function(e){
-						alert("별점 등록 실패ㅠㅠㅠ");
-					}
-				});
-			}	
+			if(rated == false){ //별점 등록 전
+				var check = confirm("이 글에 별 " + selected_point + "개를 주시겠습니까?");
+				if(check){
+					$.ajax({
+						url : "giveStarPoint",
+						type: "post",
+						data : {itemNo : gui_no, writer : user, point : selected_point},
+						success : function(data){
+							alert("별점 등록>.ㅇ");
+							$('#avg_point').text(data);		
+							$('#send_star_point').text("별점 수정");
+							$('#send_star_point').attr("class", "rated");
+						},
+						error : function(e){
+							alert("별점 등록 실패ㅠㅠㅠ");
+						}
+					});
+				}				
+			}else{ //이미 등록된 별점 있을 시 별점 수정
+				var check = confirm("이 글에 별 " + selected_point + "개를 다시 주시겠습니까?");
+				if(check){
+					$.ajax({
+						url : "reviseStarPoint",
+						type: "post",
+						data : {itemNo : gui_no, writer : user, point : selected_point},
+						success : function(data){
+							alert("별점 수정 >.ㅇ");
+							$('#avg_point').text(data);		
+						},
+						error : function(e){
+							alert("별점 수정 실패ㅠㅠㅠ");
+						}
+					});
+				}
+			}		
 		}
 	});
 	
@@ -588,7 +609,18 @@
 	.star_point a.on {
 		color : #ffcc00; 
 	}
+	
+	.not_rated, .rated {
+		width : 80px;
+		height : 40px;
+		font-size : 11pt;	
+		-moz-border-radius : 5px;
+		-webkit-border-radius : 5px;
+		border-radius : 5px;
+		background-color : #fec70a;
 
+	}
+ 
 	#guide_profile {
 		text-align : left; 
 		margin-top : 2%;
@@ -992,23 +1024,95 @@
 				<tr>
 					<td colspan="3" style="margin-left:10%">
 					<c:choose>
-						<c:when test="${!empty loginUser}">
-							구매 목록 가져와서 구매 목록이랑 후기 목록 비교, 
-							로그인 사용자 id == 구매 목록 id && 후기 목록에 없음 => 별점 입력창
-							로그인 사용자 id == 구매 목록 id && 후기 목록에 있음 => 별점 수정창 
+						<c:when test="${stars ne 0}">
+							<c:forEach var="s" items="${pointList}">
+								<c:if test="${s.mb_id eq loginUser.mb_id}">
+									<c:choose>
+										<c:when test="${stars == 1}">
+											<span class="star_point">
+												<a href="#" class="on">★</a>
+												<a href="#">★</a>
+												<a href="#">★</a>
+												<a href="#">★</a>
+												<a href="#">★</a>
+											</span>
+											<span style="font-size:12pt; margin-left:5%"><span id="selected_point">1</span>점</span>&nbsp;
+											<button id="send_star_point" class="rated">별점 수정</button>
+										</c:when>
+										<c:when test="${stars == 2}">
+											<span class="star_point">
+												<a href="#" class="on">★</a>
+												<a href="#" class="on">★</a>
+												<a href="#">★</a>
+												<a href="#">★</a>
+												<a href="#">★</a>
+											</span>
+											<span style="font-size:12pt; margin-left:5%"><span id="selected_point">2</span>점</span>&nbsp;
+											<button id="send_star_point" class="rated">별점 수정</button>
+										</c:when>
+										<c:when test="${stars == 3}">
+											<span class="star_point">
+												<a href="#" class="on">★</a>
+												<a href="#" class="on">★</a>
+												<a href="#" class="on">★</a>
+												<a href="#">★</a>
+												<a href="#">★</a>
+											</span>
+											<span style="font-size:12pt; margin-left:5%"><span id="selected_point">3</span>점</span>&nbsp;
+											<button id="send_star_point" class="rated">별점 수정</button>
+										</c:when>
+										<c:when test="${stars == 4 }">
+											<span class="star_point">
+												<a href="#" class="on">★</a>
+												<a href="#" class="on">★</a>
+												<a href="#" class="on">★</a>
+												<a href="#" class="on">★</a>
+												<a href="#">★</a>
+											</span>
+											<span style="font-size:12pt; margin-left:5%"><span id="selected_point">4</span>점</span>&nbsp;
+											<button id="send_star_point" class="rated">별점 수정</button>
+										</c:when>
+										<c:when test="${stars == 5}">
+											<span class="star_point">
+												<a href="#" class="on">★</a>
+												<a href="#" class="on">★</a>
+												<a href="#" class="on">★</a>
+												<a href="#" class="on">★</a>
+												<a href="#" class="on">★</a>
+											</span>
+											<span style="font-size:12pt; margin-left:5%"><span id="selected_point">5</span>점</span>&nbsp;
+											<button id="send_star_point" class="rated">별점 수정</button>
+										</c:when>
+									</c:choose>
+								</c:if>
+							</c:forEach>
 						</c:when>
-						
+						<c:when test="${purchased eq true && rated eq false}">
+							<span class="star_point">
+								<a href="#" class="on">★</a>
+								<a href="#" class="on">★</a>
+								<a href="#" class="on">★</a>
+								<a href="#">★</a>
+								<a href="#">★</a>
+							</span>
+							<span style="font-size:12pt; margin-left:5%"><span id="selected_point">3</span>점</span>&nbsp;
+							<button id="send_star_point" class="not_rated">별점 주기</button>
+						</c:when>
+						<c:when test="${purchased eq false}">
+							<h4><b>이 여행을 다녀오신 분만 별점을 남길 수 있습니다 >.ㅇ</b></h4>
+						</c:when>
+						<c:otherwise>
+							<span class="star_point">
+								<a href="#" class="on">★</a>
+								<a href="#" class="on">★</a>
+								<a href="#" class="on">★</a>
+								<a href="#">★</a>
+								<a href="#">★</a>
+							</span>
+							<span style="font-size:12pt; margin-left:5%"><span id="selected_point">3</span>점</span>&nbsp;
+							<button id="send_star_point" class="not_rated">별점 주기</button>
+						</c:otherwise>
 					</c:choose>
-					
-					<span class="star_point">
-						<a href="#" class="on">★</a>
-						<a href="#" class="on">★</a>
-						<a href="#" class="on">★</a>
-						<a href="#">★</a>
-						<a href="#">★</a>
-					</span>
-					<span style="font-size:12pt; margin-left:5%"><span id="selected_point">3</span>점</span>&nbsp;
-					<button class="btn btn-default" id="send_star_point">별점 주기</button>
 					
 					</td>
 				</tr>

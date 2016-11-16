@@ -1,6 +1,6 @@
 package com.model.afk.payment.dao;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +46,9 @@ public class PaymentDao {
 	public GuideItem getOneItem() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(NAMESPACE + "getOneItem");
+	}
+
+	public List<Payment> getPurchasedList(int itemNo) {
+		return sqlSession.selectList(NAMESPACE + "getPurchasedList", itemNo);
 	}
 }
