@@ -1343,7 +1343,13 @@
 				<c:forEach var="comment" items="${commentList }">
 					<tr>
 						<td width="auto">
-							<img src="${comment.mb_rename_pic}" alt="..." class="img-circle" width="70px" height="70px">
+						
+						<c:if test="${comment.mb_rename_pic eq null }">
+							<img src="/afk/resources/images/mypage/jo.jpg" class="img-circle" width="70px" height="70px" alt="...">
+						</c:if>
+						<c:if test="${comment.mb_rename_pic ne null }">
+							<img src="/afk/resources/images/mypage/${comment.mb_rename_pic }" wclass="img-circle" width="70px" height="70px" alt="...">
+						</c:if>
 							<p>${comment.cm_writer }</p>
 							<input type="hidden" id="cmNo" name="cmNo" value="${comment.cm_no}"/>
 						</td>
