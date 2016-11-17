@@ -85,4 +85,14 @@ public class InfoBoardDao {
 		return sqlsession.selectList(NAMESPACE + "infoSearch", keyword);
 	}
 
+	public int pointInsert(Map<String, Object> map) {
+		
+		return sqlsession.insert(NAMESPACE + "pointInsert", map);
+	}
+
+	public int pointInsert2(int board_no) {
+		
+		return sqlsession.update(NAMESPACE + "pointInsert2", board_no);
+	}
+
 }

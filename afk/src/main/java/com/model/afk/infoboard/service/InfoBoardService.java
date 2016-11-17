@@ -34,5 +34,7 @@ public interface InfoBoardService {
 		
 		public List<InfoBoardVO> infoSearch(String keyword);
 
+		int pointInsert(int score, String writer, int board_no);
 
+		int pointInsert2(int board_no);
 }

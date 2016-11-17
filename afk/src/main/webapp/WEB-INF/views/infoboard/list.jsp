@@ -64,6 +64,7 @@
 		background-color : white;
 	}
 
+
 </style>
 
   <body>
@@ -110,7 +111,7 @@
 				</div>
 				<div class="item-box city solo"></div>
 			</div>		
-		</nav>	
+		</nav>
 		<!-- img content -->
 		<div class="header-container">
 		<div class="content10">
@@ -199,7 +200,7 @@ function load_select(cmd){
 				}
 				console.log("데이터 길이 : " + data.length);
 			}else {
-				result = "<h3>더이상 불러올 글이 없습니다.<h3>"
+				result = "<h3>더이상 불러올 글이 없습니다.</h3>"
 			}
 			$('.kcol-lg-12').html(old + result);
 			$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
@@ -271,7 +272,7 @@ $(function(){
 						}
 						console.log("데이터 길이 : " + data.length);
 					}else {
-						result = "<h3>더이상 불러올 글이 없습니다.<h3>"
+						result = "<h3>더이상 불러올 글이 없습니다.</h3>"
 					}
 					$('.kcol-lg-12').html(old + result);
 					$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
@@ -279,6 +280,7 @@ $(function(){
 						$('.' + data[i].info_no).raty({readOnly:true, score:data[i].info_point });
 						
 					}
+			
 					
 					
 				}
@@ -338,6 +340,11 @@ $('#search_icon').on('click', function(){
 				$('.kcol-lg-12').html(result);
 				$('#ppap').val(1);
 				$('#pppp').val(code);
+				$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
+				for(var i in data){
+					$('.' + data[i].info_no).raty({readOnly:true, score:data[i].info_point });
+					
+				}
 				
 			}
 			if(data.length < 8){

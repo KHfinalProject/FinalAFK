@@ -94,6 +94,21 @@ public class InfoBoardServiceImpl implements InfoBoardService{
 		return dao.infoSearch(keyword);
 	}
 
+	@Override
+	public int pointInsert(int score, String writer, int board_no) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("score", score);
+		map.put("writer", writer);
+		map.put("board_no", board_no);
+		return dao.pointInsert(map);
+	}
+
+	@Override
+	public int pointInsert2(int board_no) {
+		
+		return dao.pointInsert2(board_no);
+	}
+
 
 
 }

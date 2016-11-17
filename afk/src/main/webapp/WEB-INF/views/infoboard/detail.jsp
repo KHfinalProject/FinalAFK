@@ -20,6 +20,25 @@
 	border-bottom: 1px solid #ccc;
 }
 img { max-width:100%; } 
+
+.teststar input{
+	float: right;
+    height: 48px;
+    width: 120px;
+}
+.teststar img{
+	width:33px;
+	height: 33px;
+	margin-top: 6px;
+	
+}
+.starbutton input{
+	width: 100px;
+    height: 48px;
+}
+.test1 {
+	font-size: 30px;
+}
 </style>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css"
@@ -128,7 +147,33 @@ $("#notify").on('click', function(){
 		}	
 	}	
 });
+	$('#starpp').on("click", function(){
+	    
+	    var score = $(".teststar input[name=score]").val();
+	
+	    
+	    $.ajax({
+	       url : "/afk/infoboard/pointInsert",
+	       dataType: "json",
+	       type : "POST",
+	       data : {score : score,
+	             p_writer:"${loginUser.mb_id}",
+	                 p_board_no:"${board.info_no}"},
+	       success : function(data){
+	          $("#test1").html("참여해 주셔서 감사합니다.");
+	          alert("평점성공");
+	       },
+	       error : function(e){
+	          $("#test1").html("이미 평가하셨습니다.");
+	          alert("평점실패");
+	       }
+	    });
+	 });
+
 });
+
+
+
 </script>
 </head>
 
@@ -212,7 +257,12 @@ $("#notify").on('click', function(){
 				${board.info_content}
 			</div>
 			<div id="map" class="detail-view">지도</div>
-			<div class="detail-star">별점주기</div>
+			<div id="test1" class="detail-star teststar">
+				
+			</div>
+			<div class="detail-star starbutton">
+				<input type="button" id="starpp" value="평가하기">
+			</div>
 			<div class="detail-review">
 				<textarea class="comment" name="cm_content"
 					style="width: 700px; height: 80px; display: inline-block;"></textarea>
@@ -236,7 +286,10 @@ $("#notify").on('click', function(){
 	<br>
 	<script>
 		$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
-		$('.score1').raty({readOnly:true, score:5 });
+		$('.score1').raty({readOnly:true, score:'${board.info_point}' });
+		//test 평점주기
+		$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
+		$('.teststar').raty({readOnly:false, score:5 });
 	</script>
 	<script
 		src="/afk/resources/flag/sksmatt-UItoTop-jQuery-Plugin-14d6f09/js/easing.js"

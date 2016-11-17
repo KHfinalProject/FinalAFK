@@ -272,5 +272,19 @@ public class InfoBoardController {
 			 
 			 return list;
 		 }
+		//평점주기임
+	@RequestMapping("/pointInsert")
+	public @ResponseBody int pointInsert(@RequestParam("score") int score,
+						   @RequestParam("p_writer") String writer,
+						   @RequestParam("p_board_no") int board_no){
+		
+		int result = bsvc.pointInsert(score, writer, board_no);
+		int result2 = bsvc.pointInsert2(board_no);
+		System.out.println("@@@@@@@@@@@@@@@@@@@");
+		System.out.println(result +", " + result2);
+		System.out.println("@@@@@@@@@@@@@@@@@@@@");
+		
+		return result2;
+	}
 	 
 }

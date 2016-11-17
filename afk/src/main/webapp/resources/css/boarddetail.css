@@ -133,7 +133,7 @@ body {font-family:"맑은 고딕", sans-serif, arial, sans; font-size:20px; colo
 	margin:0 20px;
 	border: 1px solid blue;
 	display:inline-block;
-	text-align:right;
+	text-align:center;
 
 }
 .detail-board .detail-review {

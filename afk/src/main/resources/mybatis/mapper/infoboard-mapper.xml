@@ -154,4 +154,17 @@
  	    	OR info_price LIKE '%'||#{keyword}||'%'
  	</select>
 	
+	<insert id="pointInsert" parameterType="java.util.HashMap" >
+ 		insert into info_point1
+ 		values(#{board_no}, #{score}, #{writer})
+ 	
+ 	</insert>
+ 	
+ 	<update id="pointInsert2" parameterType="int">
+ 		update info_board set info_point = 
+			(
+  			select trunc(avg(point))
+  			from info_point1
+  			where board_no = #{board_no}) where info_no = #{board_no}
+ 	</update>
 </mapper>

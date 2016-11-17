@@ -6,7 +6,6 @@ body {font-family:"맑은 고딕", sans-serif, arial, sans; font-size:20px; colo
 .boardmain {
 	padding:10px;
 
-
 	width:200px;
 }
 .boardcount {
@@ -98,9 +97,8 @@ body {font-family:"맑은 고딕", sans-serif, arial, sans; font-size:20px; colo
 .boardpay {
     width: 100px;
     height: 40px;
-    float: left;
-    position: absolute;
-    left: 165px;
+    float: right;
+   
     border: 1px solid blue;
     text-align: center;
     line-height: 35px;
