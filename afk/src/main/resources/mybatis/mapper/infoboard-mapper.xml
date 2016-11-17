@@ -42,10 +42,10 @@
 	<select id="selectBoard" parameterType="java.util.HashMap" resultMap="info">
 		<![CDATA[
 			select x.info_no, x.info_title, x.info_content, x.info_writer, x.info_enrolldate,
-					x.info_loc_l, x.info_loc_m, x.info_loc_s, x.info_count, x.info_point, x.info_notify, x.info_price, x.info_map
+					x.info_loc_l, x.info_loc_m, x.info_loc_s, x.info_count, x.info_point, x.info_notify, x.info_price, x.info_map, x.info_image
 			from(
 				select rownum as rnum, a.info_no, a.info_title, a.info_content, a.info_writer, a.info_enrolldate,
-					a.info_loc_l, a.info_loc_m, a.info_loc_s, a.info_count, a.info_point, a.info_notify, a.info_price, a.info_map
+					a.info_loc_l, a.info_loc_m, a.info_loc_s, a.info_count, a.info_point, a.info_notify, a.info_price, a.info_map, a.info_image
 				from(
 					select *
 					from info_board

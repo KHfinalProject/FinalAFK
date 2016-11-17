@@ -136,6 +136,12 @@
 				background-color:powderblue;
 				border-radius: 15px;
 			}
+			
+			.mine h4 {
+				position : relative;
+				top : 40px;
+				left: 20px;
+			}
 		</style>
 		<script>
 			 $(function(){
@@ -386,11 +392,11 @@
 									+ data[i].mes_content + "</div></td>" +
 									"<td width='25%'><div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'>"
 									
-									if(data[i].mb_rename_pic == null){
+									if(data[i].mb_rename_pic == ""){
 										str += "<img src='resources/images/mypage/jo.jpg'>";
 									}
 									else{
-										path = data[i].mb_rename_pic
+										var path = data[i].mb_rename_pic;
 										str += "<img src='${pageContext.request.contextPath}/resources/images/mypage/"+ path +"' style='width:100%;'>";
 									}
 									

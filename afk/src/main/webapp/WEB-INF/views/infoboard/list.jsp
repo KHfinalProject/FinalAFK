@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <head>
  <link rel="stylesheet" type="text/css" href="/afk/resources/css/test.css" />
@@ -78,11 +79,11 @@
 		</div>
 		<!-- header end -->
 		<nav class="nabar-container" style="display:block;">
-			<ul class="nav nav-pills">
+			<!-- <ul class="nav nav-pills">
 				<li class="nav-item nav-arrow" id="continent-btn">지역</li>
 				<li class="nav-item nav-arrow">나라</li>
 				<li class="nav-item nav-arrow">도시</li>
-			</ul>
+			</ul> -->
 			<div class="item-container" style="position:absolute; top:106px;">
 				<div class="item-box continent">
 					<ul class="dropdown-menu" id="continent-menu" style="display:none;">
@@ -118,7 +119,7 @@
 			</div>
 			<div class="title-box">
 				<div class="text-lg">
-					나라 & 도시 이름
+					
 				</div>
 			</div>
 		</div>
@@ -173,16 +174,24 @@ function load_select(cmd){
 					result += "<div class='boardmain kcol-lg-3'>";
 					result += "<div class='bt'>";
 					result += "<div class='boardtop'>";
-					result += "<div class='boardreport'>";
-					result += "<img src=/afk/resources/images/favorite2.png></div></div>";
-					result += "<div class='boardphoto'>";
+					/* result += "<div class='boardreport'>";
+					result += "<img src=/afk/resources/images/favorite2.png></div>"; */
+					result += "</div><div class='boardphoto'>";
 					result += "<a href=/afk/infoboard/"+ data[i].info_no + ">";
-					result += "<img src=/afk/resources/images/infoboard/Hong_Kong_China_09.jpg></a></div>";
+					/* result += "<img src=/afk/resources/images/infoboard/Hong_Kong_China_09.jpg></a></div>"; */
+					result += "<img src="+data[i].info_image+"></img></a></div>"				
 					result += "<div class='boardfoot'>";
 					result += "<div class='boardstar "+ data[i].info_no + "'></div>";
 					result += "<div class='board1'>";
 					result += "<div class='boardinfo'>";
-					result += "<img src='/afk/resources/images/infoboard/top.jpg' /></div>";
+					/* result += "<img src='/afk/resources/images/infoboard/top.jpg' /></div>"; */
+					
+					if(data[i].mb_rename_pic == null){
+						result += "<img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg'></div>"
+					}else{
+						result += "<img src='${pageContext.request.contextPath}/resources/images/mypage/"+ data[i].mb_rename_pic +"></div>"
+					}
+					
 					result += "<div class='boardname'>" + data[i].info_writer + "</div>";
 					result += "<div class='boardtitle'> " + data[i].info_title + "</div>";
 					result += "<div class='boardpay'>" + data[i].info_price + "</div>";
@@ -235,16 +244,24 @@ $(function(){
 							result += "<div class='boardmain kcol-lg-3'>";
 							result += "<div class='bt'>";
 							result += "<div class='boardtop'>";
-							result += "<div class='boardreport'>";
-							result += "<img src=/afk/resources/images/favorite2.png></div></div>";
-							result += "<div class='boardphoto'>";
-							result += "<a href=/afk/infoboard/"+ data[i].info_no + ">";
-							result += "<img src=/afk/resources/images/infoboard/Hong_Kong_China_09.jpg></a></div>";
+							/* result += "<div class='boardreport'>";
+							result += "<img src=/afk/resources/images/favorite2.png></div>"; */
+							result += "</div><div class='boardphoto'>";
+							result += "<a href=/afk/infoboard/"+ data[i].info_no + ">";							
+							/* result += "<img src=/afk/resources/images/infoboard/Hong_Kong_China_09.jpg></a></div>"; */
+							result += "<img src="+data[i].info_image+"></img></a></div>"
 							result += "<div class='boardfoot'>";
 							result += "<div class= 'boardstar "+ data[i].info_no + "'></div>";
 							result += "<div class='board1'>";
 							result += "<div class='boardinfo'>";
-							result += "<img src='/afk/resources/images/infoboard/top.jpg' /></div>";
+							/* result += "<img src='/afk/resources/images/infoboard/top.jpg' /></div>"; */
+							
+							if(data[i].mb_rename_pic == null){
+								result += "<img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg'></div>"
+							}else{
+								result += "<img src='${pageContext.request.contextPath}/resources/images/mypage/"+ data[i].mb_rename_pic +"></div>"
+							}
+							
 							result += "<div class='boardname'>" + data[i].info_writer + "</div>";
 							result += "<div class='boardtitle'> " + data[i].info_title + "</div>";
 							result += "<div class='boardpay'>" + data[i].info_price + "</div>";
@@ -294,16 +311,24 @@ $('#search_icon').on('click', function(){
 					result += "<div class='boardmain kcol-lg-3'>";
 					result += "<div class='bt'>";
 					result += "<div class='boardtop'>";
-					result += "<div class='boardreport'>";
-					result += "<img src=/afk/resources/images/favorite2.png></div></div>";
-					result += "<div class='boardphoto'>";
+					/* result += "<div class='boardreport'>";
+					result += "<img src=/afk/resources/images/favorite2.png></div>"; */
+					result += "</div><div class='boardphoto'>";
 					result += "<a href=/afk/infoboard/"+ data[i].info_no + ">";
-					result += "<img src=/afk/resources/images/infoboard/Hong_Kong_China_09.jpg></a></div>";
+					/* result += "<img src=/afk/resources/images/infoboard/Hong_Kong_China_09.jpg></a></div>"; */
+					result += "<img src="+data[i].info_image+"></img></a></div>"					
 					result += "<div class='boardfoot'>";
 					result += "<div class= 'boardstar "+ data[i].info_no + "'></div>";
 					result += "<div class='board1'>";
 					result += "<div class='boardinfo'>";
-					result += "<img src='/afk/resources/images/infoboard/top.jpg' /></div>";
+					/* result += "<img src='/afk/resources/images/infoboard/top.jpg' /></div>"; */
+					
+					if(data[i].mb_rename_pic == null){
+						result += "<img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg'></div>"
+					}else{
+						result += "<img src='${pageContext.request.contextPath}/resources/images/mypage/"+ data[i].mb_rename_pic +"></div>"
+					}
+					
 					result += "<div class='boardname'>" + data[i].info_writer + "</div>";
 					result += "<div class='boardtitle'> " + data[i].info_title + "</div>";
 					result += "<div class='boardpay'>" + data[i].info_price + "</div>";
@@ -341,9 +366,9 @@ $('#search_icon').on('click', function(){
 		<div class="boardmain kcol-lg-3">
 		<div class="bt">
 			<div class="boardtop">
-				<div class="boardreport">
+				<!-- <div class="boardreport">
 					<img src="/afk/resources/images/favorite2.png">
-				</div>
+				</div> -->
 			</div>
 			<div class="boardphoto">
 				<a href="/afk/infoboard/${list.info_no }">
@@ -354,7 +379,7 @@ $('#search_icon').on('click', function(){
 				<div class="${list.info_no } boardstar"></div>
 				<div class="board1">
 					<div class="boardinfo">
-						<c:if test="${list.mb_rename_pic eq null }">
+				<c:if test="${list.mb_rename_pic eq null }">
 					<img src="/afk/resources/images/mypage/jo.jpg" width="100%" height="250px" border="1" alt="">
 				</c:if>
 				<c:if test="${list.mb_rename_pic ne null }">

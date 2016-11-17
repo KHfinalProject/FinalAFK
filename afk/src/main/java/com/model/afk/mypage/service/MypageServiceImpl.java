@@ -74,4 +74,9 @@ public class MypageServiceImpl implements MypageService{
 		return mpgDao.selectmyInfo(id);
 	}
 
+	@Override
+	public int deleteMyFavorite(HashMap<String, Object> map) {
+		return mpgDao.deleteMyFavorite(map);
+	}
+
 }

@@ -70,7 +70,7 @@
 	
 	<div class="fd">
 		<h1>
-			<img src="../resources/images/phone.png" width="50px" height="50px"/>
+			<img src="/afk/resources/images/phone.png" width="50px" height="50px"/>
 			&nbsp; 1588-1588
 		</h1> 
 	</div>

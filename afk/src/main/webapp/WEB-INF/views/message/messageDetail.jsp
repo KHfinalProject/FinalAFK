@@ -309,11 +309,12 @@
 					<br><br>
 					<div class="msg-new" id="msgdiv">
 					
-						<textarea class="form-control" rows="4" style="resize:none; display:inline-block;" name="msgcontent" id="msgarea" placeholder="여기에 문의하고 싶은 내용을 적어 보내세요."></textarea>
 						<c:if test="${loginUser.mb_grade == '3'}">
+							<textarea class="form-control" rows="4" style="resize:none; display:inline-block;" name="msgcontent" id="msgarea" placeholder="여기에 문의하고 싶은 내용을 적어 보내세요."></textarea>
 							<button type="button" class="btn btn-default" style="float:right" onclick="sendMsg()">보내기</button>
 						</c:if>
 						<c:if test="${loginUser.mb_grade == '2'}">
+							<textarea class="form-control" rows="4" style="resize:none; display:inline-block;" name="msgcontent" id="msgarea" placeholder="문의에 대한 답변을 보내주세요."></textarea>
 							<button type="button" class="btn btn-default" style="float:right" onclick="sendMsgG()">보내기</button>
 						</c:if>
 					

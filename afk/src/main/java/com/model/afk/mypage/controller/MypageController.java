@@ -229,6 +229,17 @@ public class MypageController implements ServletContextAware{
 		return "redirect:/mypage";
 	}
 	
+	@RequestMapping("/deletefavorite")
+	public String deleteMyFavorite(@RequestParam ("fano") int gui_no, @RequestParam ("loginId") String id, HashMap<String, Object> map){
+		map.put("fa_mb_id", id);
+		map.put("fa_bd_no", gui_no);
+		int result = mpgs.deleteMyFavorite(map);
+		if(result > 0){
+			System.out.println("delete");
+		}
+		return "redirect:/mypage";
+	}
+	
 	@RequestMapping("/guidelist")
 	public @ResponseBody List<GuideItem> getmyGuideList(@RequestParam ("loginId") String gid){
 		//내가 올린 가이드정보 불러오기

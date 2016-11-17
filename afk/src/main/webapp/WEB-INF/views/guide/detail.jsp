@@ -444,7 +444,14 @@
 					if(data.length > 0){
 						for(var i in data){
 							result += "<tr><td width='auto'>";
-							result += "<img src='" + data[i].mb_rename_pic + "' class='img-circle' width='70px' height='70px'>";
+							
+							if(data[i].mb_rename_pic == null){
+								result += "<img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg' class='img-circle' width='70px' height='70px'>"
+							}else{
+								result += "<img src='${pageContext.request.contextPath}/resources/images/mypage/"+ data[i].mb_rename_pic +"' class='img-circle' width='70px' height='70px'>"
+							}
+							
+							/* result += "<img src='" + data[i].mb_rename_pic + "' class='img-circle' width='70px' height='70px'>"; */
 							result += "<p>" + data[i].cm_writer + "</p>";
 							result += "<input type='hidden' id='cmNo' value='" + data[i].cm_no + "'/>";
 							result += "</td><td width='70%' height='auto' style='word-break:break-all;'>" + data[i].cm_content;
@@ -1050,7 +1057,7 @@
 						${guide.mb_name}
 						<input type="hidden" id="guide_id" value="${guide.mb_id}">
 					</td>
-					<c:if test="${loginUser.mb_id ne guide.mb_id}">	
+					<c:if test="${loginUser.mb_grade eq '3'}">	
 					<td>&nbsp;&nbsp;
 						<button type="button" class="btn btn-default" id="send_msg">
 							<span class="glyphicon glyphicon-envelope">쪽지보내기</span>

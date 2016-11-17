@@ -34,4 +34,6 @@ public interface MypageService {
 	int deleteMyMatching(int matchingno);
 
 	List<InfoBoardVO> selectmyInfo(String id);
+
+	int deleteMyFavorite(HashMap<String, Object> map);
 }
