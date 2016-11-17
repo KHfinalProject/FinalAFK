@@ -17,8 +17,6 @@
 
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
-<script type="text/javascript" src="/arm/js/jquery-3.1.0.min.js"></script>
 	
 
   <!-- 아임포트 라이브러리 --> 
@@ -39,7 +37,7 @@ function button1_click() {
 		merchant_uid : 'merchant_'
 		+ new Date().getTime(),
 		name : '주문번호 : 결제테스트',
-		amount : 160,
+		amount : $(".price").val(),
 		buyer_email : $("#email").val(),
 		buyer_name : $("#userName").val(),
 		buyer_tel : $("#phone").val(),
@@ -280,8 +278,9 @@ function button1_click() {
 	</div><!--end of detail-->
 
 </div><!--end of container-->
-
+<input type="hidden" class="price" value="${item.gui_price}">
 <jsp:include page="../footer.jsp"/>
+
 
 </body>
 </html>
