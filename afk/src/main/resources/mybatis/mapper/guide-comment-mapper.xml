@@ -14,17 +14,10 @@
  </resultMap>
  
  <select id="getAllComments" parameterType="map" resultMap="gCmtList">
- 	<![CDATA[
- 		SELECT x.cm_no, x.cm_writer, x.cm_board_no, x.cm_content
-		FROM(
-		    SELECT rownum as rnum, a.cm_no, a.cm_writer,
-		    	 	a.cm_board_no, a.cm_content  	
-		    FROM(
-		        SELECT *
-		        FROM guide_comment)a
-		    WHERE rownum <= #{end})x
-		WHERE x.rnum >= #{start} and x.cm_board_no = #{itemNo}
- 	]]>
+ 	 SELECT cm_no, cm_writer, cm_board_no, cm_content, mb_rename_pic
+	 FROM guide_comment
+	 JOIN member on (mb_id = cm_writer)
+     WHERE cm_board_no = #{itemNo};
  </select>
  
  <select id="getCommentList" parameterType="int" resultMap="gCmtList">
