@@ -113,7 +113,7 @@
 	
 	<br><br>
 	
-	<input type="number" name="gui_price" class="form-control">
+	<input type="number" id="price" name="gui_price" class="form-control">
 	<br><br>
 	 <textarea name="gui_content" id="smarteditor" style="width:100%; height:500px;"></textarea>
 	<br><br><br>	

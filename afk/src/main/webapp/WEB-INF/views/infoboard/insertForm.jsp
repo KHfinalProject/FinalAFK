@@ -63,7 +63,7 @@
 	<br><br>
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2"><b>가 격</b>&nbsp;&nbsp;&nbsp;</span>
-		<input name="info_price" type="number" class="form-control" aria-describedby="sizing-addon2">
+		<input id="price" name="info_price" type="number" class="form-control" aria-describedby="sizing-addon2">
 	</div>
 	<br><br>
 	 <textarea name="info_content" id="smarteditor" style="width:100%; height:500px;"></textarea>

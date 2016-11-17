@@ -2,6 +2,7 @@
 
 function writeCheck(){ //글 저장 버튼 클릭시 유효성검사
 	var maplist = new Array();
+	var price = $('#price').val()
 	maplist = $('#xy').val().split('/');
 	
 	if(document.frm.info_title.value == ""){
@@ -19,6 +20,9 @@ function writeCheck(){ //글 저장 버튼 클릭시 유효성검사
 	}else if(document.frm.info_price.value == ""){
 		alert("가격을 지정해 주세요")
 		return false;
+	}else if(price > 2000000000){
+		alert("가격의 최대는 2000000000을 넘을수 없습니다.")
+		return false;
 	}else if(document.frm.info_content.value == "<p>&nbsp;</p>"){
 		alert("내용을 입력하세요")
 		return false;
@@ -33,6 +37,7 @@ function writeCheck(){ //글 저장 버튼 클릭시 유효성검사
 
 function writeCheckGui(){ //글 저장 버튼 클릭시 유효성검사
 	var maplist = new Array();
+	var price = $('#price').val()
 	maplist = $('#xy').val().split('/');
 	
 	if(document.frm.gui_title.value == ""){
@@ -49,6 +54,9 @@ function writeCheckGui(){ //글 저장 버튼 클릭시 유효성검사
 		return false;
 	}else if(document.frm.gui_price.value == ""){
 		alert("가격을 지정해 주세요")
+		return false;
+	}else if(price > 2000000000){
+		alert("가격의 최대는 2000000000을 넘을수 없습니다.")
 		return false;
 	}else if(document.frm.gui_content.value == "<p>&nbsp;</p>"){
 		alert("내용을 입력하세요")
