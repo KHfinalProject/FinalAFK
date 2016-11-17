@@ -1035,7 +1035,12 @@
 		<div class="row">
 		<div class="col-md-4">
 			<div>
-				<img src="#" width="100%" height="250px" border="1" alt="">
+				<c:if test="${guide.mb_rename_pic eq null }">
+					<img src="/afk/resources/images/mypage/jo.jpg" width="100%" height="250px" border="1" alt="">
+				</c:if>
+				<c:if test="${guide.mb_rename_pic ne null }">
+					<img src="/afk/resources/images/mypage/${guide.mb_rename_pic }" width="100%" height="250px" border="1" alt="">
+				</c:if>
 			</div>
 
 			<div id="guide_profile">

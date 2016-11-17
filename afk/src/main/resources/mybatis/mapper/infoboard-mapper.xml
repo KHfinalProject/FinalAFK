@@ -18,19 +18,21 @@
 		<result property="info_notify" column="info_notify" />
 		<result property="info_price" column="info_price" />
 		<result property="info_map" column="info_map" />
+		<result property="mb_rename_pic" column="mb_rename_pic" />
 	</resultMap>
 
 	<select id="selectAll" parameterType="java.util.HashMap" resultMap="info">
 		<![CDATA[
-			select x.info_no, x.info_title, x.info_content, x.info_writer, x.info_enrolldate,
-					x.info_loc_l, x.info_loc_m, x.info_loc_s, x.info_count, x.info_point, x.info_notify, x.info_price, x.info_map
+			 select x.info_no, x.info_title, x.info_content, x.info_writer, x.info_enrolldate,
+					x.info_loc_l, x.info_loc_m, x.info_loc_s, x.info_count, x.info_point, x.info_notify, x.info_price, x.info_map, x.mb_rename_pic
 			from(
-				select rownum as rnum, a.info_no, a.info_title, a.info_content, a.info_writer, a.info_enrolldate,
-					a.info_loc_l, a.info_loc_m, a.info_loc_s, a.info_count, a.info_point, a.info_notify, a.info_price, a.info_map
-				from(
-					select *
-					from info_board)a
-				where rownum <= #{end})x
+            select rownum as rnum, a.info_no, a.info_title, a.info_content, a.info_writer, a.info_enrolldate,
+              a.info_loc_l, a.info_loc_m, a.info_loc_s, a.info_count, a.info_point, a.info_notify, a.info_price, a.info_map, a.mb_rename_pic
+            from(
+                  select b.info_no, b.info_title, b.info_content, b.info_writer, b.info_enrolldate, b.info_loc_l, b.info_loc_m, b.info_loc_s, b.info_count, b.info_point, b.info_notify, b.info_price, b.info_map, m.mb_rename_pic
+                  from info_board b, member m
+                  where b.info_writer = m.mb_id)a
+            where rownum <= #{end})x
 			where x.rnum >= #{start}
 			
 		]]>

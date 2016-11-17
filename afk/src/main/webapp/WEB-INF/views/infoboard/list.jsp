@@ -354,7 +354,12 @@ $('#search_icon').on('click', function(){
 				<div class="${list.info_no } boardstar"></div>
 				<div class="board1">
 					<div class="boardinfo">
-						<img src="/afk/resources/images/infoboard/top.jpg" />
+						<c:if test="${list.mb_rename_pic eq null }">
+					<img src="/afk/resources/images/mypage/jo.jpg" width="100%" height="250px" border="1" alt="">
+				</c:if>
+				<c:if test="${list.mb_rename_pic ne null }">
+					<img src="/afk/resources/images/mypage/${list.mb_rename_pic }" width="100%" height="250px" border="1" alt="">
+				</c:if>
 					</div>
 					<div class="boardname">${list.info_writer }</div>
 					<div class="boardtitle">${list.info_title }</div>
