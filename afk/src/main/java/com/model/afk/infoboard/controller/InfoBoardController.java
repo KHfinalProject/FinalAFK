@@ -65,7 +65,7 @@ public class InfoBoardController {
 				//GuideItem 객체에 이미지 저장 경로 공백을 제거하여 저장
 				vo.setInfo_image(img_path.trim());
 			}else{//첨부 이미지가 없을 경우 임의로 대표 이미지 설정
-				vo.setInfo_image("../resources/images/guide/tempthumb.jpg");
+				vo.setInfo_image("/afk/resources/images/guide/tempthumb.jpg");
 			}
 		 
 		 int result = bsvc.insertBoard(vo);

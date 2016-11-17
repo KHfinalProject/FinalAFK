@@ -75,4 +75,9 @@
 		WHERE INFO_WRITER = #{id}
 		ORDER BY INFO_NO DESC
 	</select>
+	
+	<delete id="deletemyFavorite" parameterType="java.util.Map">
+		DELETE FROM INFO_FAVORITE
+		WHERE FA_MB_ID = #{fa_mb_id} AND FA_BD_NO = #{fa_bd_no}
+	</delete>
 </mapper>

@@ -66,4 +66,8 @@ public class MypageDao {
 	public List<InfoBoardVO> selectmyInfo(String id) {
 		return sqlSession.selectList(NAMESPACE + "selectmyInfo", id);
 	}
+
+	public int deleteMyFavorite(HashMap<String, Object> map) {
+		return sqlSession.delete(NAMESPACE + "deletemyFavorite", map);
+	}
 }
