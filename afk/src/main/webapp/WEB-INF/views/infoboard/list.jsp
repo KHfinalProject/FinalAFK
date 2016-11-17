@@ -135,13 +135,12 @@
 		</center>
 		<h1  style="text-align:center">여행지를 구경해 보세요</h1>
 		<!-- select bar start -->
+		<c:if test="${!(loginUser eq null)}">
 		<div class="infoinput">
-			
 			<input type="button" value="글쓰기" onclick="location.href='/afk/infoboard/insertForm'" class="btn btn-success">
-			
 		</div>
+		</c:if>
 		<div class="bselect">		
-			<input type="button" value="인기순" onclick="load_select('popular')" class="btn btn btn-info">
 			<input type="button" value="별점순" onclick="load_select('info_point')" class="btn btn btn-info">
 			<input type="button" value="조회순" onclick="load_select('info_count')" class="btn btn btn-info">
 			<input type="button" value="최신순" onclick="load_select('info_enrolldate')" class="btn btn btn-info">

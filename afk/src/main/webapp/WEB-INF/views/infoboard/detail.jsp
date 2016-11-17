@@ -19,6 +19,7 @@
 	text-align: left;
 	border-bottom: 1px solid #ccc;
 }
+img { max-width:100%; } 
 </style>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css"
@@ -223,17 +224,16 @@ $("#notify").on('click', function(){
 			<br>
 			<div class="debutton">
 				<button type="button" class="btn btn-default" style="float: left;" onclick="location.href='/afk/infoboard'">목록보기</button>
+				<c:if test="${loginUser.mb_id == board.info_writer}">
 				<button class="btn btn-danger" style="float: right;" type="button" onclick="infoDelete(${board.info_no})">삭제하기</button>
 				<button type="button" class="btn btn-default" onclick="location.href='/afk/infoboard/updateInfoBoardForm?info_no=${board.info_no}'"
 					 style="float: right;" margin-left:"7px;">수정하기</button>
+				</c:if>
 			</div>
 		</div>
 
 	</div>
 	<br>
-	<div class="ff">
-		<h1>foot</h1>
-	</div>
 	<script>
 		$.fn.raty.defaults.path = '/afk/resources/flag/raty-2.7.0/lib/images';
 		$('.score1').raty({readOnly:true, score:5 });
@@ -276,7 +276,7 @@ $("#notify").on('click', function(){
         					result += "<td width='75%'>"+ data[i].cm_content + "</td>";
         					result += "<td width='15%'>" + data[i].cm_date;
         					if(data[i].cm_writer == user){
-        					result += "&nbsp;<input type='button' value='X' onclick='cmDelete("+ data[i].cm_no +")'>";
+        					result += "&nbsp;&nbsp;&nbsp;<input type='button' value='X' onclick='cmDelete("+ data[i].cm_no +")'>";
         					}
         					result += "</td></tr>";
         				}
@@ -309,19 +309,20 @@ $("#notify").on('click', function(){
         //댓글 삭제 ajax
         function cmDelete(cno){
         	var content = $('.comment').val(); //textarea의 값 가져오기
-    
-        	$.ajax({
-        		url:"/afk/infoboard/deleteBoardComment",
-        		data:{cno: cno},
-        		type:"post",
-        		dataType:"json",
-        		success: function(data){
-        			if(data > 0){
-        				$("#commentContent").empty();
-        				cmList();
-        			}
-        		}
-        	})
+    		if(confirm("정말로 댓글을 삭제하시겠습니까?")==true){
+	        	$.ajax({
+	        		url:"/afk/infoboard/deleteBoardComment",
+	        		data:{cno: cno},
+	        		type:"post",
+	        		dataType:"json",
+	        		success: function(data){
+	        			if(data > 0){
+	        				$("#commentContent").empty();
+	        				cmList();
+	        			}
+	        		}
+	        	})
+    		}
         }
         
         //즐겨찾기 상태 확인 ajax

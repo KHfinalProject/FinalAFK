@@ -38,7 +38,7 @@
 <hr style="border: solid 2px red">
 <form id="frm" name="frm" action="/afk/infoboard/insertBoard" method="post" onsubmit="return writeCheck()">
 	<input type="hidden" id="xy" name="info_map" size="300" /> <br>
-	<input type="text" id="userid" name="info_writer" value="${loginUser.mb_id}">
+	<input type="hidden" id="userid" name="info_writer" value="${loginUser.mb_id}">
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2"><b>제 목</b>&nbsp;&nbsp;&nbsp;</span>
 		<input name="info_title" type="text" class="form-control" aria-describedby="sizing-addon2">

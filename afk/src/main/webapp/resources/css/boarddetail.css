@@ -112,7 +112,7 @@ body {font-family:"맑은 고딕", sans-serif, arial, sans; font-size:20px; colo
 }
 .detail-board .detail-content {
 	width:980px;
-	height: 500px;
+	min-height: 1000px;
 	margin:20 20px;
 	border:1px solid black;
 	display:inline-block;

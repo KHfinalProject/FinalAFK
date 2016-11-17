@@ -59,10 +59,7 @@ public class LocationController {
 	//도시코드를 이용해 특정도시의 정보를 뽑아오는 메소드
 	@RequestMapping("/location/city")
 	public @ResponseBody Map<String,String> city(@RequestParam("loc") String code){
-		System.out.println(code);
 		Map<String,String> map = locs.city(code);
-		
-		System.out.println(map);
 		
 		return map;
 	}
