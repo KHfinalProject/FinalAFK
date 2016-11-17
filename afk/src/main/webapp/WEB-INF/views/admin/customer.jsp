@@ -397,7 +397,7 @@
  
 이메일 : ${loginUser.mb_email }
 
-연락처 : ${loginUser.mb_phone }
+연락처 : ${loginUser.mb_phone } 
 
 내용 : </textarea></td>
    </tr>

@@ -68,7 +68,7 @@ public class CustomerController {
 	
 	
 	
-	// 문의하기  클릭할시
+	// 문의하기  클릭할시 11
 	@RequestMapping(value="/mail", method=RequestMethod.POST)
 	public String sendMail(HttpServletRequest request){
 		
