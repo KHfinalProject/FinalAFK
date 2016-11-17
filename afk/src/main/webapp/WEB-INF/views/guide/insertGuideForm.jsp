@@ -69,8 +69,8 @@
 <div class="container">	
 <hr style="border: solid 2px red">
 <form id="frm" name="frm" action="/afk/guide/insertItem" method="post" onsubmit="return writeCheckGui()">
-	<input type="text" id="xy" name="gui_map" size="300" />
-	<input type="text" id="guideid" name="gui_writer" value="${loginUser.mb_id }" size="50" /> 
+	<input type="hidden" id="xy" name="gui_map" size="300" />
+	<input type="hidden" id="guideid" name="gui_writer" value="${loginUser.mb_id }" size="50" /> 
 	<div class="input-group">
 		<span class="input-group-addon" id="sizing-addon2"><b>제 목</b>&nbsp;&nbsp;&nbsp;</span>
 		<input name="gui_title" type="text" class="form-control" aria-describedby="sizing-addon2">
@@ -327,10 +327,6 @@ function initMap() {
   map.addListener('click', function(event) {
     addMarker(event.latLng);
   });
-
-  // Adds a marker at the center of the map.
-  addMarker(haightAshbury);
-  info();
 }
 
 // Adds a marker to the map and push to the array.

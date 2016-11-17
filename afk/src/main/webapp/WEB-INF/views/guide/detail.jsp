@@ -814,6 +814,7 @@
 		z-index: 1;
 		visibility : hidden;
 	}
+	#item_contents img{max-width: 100%;}
 	
 	/*모달용*/
 	.modal {
