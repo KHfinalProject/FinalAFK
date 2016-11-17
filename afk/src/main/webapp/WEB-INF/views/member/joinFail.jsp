@@ -25,8 +25,8 @@ function nextWin()
 <c:import url="../header.jsp"></c:import>
 </header>
 <div class="box1">
-<center><h1>회원가입이 실패하였습니다.아이디와 패스워드를 확인후 다시 시도해주세요!</h1></center>
-<center><h2>잠시후 자동으로 이동합니다.</h2></center>
+<center><h1>로그인이 실패하였습니다.아이디와 패스워드를 확인후 다시 시도해주세요!</h1></center>
+<center><h2>로그인이 실패하였습니다.아이디와 패스워드를 확인후 다시 시도해주세요!</h2></center>
 </div>
 <footer>
 <c:import url="../footer.jsp"></c:import>
