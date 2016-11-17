@@ -347,7 +347,7 @@ $('#search_icon').on('click', function(){
 			</div>
 			<div class="boardphoto">
 				<a href="/afk/infoboard/${list.info_no }">
-					<img src="/afk/resources/images/infoboard/Hong_Kong_China_09.jpg">
+					<img src="${list.info_image} ">
 				</a>				
 			</div>
 			<div class="boardfoot">
