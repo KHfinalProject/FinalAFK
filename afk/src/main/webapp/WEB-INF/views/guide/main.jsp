@@ -125,11 +125,13 @@
 		
 		//검색 기능
 		$('#search_icon').on('click', function(){
+			
 			var keyword = $('#search_box').val();
+			alert("검색 + " + keyword);
 			
 			$.ajax({
 				url : "guideSearch",
-				type : "post",
+				type : "get",
 				data : {keyword : keyword},
 				dataType : "json",
 				beforeSend : function(){
@@ -156,15 +158,23 @@
 					
 						$('#loaded_item_list').html(result);						
 						
-					}
-					if(data.length < 5){
-						$('#read_more').remove();
-						var new_button = "<br><a href='/afk/guide/guideMain'><button id='to_main'>";
-						new_button += "목록으로</button></a>";
-						var old = $('#loaded_item_list').html();
-						$('#loaded_item_list').html(old + new_button);
-					}
+						if(data.length < 5){
+							$('#read_more').remove();
+							var new_button = "<br><a href='/afk/guide/guideMain'><button id='to_main'>";
+							new_button += "목록으로</button></a>";
+							var old = $('#loaded_item_list').html();
+							$('#loaded_item_list').html(old + new_button);
+						}
+					}else{
 						
+						$('#loaded_item_list').html("");
+						
+						var new_button = "<br><br><h3>검색 결과가 없습니다</h3><br><a href='/afk/guide/guideMain'><button id='to_main'>";
+						new_button += "목록으로</button></a><br><br><br>";
+						
+						$('#loaded_item_list').html(new_button);
+						$('#read_more').remove();
+					}
 				},
 				error : function(e){
 					console.log("error");
