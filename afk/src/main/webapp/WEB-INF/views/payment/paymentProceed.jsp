@@ -156,7 +156,7 @@ function button1_click() {
 	#buy_btn {
 		width : 150px;
 		height : 40px;
-		color : white;
+		color : white; 
 		font-size : 18pt;
 		background-color : #04378c;
 		-moz-border-radius:10px;
