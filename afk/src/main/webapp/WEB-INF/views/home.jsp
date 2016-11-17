@@ -15,7 +15,6 @@
 	#header, #footer{
 		position:fixed;
 		z-index:9;
-		
 	}
 
 	#header{
@@ -68,7 +67,7 @@
 		z-index: 4;
 		width: 100%;
 		left: 0;
-		top: 43%;
+		top: 30%;
 	}
 	/*solves problem with overflowing video in Mac with Chrome */
 	#section0{
@@ -96,6 +95,9 @@
 	.inputbutton:hover{
 		background-color: #ffffff;
 		color: black;
+	}
+	#controll{
+		opacity: 0.2;
 	}
 	#controll:hover{
 		opacity: 0.7;
@@ -130,7 +132,6 @@
 			<source src="/afk/resources/video/main.mp4" type="video/mp4">
 		</video>
 		<div class="layer">
-				<img src="/afk/resources/images/pause.png" id="controll" onclick="playPause()">
                 <h1>Away From Keybord</h1>
                 <br>
                 <h2>수천명의 가이드와 회원들이 제공하는 여행정보들을 확인하세요</h2>
@@ -140,14 +141,15 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a class="inputbutton" href="/afk/guide/guideMain">가이드정보</a>
                 </p>
+                <img src="/afk/resources/images/pause.png" id="controll" onclick="playPause()">
 		</div>
 	</div>
-	<div class="section" id="section1">
+<!--<div class="section" id="section1">
 	    <div class="slide" id="slide1"><h1>Slide Backgrounds</h1></div>
 	    <div class="slide" id="slide2"><h1>Totally customizable</h1></div>
 	</div>
 	<div class="section" id="section2"><h1>Lovely images <br />for a lovely page</h1></div>
-	<div class="section" id="section3"><h1>One Image = One thousand words</h1></div>
+	<div class="section" id="section3"><h1>One Image = One thousand words</h1></div> -->
 </div>
 <script type="text/javascript">
 	var myVideo = document.getElementById('myVideo');
