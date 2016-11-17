@@ -103,6 +103,9 @@ $(function(){
 <div class='zeta-menu-bar'>
   <ul class="zeta-menu">
     <li><a href="/afk/"><img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></a></li>
+    <li><a href="/afk/infoboard"><b>여행 정보</b></a></li>
+    <li><a href="/afk/guide/guideMain"><b>가이드</b></a></li>
+    <li></li>
 
 <!--   <form class="searchForm">
 	<li class="head">
