@@ -206,13 +206,6 @@ $("#notify").on('click', function(){
 				</div>
 			</div>
 		</div>
-		<div class="boo-bar">
-			<div class="boo-center item-inline">
-				<div class="report">하트</div>
-				<div class="pay">가격</div>
-			</div>
-		</div>
-		<!-- 카운트 -->
 		<!-- 카운트 -->
 		<div id="notifyCount">
 		조회수: ${board.info_count }, &nbsp;&nbsp;&nbsp; 작성자: ${board.info_writer} &nbsp;&nbsp;&nbsp;
@@ -250,7 +243,13 @@ $("#notify").on('click', function(){
 								&nbsp;<span id="print_notify">${board.info_notify}</span>
 							</c:if>	
 						</c:otherwise>
-					</c:choose>	
+					</c:choose>
+			<!-- 즐겨찾기 표시 부분 -->
+			<button style="float:right" type="button" class="btn btn-default" aria-label="Left Align">
+  			<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+			</button>
+			
+			
 		</div>
 		<div class="detail-board">
 			<div class="detail-content">

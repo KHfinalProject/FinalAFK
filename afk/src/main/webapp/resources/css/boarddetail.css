@@ -149,3 +149,8 @@ body {font-family:"맑은 고딕", sans-serif, arial, sans; font-size:20px; colo
 	width: 980px;
     display: inline-block;
 }
+
+#notifyCount{
+	width: 980px;
+	margin: 0 auto;
+}
