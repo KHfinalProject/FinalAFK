@@ -58,7 +58,9 @@
 	.h1{
 		text-align:center;
 	}
-
+	.gum{
+		margin:0 auto;
+	}
 </style>
 <script type="text/javascript">
 		
@@ -201,7 +203,7 @@
                 </div>
               </div>
        <div class="form-group">
-			
+			<center><div >
 			<div id="catpcha">Wait...</div>
 			<div id="audiocatpch" style="display: none;"></div>
 			
@@ -210,6 +212,7 @@
 			
 			<input type="text" id="answer" name="answer" value="" />
 			<input type="button" id="frmSubmit" value="확인" />	
+			</div></center>
 		</div>
 		
         <div class="form-group">
