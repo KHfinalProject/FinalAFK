@@ -69,7 +69,7 @@ public class MessageController {
 	}
 	
 	@RequestMapping("/msgdetailList")
-	public List<MessageVO> msgDetailList(@RequestParam("loginId") String id, @RequestParam("guideId") String gid, HttpServletResponse response) throws Exception{
+	public void msgDetailList(@RequestParam("loginId") String id, @RequestParam("guideId") String gid, HttpServletResponse response) throws Exception{
 		//일반 유저인 경우, 주고받은 메세지 다 보이게
 		MessageVO msgVO = new MessageVO(id, gid);
 		
@@ -107,12 +107,12 @@ public class MessageController {
 		out.flush();
 		out.close();
 		
-		return msgdetailList;
+		//return msgdetailList;
 		
 	}
 	
 	@RequestMapping("/msgdetailListGuide")
-	public List<MessageVO> msgDetailListGuide(@RequestParam("askId") String id, @RequestParam("gId") String gid, HttpServletResponse response) throws Exception{
+	public void msgDetailListGuide(@RequestParam("askId") String id, @RequestParam("gId") String gid, HttpServletResponse response) throws Exception{
 		//가이드인 경우, 주고받은 메세지 다 보이게
 		MessageVO msgVO = new MessageVO(id, gid);
 		
@@ -150,7 +150,7 @@ public class MessageController {
 		out.flush();
 		out.close();
 		
-		return msgdetailListG;
+		//return msgdetailListG;
 		
 	}
 	

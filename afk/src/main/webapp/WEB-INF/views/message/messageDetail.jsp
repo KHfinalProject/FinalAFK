@@ -169,7 +169,7 @@
 									+"<tr><td><small>" + json.list[i].sendDate + "에 보냄</small></td>" 
 									+"<td>" + json.list[i].sid + "</td></tr></table></div>"
 							}else{
-								$("#msglists").empty();
+								//$("#msglists").empty();
 								str += "<div class='table-responsive'>"
 										+"<table class='table'>"
 										+"<tr><td width='25%'>"
@@ -190,14 +190,15 @@
 							}
 							$("#msglists").append(str);
 							
-							if(json.list[i].rpic == null){
-								guidePicDIV += "<img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg'>"
-							}else{
-								guidePicDIV += "<img src='${pageContext.request.contextPath}/resources/images/mypage/"+ json.list[i].rpic +"' style='width:100%;'>>"
-							}
-							$("#guidePic").append(guidePicDIV);
+							
 						}
 					}
+					if(json.list[i].rpic == null){
+						guidePicDIV += "<img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg'>"
+					}else{
+						guidePicDIV += "<img src='${pageContext.request.contextPath}/resources/images/mypage/"+ json.list[i].rpic +"' style='width:100%;'>"
+					}
+					$("#guidePic").append(guidePicDIV);
 				}
 			},
 			error:function(request,status,error){
@@ -250,7 +251,7 @@
 										+"<tr><td><small>" + json.list[i].sendDate + "</small>에 보냄</td>" 
 										+"<td>" + json.list[i].sid + "</td></tr></table></div>"
 							}else{
-								$("#msglists").empty();
+								//$("#msglists").empty();
 								str += "<div class='table-responsive'>"
 										+"<table class='table'>"
 										+"<tr><td width='25%'>"
