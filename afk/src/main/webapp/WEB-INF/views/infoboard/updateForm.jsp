@@ -21,7 +21,7 @@
 	}
 </style>
 <!-- 유효성검사를 위한 js -->
-<script src="/afk/resources/writeCheck.js"></script>
+<script src="/afk/resources/js/writeCheck.js"></script>
 <!-- JQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->
