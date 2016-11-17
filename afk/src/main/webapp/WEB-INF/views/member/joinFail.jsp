@@ -27,7 +27,7 @@ function nextWin()
 <div class="box1">
 <center><h1>로그인이 실패하였습니다.아이디와 패스워드를 확인후 다시 시도해주세요!</h1></center>
 <center><h2>로그인이 실패하였습니다.아이디와 패스워드를 확인후 다시 시도해주세요!</h2></center>
-</div>
+</div>  
 <footer>
 <c:import url="../footer.jsp"></c:import>
 </footer>
