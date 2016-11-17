@@ -73,8 +73,8 @@ public class CustomerController {
 	public String sendMail(HttpServletRequest request){
 		
 		String subject = request.getParameter("subject");
-		String phone = request.getParameter("phone");
-		String email = request.getParameter("email");
+		/*String phone = request.getParameter("phone");
+		String email = request.getParameter("email");*/
 		String content = request.getParameter("content");
 		
 		try{
@@ -85,8 +85,8 @@ public class CustomerController {
 			messageHelper.setFrom("dongjin@naver.com");
 			messageHelper.setTo("kmgibong@gmail.com");
 			messageHelper.setSubject(subject);
-			messageHelper.setText(phone);
-			messageHelper.setText(email);
+			/*messageHelper.setText(phone);
+			messageHelper.setText(email);*/
 			messageHelper.setText(content);
 			
 			mailSender.send(message);
