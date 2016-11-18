@@ -245,8 +245,7 @@ $("#notify").on('click', function(){
 						</c:otherwise>
 					</c:choose>
 			<!-- 즐겨찾기 표시 부분 -->
-			<button style="float:right" type="button" class="btn btn-default" aria-label="Left Align">
-  			<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+			<button id="report" style="float:right" type="button" class="btn btn-default" aria-label="Left Align">
 			</button>
 			
 			
@@ -389,10 +388,10 @@ $("#notify").on('click', function(){
        			dataType : "json",
        			success : function(data){
        				//값이 null이 아닐 시
-       				$(".report").html("<img src='/afk/resources/images/favorite_check.png' onclick='favDelete(" + data.fa_id + ")'>");
+       				$("#report").html("<span class='glyphicon glyphicon-star' aria-hidden='true' onclick='favDelete(" + data.fa_id + ")'></span>");
         		},error : function(data){
         			//값이 null일 시
-       				$(".report").html("<img src='/afk/resources/images/favorite_none.png' onclick='favInsert()'>");
+       				$("#report").html("<span class='glyphicon glyphicon-star-empty' aria-hidden='true' onclick='favInsert()'></span>");
         		}		
         	})
         }
@@ -408,7 +407,7 @@ $("#notify").on('click', function(){
 	        		dataType : "json",
 	        		success : function(data){
 	        			if(data > 0){
-	        				$(".report").empty();
+	        				$("#report").empty();
 	        				favselect();
 	        			}
 	        		}
@@ -426,7 +425,7 @@ $("#notify").on('click', function(){
 	        		dataType : "json",
 	        		success : function(data){
 	        			if(data > 0){
-	        				$(".report").empty();
+	        				$("#report").empty();
 	        				favselect();
 	        			}
 	        		}
