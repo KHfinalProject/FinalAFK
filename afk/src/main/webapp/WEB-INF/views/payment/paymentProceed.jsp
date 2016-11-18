@@ -125,8 +125,21 @@ function button1_click() {
 </script>
 
 <style type="text/css">
-	div {
-		/*border : 1px solid red;*/
+	
+	#main_title {
+		-moz-border-radius:10px;
+		-webkit-border-radius:10px;
+		border-radius:10px;
+		background-color : #e8f1fd;
+		height : 200px;
+		margin-bottom : 60px;
+	}
+	
+	#main_title h1{
+		color : black;
+		position : relative;
+		top : 100px;
+		left : 30px;
 	}
 	
 	#img {
@@ -201,9 +214,12 @@ function button1_click() {
 <body>
 <jsp:include page="../header.jsp"/>
 <div class="container">
-	<div class="jumbotron">
+	<!-- <div class="jumbotron">
 		<h1>상품 결제</h1>
-	</div><!--end of jumbotron-->
+	</div>end of jumbotron -->
+	<div id="main_title">
+		<h1><b>상품 결제</b></h1>
+	</div>
 
 	<div id="detail">
 		<div class="row" style="padding-left:5%">

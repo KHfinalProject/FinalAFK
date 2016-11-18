@@ -26,14 +26,28 @@
 </script>
 
 <style type="text/css">
-	div {
-		
+	#main_title {
+		-moz-border-radius:10px;
+		-webkit-border-radius:10px;
+		border-radius:10px;
+		background-color : #e8f1fd;
+		height : 200px;
+		margin-bottom : 60px;
 	}
+	
+	#main_title h1{
+		color : black;
+		position : relative;
+		top : 100px;
+		left : 30px;
+	}
+	
 	
 	#ticket {
 		margin-top : 100px;
 		margin-bottom : 100px;
 	}
+
 	
 	#ticket_header {
 		background-color : #04378c;
@@ -47,7 +61,11 @@
 		border-left : 1px solid #000000;
 		border-right : 1px solid black;
 		border-bottom : 1px solid black;
-		
+	}
+	
+	#ticket_detail table {
+		margin-top : 40px;
+		margin-bottom : 40px;
 	}
 
 	#ticket_detail table td{
@@ -86,11 +104,14 @@
 </style>
 
 <body>
-
+<jsp:include page="../header.jsp"/>
 <div class="container">
-	<div class="jumbotron">
+	<!-- <div class="jumbotron">
 		<h1>결제 완료</h1>
-	</div><!--end of jumbotron-->
+	</div>end of jumbotron -->
+	<div id="main_title">
+		<h1><b>결제 완료</b></h1>
+	</div>
 	
 	<div id="ticket">
 	<div class="row" id="ticket_header">
