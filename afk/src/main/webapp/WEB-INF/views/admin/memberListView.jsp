@@ -183,35 +183,9 @@
  	
 </head>
 <body>
-
-	<!-- 헤더부분 -->
-<ul class="navi">
-  <li><a href="#home">로고</a></li>
-  
-  <c:if test="${loginUser eq null}">
-	  <li style="float:right"><a href="/afk/joinInsertView">회원가입</a></li>
-	  <li style="float:right"><a href="/afk/loginView">로그인</a></li> 
-  </c:if>
-  
-  <c:if test="${!(loginUser eq null)}">
-  <li style="float: right;"class="dropdown">
-    <a href="#" class="dropbtn">${loginUser.mb_id}님 좋은여행!</a>
-    <div class="dropdown-content">
-      <a href="/afk/mypage">마이페이지</a>
-      <a href="customer">고객센터</a>
-   	  <a href="paymentProceed">결제창</a>
-     <c:if test="${loginUser.mb_grade eq '1'}">
-      <a href="memberListView">관리자(회원관리)</a>
-      <a href="matching">관리자(매칭관리)</a>
-      <a href="test">페이징테스트</a>
-      <a href="guide/guideM ain">가이드메인</a>
-     </c:if>
-	  <a href="logout">로그아웃</a>
-    </div>
-  </li>
-  </c:if>
-</ul>
-<!-- 헤더 끝 -->
+<header>
+<c:import url="../header.jsp"></c:import>
+</header>
 
   <center><div class="container">
 	<div class="jumbotron">
@@ -481,10 +455,10 @@ $(function(){
 </div>
 <br>
 
-<center>
-<div id="membermove">
 
-<form action="header">
+
+<div id="button">,
+<form action="">
 <input type="submit" class="btn btn-primary" value="메인으로">
 </form>
 
@@ -493,10 +467,10 @@ $(function(){
 </form>
 
 </div>
+
 <div class="but">
 	<button id="more">더보기</button>
 </div>
-</center>
 
 <br>
 <input id="afk" type="hidden" />
