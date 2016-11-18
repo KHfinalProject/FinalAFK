@@ -12,9 +12,6 @@
 	margin: 0 auto;
 	border-top: 1px solid #ccc;
 }
-#commentContent th{
-	padding: 10px;
-}
 #commentContent td{
 	text-align: left;
 	border-bottom: 1px solid #ccc;
@@ -38,6 +35,78 @@ img { max-width:100%; }
 }
 .test1 {
 	font-size: 30px;
+}
+.zeta-menu-bar {
+  background: #7bbdff;
+  display: inline-block;
+  width: 100%;
+  box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.5);
+}
+.zeta-menu { margin: 0; padding: 0; }
+.zeta-menu li {
+  float: left;
+  list-style:none;
+  position: relative;
+}
+.zeta-menu li:hover:not(.head) { background: white; }
+.zeta-menu li:hover>a { color: #7bbdff; }
+.zeta-menu a {
+  color: white;
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+.zeta-menu ul {
+  background: #eee;
+  border: 1px solid silver;
+  display: none;
+  padding: 0;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 180px;
+  z-index: 1;
+}
+.head{
+	position: relative;
+	left: 32%;
+	top: 2px;
+}
+.search{
+	outline: none;
+	background:  #7bbdff;
+	box-sizing: border-box;
+	border: none;
+	border-bottom: white 2px solid;
+	color: white;
+	font-size: 16px;
+}
+li.head label{
+	color: white;
+}
+.searchForm{
+	margin: 0;
+}
+.zeta-menu ul li { float: none; }
+.zeta-menu ul li:hover { background: #ddd; }
+.zeta-menu ul li:hover a { color: black; }
+.zeta-menu ul a { color: black; }
+.zeta-menu ul ul { left: 100%; top: 0; }
+.zeta-menu ul ul li {float:left; margin-right:10px;}
+
+@font-face{font-family:'nanum'; src:url('/afk/resources/fonts/NanumGothic.ttf') format('truetype');}
+
+
+h1{
+		font-size: 3em;
+		font-family: nanum;
+		color: #fff;
+		margin:0;
+		padding:0;
+	}
+.dropbtn{
+	font-family: nanum;
+		color: #fff;
 }
 </style>
 <meta charset="UTF-8">
@@ -170,6 +239,17 @@ $("#notify").on('click', function(){
 	    });
 	 });
 
+	$(".zeta-menu li").hover(function(){
+	    $('ul:first',this).show();
+	  }, function(){
+	    $('ul:first',this).hide();
+	  });
+	  $(".zeta-menu>li:has(ul)>a").each( function() {
+	    $(this).html( $(this).html()+' &or;' );
+	  });
+	  $(".zeta-menu ul li:has(ul)")
+	    .find("a:first")
+	    .append("<p style='float:right;margin:-3px'>&#9656;</p>");
 });
 
 
@@ -179,7 +259,52 @@ $("#notify").on('click', function(){
 
 <body>
 	<!-- header start -->
-	<div>header</div>
+	<div class='zeta-menu-bar'>
+  <ul class="zeta-menu">
+    <li><a href="/afk/"><img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></a></li>
+    <li><a href="/afk/infoboard"><b>여행 정보</b></a></li>
+    <li><a href="/afk/guide/guideMain"><b>가이드</b></a></li>
+    <li></li>
+
+<!--   <form class="searchForm">
+	<li class="head">
+		<label for="chk1"><input type="radio" id="chk1" value="1" name="board" checked>정보</label>
+		<label for="chk2"><input type="radio" id="chk2" value="2" name="board">가이드</label>
+		<input type="text" size="20" class="search">
+		<img src="/afk/resources/images/search.png" width="24" height="24" border="0" alt="">
+	</li>
+  </form> -->	
+	
+
+	
+	<c:if test="${loginUser eq null}">
+        <li style="float: right;"><a href="/afk/joinInsertView">회원가입</a></li>
+    	<li style="float: right;"><a href="/afk/loginView">로그인</a></li>
+	</c:if>
+  <c:if test="${!(loginUser eq null)}">
+	  <li style="float: right;"class="dropdown">
+		<a href="#" class="dropbtn"><b>${loginUser.mb_id }</b>님 환영합니다.</a>
+		<ul>
+		<c:if test="${loginUser.mb_grade eq '2'}">
+		  <li><a href="/afk/mypage">마이페이지</a></li>
+		 </c:if>
+		 
+		 <c:if test="${loginUser.mb_grade eq '3'}">
+		  <li><a href="/afk/mypage">마이페이지</a></li>
+		 </c:if>
+		 
+          <li><a href="/afk/customer?currentPage=1&nextBlock=">고객센터</a></li>
+	  <c:if test="${loginUser.mb_grade eq '1'}">
+          <li><a href="memberListView">관리자 회원관리</a></li>
+          <li><a href="matching">관리자(매칭관리)</a></li>
+      </c:if>
+		  <li><a href="/afk/logout">로그아웃</a></li>
+		</ul>
+	  </li>
+  </c:if>  
+</ul>
+
+</div>
 	<!-- header end -->
 
 	<div class="main1">
@@ -324,7 +449,7 @@ $("#notify").on('click', function(){
         			var result = "";
         			if(data.length > 0){       				
         				for(var i in data){
-        					result += "<tr><td width='10%'>" + data[i].cm_writer + "</td>";
+        					result += "<tr><td width='10%'><b>" + data[i].cm_writer + "</b></td>";
         					result += "<td width='75%'>"+ data[i].cm_content + "</td>";
         					result += "<td width='15%'>" + data[i].cm_date;
         					if(data[i].cm_writer == user){

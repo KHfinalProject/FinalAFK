@@ -258,7 +258,7 @@
 										+"<input type='hidden' name='pno' value='" + json.list[i].mes_no + "'>"
 										+"<div class='thumbnail-wrapper'><div class='thumbnail'><div class='centered'>"
 										
-										if("${loginUser.mb_rename_pic}" == null){
+										if(${loginUser.mb_rename_pic == null}){
 											str += "<img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg'>"
 										}else{
 											str += "<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic}' style='width:100%;'>"
@@ -272,8 +272,11 @@
 							}
 							
 							$("#msglists").append(str);
-							
-							guidePicDIV += "<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic}' style='width:100%;'>"
+							if(${loginUser.mb_rename_pic == null}){
+								guidePicDIV += "<img src='${pageContext.request.contextPath}/resources/images/mypage/jo.jpg'>"
+							}else{
+								guidePicDIV += "<img src='${pageContext.request.contextPath}/resources/images/mypage/${loginUser.mb_rename_pic}' style='width:100%;'>"
+							}
 							$("#guidePic").append(guidePicDIV);
 						}
 					}
