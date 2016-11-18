@@ -279,7 +279,9 @@ public class InfoBoardController {
 						   @RequestParam("p_board_no") int board_no){
 		
 		int result = bsvc.pointInsert(score, writer, board_no);
+		//맨처음에 point 테이블에 번호랑 글쓴이 둘이묶인 프라이머리키로 입력 성공시1
 		int result2 = bsvc.pointInsert2(board_no);
+		//그다음에 info_board 테이블에 맞는 번호에다가 평균점수 업데이트
 		System.out.println("@@@@@@@@@@@@@@@@@@@");
 		System.out.println(result +", " + result2);
 		System.out.println("@@@@@@@@@@@@@@@@@@@@");
