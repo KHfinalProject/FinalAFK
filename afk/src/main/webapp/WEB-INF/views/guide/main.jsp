@@ -127,7 +127,7 @@
 		$('#search_icon').on('click', function(){
 			
 			var keyword = $('#search_box').val();
-			alert("검색 + " + keyword);
+			//alert("검색 + " + keyword);
 			
 			$.ajax({
 				url : "guideSearch",
