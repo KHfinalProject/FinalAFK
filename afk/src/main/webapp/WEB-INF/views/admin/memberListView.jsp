@@ -186,7 +186,7 @@
 <header>
 <c:import url="../header.jsp"></c:import>
 </header>
-
+ 
   <center><div class="container">
 	<div class="jumbotron">
 		<h1>회원 리스트</h1>
