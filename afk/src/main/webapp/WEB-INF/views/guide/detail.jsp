@@ -985,15 +985,8 @@
  <div class='zeta-menu-bar'>
   <ul class="zeta-menu">
     <li><a href="/afk/"><img src="/afk/resources/images/logo.png" width="100" height="25" border="0" alt="brand"></a></li>
-
-  <form class="searchForm">
-	<li class="head">
-		<label for="chk1"><input type="radio" id="chk1" value="1" name="board" checked>정보</label>
-		<label for="chk2"><input type="radio" id="chk2" value="2" name="board">가이드</label>
-		<input type="text" size="20" class="search">
-		<img src="/afk/resources/images/search.png" width="24" height="24" border="0" alt="">
-	</li>
-  </form>	
+    <li><a href="/afk/infoboard"><b>여행 정보</b></a></li>
+    <li><a href="/afk/guide/guideMain"><b>가이드</b></a></li>
 
 	<c:if test="${loginUser eq null}">
         <li style="float: right;"><a href="/afk/joinInsertView">회원가입</a></li>
