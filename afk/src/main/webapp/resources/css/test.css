@@ -99,7 +99,7 @@ body {font-family:"맑은 고딕", sans-serif, arial, sans; font-size:20px; colo
     height: 40px;
     float: right;
    
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     text-align: center;
     line-height: 35px;
 }

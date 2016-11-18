@@ -251,11 +251,12 @@ $("#notify").on('click', function(){
 			
 			
 		</div>
+		<br><hr>
 		<div class="detail-board">
 			<div class="detail-content">
 				${board.info_content}
 			</div>
-			<div id="map" class="detail-view">지도</div>
+			<div id="map" class="detail-view">지도</div><br><hr>
 			<div id="test1" class="detail-star teststar">
 				
 			</div>
