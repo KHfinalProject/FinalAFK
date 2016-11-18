@@ -12,9 +12,6 @@
 	margin: 0 auto;
 	border-top: 1px solid #ccc;
 }
-#commentContent th{
-	padding: 10px;
-}
 #commentContent td{
 	text-align: left;
 	border-bottom: 1px solid #ccc;
@@ -452,7 +449,7 @@ $("#notify").on('click', function(){
         			var result = "";
         			if(data.length > 0){       				
         				for(var i in data){
-        					result += "<tr><td width='10%'>" + data[i].cm_writer + "</td>";
+        					result += "<tr><td width='10%'><b>" + data[i].cm_writer + "</b></td>";
         					result += "<td width='75%'>"+ data[i].cm_content + "</td>";
         					result += "<td width='15%'>" + data[i].cm_date;
         					if(data[i].cm_writer == user){
